@@ -1,0 +1,279 @@
+.homepage{
+  h1{
+    text-align: center;
+    font-size: 54px;
+    font-weight: 500;
+  }
+  h2{
+    font-weight: 300;
+    font-size: 35px;
+    margin-top: 40px;
+    font-style: italic;
+    line-height: 50px;
+    text-align: center;
+  }
+  h3{
+    font-weight: 700;
+    margin:0px 0px;
+    font-size: 40px;
+    text-align: center;
+  }
+  .wrapper1{
+    height: 700px;
+    width: 100%;
+    background: url('assets/images/homepage/bg-img1.png') no-repeat center;
+    background-size: cover;
+    position: relative;
+    color: $dv-color-white;
+    &:before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 0;
+    }
+    section {
+      position: relative;
+      padding-top: 165px;
+      .get-started{
+        text-align: center;
+        width:555px;
+        margin: 65px auto 0px auto;
+        input{
+          font-size: 20px;
+          padding:8px 15px;
+          height: 55px;
+          width: 300px;
+          border: 1px solid $dv-color-green;
+          border-radius: 2px;
+          color: $dv-color-primary;
+        }
+        .get-started-button {
+          height: 55px;
+          padding: 12px 40px;
+          border: 2px solid $dv-color-green;
+          border-radius: 4px;
+          border-top-left-radius: 0px;
+          border-bottom-left-radius: 0px;
+          font-weight: 400;
+          background-color: $dv-color-green;
+          color: #ffffff;
+          line-height: 25px;
+          i{
+            font-weight: 300
+          }
+        }
+      }
+    }
+  }
+  .wrapper2{
+    width: 100%;
+    text-align: center;
+    padding:60px 0px;
+    background-color: $dv-bg-sub;
+    section{
+      .p1{
+        font-size: 24px;
+        margin-top: 40px;
+        font-weight: 400;
+        font-style: italic;
+        color: $dv-color-green;
+      }
+      .assessment_list{
+        color: #000;
+        margin-top: 25px;
+        .assessment_item{
+          margin:15px 0px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          span{
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+  }
+  .wrapper3{
+    border-top:2px solid $dv-color-border;
+    width:100%;
+    padding:60px 0px;
+    section{
+      .feature_list{
+        .row{
+          margin: 15px 0px;
+        }
+        .row:first-child{
+          margin-top:35px;
+        }
+        .feature_item{
+          .title{
+            display: flex;
+            align-items: center;
+            span{
+              &.img{
+                display: block;
+                width: 35px;
+
+              }
+              &.text{
+                padding-left: 16px;
+                font-weight: 700;
+              }
+            }
+          }
+          .detail{
+            color: $dv-color-grey;
+            padding-left: 50px;
+            font-size: 19px;
+          }
+        }
+      }
+    }
+  }
+  .wrapper4{
+    border-top:2px solid $dv-color-border;
+    width:100%;
+    padding:60px 0px;
+    background-color: $dv-bg-sub;
+    section{
+      padding-top:30px;
+      h3{
+        margin-bottom: 50px;
+      }
+      .pdf-div{
+        background-color: $dv-bg-sub;
+        border: 2px solid $dv-color-border;
+        border-radius: 5px;
+        padding: 30px;
+        margin:0px auto;
+        width: 278px;
+        .title{
+          font-weight: 500;
+          font-size: 20px;
+          margin-top: 15px;
+        }
+        .state{
+          border-top: 2px dotted #65a423;
+          color: $dv-color-grey;
+          font-weight: 500;
+          font-size: 16px;
+          margin-top: 15px;
+          padding-top: 15px;
+        }
+      }
+      .state_div{
+        h4{
+          font-size: 26px;
+          color: $dv-color-green;
+          font-style: italic;
+          margin-bottom:40px;
+        }
+        margin:0px 20px;
+        color: $dv-color-grey;
+        p{
+          font-size: 18px;
+          line-height: 34px;
+        }
+        ul{
+          list-style: none;
+          li {
+            font-size: 18px;
+            line-height: 34px;
+            padding-left: 1em;
+            text-indent: -2.7em;
+          }
+
+          li::before {
+            content: "• ";
+            padding-right: 2em;
+            color: $dv-color-green;
+          }
+        }
+        .download-button {
+          margin-top:30px;
+          display: inline-block;
+          height: 47px;
+          padding: 7px 27px;
+          line-height: 30px;
+          border: 2px solid $dv-color-green;
+          border-radius: 4px;
+          font-weight: 400;
+          background-color: $dv-color-green;
+          color: #ffffff;
+          i{
+            font-weight: 300;
+            padding: 0px 3px;
+          }
+        }
+      }
+    }
+  }
+  .wrapper5{
+    border-top:2px solid $dv-color-border;
+    width:100%;
+    padding:60px 0px;
+    text-align: center;
+    h3{
+      margin-bottom: 50px;
+    }
+    .tablet1{
+      padding-top: 71px;
+    }
+  }
+  .wrapper6{
+    height: 700px;
+    width: 100%;
+    background: url('assets/images/homepage/bg-img2.png') no-repeat center;
+    background-size: cover;
+    position: relative;
+    color: $dv-color-white;
+    padding:0px;
+    -webkit-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.8);
+    -moz-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.8);
+    box-shadow: inset 0 17px 54px -21px rgba(0,0,0,0.8);
+    &:before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 0;
+    }
+    section{
+      position: relative;
+      h3{
+        margin-bottom: 50px;
+        color: $dv-color-white;
+        padding-top: 100px;
+        font-size: 55px;
+      }
+      .sub-title{
+        font-size: 26px;
+        font-weight: 500;
+        font-style: italic;
+        text-align: center;
+        color: $dv-color-white;
+      }
+      .icon-div{
+        margin-top: 75px;
+        list-style: none;
+        li{
+          display: flex;
+          align-items: center;
+          margin-bottom: 40px;
+          span{
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+  }
+}

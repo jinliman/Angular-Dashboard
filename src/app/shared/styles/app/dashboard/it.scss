@@ -1,0 +1,62 @@
+.it-page{
+  $green-light: #60a628;
+  $green-dark: #3c434d;
+  $green: #43731c;
+  .title{
+    font-size: 21px;
+    font-weight: bold;
+    padding: 20px 20px;
+  }
+  font-size: 20px;
+  .table{
+    $table-fontsize: 15px;
+    padding: 0px;
+    margin: 0px;
+    input{
+      &.form-control{
+        box-shadow: none;
+        border-radius: 0px;
+        border: 2px solid $dv-color-border;
+        background: $dv-bg-main;
+      }
+    }
+    td,th{
+      font-size: $table-fontsize !important;
+      border: 2px solid $dv-color-border;
+      &:first-of-type{
+        border-left: 0px;
+      }
+      &:last-of-type{
+        border-right: 0px;
+      }
+    }
+    th{
+      font-size: $table-fontsize !important;
+      text-align: center;
+      background-color: $dv-bg-input;
+      ng2-smart-table-title{
+        &>a{
+          color: $dv-color-primary;
+        }
+      }
+    }
+    .priority{
+      color: $dv-color-green !important;
+    }
+    td{
+      line-height: 22px;
+      color: $dv-color-grey;
+      b{
+        &.a{
+          color: $green !important;
+        }
+        &.b{
+          color: $green-light !important;
+        }
+        &.c{
+          color: $green-dark !important;
+        }
+      }
+    }
+  }
+}

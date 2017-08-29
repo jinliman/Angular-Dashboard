@@ -1,0 +1,32 @@
+<div class="assets confirm-email">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="form">
+      <div class="row">
+        <div *ngIf="isConfirmed" class="col-md-12 form-group">
+          <h2>Congratulations!</h2>
+          <p>You successfully confirmed your email adresss.</p>
+        </div>
+        <div *ngIf="!isConfirmed" class="col-md-12 form-group">
+          <h2>Opps!</h2>
+          <p>Sth Went Wrong.</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="this.canInvite">
+        <div class="col-md-12 form-group button-group">
+          <div class="invite-button">
+              <a [routerLink]="['/team-invite/']" [queryParams]="{token: token}" class="get-started button pull-left">Invite Team Members</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group button-group">
+          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Back to Login</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

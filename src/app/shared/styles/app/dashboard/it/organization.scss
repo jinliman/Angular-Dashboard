@@ -1,0 +1,101 @@
+.organization-page{
+  .title-div{
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+      padding: 20px 20px;
+    }
+    .back-div{
+      a{
+        display: flex;
+        align-items: center;
+        color: $dv-color-primary;
+        font-size: 18px;
+        span{
+          padding-left: 15px;
+        }
+      }
+      padding:27px;
+    }
+  }
+  .table{
+    td{
+      vertical-align: middle !important;
+      &>span{
+        padding:0px 5px;
+      }
+      input{
+        background-color: $dv-color-white;
+      }
+    }
+    thead{
+      background-color: $dv-bg-dashboard;
+      td{
+        font-weight: 600 !important;
+        .completed{
+          padding-left:7px;
+          color: $dv-color-green;
+        }
+      }
+      .category{
+        &>div{
+          display: flex;
+          align-items: center;
+          float: left;
+        }
+        span:last-of-type{
+          font-size: 17px;
+          padding-left: 15px;
+        }
+      }
+    }
+    tbody{
+      tr{
+        td{
+          color: $dv-color-grey;
+          .user-icon-div{
+            display: flex;
+            align-items: center;
+          }
+          .detail-div{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            input{
+              width: 70%;
+            }
+          }
+          &:last-of-type{
+            border-left: none !important;
+          }
+          .new-user-div{
+            .title{
+              line-height: 18px;
+              padding-left: 7px;
+            }
+          }
+        }
+      }
+    }
+    th,td{
+      border-top: 2px solid $dv-color-border !important;
+      border: 2px solid $dv-color-border;
+      border-right: none !important ;
+      padding: 8px 14px;
+      vertical-align: middle;
+      &:first-of-type{
+        border-left: none;
+      }
+      &:last-of-type{
+        border-right: none;
+      }
+      &.status{
+        width: 250px;
+        div{
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+}

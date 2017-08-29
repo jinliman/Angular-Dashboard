@@ -1,0 +1,84 @@
+.admin-dashboard{
+  .row{
+    margin: 0px;
+  }
+  .datepicker-div{
+    background-color: $dv-color-white;
+    padding: 0px 10px;
+    border: 2px solid $dv-color-border;
+    border-radius: 5px;
+    width: 390px;
+    display: flex;
+    align-items: center;
+    margin: 20px 10px;
+    float: right;
+    &>div{
+      width: 100%;
+      cursor: pointer;
+      padding: 3px;
+      .icon-div{
+        color: $dv-color-green;
+        font-size: 25px;
+      }
+      .date-text{
+        padding-left: 10px;
+        font-size: 18px;
+      }
+    }
+  }
+  .first-row{
+    border-top: 2px solid $dv-color-border;
+  }
+  .status-block{
+    margin: 0px !important;
+    border-bottom: 2px solid $dv-color-border;
+    border-right: 2px solid $dv-color-border;
+    padding: 22px 40px;
+    position: relative;
+    height: 126px;
+    &:last-of-type{
+      border-right: none;
+    }
+    .status{
+      position: relative;
+      .title{
+        font-size: 19px;
+        font-weight: bold;
+      }
+    }
+    .value{
+      position: absolute;
+      margin: 30px;
+      right: 0px;
+      bottom: 0px;
+      color: $dv-color-green;
+      font-size:43px;
+      line-height: 40px;
+      font-weight: 300;
+      span{
+        color: $dv-color-primary;
+        font-size: 20px;
+        line-height: 20px;
+        display: inline-table;
+        vertical-align: bottom;
+        margin: 0px;
+        padding: 0px;
+        font-weight: 400;
+        &.top{
+          vertical-align: top;
+        }
+      }
+    }
+  }
+  .button-div{
+    padding: 20px 20px;
+    .desc{
+      font-size: 21px;
+      font-weight: 500;
+      padding-right: 15px;
+    }
+    .button{
+      margin:0px 4px;
+    }
+  }
+}

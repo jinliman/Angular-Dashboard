@@ -1,0 +1,36 @@
+.header {
+  section{
+    width: 1200px;
+    margin: 0 auto;
+  }
+  padding: 18px 67px;
+  .menu-bar {
+    a{
+      color: $dv-color-primary;
+    }
+    a:hover{
+      color: $dv-color-green;
+    }
+    li {
+      padding: 10px;
+      display: inline-block;
+    }
+    margin-right: 40px;
+  }
+  .action-div {
+    .get-started {
+      font-weight: 400;
+      background-color: $dv-color-green;
+      border-color: $dv-color-green;
+      color: #ffffff;
+      i{
+        font-weight: 200
+      }
+    }
+    .login{
+      color: $dv-color-green;
+      background: #fff;
+      margin-left:30px;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<div class="assets email-sent">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="form">
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <h2>Thank you for choosing dealvalue!</h2>
+          <p>We've sent you an activation email at <b>{{Email}}</b></p>
+          <p>Please check your inbox and follow the link<br>to complete your registration.</p>
+          <br>
+          <p>If you have any questions, please <a routerLink="/contact">contact us</a>.</p>
+          <p>Do not see email in your inbox?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="isResend" class="alert alert-success">Email is sent!</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group button-group clearfix">
+          <button type="button" (click)="onResend()" class="btn button">Resend email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

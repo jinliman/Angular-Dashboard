@@ -1,0 +1,26 @@
+<div class="sidebar">
+  <div class="logo-div">
+    <a routerLink="/"><img class="logo" src="/assets/images/logo/logo-dashboard.png" alt="logo" width="170" height="26"></a>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <li *ngFor="let menu_item of menu">
+        <a *ngIf="menu_item.submenu == undefined" routerLink="{{menu_item.route}}" routerLinkActive="active">{{menu_item.title}}</a>
+        <a *ngIf="menu_item.submenu == true && menu_item.hascontent == false" class="submenu" [class.open] = "menu_item.open" [class.collapsed] = "!menu_item.open" (click)="menu_item.open = menu_item.open ? false: true;" href="javascript:;">{{menu_item.title}}</a>
+        <a *ngIf="menu_item.submenu == true && menu_item.hascontent == true" class="submenu"  [class.open] = "menu_item.open" [class.collapsed] = "!menu_item.open" (click)="menu_item.open = menu_item.open ? false: true;" routerLink="{{menu_item.route}}" routerLinkActive="active">{{menu_item.title}}</a>
+        <ul *ngIf="menu_item.submenu">
+          <li *ngFor="let menu_item1 of menu_item.menulist">
+            <a *ngIf="menu_item1.submenu == undefined" routerLink="{{menu_item.route + menu_item1.route}}" routerLinkActive="active">{{menu_item1.title}}</a>
+            <a *ngIf="menu_item1.submenu == true && menu_item1.hascontent == false" class="submenu"  [class.open] = "menu_item1.open" [class.collapsed] = "!menu_item1.open" (click)="changeStatus(menu_item1)" href="javascript:;">{{menu_item1.title}}</a>
+            <a *ngIf="menu_item1.submenu == true && menu_item1.hascontent == true" class="submenu"  [class.open] = "menu_item1.open" [class.collapsed] = "!menu_item1.open" (click)="changeStatus(menu_item1)" routerLink="{{menu_item.route + menu_item1.route}}" routerLinkActive="active">{{menu_item1.title}}</a>
+            <ul *ngIf="menu_item1.submenu">
+              <li *ngFor="let menu_item2 of menu_item1.menulist">
+                <a routerLink="{{menu_item.route + menu_item1.route +  menu_item2.route}}" routerLinkActive="active">{{menu_item2.title}}</a>
+              <li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

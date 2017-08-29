@@ -1,0 +1,140 @@
+.heatmap{
+  padding: 40px 40px;
+  .title{
+    font-size: 21px;
+    font-weight: bold;
+    margin: 0px;
+  }
+  table
+  {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    td{
+      position: relative;
+      text-align: center;
+      line-height: 32px;
+      vertical-align: middle;
+      font-weight: 600;
+      &:first-of-type{
+        text-align: left;
+      }
+      .img{
+        margin-right: 10px;
+        display: flex;
+      }
+      padding: 12px 5px;
+    }
+    thead {
+      &>tr>td {
+        &>div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    tbody{
+      td{
+        .img{
+          margin-right: 15px;
+          float: left;
+        }
+        &.green{
+          &::before{
+            height: 40px;
+            width: calc(100% - 10px);
+            margin: 0px;
+            padding: 0px;
+            top:10px;
+            left:5px;
+            content: '';
+            position: absolute;
+            display: block;
+            background-color: $dv-color-green;
+          }
+        }
+        &.green-light{
+          &::before{
+            height: 40px;
+            width: calc(100% - 10px);
+            margin: 0px;
+            padding: 0px;
+            top:10px;
+            left:5px;
+            content: '';
+            position: absolute;
+            display: block;
+            background-color: $dv-color-green-light;
+          }
+        }
+        &.none{
+          &::before{
+            height: 40px;
+            width: calc(100% - 10px);
+            margin: 0px;
+            padding: 0px;
+            top:10px;
+            left:5px;
+            content: '';
+            position: absolute;
+            display: block;
+            background-color: $dv-bg-input;
+            border: 2px solid $dv-color-border;
+          }
+        }
+      }
+    }
+  }
+  table.table2{
+    margin-top: 45px;
+    thead{
+      td{
+        text-align: left;
+      }
+    }
+    tbody {
+      &>tr>td {
+        &>div {
+          display: flex;
+          align-items: center;
+          justify-content: none;
+          font-weight: 600;
+        }
+      }
+      td{
+        &>div{
+          display: flex;
+          align-items: center;
+        }
+        text-align: left;
+        font-weight: 400;
+        .color{
+          width: 60px;
+          height: 30px;
+          float: left;
+          border-radius: 0px;
+          &.green{
+            background: $dv-color-green;
+          }
+          &.green-light{
+            background: $dv-color-green-light;
+          }
+          &.none{
+            border: 2px solid $dv-color-border;
+            background: $dv-bg-input;
+          }
+
+        }
+        .desc{
+          line-height: 20px;
+          font-weight: 400;
+          float: left;
+          margin-left: 10px;
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+}

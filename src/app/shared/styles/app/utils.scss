@@ -1,0 +1,319 @@
+button {
+  outline-style: none !important;
+}
+.assets{
+  input.ng-valid.ng-touched{
+    border-left: 5px solid $dv-color-green;
+  }
+  input.ng-invalid.ng-touched{
+    border-left: 5px solid $dv-color-red;
+  }
+
+  textarea.ng-valid.ng-touched{
+    border-left: 5px solid $dv-color-green;
+  }
+  textarea.ng-invalid.ng-touched{
+    border-left: 5px solid $dv-color-red;
+  }
+}
+
+a{
+  text-decoration: none !important;
+  color: $dv-color-green;
+  &:hover{
+    color: $dv-color-green-hover;
+  }
+  &:active{
+    color: $dv-color-green;
+  }
+  &:visited{
+    color: $dv-color-green;
+  }
+  &.button{
+    padding: 7px 17px;
+    border: 2px solid $dv-color-green;
+    background-color: $dv-color-green;
+    border-radius: 4px;
+    color: #fff;
+  }
+}
+
+.svg {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  &.svg:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left:0;
+  }
+}
+
+svg {
+   pointer-events: all;
+}
+
+button{
+  background-color: $dv-color-green;
+  &:hover{
+    color: $dv-color-white !important;
+    background-color: $dv-color-green-hover;
+  }
+  &.button{
+    padding: 7px 17px;
+    font-size: 16px !important;
+    border: 2px solid $dv-color-green;
+    background-color: $dv-color-green;
+    border-radius: 4px;
+    color: #fff;
+  }
+}
+input{
+  background-color: $dv-bg-input;
+  padding: 6px 10px;
+  border: 2px solid $dv-color-border;
+  border-radius: 5px;
+  outline-style: none;
+}
+.checkbox{
+    /* Base for label styling */
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+  }
+  [type="checkbox"]:not(:checked) + label,
+  [type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 1.95em;
+    cursor: pointer;
+  }
+
+  /* checkbox aspect */
+  [type="checkbox"]:not(:checked) + label:before,
+  [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top:0;
+    width: 1.25em; height: 1.25em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+  }
+  /* checked mark aspect */
+  [type="checkbox"]:not(:checked) + label:after,
+  [type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: .1em; left: .3em;
+    font-size: 1.3em;
+    line-height: 0.8;
+    color: $dv-color-green;
+    transition: all .2s;
+  }
+  /* checked mark aspect changes */
+  [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+  }
+  [type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /* disabled checkbox */
+  [type="checkbox"]:disabled:not(:checked) + label:before,
+  [type="checkbox"]:disabled:checked + label:before {
+    box-shadow: none;
+    border-color: $dv-color-green;
+    background-color: #ddd;
+  }
+  [type="checkbox"]:disabled:checked + label:after {
+    color: #999;
+  }
+  [type="checkbox"]:disabled + label {
+    color: #aaa;
+  }
+
+  /* hover style just for information */
+  label:hover:before {
+    border: 2px solid $dv-color-green!important;
+  }
+}
+.form-group{
+  margin-top: 10px;
+  font-size:16px;
+  .help-block{
+    margin-bottom: 0px !important;
+  }
+  input{
+    width: 100%;
+  }
+  label{
+    font-weight: 400;
+    padding-left: 6px;
+  }
+}
+span.help-block{
+  font-weight: 200px;
+  font-size: 13px;
+  padding-top:10px;
+  font-style: italic;
+}
+textarea{
+  background-color: $dv-bg-input;
+  width: 100%;
+  display: block;
+  padding: 10px;
+  border: 2px solid $dv-color-border;
+  border-radius: 2px;
+}
+.cs-select{
+  &>div{
+    height: 39px;
+    background-color: $dv-bg-input;
+    border: 2px solid $dv-color-border;
+    border-radius: 5px;
+    width: 100%;
+  }
+  & > div > div.single > div.value, & > div > div.single > div.placeholder {
+    line-height: 39px !important;
+  }
+  & > div > div.single > div.clear, & > div > div.single > div.toggle {
+    line-height: 39px !important;
+  }
+}
+.ui-select-toggle{
+  background: $dv-bg-input;
+  border: 2px solid $dv-color-border;
+  border-radius: 0px;
+  height: 39px;
+  font-size: 16px;
+}
+::-webkit-input-placeholder { /* Chrome */
+  color: #697680;
+  transition: opacity 250ms ease-in-out;
+}
+:focus::-webkit-input-placeholder {
+  opacity: 0.5;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #697680;
+  transition: opacity 250ms ease-in-out;
+}
+:focus:-ms-input-placeholder {
+  opacity: 0.5;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #697680;
+  opacity: 1;
+  transition: opacity 250ms ease-in-out;
+}
+:focus::-moz-placeholder {
+  opacity: 0.5;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #697680;
+  opacity: 1;
+  transition: opacity 250ms ease-in-out;
+}
+:focus:-moz-placeholder {
+  opacity: 0.5;
+}
+
+.custom-progress{
+  .progress{
+    height: 36px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border: 1px solid $dv-color-border;
+    box-shadow: none;
+    .progress-bar-title{
+      line-height: 36px;
+      font-size: 19px;
+      position: absolute;
+      right: 28px;
+      color: $dv-color-primary;
+    }
+    .progress-bar{
+      background-color: $dv-color-green;
+      color: $dv-color-white;
+    }
+  }
+}
+
+.collapse-icon{
+  background-color: $dv-color-collapse-background;
+  width: 27px;
+  height: 27px;
+  border-radius: 5px;
+  color: $dv-color-green;
+  position: relative;
+  line-height: 20px;
+  &::after{
+    font-weight: 300;
+    position: absolute;
+  }
+  &.opened::after{
+    line-height: 24px;
+    font-size: 30px;
+    content: '+';
+    left: 5px
+  }
+  &.closed::after{
+    font-weight: 200;
+    font-size: 63px;
+    line-height: 17px;
+    content: '-';
+    left: 4px;
+  }
+}
+
+//Custome Date Range Picker
+.daterangepicker{
+  .ranges{
+    ul{
+      // width: 190px !important;
+    }
+    li{
+      font-size: 17px;
+      background: $dv-bg-dashboard;
+      border: none;
+      border-radius: 0px;
+      color: $dv-color-green;
+      padding: 6px 12px;
+      margin-bottom: 8px;
+      &.active, &:hover{
+        background: $dv-color-green-hover;
+        border: 1px solid $dv-color-green-hover;
+        color: #fff;
+      }
+    }
+    .applyBtn {
+      color: #fff;
+      background-color: $dv-color-green-hover;
+      border-color: $dv-color-green-hover;
+      border-radius: 0px;
+    }
+    .cancelBtn {
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc;
+      border-radius: 0px;
+      &:hover, &:active{
+        color: #333 !important;
+      }
+    }
+  }
+  .calendar{
+    font-size: 17px;
+    td.active, td.active:hover {
+      background-color: $dv-color-green-hover;
+      border-color: transparent;
+      color: #fff;
+    }
+  }
+}

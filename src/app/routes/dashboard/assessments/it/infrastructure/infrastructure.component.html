@@ -1,0 +1,91 @@
+<div class="infrastructure-page">
+  <div class="title">
+    <p>Document Request List</p>
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Progress</a></li>
+      <li><a href="#">Files</a></li>
+      <li><a href="#">Team</a></li>
+      <li><a href="#">Heat Map</a></li>
+      <li><a href="#">Reports</a></li>
+      <li><a class="svg" href="javascript:;" [inlineSVG]="'../../../assets/images/icons/dashboard/info-icon.svg'"></a></li>
+      <li><a class="svg" href="javascript:;" [inlineSVG]="'../../../assets/images/icons/dashboard/more-icon.svg'"></a></li>
+    </ul>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <td class="category">
+          <div class="pull-left filter dropdown">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">All active</a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test1</a>
+              </li>
+            </ul>
+          </div>
+          <div class="pull-left filter dropdown">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">To: <span>Show All</span></a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test2</a>
+              </li>
+            </ul>
+          </div>
+          <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+        </td>
+        <td colspan="3">
+          <span>Progress/Completion Rate</span>
+          <span class="span-percent">50%</span>
+          <div class="custom-progress">
+            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="category clearfix">
+          <div>Click on attachment icons (<span [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon1.svg'"></span>) below to upload the requested documents<br>or check the "Not Available" box if the document cannot be produced:</div>
+        </td>
+        <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+      </tr>
+    </thead>
+    <tbody *ngFor="let file_group of tableData">
+      <tr>
+        <td class="category">
+          <div (click)="file_group.open = !file_group.open">
+            <div class="desc-div">
+              <span [hidden]="file_group.hasDetail != true" href="javascript:;" class="collapse-icon"  [class.opened]="file_group.open" [class.closed]="!file_group.open"></span>
+              <span class="desc" [class.no-files]="!file_group.hasDetail">{{file_group.title}}</span>
+            </div>
+          </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let file_item of file_group.subDetails" class="sublist" [hidden]="file_group.hasDetail != true || file_group.open != true">
+        <td class="category">
+          <div>
+            <div class="desc-div">
+              <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/personal-info-icon.svg'"></div>
+              <span class="desc pull-left">{{file_item.desc}}</span>
+            </div>
+            <div class="input-div pull-right">
+              <input type="text" name="" value="" placeholder="type it here">
+            </div>
+          </div>
+        </td>
+        <td class="status" [class.pending]="file_item.status == 2">
+
+        </td>
+        <td width="15%">
+        </td>
+        <td width="15%">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

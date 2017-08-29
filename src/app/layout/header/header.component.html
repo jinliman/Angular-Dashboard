@@ -1,0 +1,21 @@
+<div class="header ">
+	<section>
+		<a class="pull-left" routerLink="/"><img class="logo" src="./assets/images/logo/logo.png" alt="logo" width="303" height="45"></a>
+		<div class="pull-right">
+			<ul class="menu-bar pull-left">
+				<a routerLink="/" class="active"><li>Home</li></a>
+				<a routerLink="/faq"><li>FAQ's</li></a>
+				<a routerLink="/testimonial"><li>Testimonials</li></a>
+				<a routerLink="/news"><li>News</li></a>
+				<a routerLink="/contact"><li>Contact Us</li></a>
+			</ul>
+			<div class="action-div pull-left">
+				<a routerLink="/register" class="get-started button pull-left">Get Started <i>for free</i></a>
+				<a *ngIf="!isLoggedIn" routerLink="/login" class="login button pull-left">Log in</a>
+				<a *ngIf="isLoggedIn" routerLink="/logout" class="login button pull-left">Log out</a>
+			</div>
+		</div>
+		<div class="clearfix">
+		</div>
+	</section>
+</div>

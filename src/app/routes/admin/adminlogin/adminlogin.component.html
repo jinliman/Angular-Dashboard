@@ -1,0 +1,48 @@
+<div class="assets adminlogin">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="form">
+      <form (ngSubmit) = "onSubmitLogin()" #form="ngForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Welcome to admin!</h2>
+          </div>
+          <div class="col-md-12 form-group"  *ngIf="!isValid">
+            <div class="alert alert-danger">
+              User Credential is invalid!
+            </div>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': username.invalid && username.touched,
+              'has-success': username.valid && username.touched
+            }">
+            <input type="username" name="username" #username = "ngModel" [(ngModel)] = "userCredential.username" value="" placeholder="User name" required>
+            <span class="help-block" *ngIf="username.errors && username.errors.required  && username.touched">Email is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': password.invalid && password.touched,
+              'has-success': password.valid && password.touched
+            }">
+            <input type="password" name="password" #password="ngModel" [(ngModel)] = "userCredential.password" value="" placeholder="Password" required>
+            <span class="help-block" *ngIf="password.errors && password.errors.required && password.touched">Password is required</span>
+          </div>
+        </div>
+        <div class="row remember-me">
+          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+            <input type="checkbox" id="remember_me" name="remember_me" value="">
+            <label for="remember_me">Remember me</label>
+          </div>
+          <div class="col-md-5 col-md-offset-1 form-group clearfix">
+            <button type="submit" [disabled] = "form.invalid" class="btn button">Login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

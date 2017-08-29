@@ -1,0 +1,90 @@
+<div class="admin-report-page">
+  <div class="clearfix sub-header">
+    <p class="title pull-left">Reports</p>
+    <div class="dropdown pull-right">
+			<a href="#" class="svg dropdown-toggle button" data-toggle="dropdown">
+				Action
+        <span><i class="fa fa-angle-down"></i></span>
+			</a>
+			<ul class="dropdown-menu">
+			  <li><a href="javascript:;">Review</a></li>
+				<li><span>Export Data to...</span></li>
+				<li class="sub"><a href="javascript:;">Computer</a></li>
+				<li class="sub"><a href="javascript:;">Google Drive</a></li>
+				<li class="sub"><a href="javascript:;">Dropbox</a></li>
+				<li class="sub"><a href="javascript:;">Box</a></li>
+				<li class="sub"><a href="javascript:;">OneDrive</a></li>
+				<li><a href="javascript:;">Edit Report</a></li>
+			</ul>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Initiation Date</td>
+        <td>Start Date</td>
+        <td>Completion Date</td>
+        <td>Report Type</td>
+        <td width="180px">Initiator Name</td>
+        <td>Initiator Company Name</td>
+        <td>Initiator Industry</td>
+        <td>Numbre of Team Members</td>
+        <td>Country</td>
+        <td>City</td>
+        <td>State</td>
+        <td>Status</td>
+        <td>DealValue Score</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td>{{item.ID}}</td>
+        <td>{{item.initDate}}</td>
+        <td>{{item.startDate}}</td>
+        <td>{{item.completeDate}}</td>
+        <td>{{reportTypeArr[item.reportType]}}</td>
+        <td>
+          <div class="clearfix">
+            <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-icon.svg'"></span>
+            <span class="desc">{{item.initiatorName}}</span>
+          </div>
+        </td>
+        <td>{{item.initCompanyName}}</td>
+        <td>{{industryArr[item.initiatorIndustry]}}</td>
+        <td>
+          <div class="clearfix">
+            <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+            <span class="desc">{{item.teamNumber}}</span>
+          </div>
+        </td>
+        <td>{{countryArr[item.country]}}</td>
+        <td>{{cityArr[item.city]}}</td>
+        <td>{{stateArr[item.state]}}</td>
+        <td>
+          <div class="clearfix">
+            <span *ngIf="item.status == 1" class="img" [inlineSVG]="'/assets/images/icons/dashboard/complete-icon.svg'"></span>
+            <span *ngIf="item.status == 2"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/pending-icon.svg'"></span>
+            <span *ngIf="item.status == 3"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/not-started-icon.svg'"></span>
+            <span class="desc">{{statusArr[item.status]}}</span>
+          </div>
+        </td>
+        <td>
+          <div class="clearfix">
+            <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-icon.svg'"></span>
+            <span class="desc score"><b>{{item.score}}</b></span>
+          </div>
+        </td>
+        <td>
+          <div class="report">
+            <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+            <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
+            <a href="javascript:;"><i class="fa fa-send" aria-hidden="true"></i></a>
+            <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

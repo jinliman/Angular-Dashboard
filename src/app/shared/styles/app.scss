@@ -1,0 +1,52 @@
+
+@import "app/variables";
+
+// Bootstrap
+@import "bootstrap/bootstrap/_mixins";
+
+// Utils
+@import "app/utils";
+
+// Layout
+@import "app/layout/layout";
+@import "app/layout/header";
+@import "app/layout/header-dashboard";
+@import "app/layout/footer";
+@import "app/layout/sidebar";
+
+// Landing Pages
+@import "app/landing/home";
+@import "app/landing/policies";
+
+//Asset page
+@import "app/assets/register";
+@import "app/assets/login";
+@import "app/assets/forgot-password";
+@import "app/assets/email-sent";
+@import "app/assets/confirm-email";
+@import "app/assets/confirm-invitation";
+@import "app/assets/get-started";
+@import "app/assets/teams";
+
+//Dashboard Pages
+@import "app/dashboard/dashboard";
+@import "app/dashboard/files";
+@import "app/dashboard/progress";
+@import "app/dashboard/team";
+@import "app/dashboard/heatmap";
+@import "app/dashboard/it";
+@import "app/dashboard/hr";
+
+//Dashboard/IT pages
+@import "app/dashboard/it/drl";
+@import "app/dashboard/it/application";
+@import "app/dashboard/it/organization";
+@import "app/dashboard/it/infrastructure";
+
+/****************ADMIN Pages*************
+*****************************************/
+@import "app/admin/adminlogin";
+@import "app/admin/admin-dashboard";
+@import "app/admin/calendar";
+@import "app/admin/report";
+@import "app/admin/user";

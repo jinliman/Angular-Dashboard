@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~font-awesome/css/font-awesome.css';
+//@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+@import './theme';
+//@import '~@angular/material/prebuilt-themes/purple-green.css';
+
+//== Bootstrap
+@import "./app/shared/styles/bootstrap.scss";
+//== Application
+@import "./app/shared/styles/app.scss";

@@ -1,0 +1,114 @@
+.admin-user-page{
+  $green-light: #60a628;
+  $green-dark: #3c434d;
+  $green: #43731c;
+  font-size: 20px;
+  .sub-header{
+    padding: 20px;
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+    }
+    .button{
+      padding: 4px 23px;
+      font-size: 16px;
+      line-height: 24px;
+      span>i{
+        font-size: 20px;
+      }
+    }
+    .dropdown-menu{
+      width: 200px;
+      left:auto;
+      margin-top: 10px;
+      span{
+        padding: 5px 20px;
+        color: $dv-color-grey;
+        line-height: 33px;
+        font-size: 15px;
+      }
+      li.sub{
+        a{
+          padding-left: 30px;
+        }
+      }
+      a{
+        font-size: 15px;
+        line-height: 33px;
+        color: $dv-color-primary;
+        padding:5px 20px;
+        i{
+          color: $dv-color-green;
+          padding-right:5px;
+        }
+      }
+    }
+  }
+  .table{
+    font-size: 17px;
+    width: 100%;
+    td{
+      vertical-align: middle !important;
+      &>span{
+        padding:0px 5px;
+      }
+      .short-name{
+        width: 32px;
+        line-height: 32px;
+        text-align: center;
+        display: inline-block;
+        margin-left: 20px;
+        color:#fff;
+        background-color: $dv-color-green;
+        border-radius: 50%;
+      }
+      input{
+        background-color: $dv-color-white;
+      }
+    }
+    thead{
+      background-color: $dv-bg-dashboard;
+      td{
+        font-weight: 600;
+      }
+
+    }
+    tbody{
+      td{
+        color: $dv-color-grey;
+        &>div{
+          display: flex;
+          align-items: center;
+          &.report{
+            a{
+              padding-left: 15px;
+            }
+          }
+          .desc{
+            padding-left: 10px;
+            &.score{
+              font-weight: bold;
+              color:$dv-color-primary;
+            }
+          }
+        }
+      }
+    }
+    th,td{
+      border-top: 2px solid $dv-color-border !important;
+      border: 2px solid $dv-color-border;
+      padding: 14px 14px;
+      font-weight: 400;
+      color: $dv-color-primary;
+      &:first-of-type{
+        border-left: none;
+      }
+      &:last-of-type{
+        border-right: none;
+      }
+      &.status{
+        width: 150px;
+      }
+    }
+  }
+}

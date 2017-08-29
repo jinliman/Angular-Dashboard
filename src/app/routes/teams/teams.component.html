@@ -1,0 +1,58 @@
+<div class="assets team-invite">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <form (ngSubmit) = "onSubmit()" #form="ngForm" class="form">
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <h2>Who's on your team?</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': primaryemail.invalid && primaryemail.touched,
+            'has-success': primaryemail.valid && primaryemail.touched
+          }">
+          <div class="clearfix">
+            <div class="user-icon" [inlineSVG]="'/assets/images/icons/dashboard/team-icon1.svg'"></div>
+            <input class="email pull-left" type="email" name="primaryemail" #primaryemail = "ngModel" [(ngModel)] = "PrimaryEmail" value="" placeholder="Primary User email" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+          </div>
+          <span class="help-block" *ngIf="primaryemail.errors && primaryemail.errors.required  && primaryemail.touched">Primary Email is required</span>
+          <span class="help-block" *ngIf="primaryemail.errors && primaryemail.errors.pattern && primaryemail.touched">Primary Email is invalid</span>
+        </div>
+      </div>
+
+      <div class="row" *ngFor="let item of TeamEmail; let i = index">
+        <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': item.name.invalid && item.name.touched,
+            'has-success': item.name.valid && item.name.touched
+          }">
+          <div class="clearfix">
+            <div class="user-icon" [inlineSVG]="'/assets/images/icons/dashboard/team-icon1.svg'"></div>
+            <input class="email pull-left" type="email" name="{{item.name}}" #item.name= "ngModel" [(ngModel)] = "item.value" value="" placeholder="Teammate's email" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+            <a class="remove-button" (click)="removeTeamMemeber(i)" ><span></span></a>
+          </div>
+          <span class="help-block" *ngIf="item.name.errors && item.name.errors.required  && item.name.touched">Email is required</span>
+          <span class="help-block" *ngIf="item.name.errors && item.name.errors.pattern && item.name.touched">Email is invalid</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group clearfix">
+          <a class="add-button" (click)="addNewTeamMembr()"><span>New Team-Member</span></a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Back</span></a>
+        </div>
+        <div class="col-md-5 col-md-offset-1 form-group clearfix">
+          <button type="submit" [disabled] = "form.invalid" class="btn button">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="assets confirm-invitation">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="form">
+      <div class="row">
+        <div *ngIf="isValid" class="col-md-12 form-group">
+          <h2>Congratulations!</h2>
+          <p>You succesfully confirmed your invitation.</p>
+        </div>
+        <div *ngIf="!isValid" class="col-md-12 form-group">
+          <h2>Opps!</h2>
+          <p>Sth Went Wrong.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group button-group">
+          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Back to Login</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

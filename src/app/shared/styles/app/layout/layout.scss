@@ -1,0 +1,39 @@
+
+body {
+	background: $dv-bg-main;
+	color: $dv-color-primary;
+	font-family: $dv-font-family;
+	font-weight: $dv-font-weight;
+	font-size: 16px;
+	margin: 0;
+  padding: 0;
+	height: 100%;
+	.main-wrapper {
+		min-height: calc(100vh - #{$dv-footer-height});
+	}
+
+	.content-wrapper {
+		section {
+			width: 1200px	;
+			margin: 0 auto;
+		}
+	}
+
+	.dashboard-wrapper{
+		.content-wrapper{
+			margin-left: $dv-sidebar-width;
+			padding:0px 8px;
+			.dashboard-content{
+					height: calc(100vh - #{$dv-footer-height} - #{$dv-dashboard-header-height} - 10px);
+					border: 2px solid $dv-color-border;
+					background-color: $dv-color-white;
+					overflow: auto;
+			}
+		}
+		.footer{
+			position: fixed;
+			width: 100%;
+			bottom: 0px;
+		}
+	}
+}

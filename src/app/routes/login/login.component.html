@@ -1,0 +1,62 @@
+<div class="assets login">
+  <div class="wrapper">
+    <div class="logo">
+      <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="form">
+      <form (ngSubmit) = "onSubmitLogin()" #form="ngForm">
+        <div class="row">
+          <div class="col-md-12 form-group"  *ngIf="!isValid">
+            <div class="alert alert-danger">
+              User Credential is invalid!
+            </div>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': email.invalid && email.touched,
+              'has-success': email.valid && email.touched
+            }">
+            <input type="email" name="email" #email = "ngModel" [(ngModel)] = "userCredential.email" value="" placeholder="Email address" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+            <span class="help-block" *ngIf="email.errors && email.errors.required  && email.touched">Email is required</span>
+            <span class="help-block" *ngIf="email.errors && email.errors.pattern && email.touched">Email is invalid</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': password.invalid && password.touched,
+              'has-success': password.valid && password.touched
+            }">
+            <input type="password" name="password" #password="ngModel" [(ngModel)] = "userCredential.password" value="" placeholder="Password" required>
+            <span class="help-block" *ngIf="password.errors && password.errors.required && password.touched">Password is required</span>
+          </div>
+          <div class="col-md-12 form-group">
+            <a routerLink="/forgot-password" class="pull-right">Forgot passowrd?</a>
+          </div>
+        </div>
+        <div class="row remember-me">
+          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+            <input type="checkbox" id="remember_me" name="remember_me" value="">
+            <label for="remember_me">Remember me</label>
+          </div>
+          <div class="col-md-5 col-md-offset-1 form-group clearfix">
+            <button type="submit" [disabled] = "form.invalid" class="btn button">Login</button>
+          </div>
+        </div>
+        <div class="row social-login-div">
+          <div class="col-md-6 form-group clearfix">
+            <a routerLink="#" class="button pull-left"><img src="assets/images/icons/assets/google-2.svg" width="24" height="24" alt="">Google</a>
+          </div>
+          <div class="col-md-6 form-group clearfix">
+            <a routerLink="#" class="button pull-right"><img src="assets/images/icons/assets/linkedin.svg" width="24" height="24" alt="">LinkedIn</a>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="bottom-div">
+      <a href="#">Use Company credentials (SSO)</a>
+      <br>
+      <a routerLink="/register">Create account</a>
+    </div>
+  </div>
+</div>

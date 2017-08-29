@@ -1,0 +1,84 @@
+.calendar-page{
+  height: 100%;
+  .fc-widget-header
+  {
+    &.fc-day-header {
+      padding-top:13px;
+      padding-bottom: 13px;
+      background-color: $dv-bg-main;
+    }
+  }
+  .fc-agendaWeek-view{
+    .fc-day-grid,.fc-widget-header{
+      margin-right: 15px;
+      border-right: 1px solid #ddd;
+    }
+  }
+  .fc-toolbar
+  {
+    h2{
+      width: 240px;
+      margin-top: 5px;
+    }
+    &.fc-header-toolbar{
+      padding:20px 30px;
+    }
+
+    .fc-button{
+      background: none;
+      border: none;
+      text-shadow: none;
+      box-shadow: none;
+      border-radius: 0px;
+      font-size: 19px;
+      padding: 0px 6px;
+      text-transform: capitalize;
+      outline-style: none;
+      position: relative;
+      &:hover{
+        color: $dv-color-primary !important;
+      }
+      &.fc-state-default{
+        color: $dv-color-primary;
+      }
+      &.fc-state-active, &.fc-state-hover{
+        color: $dv-color-primary;
+        &.fc-month-button, &.fc-agendaWeek-button, &.fc-agendaDay-button, &.fc-listMonth-button{
+          &::after{
+            position: absolute;
+            width: 84%;
+            height: 6px;
+            left: 7px;
+            display: block;
+            margin: auto;
+            content: '';
+            border-bottom: 2px solid $dv-color-green;
+          }
+        }
+      }
+      &.fc-state-hover{
+        color: $dv-color-green !important;
+      }
+      &.fc-prev-button, &.fc-next-button{
+        width: 35px;
+        &.fc-prev-button{
+          background: url('assets/images/icons/dashboard/month-arrow.svg') no-repeat center;
+          -moz-transform: scaleX(-1);
+          -o-transform: scaleX(-1);
+          -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+        }
+        &.fc-next-button{
+          background: url('assets/images/icons/dashboard/month-arrow.svg') no-repeat center;
+        }
+        &>span{
+          display: none;
+        }
+      }
+      &.fc-today-button{
+        background: url('assets/images/icons/dashboard/today-icon.svg') no-repeat center;
+        padding-left: 41px;
+      }
+    }
+  }
+}

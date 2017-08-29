@@ -1,0 +1,45 @@
+.confirm-invitation{
+  .wrapper{
+    width: 480px;
+    margin: 0px auto;
+    padding: 80px 0px;
+    color: $dv-color-grey;
+    .logo{
+      text-align: center;
+    }
+    .form{
+      background-color: $dv-bg-sub;
+      border: 2px solid $dv-color-border;
+      margin-top:50px;
+      padding: 10px 15px;
+      h2{
+        font-size: 25px;
+        line-height: 35px;
+        font-weight: 500;
+        color: $dv-color-primary;
+        margin-bottom: 30px;
+      }
+      p{
+        line-height: 30px;
+      }
+      .row{
+        padding:0px 30px;
+      }
+      .form-group{
+        margin-top: 10px;
+        font-size:16px;
+        &.button-group{
+          text-align: center;
+          .back-button>span{
+            padding-left: 10px;
+          }
+        }
+        .button{
+          width: 100%;
+          margin: auto;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

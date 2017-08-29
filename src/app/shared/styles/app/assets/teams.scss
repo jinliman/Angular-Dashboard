@@ -1,0 +1,100 @@
+.team-invite{
+  .wrapper{
+    width: 480px;
+    margin: 0px auto;
+    padding: 80px 0px;
+    color: $dv-color-grey;
+    .logo{
+      text-align: center;
+    }
+    .form{
+      background-color: $dv-bg-sub;
+      border: 2px solid $dv-color-border;
+      margin-top:50px;
+      padding: 10px 15px;
+      h2{
+        text-align: center;
+        font-size: 25px;
+        line-height: 35px;
+        font-weight: 500;
+        color: $dv-color-primary;
+        margin-bottom: 30px;
+      }
+      p{
+        line-height: 30px;
+      }
+      .row{
+        padding:0px 30px;
+      }
+      .form-group{
+        .user-icon{
+          background-color: $dv-color-green;
+          border-radius: 50%;
+          float: left;
+          width: 38px;
+          height: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .email{
+          margin-left:10px;
+          width: calc(100% - 50px);
+        }
+        .test{
+          display: none;
+        }
+        .help-block{
+          padding-left: 50px;
+        }
+        .remove-button{
+          &>span{
+            &::after{
+              content: '+';
+              display: block;
+              position: absolute;
+              margin-left: 7px;
+              top: 12px;
+              right: 23px;
+              width: 15px;
+              cursor: pointer;
+              -webkit-transform: rotate(45deg) scale(2.0, 2.0);
+              -moz-transform: rotate(45deg) scale(2.0, 2.0);
+              -ms-transform: rotate(45deg) scale(2.0, 2.0);
+              -o-transform: rotate(45deg) scale(2.0, 2.0);
+              transform: rotate(45deg) scale(2.0,2.0);
+            }
+          }
+        }
+        .add-button{
+          float: right;
+          position: relative;
+          cursor: pointer;
+          &::after{
+            content: '+';
+            display: block;
+            position: absolute;
+            margin-left: 7px;
+            top:0px; left: -23px;
+            width: 15px;
+            -webkit-transform:scale(2.0, 2.0);
+            -moz-transform:scale(2.0, 2.0);
+            -ms-transform:scale(2.0, 2.0);
+            -o-transform:scale(2.0, 2.0);
+            transform:scale(2.0,2.0);
+          }
+        }
+        .back-button{
+          span{
+            padding-left: 10px;
+            color: $dv-color-green;
+          }
+        }
+        .button{
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<div class="file-page">
+  <div class="title">
+    <p>Document Request List</p>
+    <ul>
+      <li><a routerLink="../../app/dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="../../app/progress" routerLinkActive="active">Progress</a></li>
+      <li><a routerLink="../../app/files" routerLinkActive="active">Files</a></li>
+      <li><a routerLink="../../app/team" routerLinkActive="active">Team</a></li>
+      <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
+      <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
+      <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/info-icon.svg'"></a></li>
+      <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/more-icon.svg'"></a></li>
+    </ul>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <td class="category"><div class="filter">By Status<span [inlineSVG]="'../assets/images/icons/dashboard/down-icon.svg'"></span></div></td>
+        <td colspan="3">
+          <span>Progress/Completion Rate</span>
+          <span class="span-percent">50%</span>
+          <div class="custom-progress">
+            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="category"><div class="">
+          File Name <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
+        </div></td>
+        <td class="link">Link<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Uploaded by<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Uploaded on<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+      </tr>
+    </thead>
+    <tbody *ngFor="let file_group of tableData">
+      <tr>
+        <td class="category">
+          <div (click)="file_group.open = !file_group.open">
+            <span [hidden]="file_group.hasFile != true" href="javascript:;" class="collapse-icon" [class.opened]="!file_group.open" [class.closed]="file_group.open"></span>
+            <span class="filename" [class.no-files]="!file_group.hasFile">{{file_group.title}}</span>
+          </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr class="sublist" [hidden]="file_group.hasFile != true || file_group.open != true"  *ngFor="let file_item of file_group.files">
+        <td class="category">
+          <div>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/level-arrow.svg'" style="width:20px; height:24px"></div>
+            <span class="filename">{{file_item.filename}}</span>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/'+ file_item.filetype + '-icon.svg'" style="width:33px; height:33px"></div>
+          </div>
+        </td>
+        <td class="link">
+          <a href="{{file_item.link}}" [inlineSVG]="'../assets/images/icons/dashboard/link-icon.svg'"></a>
+        </td>
+        <td width="15%">
+          <div class="dropdown user-div">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
+              <span class="short-name">{{file_item.uploaderShortName}}</span>
+              <span class="user-name">{{file_item.uploaderName}}</span>
+              <span [inlineSVG]="'../assets/images/icons/dashboard/down-icon.svg'"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td width="15%">
+          {{file_item.uploaded_at | amParse:'DD/MM/YYYY' | amDateFormat:'LL'}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

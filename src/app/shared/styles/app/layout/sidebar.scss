@@ -1,0 +1,90 @@
+.sidebar{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: $dv-sidebar-width;
+  background: $dv-color-dark-green;
+  height: calc(100vh - #{$dv-footer-height});
+  .logo-div{
+    text-align: center;
+    padding-top: 20px;
+    height: $dv-dashboard-header-height;
+    background: $dv-bg-dashboard;
+  }
+  .sidebar-menu{
+    overflow: auto;
+    height: calc(100vh - #{$dv-footer-height} - #{$dv-dashboard-header-height});
+
+    ul{
+      position: relative;
+      list-style: none;
+      padding: 0px;
+      font-size: 18px;
+      width: 100%;
+      letter-spacing: 0.6px;
+      &>li{
+        &>a.active{
+          background-color: $dv-color-green-active;
+        }
+        &>a.submenu{
+          &::after{
+            position: absolute;
+            content: '';
+            display: block;
+            right: 23px;
+            top: 0px;
+            width: 42px;
+            height: 42px;
+            font-size: 35px;
+            line-height: 35px;
+          }
+          &.open::after{
+            content: '-';
+            width: 15px;
+            -webkit-transform:scale(2.0, 1.0);
+            -moz-transform:scale(2.0, 1.0);
+            -ms-transform:scale(2.0, 1.0);
+            -o-transform:scale(2.0, 1.0);
+            transform:scale(2.0,1.0);
+          }
+          &.collapsed::after{
+            width: 21px;
+            content: '+';
+          }
+        }
+        a{
+          display: block;
+          position: relative;
+          width: 100%;
+          line-height: 40px;
+          color: $dv-color-white;
+          font-weight: 300;
+          padding-left: 1em;
+          &:hover{
+            background-color: $dv-color-green-hover;
+          }
+          &.open{
+            &+ul{
+              display: block;
+            }
+          }
+          &.collapsed{
+            &+ul{
+              display: none;
+            }
+          }
+        }
+        ul{
+          a{
+            padding-left: 2em;
+          }
+          ul{
+            a{
+              padding-left: 3em;
+            }
+          }
+        }
+      }
+    }
+  }
+}

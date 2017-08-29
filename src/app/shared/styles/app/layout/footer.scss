@@ -1,0 +1,27 @@
+.footer{
+  background: #262d27;
+  color: #a2a2a2;
+  padding: 22px 30px;
+  height: $dv-footer-height;
+  a{
+    color: #a2a2a2;
+  }
+  a:hover{
+    color: #a2a2a2;
+  }
+  .logo-div{
+    width: 30%;
+    img{
+
+    }
+    p{
+      margin-top: 12px;
+    }
+  }
+  ul{
+    width: 70%;
+    list-style: none;
+    column-count: 5;
+    line-height: 25px;
+  }
+}

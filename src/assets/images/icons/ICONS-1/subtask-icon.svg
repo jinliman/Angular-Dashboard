@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="62px" height="50px" viewBox="0 0 62 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>subtask-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="subtask-icon" stroke-width="0.5" stroke="#F9F9F9" fill="#60A628">
+            <g id="Group">
+                <path d="M58.124,48.893 L17.92,48.893 C16.263,48.893 14.92,47.55 14.92,45.893 C14.92,44.236 16.263,42.893 17.92,42.893 L58.123,42.893 C59.78,42.893 61.123,44.236 61.123,45.893 C61.123,47.55 59.781,48.893 58.124,48.893 L58.124,48.893 Z" id="Shape"></path>
+                <path d="M58.124,28.062 L17.92,28.062 C16.263,28.062 14.92,26.719 14.92,25.062 C14.92,23.405 16.263,22.062 17.92,22.062 L58.123,22.062 C59.78,22.062 61.123,23.405 61.123,25.062 C61.124,26.719 59.781,28.062 58.124,28.062 L58.124,28.062 Z" id="Shape"></path>
+                <path d="M3.92,7.231 C2.263,7.231 0.92,5.888 0.92,4.231 C0.92,2.574 2.263,1.231 3.92,1.231 L58.123,1.231 C59.78,1.231 61.123,2.574 61.123,4.231 C61.123,5.888 59.781,7.231 58.124,7.231 L3.92,7.231 Z" id="Shape"></path>
+                <circle id="Oval" cx="5.029" cy="25.062" r="4.029"></circle>
+                <circle id="Oval" cx="5.029" cy="45.661" r="4.029"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

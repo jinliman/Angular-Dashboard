@@ -1,0 +1,41 @@
+<div class="header-dashboard">
+		<div class="search_div pull-left">
+				<input type="text" name="" value="" placeholder="Search Tasks">
+				<a href="javascript:;" class="pull-right" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
+		</div>
+		<div class="dropdown user-setting">
+			<a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
+				<span class="short-name">DV</span>
+				<span class="user-name">Deal</span>
+				<span [inlineSVG]="'/assets/images/icons/dashboard/down-icon.svg'"></span>
+			</a>
+			<ul class="dropdown-menu" *ngIf="userInfo.Role != 'admin'">
+			  <li>
+			      <a href="javascript:;"><i class="fa fa-user"></i> Profile</a>
+			  </li>
+				<li>
+			      <a href="javascript:;"><i class="fa fa-cog"></i> Setting</a>
+			  </li>
+				<li>
+			      <a routerLink="/logout"><i class="fa fa-power-off"></i> Logout</a>
+			  </li>
+			</ul>
+			<ul class="dropdown-menu" *ngIf="userInfo.Role == 'admin'">
+			  <li>
+			      <a href="javascript:;"><i class="fa fa-user"></i> Admin Settings</a>
+			  </li>
+				<li>
+			      <a href="javascript:;"><i class="fa fa-cog"></i> Export Data</a>
+			  </li>
+				<li>
+			      <a routerLink="#"><i class="fa fa-edit"></i> Edit Assessments</a>
+			  </li>
+				<li>
+			      <a routerLink="#"><i class="fa fa-code"></i> Promo Code</a>
+			  </li>
+				<li>
+			      <a routerLink="/logout"><i class="fa fa-power-off"></i> Logout</a>
+			  </li>
+			</ul>
+    </div>
+</div>
