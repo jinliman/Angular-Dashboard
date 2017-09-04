@@ -1,0 +1,112 @@
+<div class="admin-category-page">
+  <div class="clearfix sub-header">
+    <p class="title pull-left">Category Management</p>
+    <div class="pull-right">
+			<a href="#" class="svg button" (click)="openNewCatModal(newCategoryModal)">
+        <span><i class="fa fa-plus"></i> New Category</span>
+			</a>
+
+      <a href="#" class="svg button" (click)="saveCategory()">
+        <span> <i class="fa fa-save"></i> Save</span>
+			</a>
+    </div>
+  </div>
+
+  <modal #newCategoryModal [animation]=false>
+    <form class="form assets" (ngSubmit) = "addNewCategory(newCategoryModal,tree)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">New Category</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row">
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': newCatTitle.invalid && newCatTitle.touched,
+            'has-success': newCatTitle.valid && newCatTitle.touched
+          }">
+            <label for="newCatTitle">Title:</label>
+            <input type="text" name="newCatTitle" #newCatTitle ="ngModel" [(ngModel)] = "newCategory.Title" value="" required>
+            <span class="help-block" *ngIf="newCatTitle.errors && newCatTitle.errors.required  && newCatTitle.touched">Title is required</span>
+          </div>
+        </div>
+        <div class="row"
+        [ngClass]="{
+          'has-error': newCatDesc.invalid && newCatDesc.touched,
+          'has-success': newCatDesc.valid && newCatDesc.touched
+        }">
+          <div class="col-md-12 form-group">
+            <label for="newCatDesc">Description:</label>
+            <input type="text" name="newCatDesc" #newCatDesc ="ngModel" [(ngModel)] = "newCategory.Desc" value="">
+            <span class="help-block" *ngIf="newCatDesc.errors && newCatDesc.errors.required  && newCatDesc.touched">Description is required</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="newCategoryModal.dismiss()">Cancel</button>
+          <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Create</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #editCategoryModal [animation]=false>
+    <form class="form assets" (ngSubmit) = "editCategory(editCategoryModal,tree)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Edit Category</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row">
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': newCatTitle.invalid && newCatTitle.touched,
+            'has-success': newCatTitle.valid && newCatTitle.touched
+          }">
+            <label for="newCatTitle">Title:</label>
+            <input type="text" name="newCatTitle" #newCatTitle ="ngModel" [(ngModel)] = "newCategory.Title" value="" required>
+            <span class="help-block" *ngIf="newCatTitle.errors && newCatTitle.errors.required  && newCatTitle.touched">Title is required</span>
+          </div>
+        </div>
+        <div class="row"
+        [ngClass]="{
+          'has-error': newCatDesc.invalid && newCatDesc.touched,
+          'has-success': newCatDesc.valid && newCatDesc.touched
+        }">
+          <div class="col-md-12 form-group">
+            <label for="newCatDesc">Description:</label>
+            <input type="text" name="newCatDesc" #newCatDesc ="ngModel" [(ngModel)] = "newCategory.Desc" value="">
+            <span class="help-block" *ngIf="newCatDesc.errors && newCatDesc.errors.required  && newCatDesc.touched">Description is required</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="editCategoryModal.dismiss()">Cancel</button>
+          <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Edit</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <div class="row category-tree">
+    <div class="col-md-12">
+      <tree-root
+        #tree
+        [nodes]="categories"
+        [options]="customTreeOptions"
+        [focused]="true"
+      >
+        <ng-template #treeNodeTemplate let-node>
+          <span title="{{node.data.Desc}}">{{ node.data.Title }}</span>
+          <div class="pull-right clearfix">
+            <div class="desc pull-left">
+              <span>{{ node.data.Desc || "" }}</span>
+            </div>
+            <div class="report pull-left">
+              <a href="javascript:;" (click)="moveup(node, tree, $event)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+              <a href="javascript:;" (click)="movedown(node, tree, $event)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+              <a href="javascript:;" (click)="openEditCatModal(editCategoryModal, node)"><i class="fa fa-edit" aria-hidden="true"></i></a>
+              <a href="javascript:;" (click)="removeCategory(node, tree)"><i class="fa fa-remove" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </ng-template>
+      </tree-root>
+    </div>
+  </div>
+</div>

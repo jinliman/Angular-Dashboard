@@ -7,62 +7,7 @@ import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from "moment";
 
-class Name{
-  First: string;
-  Last: string;
-  Fullname: string;
-  JobTitle: string;
-}
-
-class Company{
-  Name: string;
-  Contact: string;
-  ZipCode: string;
-  Country: string;
-  AboutUs: string;
-  Industry: string;
-  Diligence: string;
-}
-
-class Reason1{
-  tCompanyName: string;
-  tIndustry: string;
-  tEmpNo: number;
-  tAnnualRev: number;
-  tAcqDate: string;
-}
-
-class Reason2{
-  tEmpNo: number;
-  tAnnualRev: number;
-  tNetIncome: number;
-  tSellDate: string
-}
-
-class Reason3{
-  tBizImp: boolean;
-  tCostSaving: boolean;
-  tPerformanceDate: boolean;
-  tResOpt: boolean
-}
-class Reason4{
-  tReason: string
-}
-
-class User{
-  UserType: string;
-  ProjectID: string;
-  Email: string;
-  Password: string;
-  PasswordConfirm: string;
-  Name: Name;
-  Company: Company;
-  Reason: number;
-  Reason1: Reason1;
-  Reason2: Reason2;
-  Reason3: Reason3;
-  Reason4: Reason4;
-}
+import {Name, Company, Reason1, Reason2, Reason3, Reason4, User} from '../../shared/objectSchema';
 
 @Component({
   selector: 'app-register',

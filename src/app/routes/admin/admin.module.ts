@@ -9,6 +9,9 @@ import { AdminloginComponent } from './adminlogin/adminlogin.component';
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { UsersComponent } from './users/users.component';
 import { ReportComponent } from './report/report.component';
+import { QaBuilderComponent } from './qa-builder/qa-builder.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { AdminAssessmentComponent } from './admin-assessment/admin-assessment.component';
 
 const routes: Routes = [
   {
@@ -19,6 +22,10 @@ const routes: Routes = [
       { path: 'calendar', component: CalendarPageComponent },
       { path: 'reports', component: ReportComponent },
       { path: 'users', component: UsersComponent },
+      // { path: 'qa-builder', component: QaBuilderComponent },
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'assessment/:id', component: AdminAssessmentComponent },
+      { path: 'assessment/:id/edit', component: QaBuilderComponent },
     ]
   }
 ];
@@ -29,7 +36,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent],
+  declarations: [
+    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent],
   exports: [
   	RouterModule
   ]

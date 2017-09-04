@@ -179,6 +179,9 @@ textarea{
     border-radius: 5px;
     width: 100%;
   }
+  & > div > div.single {
+    height: 35px;
+  }
   & > div > div.single > div.value, & > div > div.single > div.placeholder {
     line-height: 39px !important;
   }
@@ -264,11 +267,15 @@ textarea{
     left: 5px
   }
   &.closed::after{
-    font-weight: 200;
-    font-size: 63px;
-    line-height: 17px;
+    font-weight: 400;
+    line-height: 26px;
     content: '-';
-    left: 4px;
+    left: 10px;
+    -webkit-transform:scale(3.0, 1.0);
+    -moz-transform:scale(3.0, 1.0);
+    -ms-transform:scale(3.0, 1.0);
+    -o-transform:scale(3.0, 1.0);
+    transform:scale(3.0,1.0);
   }
 }
 

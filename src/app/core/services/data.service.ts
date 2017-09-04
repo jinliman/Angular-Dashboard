@@ -23,15 +23,6 @@ export class DataService {
     return this.authService.getHeaders();
   }
 
-  getTeacherID() {
-    this.authService.veryfiyRole("Teacher");
-    return this.authService.getUser()._id;
-  }
-  getStudentID() {
-    this.authService.veryfiyRole("Student");
-    return this.authService.getUser()._id;
-  }
-
   getUser(data) {
     return this.http.post(this.url + '/api/user/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -234,5 +225,31 @@ export class DataService {
   createGame(data) {
     return this.http.post(this.url + '/api/games/create', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
+  }
+
+  getAssessmentList(){
+    return this.http.post(this.url + '/api/assessment/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAssessment(data){
+    return this.http.post(this.url + '/api/assessment/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  saveAsssessment(data){
+    return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getUUID()
+  {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
   }
 }

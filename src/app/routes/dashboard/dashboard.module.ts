@@ -8,8 +8,9 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
 import { ReportComponent } from './report/report.component';
 import { ScoreComponent } from './score/score.component';
 import { TeamComponent } from './team/team.component';
+import { AssessmentComponent } from './assessment/assessment.component';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module'
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'heatmap', component: HeatmapComponent },
       { path: 'reports', component: ReportComponent },
       { path: 'score', component: ScoreComponent },
+      { path: 'assessment/:id', component: AssessmentComponent },
       {
         path: 'assessments',
         children: [
@@ -40,7 +42,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent],
+  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent],
   exports: [
   	RouterModule
   ]

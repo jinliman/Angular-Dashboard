@@ -1,0 +1,73 @@
+<div class="admin-qa-builder-page">
+  <div class="clearfix sub-header">
+    <div class="clearfix">
+      <p class="title pull-left">Questionnaire Builder - Edit from entries</p>
+      <div class="pull-right">
+        <a class="back-button" routerLink="{{backUrl}}"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+        <span>Back</span></a>
+      </div>
+    </div>
+    <div class="button-div">
+      <a href="#" class="button pull-right">
+        <span><i class="fa fa-save"></i></span> Save
+      </a>
+    </div>
+  </div>
+  <table class="table">
+    <tbody *ngFor="let question_item of questions; let i = index">
+      <tr>
+        <td style="width:40px">
+          <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
+        </td>
+        <td style="width:290px;">
+          <div class="clearfix">
+            <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'"  (click)="remove_question(i)"></span>
+            <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_question_down(i)"></span>
+            <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'"  (click)="move_question_up(i)"></span>
+            <ng-select class="cs-select" name="question_type" [options]="question_type" [(ngModel)] = "questions[i]['Type']">
+            </ng-select>
+          </div>
+        </td>
+        <td>
+          <div class="">
+            <input class="label-input" type="text" value="{{question_item['quetion']}}">
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let item of question_item.Items; let i1 = index">
+        <td style="width:40px">
+        </td>
+        <td style="width:290px;">
+          <div class="clearfix">
+            <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'" (click)="remove_answer_type(i,i1)"></span>
+            <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_down(i,i1)"></span>
+            <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_up(i,i1)"></span>
+          </div>
+        </td>
+        <td>
+          <div class="">
+            <input class="label-input" type="text" value="{{question_item.Items[i1]['text']}}">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:40px">
+        </td>
+        <td colspan="2">
+          <div class="clearfix pull-right">
+            <a class="add-button" (click)="add_answer_filed(i)">New Answer Filed</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tr>
+      <td style="width:40px">
+      </td>
+      <td style="width:120px;" colspan="2">
+        <div class="clearfix pull-right">
+          <a class="add-button" (click)="add_question()">Add New Questionnaire</a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -2,8 +2,8 @@
   <div class="logo-div">
     <a routerLink="/"><img class="logo" src="/assets/images/logo/logo-dashboard.png" alt="logo" width="170" height="26"></a>
   </div>
-  <div class="sidebar-menu">
-    <ul>
+  <div class="sidebar-menu category-tree">
+    <!-- <ul>
       <li *ngFor="let menu_item of menu">
         <a *ngIf="menu_item.submenu == undefined" routerLink="{{menu_item.route}}" routerLinkActive="active">{{menu_item.title}}</a>
         <a *ngIf="menu_item.submenu == true && menu_item.hascontent == false" class="submenu" [class.open] = "menu_item.open" [class.collapsed] = "!menu_item.open" (click)="menu_item.open = menu_item.open ? false: true;" href="javascript:;">{{menu_item.title}}</a>
@@ -21,6 +21,31 @@
           </li>
         </ul>
       </li>
+    </ul> -->
+
+    <ul>
+      <ng-template #recursiveList let-menu>
+      <li *ngFor="let menu_item of menu">
+
+        <a *ngIf="!menu_item.hasChildren && menu_item.uuid" routerLink="{{menu_item.route+'/'+menu_item.uuid}}" routerLinkActive="active">{{menu_item.Title}}</a>
+        <a *ngIf="!menu_item.hasChildren && !menu_item.uuid" routerLink="{{menu_item.route}}" routerLinkActive="active">{{menu_item.Title}}</a>
+        <a *ngIf="menu_item.hasChildren" class="submenu" [class.open] = "menu_item.expanded" [class.collapsed] = "!menu_item.expanded" (click)="menu_item.expanded = menu_item.expanded ? false: true;" href="javascript:;">{{menu_item.Title}}</a>
+        <ul *ngIf="menu_item.hasChildren  ">
+          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu_item.children }"></ng-container>
+        </ul>
+      </li>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu }"></ng-container>
     </ul>
+    <!-- <tree-root
+      #tree
+      [nodes]="assessment_menu"
+      [options]="customTreeOptions"
+      [focused]="true"
+    >
+      <ng-template #treeNodeTemplate let-node>
+        <span class="menu-title" title="{{node.data.Desc}}">{{ node.data.Title }}</span>
+      </ng-template>
+    </tree-root> -->
   </div>
 </div>

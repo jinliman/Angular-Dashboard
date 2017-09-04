@@ -34,6 +34,7 @@
 @import "app/dashboard/progress";
 @import "app/dashboard/team";
 @import "app/dashboard/heatmap";
+@import "app/dashboard/assessment";
 @import "app/dashboard/it";
 @import "app/dashboard/hr";
 
@@ -50,3 +51,6 @@
 @import "app/admin/calendar";
 @import "app/admin/report";
 @import "app/admin/user";
+@import "app/admin/qa-builder";
+@import "app/admin/category";
+@import "app/admin/admin-assessment";
