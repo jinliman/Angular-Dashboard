@@ -103,12 +103,14 @@ export class AssessmentComponent implements OnInit {
           this.questions = response.result.questionnaire.questions || [];
           this.answers = response.result.answers;
           this.updateQuestionnair();
+        }else{
+          this.questionnaire = [];
+          this.questions = [];
+          this.answers = [];
         }
       },
       (error) => {
-        this.questionnaire = [];
-        this.questions = [];
-        this.answers = [];
+
       }
     );
   }
