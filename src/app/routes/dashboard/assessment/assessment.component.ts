@@ -34,7 +34,7 @@ export class AssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
-    console.log(this.user)
+
     this.route
       .params
       .subscribe(params => {
@@ -106,6 +106,9 @@ export class AssessmentComponent implements OnInit {
         }
       },
       (error) => {
+        this.questionnaire = [];
+        this.questions = [];
+        this.answers = [];
       }
     );
   }
