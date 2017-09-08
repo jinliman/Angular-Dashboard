@@ -128,6 +128,10 @@ export class QaBuilderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.questions = [];
+    this.assessment = {};
+    this.assessment_id = null;
+    this.backUrl = '';
     this.route
       .params
       .subscribe(params => {

@@ -35,6 +35,11 @@ export class AssessmentComponent implements OnInit {
   ngOnInit() {
     this.user = this.authService.getUser();
 
+    this.questionnaire = [];
+    this.questions = [];
+    this.answers = [];
+    this.projects = [];
+
     this.route
       .params
       .subscribe(params => {
