@@ -125,7 +125,7 @@ export class AssessmentComponent implements OnInit {
     let project_id = this.projects[0]['Project'];
     let data = {
       Questionnaire: questionnare_id,
-      Project: "59b227146d54e70c11c7a9c5",
+      Project: project_id,
       Answers: this.questions
     }
     this.dataService.saveAnswers(data).subscribe(
