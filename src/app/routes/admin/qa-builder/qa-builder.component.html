@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="button-div">
-      <a href="#" class="button pull-right">
+      <a (click)="saveQA()" class="button pull-right">
         <span><i class="fa fa-save"></i></span> Save
       </a>
     </div>
@@ -30,7 +30,7 @@
         </td>
         <td>
           <div class="">
-            <input class="label-input" type="text" value="{{question_item['quetion']}}">
+            <input class="label-input" type="text" [(ngModel)]="question_item['Label']">
           </div>
         </td>
       </tr>
@@ -46,7 +46,7 @@
         </td>
         <td>
           <div class="">
-            <input class="label-input" type="text" value="{{question_item.Items[i1]['text']}}">
+            <input class="label-input" type="text" [(ngModel)]="question_item.Items[i1]['Text']">
           </div>
         </td>
       </tr>

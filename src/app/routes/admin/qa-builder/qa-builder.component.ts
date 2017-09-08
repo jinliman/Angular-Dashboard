@@ -11,34 +11,39 @@ import { Question } from '../../../shared/objectSchema';
 @Component({
   selector: 'app-qa-builder',
   templateUrl: './qa-builder.component.html',
-  styleUrls: ['./qa-builder.component.scss']
+  styleUrls: ['./qa-builder.component.scss'],
 })
 export class QaBuilderComponent implements OnInit {
 
-  questions: Array<Question>
+  questions: Array<Question> = [];
   question_type = [
     {'value':'Text', 'label':'Text'},
     {'value':'Radio', 'label':'Radio'},
     {'value':'Checkbox', 'label':'Checkbox'}
   ]
   assessment: object = {};
+  assessment_id = null;
   backUrl: string = '';
+  private corner: string = 'right-top';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
-  ) { }
+    private dataService: DataService,
+  ) {
+    // Custom default config
+  }
 
   add_question(){
     var newQuestion: Question = {
-      UUID: "1",
+      uuid: this.dataService.getUUID(),
       Type: "Text",
-      Order: "1",
       Label: "",
+      value: "",
       Items: [{
-           UUID    : "1",
-           Order   : "1",
-           Text    : "test"
+           uuid    : this.dataService.getUUID(),
+           Text    : "",
+           value   : ""
        }]
     };
     this.questions.push(newQuestion)
@@ -46,9 +51,9 @@ export class QaBuilderComponent implements OnInit {
 
   add_answer_filed(index){
     this.questions[index].Items.push({
-         UUID    : "1",
-         Order   : "1",
-         Text    : "test"
+         uuid    : this.dataService.getUUID(),
+         Text    : "",
+         value   : ""
      });
   }
 
@@ -98,35 +103,48 @@ export class QaBuilderComponent implements OnInit {
     this.questions[index].Items.splice(index1, 1);
   }
 
+  saveQA()
+  {
+    let data = { 'Questionnaire': this.questions, 'ID': this.assessment_id}
+    this.dataService.saveQA(data).subscribe(
+      response => {
+
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getQA(id){
+    let data = { 'ID': id}
+    this.dataService.getQA(data).subscribe(
+      response => {
+        if(response.result)
+          this.questions = response.result.questions;
+      },
+      (error) => {
+      }
+    );
+  }
+
   ngOnInit() {
     this.route
       .params
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
-        let assessment_id = params['id'] || '';
-        let data = {id: assessment_id};
+        this.assessment_id = params['id'] || '';
+        let data = {id: this.assessment_id};
         this.dataService.getAssessment(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['admin/dashboard']);
             this.assessment = response.result;
-            this.backUrl = "/" + this.dataService.getAdminUrl() + "assessment/"+assessment_id;
+            this.backUrl = "/" + this.dataService.getAdminUrl() + "assessment/"+this.assessment_id;
+            this.getQA(this.assessment_id)
           },
           (error) => {
           }
         );
       });
-    var test: Question = {
-      UUID: "123",
-      Type: "Text",
-      Order: "1",
-      Label: "This is test question",
-      Items: [{
-           UUID    : "1",
-           Order   : "1",
-           Text    : "test"
-       }]
-    };
-    this.questions = [test]
   }
 }

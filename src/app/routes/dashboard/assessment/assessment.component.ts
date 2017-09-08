@@ -5,6 +5,10 @@ import { DataService } from '../../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
+
+import { Question, Answer } from '../../../shared/objectSchema';
+
+
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
@@ -12,52 +16,25 @@ import { ActivatedRoute,Router } from '@angular/router';
 })
 export class AssessmentComponent implements OnInit {
 
-  tableData: Array<any>;
   statusArr: object;
   assessment: object = {};
-  editAssessmentUrl: string = "";
+  questionnaire: object = [];
+  questions: Array<Question> = [];
+  answers: Array<Answer> = [];
+  projects: object;
+  user = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
     private dataService: DataService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    this.statusArr = {
-      0: "NA",
-      1: "Complete",
-      2: "Pending",
-    }
-    this.tableData = [
-      {title: "IT Staff", hasDetail: true, open: true, completed: false,
-        subDetails: [
-          {status: 0, desc: "Company Legal Name", filename: "test.xls",  uploaderID: 1, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Corporate Address, including department,location, employee name, title, supervisor name", filename: "pdf",  uploaderID: 2, uploaderName: "Ryan",uploaderShortName: 'RB',  uploaded_at: "08/01/2017"},
-          {status: 2, desc: "Nmber of Employees", filename: "doc", uploaderID: 3, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "Applications", hasDetail: true ,open: false, completed: false,
-        subDetails: [
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 6, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 7, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "Infrastructure", hasDetail: true, open: false,  completed: true,
-        subDetails: [
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 6, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 7, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "IT Security", hasDetail: false, open: false, completed: false},
-      {title: "IT Organization", hasDetail: true, open: false, completed: true,
-        subDetails: [
-          {status: 0, desc: "Organization chart for IT Staff", filename: "test.xls",  uploaderID: 1, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "List of IT employees, including department,location, employee name, title, supervisor name", filename: "pdf",  uploaderID: 2, uploaderName: "Ryan",uploaderShortName: 'RB',  uploaded_at: "08/01/2017"},
-          {status: 2, desc: "Organization chart for IT Staff", filename: "doc", uploaderID: 3, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-    ]
-
+    this.user = this.authService.getUser();
+    console.log(this.user)
     this.route
       .params
       .subscribe(params => {
@@ -69,10 +46,83 @@ export class AssessmentComponent implements OnInit {
             if(response.result == null)
               this.router.navigate(['app/dashboard']);
             this.assessment = response.result;
+            this.getProject()
           },
           (error) => {
           }
         );
       });
+  }
+  getProject(){
+    this.dataService.getUserProject().subscribe(
+      response => {
+        this.projects = response.result;
+        this.getAnswers()
+      },
+      (error) => {
+      }
+    );
+  }
+
+  findAnswerObject(uuid){
+    for(var i in this.answers) {
+      if(this.answers[i].uuid == uuid)
+        return this.answers[i];
+      for(var j in this.answers[i].Items) {
+        if(this.answers[i].Items[j].uuid == uuid)
+          return this.answers[i].Items[j];
+      }
+    }
+    return null;
+  }
+
+  updateQuestionnair(){
+	    for(var i in this.questions) {
+        let answerObj = this.findAnswerObject(this.questions[i].uuid);
+        if( answerObj && answerObj.value )
+          this.questions[i].value = answerObj.value;
+        for(var j in this.questions[i].Items) {
+          let answerObj = this.findAnswerObject(this.questions[i].Items[j].uuid);
+          if( answerObj && answerObj.value )
+            this.questions[i].Items[j].value = answerObj.value;
+        }
+	    }
+  }
+
+  getAnswers(){
+    let project_id = this.projects[0]['Project'];
+    let data = {
+      Assessment: this.assessment['uuid'],
+      Project: project_id,
+    }
+    this.dataService.getAnswers(data).subscribe(
+      response => {
+        if(response.result)
+        {
+          this.questionnaire = response.result.questionnaire;
+          this.questions = response.result.questionnaire.questions || [];
+          this.answers = response.result.answers;
+          this.updateQuestionnair();
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+  saveAnswer(){
+    let questionnare_id = this.questionnaire['_id'];
+    let project_id = this.projects[0]['Project'];
+    let data = {
+      Questionnaire: questionnare_id,
+      Project: "59b227146d54e70c11c7a9c5",
+      Answers: this.questions
+    }
+    this.dataService.saveAnswers(data).subscribe(
+      response => {
+      },
+      (error) => {
+      }
+    );
   }
 }

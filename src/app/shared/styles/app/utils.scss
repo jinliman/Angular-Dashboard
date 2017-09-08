@@ -1,3 +1,7 @@
+*{
+  outline-style: none;
+}
+
 button {
   outline-style: none !important;
 }
@@ -35,6 +39,7 @@ a{
     background-color: $dv-color-green;
     border-radius: 4px;
     color: #fff;
+    cursor: pointer;
   }
 }
 
@@ -78,6 +83,75 @@ input{
   border-radius: 5px;
   outline-style: none;
 }
+
+.radio{
+    /* Base for label styling */
+  [type="radio"]:not(:checked),
+  [type="radio"]:checked {
+    position: absolute;
+    left: -9999px;
+  }
+  [type="radio"]:not(:checked) + label,
+  [type="radio"]:checked + label {
+    position: relative;
+    padding-left: 1.95em;
+    cursor: pointer;
+  }
+
+  /* radio aspect */
+  [type="radio"]:not(:checked) + label:before,
+  [type="radio"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top:0;
+    width: 1.4em; height: 1.4em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+  }
+  /* checked mark aspect */
+  [type="radio"]:not(:checked) + label:after,
+  [type="radio"]:checked + label:after {
+    content: '';
+    background-color: $dv-color-green;
+    border-radius: 50%;
+    width: 12px; height: 12px;
+    position: absolute;
+    top: 5px; left: 5px;
+    font-size: 1.3em;
+    line-height: 0.8;
+    transition: all .2s;
+  }
+  /* checked mark aspect changes */
+  [type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+  }
+  [type="radio"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /* disabled radio */
+  [type="radio"]:disabled:not(:checked) + label:before,
+  [type="radio"]:disabled:checked + label:before {
+    box-shadow: none;
+    border-color: $dv-color-green;
+    background-color: #ddd;
+  }
+  [type="radio"]:disabled:checked + label:after {
+    color: #999;
+  }
+  [type="radio"]:disabled + label {
+    color: #aaa;
+  }
+
+  /* hover style just for information */
+  label:hover:before {
+    border: 2px solid $dv-color-green!important;
+  }
+}
+
 .checkbox{
     /* Base for label styling */
   [type="checkbox"]:not(:checked),

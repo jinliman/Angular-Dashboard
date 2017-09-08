@@ -3,8 +3,6 @@
     font-size: 21px;
     font-weight: bold;
     padding: 20px 20px;
-  }
-  .title{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,6 +18,83 @@
           margin: 0px 15px;
           font-weight: 400;
         }
+      }
+    }
+    .button-div{
+      .button{
+        font-size: 17px;
+        padding: 4px 17px;
+      }
+    }
+  }
+  .question-table{
+    font-size: 17px;
+    width: 100%;
+    td{
+      vertical-align: middle !important;
+      &>span{
+        padding:0px 5px;
+      }
+      .img{
+        float: left;
+        padding:0px 5px;
+        display: block;
+        cursor: pointer;
+      }
+      input, textarea{
+        border-radius: 4px;
+        background-color: $dv-color-white;
+        color: $dv-color-primary;
+      }
+    }
+    tbody{
+      td{
+        color: $dv-color-grey;
+        &>div{
+          display: flex;
+          align-items: center;
+          .label-input{
+            width: 100%;
+          }
+          .question{
+            padding-left: 16px;
+          }
+          .add-button{
+            float: right;
+            position: relative;
+            cursor: pointer;
+            &::before{
+              content: '+';
+              display: block;
+              float: left;
+              font-weight: 300;
+              margin-left: 15px;
+              top:0px;
+              width: 17px;
+              -webkit-transform:scale(2.0, 2.0);
+              -moz-transform:scale(2.0, 2.0);
+              -ms-transform:scale(2.0, 2.0);
+              -o-transform:scale(2.0, 2.0);
+              transform:scale(2.0,2.0);
+            }
+          }
+        }
+      }
+    }
+    th,td{
+      border-top: 2px solid $dv-color-border !important;
+      border: 2px solid $dv-color-border;
+      padding: 14px 14px;
+      font-weight: 400;
+      color: $dv-color-primary;
+      &:first-of-type{
+        border-left: none;
+      }
+      &:last-of-type{
+        border-right: none;
+      }
+      &.status{
+        width: 150px;
       }
     }
   }
@@ -168,7 +243,7 @@
       border-top: 2px solid $dv-color-border !important;
       border: 2px solid $dv-color-border;
       padding: 14px 14px;
-      font-weight: 600;
+      font-weight: 400;
       &:first-of-type{
         border-left: none;
       }

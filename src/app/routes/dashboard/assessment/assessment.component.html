@@ -1,116 +1,41 @@
 <div class="assessment-page">
   <div class="title">
     <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
-    <ul>
-      <li><a routerLink="../../app/dashboard" routerLinkActive="active">Dashboard</a></li>
-      <li><a routerLink="../../app/progress" routerLinkActive="active">Progress</a></li>
-      <li><a routerLink="../../app/files" routerLinkActive="active">Files</a></li>
-      <li><a routerLink="../../app/team" routerLinkActive="active">Team</a></li>
-      <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
-      <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
-      <li><a href="javascript:;" [inlineSVG]="'../../../assets/images/icons/dashboard/info-icon.svg'"></a></li>
-      <li><a href="javascript:;" [inlineSVG]="'../../../assets/images/icons/dashboard/more-icon.svg'"></a></li>
-    </ul>
+    <div class="button-div">
+      <a (click)="saveAnswer()" class="button pull-right">
+        <span><i class="fa fa-save"></i></span> Save
+      </a>
+    </div>
   </div>
-  <table class="table">
-    <thead>
+  <table class="question-table">
+    <tbody *ngFor="let question_item of questions; let i = index">
       <tr>
-        <td class="category">
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">All active</a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test1</a>
-              </li>
-            </ul>
-          </div>
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">To: <span>Show All</span></a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test2</a>
-              </li>
-            </ul>
-          </div>
-          <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+        <td style="width:40px">
+          <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
         </td>
-        <td colspan="3">
-          <span>Progress/Completion Rate</span>
-          <span class="span-percent">50%</span>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+        <td>
+          <div class="questions-div">
+            <span>{{question_item['Label']}}</span>
           </div>
         </td>
       </tr>
-      <tr>
-        <td class="category clearfix">
-          <div>Click on attachment icons (<span [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon1.svg'"></span>) below to upload the requested documents<br>or check the "Not Available" box if the document cannot be produced:</div>
+      <tr *ngFor="let item of question_item.Items; let i1 = index">
+        <td style="width:40px">
         </td>
-        <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-        <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-        <td width="15%">Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-      </tr>
-    </thead>
-    <tbody *ngFor="let file_group of tableData; let group_index = index">
-      <tr>
-        <td class="category">
-          <div (click)="file_group.open = !file_group.open">
-            <div class="desc-div">
-              <span [hidden]="file_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!file_group.open" [class.closed]="file_group.open"></span>
-              <span class="desc" [class.no-files]="!file_group.hasDetail">{{file_group.title}}</span>
-              <span *ngIf="file_group.hasDetail" [class.assessment-completed]="file_group.completed" class="count" >( {{file_group.subDetails.length}} )</span>
-              <span *ngIf="file_group.completed" [class.assessment-completed]="file_group.completed" class="check-icon" ><span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
-            </div>
+        <td>
+          <div class="" *ngIf="question_item['Type'] == 'Text'">
+            <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="question_item.Items[i1]['value']" placeholder="{{question_item.Items[i1]['Text']}}"></textarea>
           </div>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class="sublist" [hidden]="file_group.hasDetail != true || file_group.open != true" *ngFor="let file_item of file_group.subDetails">
-        <td class="category">
-          <div>
-            <div class="desc-div">
-              <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/document-list-icon.svg'"></div>
-              <span class="desc pull-left">{{file_item.desc}}</span>
-            </div>
-            <div class="comment pull-right">
-                <input type="text" name="" value="" placeholder="Add Comment">
-                <a href="javascript:;" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
-            </div>
+          <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
+            <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
+            <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
           </div>
-        </td>
-        <td class="status" [class.pending]="file_item.status == 2">
-          {{statusArr[file_item.status]}}
-        </td>
-        <td width="15%">
-          <div class="dropdown user-div">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
-              <span class="short-name">{{file_item.uploaderShortName}}</span>
-              <span class="user-name">{{file_item.uploaderName}}</span>
-              <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test</a>
-              </li>
-            </ul>
-          </div>
-        </td>
-        <td width="15%">
-          <div class="form-group checkbox">
-            <div *ngIf="file_item.status == 0">
-              <input type="checkbox" id="{{group_index}}_remember_me_{{file_item.uploaderID}}" name="{{group_index}}_remember_me_{{file_item.uploaderID}}" value="" checked>
-              <label for="{{group_index}}_remember_me_{{file_item.uploaderID}}">NA</label>
-            </div>
-            <div *ngIf="file_item.status != 0">
-              <input type="checkbox" id="{{group_index}}_remember_me_{{file_item.uploaderID}}" name="{{group_index}}_remember_me_{{file_item.uploaderID}}" value="">
-              <label for="{{group_index}}_remember_me_{{file_item.uploaderID}}">NA</label>
-            </div>
+          <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
+            <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="question_item.Items[i1]['value']" name="{{question_item['uuid']}}" value="">
+            <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-
 </div>

@@ -24,8 +24,9 @@ export class RegisterComponent implements OnInit {
     inline: false
   };
 
-  country_list = null;
-
+  country_list = [];
+  state_list = [];
+  city_list = [];
   about_us_list = [
     {'value':'1', 'label': 'Search Engine'},
     {'value':'2', 'label': 'Recommendation'},
@@ -101,6 +102,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute) {
   }
@@ -108,6 +110,29 @@ export class RegisterComponent implements OnInit {
   selectedDate(index, value: any)
   {
     this.newUser.Reason1.tAcqDate = moment(new Date(value.start)).format("MMMM DD YYYY");
+  }
+  onSelectCountry(event)
+  {
+    let data = { 'id': event.value };
+    this.dataService.getStateList(data).subscribe(
+      response => {
+        this.state_list = response.result;
+      },
+      (error) => {
+      }
+    );
+  }
+
+  onSelectState(event)
+  {
+    let data = { 'id': event.value };
+    this.dataService.getCityList(data).subscribe(
+      response => {
+        this.city_list = response.result;
+      },
+      (error) => {
+      }
+    );
   }
 
   ngOnInit() {
@@ -145,7 +170,14 @@ export class RegisterComponent implements OnInit {
       );
     }
 
-    this.country_list = this.authService.getCountryList();
+    this.dataService.getCountryList().subscribe(
+      response => {
+        this.country_list = response.result
+      },
+      (error) => {
+
+      }
+    );
 
     this.validArr = {
       Register: true,
@@ -167,11 +199,14 @@ export class RegisterComponent implements OnInit {
         Fullname: '',
         JobTitle: '0'
       },
+      ProjectName: '',
       Company: {
         Name: '',
         Contact: '',
         ZipCode: '',
         Country: '0',
+        State: '0',
+        City: '0',
         AboutUs: '0',
         Industry: '0',
         Diligence: '0',
@@ -208,6 +243,7 @@ export class RegisterComponent implements OnInit {
       UserType: this.newUser.UserType,
       ProjectID: this.newUser.ProjectID,
       Name: this.newUser.Name,
+      ProjectName: this.newUser.ProjectName,
       Company: this.newUser.Company,
       Reason: this.newUser.Reason,
       Reason1: this.newUser.Reason1,

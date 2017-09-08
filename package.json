@@ -38,6 +38,7 @@
     "ng2-bs3-modal": "^0.10.4",
     "ng2-daterangepicker": "^2.0.7",
     "ng2-dragula": "^1.5.0",
+    "ng2-notify": "^1.4.0",
     "ng2-progress-bar": "0.0.8",
     "ng2-select": "^1.2.0",
     "ng2-smart-table": "^1.2.1",

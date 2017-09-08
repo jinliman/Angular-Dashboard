@@ -10,6 +10,8 @@ export class Company{
   Contact: string;
   ZipCode: string;
   Country: string;
+  State: string;
+  City: string;
   AboutUs: string;
   Industry: string;
   Diligence: string;
@@ -47,6 +49,7 @@ export class User{
   Password: string;
   PasswordConfirm: string;
   Name: Name;
+  ProjectName: string;
   Company: Company;
   Reason: number;
   Reason1: Reason1;
@@ -56,15 +59,24 @@ export class User{
 }
 
 export class Question{
-  UUID: string;
+  uuid: string;
   Type: string;
-  Order: string;
   Label: string;
+  value   : string;
   Items: [{
-       UUID    : string;
-       Order   : string;
+       uuid    : string;
        Text    : string;
+       value   : string;
    }]
+}
+
+export class Answer{
+  uuid: string;
+  value: string;
+  Items: [{
+      uuid: string;
+      value: string;
+  }]
 }
 
 export class Category{

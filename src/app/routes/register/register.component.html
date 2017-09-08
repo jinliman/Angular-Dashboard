@@ -44,13 +44,36 @@
       </div>
       <div class="row">
         <div class="col-md-6 form-group">
-          <label for="aboutus">How did you hear about us?:</label>
-          <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
+          <label for="country">Country:</label>
+          <ng-select class="cs-select" (selected)="onSelectCountry($event)" [options]="country_list" [(ngModel)]="newUser.Company.Country" name="country" placeholder="Please select country">
           </ng-select>
         </div>
         <div class="col-md-6 form-group">
-          <label for="country">Country:</label>
-          <ng-select class="cs-select" [options]="country_list" [(ngModel)]="newUser.Company.Country" name="country" placeholder="Please select country">
+          <label for="state">State:</label>
+          <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="newUser.Company.State" name="state" placeholder="Please select state">
+          </ng-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="city">City:</label>
+          <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
+          </ng-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group"
+        [ngClass]="{
+          'has-error': project_name.invalid && project_name.touched,
+          'has-success': project_name.valid && project_name.touched
+        }">
+          <label for="project_name">Project Name:</label>
+          <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "newUser.ProjectName" value="" required>
+          <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="aboutus">How did you hear about us?:</label>
+          <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
           </ng-select>
         </div>
       </div>
@@ -299,7 +322,6 @@
       </div>
     </form>
     <div class="bottom-div">
-      <a href="javascript:;">Learn More </a>
     </div>
   </div>
 </div>
