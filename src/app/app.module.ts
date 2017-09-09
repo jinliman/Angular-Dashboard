@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
     AssetLayoutModule,
     SharedModule.forRoot(),
     RoutesModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

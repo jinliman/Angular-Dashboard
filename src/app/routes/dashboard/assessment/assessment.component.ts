@@ -6,6 +6,8 @@ import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
 
+import { NotificationsService } from 'angular2-notifications';
+
 import { Question, Answer } from '../../../shared/objectSchema';
 
 
@@ -28,7 +30,8 @@ export class AssessmentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private dataService: DataService
+    private dataService: DataService,
+    private _notificationService: NotificationsService
   ) {
   }
 
@@ -130,8 +133,24 @@ export class AssessmentComponent implements OnInit {
     }
     this.dataService.saveAnswers(data).subscribe(
       response => {
+        if(response.ERR_CODE == 'ERR_NONE')
+        {
+          this._notificationService.success(
+              'Successfully Saved!',
+              'You answer'
+          )
+        }else{
+          this._notificationService.error(
+              'Sth went wrong',
+              'You answer'
+          )
+        }
       },
       (error) => {
+        this._notificationService.error(
+            'Sth went wrong',
+            'You answer'
+        )
       }
     );
   }

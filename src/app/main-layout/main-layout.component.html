@@ -1,3 +1,4 @@
+<simple-notifications [options]="options"></simple-notifications>
 <div class="dashboard-wrapper">
 	<app-sidebar></app-sidebar>
 
@@ -5,7 +6,8 @@
 		<div class="">
 			<app-header-dashboard class="header-wrapper"></app-header-dashboard>
 			<div class="dashboard-content">
-					<router-outlet></router-outlet>
+				<ng2-slim-loading-bar></ng2-slim-loading-bar>
+				<router-outlet></router-outlet>
 			</div>
 		</div>
 	</div>
