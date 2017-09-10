@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="inner-content-div">
-    <div [ngBusy]="{busy: [busy, busy1], message: '', backdrop: false, delay: 200, minDuration: 600}"></div>
+    <div [ngBusy]="{busy: busy, message: '', backdrop: false, delay: 200, minDuration: 600}"></div>
     <table class="question-table">
       <tbody *ngFor="let question_item of questions; let i = index">
         <tr>
