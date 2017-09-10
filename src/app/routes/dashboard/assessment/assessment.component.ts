@@ -27,7 +27,6 @@ export class AssessmentComponent implements OnInit {
   projects: object;
   user = [];
   busy: Subscription;
-  busy: Subscription;
 
   constructor(
     private route: ActivatedRoute,
