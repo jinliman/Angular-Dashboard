@@ -3,6 +3,10 @@
 				<input type="text" name="" value="" placeholder="Search Tasks">
 				<a href="javascript:;" class="pull-right" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
 		</div>
+		<div class="project-select" *ngIf="userInfo.Role != 'admin'">
+			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="project" name="project" placeholder="Project List">
+			</ng-select>
+		</div>
 		<div class="dropdown user-setting">
 			<a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
 				<span class="short-name">DV</span>

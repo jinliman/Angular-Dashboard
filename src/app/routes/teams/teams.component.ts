@@ -16,6 +16,8 @@ export class TeamsComponent implements OnInit {
   PrimaryEmail: string;
   TeamEmail: Array<object>;
   token: string;
+  isSent: boolean;
+  submitText: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -32,7 +34,8 @@ export class TeamsComponent implements OnInit {
 
     this.authService.inviteUser(data).subscribe(
       response => {
-
+        this.isSent = true;
+        this.submitText = "Resend";
       },
       (error) => {
 
@@ -50,6 +53,8 @@ export class TeamsComponent implements OnInit {
   }
   ngOnInit() {
     this.TeamEmail = []
+    this.isSent = false;
+    this.submitText = "Send";
     this.route
       .queryParams
       .subscribe(params => {

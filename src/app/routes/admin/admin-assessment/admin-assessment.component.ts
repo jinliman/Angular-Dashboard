@@ -17,6 +17,7 @@ export class AdminAssessmentComponent implements OnInit {
   statusArr: object;
   assessment: object = {};
   editAssessmentUrl: string = "";
+  loading: boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,6 +65,7 @@ export class AdminAssessmentComponent implements OnInit {
       .params
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
+        this.loading = true;
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
         this.dataService.getAssessment(data).subscribe(
@@ -72,6 +74,7 @@ export class AdminAssessmentComponent implements OnInit {
               this.router.navigate(['admin/dashboard']);
             this.assessment = response.result;
             this.editAssessmentUrl = "/" + this.dataService.getAdminUrl() + "assessment/"+assessment_id;
+            this.loading = false;
           },
           (error) => {
           }

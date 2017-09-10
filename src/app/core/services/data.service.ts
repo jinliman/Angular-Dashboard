@@ -12,11 +12,23 @@ export class DataService {
 
   url = environment.serverUrl;
 
-  public currentClassChanged: EventEmitter<Object>;
+  public projectChanged: EventEmitter<Object>;
+  public categoryChanged: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
-    this.currentClassChanged = new EventEmitter();
+    this.projectChanged = new EventEmitter();
+    this.categoryChanged = new EventEmitter();
   }
+
+  onProjectChanged(data){
+    localStorage.setItem('project', JSON.stringify(data));
+    this.projectChanged.emit(data);
+  }
+
+  onCategoryChanged(){
+    this.categoryChanged.emit(true);
+  }
+
   getAdminUrl(){
     return environment.adminUrl;
   }
@@ -38,6 +50,11 @@ export class DataService {
   */
   getAssessmentList(){
     return this.http.post(this.url + '/api/assessment/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAssessmentListFlat(){
+    return this.http.post(this.url + '/api/assessment/list_flat', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -95,7 +112,7 @@ export class DataService {
   }
 
   /*
-  ---------------- QA -----------------
+  ---------------- Answer -----------------
   */
 
   getAnswers(data){
@@ -105,6 +122,15 @@ export class DataService {
 
   saveAnswers(data){
     return this.http.post(this.url + '/api/user/answer/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  /*
+  ---------------- Team -----------------
+  */
+
+  getTeam(data){
+    return this.http.post(this.url + '/api/user/team/members', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 }

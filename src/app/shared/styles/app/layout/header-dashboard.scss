@@ -3,6 +3,10 @@
   display: flex;
   align-items: center;
   height: $dv-dashboard-header-height;
+  .project-select{
+    margin-left: 20px;
+    width: 200px;
+  }
   .menu-bar {
     a{
       color: $dv-color-primary;
@@ -18,7 +22,7 @@
   }
   .search_div{
     background-color: $dv-color-white;
-    padding: 6px 10px;
+    padding: 3px 10px;
     border: 2px solid $dv-color-border;
     border-radius: 5px;
     width: 500px;

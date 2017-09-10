@@ -5,6 +5,8 @@ import { DataService } from '../../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
+
 import { Category } from '../../../shared/objectSchema';
 
 import { TreeNode, TreeModel, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from 'angular-tree-component';
@@ -31,6 +33,7 @@ export class CategoriesComponent implements OnInit {
     uuid			: '',
   	Title			: '',
   	Desc			: '',
+    created_time: null,
   	hasChildren	: false,
   	expanded		: true,
   	Questions 	: []
@@ -59,8 +62,10 @@ export class CategoriesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private _notificationService: NotificationsService
+  ) {
+  }
 
   moveup(node, tree, event){
     let parentNode = node.parent.data.children;
@@ -109,6 +114,7 @@ export class CategoriesComponent implements OnInit {
     this.newCategory.uuid = "";
     this.newCategory.Title = "";
     this.newCategory.Desc = "";
+    this.newCategory.created_time = new Date();
     this.newCategory.hasChildren = false;
     this.newCategory.expanded = true;
     this.newCategory.Questions = [];
@@ -142,10 +148,25 @@ export class CategoriesComponent implements OnInit {
     }
     this.dataService.saveAsssessment(data).subscribe(
       response => {
-        window.location.reload();
+        if(response.ERR_CODE == 'ERR_NONE')
+        {
+          this.dataService.onCategoryChanged();
+          this._notificationService.success(
+              'Successfully Saved!',
+              'You answer'
+          )
+        }else{
+          this._notificationService.error(
+              'Sth went wrong',
+              'You answer'
+          )
+        }
       },
       (error) => {
-
+        this._notificationService.error(
+            'Sth went wrong',
+            'You answer'
+        )
       }
     );
   }

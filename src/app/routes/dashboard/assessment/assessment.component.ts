@@ -24,7 +24,7 @@ export class AssessmentComponent implements OnInit {
   questionnaire: object = [];
   questions: Array<Question> = [];
   answers: Array<Answer> = [];
-  projects: object;
+  project: object;
   user = [];
   loading = true;
 
@@ -35,8 +35,12 @@ export class AssessmentComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
+  onProjectSelect(data){
+    this.ngOnInit();
+  }
   ngOnInit() {
     this.user = this.authService.getUser();
     this.route
@@ -45,7 +49,7 @@ export class AssessmentComponent implements OnInit {
         this.questionnaire = [];
         this.questions = [];
         this.answers = [];
-        this.projects = [];
+        this.project = JSON.parse(localStorage.getItem('project'));
         this.loading = true;
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
@@ -55,22 +59,12 @@ export class AssessmentComponent implements OnInit {
             if(response.result == null)
               this.router.navigate(['app/dashboard']);
             this.assessment = response.result;
-            this.getProject()
+            this.getAnswers()
           },
           (error) => {
           }
         );
       });
-  }
-  getProject(){
-    this.dataService.getUserProject().subscribe(
-      response => {
-        this.projects = response.result;
-        this.getAnswers()
-      },
-      (error) => {
-      }
-    );
   }
 
   findAnswerObject(uuid){
@@ -99,7 +93,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   getAnswers(){
-    let project_id = this.projects[0]['Project'];
+    let project_id = this.project['id'];
     let data = {
       Assessment: this.assessment['uuid'],
       Project: project_id,
@@ -127,7 +121,7 @@ export class AssessmentComponent implements OnInit {
 
   saveAnswer(){
     let questionnare_id = this.questionnaire['_id'];
-    let project_id = this.projects[0]['Project'];
+    let project_id = this.project['id'];
     let data = {
       Questionnaire: questionnare_id,
       Project: project_id,

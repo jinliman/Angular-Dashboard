@@ -30,8 +30,9 @@ const actionMapping:IActionMapping = {
 export class SidebarComponent implements OnInit {
 
   userRole: string;
-  menu: object;
+  menu: Array<object>;
   assessment_menu: object;
+  userProjectRole: string;
 
   customTreeOptions: ITreeOptions = {
     // displayField: 'subTitle',
@@ -49,21 +50,22 @@ export class SidebarComponent implements OnInit {
     animateExpand: false
   }
 
-  constructor(private authService: AuthService, private dataService: DataService) {
+  constructor(
+    private authService: AuthService,
+    private dataService: DataService)
+  {
     this.userRole = this.authService.getUser().Role;
-
-    this.dataService.getAssessmentList().subscribe(
-      response => {
-        this.assessment_menu = response.Categories;
-        this.assessment_menu = this.updateAssessment(this.assessment_menu);
-        this.initMenu();
-      },
-      (error) => {
-
-      }
-    );
+    this.dataService.categoryChanged.subscribe(data => this.onCategoryChanged(data));
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
+  onCategoryChanged(data){
+    this.ngOnInit();
+  }
+
+  onProjectSelect(data){
+    this.ngOnInit();
+  }
   updateAssessment(obj){
     for(var i in obj) {
       if(this.userRole != "admin")
@@ -84,20 +86,34 @@ export class SidebarComponent implements OnInit {
   }
 
   initMenu(){
+    this.menu = [];
     if(this.userRole != "admin")
     {
-      this.menu = [
-        { route: "/app/dashboard", Title: "Dashboard"},
-        { route: "/app/progress", Title: "Progress"},
-        { route: "/app/files", Title: "Files"},
-        { route: "/app/team", Title: "Team"},
-        { route: "/app/heatmap", Title: "Heat Map"},
-        { route: "/app/reports",  Title: "Reports"},
-        { route: "/app/score",  Title: "DealValue Score"},
-        { route: "/app/assessments",  Title: "Assessments", hasChildren: true, expanded: true,
+      if(this.userProjectRole == "INITIATOR")
+      {
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard"},
+          { route: "/app/progress", Title: "Progress"},
+          { route: "/app/files", Title: "Files"},
+          { route: "/app/team", Title: "Team"},
+          { route: "/app/heatmap", Title: "Heat Map"},
+          { route: "/app/reports",  Title: "Reports"},
+          { route: "/app/score",  Title: "DealValue Score"}
+        ]
+      }else if( this.userProjectRole == "PRIMARY" )
+      {
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard"},
+          { route: "/app/progress", Title: "Progress"},
+          { route: "/app/files", Title: "Files"},
+          { route: "/app/team", Title: "Team"}
+        ]
+      }
+      this.menu = this.menu.concat(
+        [{ route: "/app/assessments",  Title: "Assessments", hasChildren: true, expanded: true,
           children: this.assessment_menu
-        }
-      ]
+        }]
+      )
     }else{
       this.menu = [
         { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard"},
@@ -113,7 +129,17 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userProjectRole = this.authService.getUserProjectRole();
+    this.dataService.getAssessmentList().subscribe(
+      response => {
+        this.assessment_menu = response.Categories;
+        this.assessment_menu = this.updateAssessment(this.assessment_menu);
+        this.initMenu();
+      },
+      (error) => {
 
+      }
+    );
   }
   changeStatus(obj){
     obj.open = obj.open ? false: true;

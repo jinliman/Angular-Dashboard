@@ -37,14 +37,14 @@
         <td width="15%">Assigned on <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
       </tr>
     </thead>
-    <tbody *ngFor="let file_group of tableData">
+    <tbody *ngFor="let userItem of tableData">
       <tr>
         <td class="category">
-          <div (click)="file_group.open = !file_group.open">
+          <div (click)="userItem.open = !userItem.open">
             <div class="desc-div">
-              <span [hidden]="file_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!file_group.open" [class.closed]="file_group.open"></span>
-              <span class="desc" [class.no-files]="!file_group.hasDetail">{{file_group.username}}</span>
-              <span class="short-name">{{file_group.shortname}}</span>
+              <span [hidden]="userItem.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!userItem.open" [class.closed]="userItem.open"></span>
+              <span class="desc" [class.no-files]="!userItem.hasDetail">{{userItem.username}}</span>
+              <span class="short-name">{{userItem.shortname}}</span>
             </div>
           </div>
         </td>
@@ -52,17 +52,17 @@
         <td></td>
         <td></td>
       </tr>
-      <tr class="sublist" [hidden]="file_group.hasDetail != true || file_group.open != true"  *ngFor="let file_item of file_group.subDetails">
+      <tr class="sublist" [hidden]="userItem.hasDetail != true || userItem.open != true"  *ngFor="let assessment_item of userItem.assessments">
         <td class="category">
           <div>
             <div class="desc-div">
               <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/level-arrow.svg'"></div>
-              <span class="desc pull-left"><b>{{assessmentArr[file_item.assessment_type]}}</b> &nbsp;/&nbsp; {{file_item.desc}}</span>
+              <span class="desc pull-left"><b>{{assessment_item.title}}</b> &nbsp;/&nbsp; {{assessment_item.desc}}</span>
             </div>
           </div>
         </td>
-        <td class="status" [class.pending]="file_item.status == 2">
-          {{statusArr[file_item.status]}}
+        <td class="status" [class.pending]="assessment_item.status == 2">
+          {{statusArr[assessment_item.status]}}
         </td>
         <td>
           <div class="">
@@ -71,7 +71,7 @@
         </td>
         <td>
           <div class="">
-            <span>{{file_item.created_at | amParse:'DD/MM/YYYY' | amDateFormat:'LL'}}</span>
+            <span>{{assessment_item.created_at | amDateFormat:'LL'}}</span>
           </div>
         </td>
       </tr>
