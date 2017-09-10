@@ -5,6 +5,7 @@ import { DataService } from '../../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 
 import { Question } from '../../../shared/objectSchema';
 
@@ -24,12 +25,14 @@ export class QaBuilderComponent implements OnInit {
   assessment: object = {};
   assessment_id = null;
   backUrl: string = '';
+  loading = true;
   private corner: string = 'right-top';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
+    private _notificationService: NotificationsService
   ) {
     // Custom default config
   }
@@ -108,7 +111,18 @@ export class QaBuilderComponent implements OnInit {
     let data = { 'Questionnaire': this.questions, 'ID': this.assessment_id}
     this.dataService.saveQA(data).subscribe(
       response => {
-
+        if(response.ERR_CODE == 'ERR_NONE')
+        {
+          this._notificationService.success(
+              'Successfully Saved!',
+              'You answer'
+          )
+        }else{
+          this._notificationService.error(
+              'Sth went wrong',
+              'You answer'
+          )
+        }
       },
       (error) => {
       }
@@ -121,6 +135,7 @@ export class QaBuilderComponent implements OnInit {
       response => {
         if(response.result)
           this.questions = response.result.questions;
+        this.loading = false;
       },
       (error) => {
       }
@@ -128,14 +143,15 @@ export class QaBuilderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questions = [];
-    this.assessment = {};
-    this.assessment_id = null;
-    this.backUrl = '';
     this.route
       .params
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
+        this.questions = [];
+        this.assessment = {};
+        this.assessment_id = null;
+        this.backUrl = '';
+        this.loading = true;
         this.assessment_id = params['id'] || '';
         let data = {id: this.assessment_id};
         this.dataService.getAssessment(data).subscribe(

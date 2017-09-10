@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: 'heatmap', component: HeatmapComponent },
       { path: 'reports', component: ReportComponent },
       { path: 'score', component: ScoreComponent },
-      { path: 'assessment/:id', component: AssessmentComponent },
+      { path: 'assessment/:id', component: AssessmentComponent},
       {
         path: 'assessments',
         children: [

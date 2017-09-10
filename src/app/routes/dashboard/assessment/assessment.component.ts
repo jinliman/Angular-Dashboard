@@ -5,7 +5,7 @@ import { DataService } from '../../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { NotificationsService } from 'angular2-notifications';
 
@@ -26,7 +26,7 @@ export class AssessmentComponent implements OnInit {
   answers: Array<Answer> = [];
   projects: object;
   user = [];
-  busy: Subscription;
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,20 +35,18 @@ export class AssessmentComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
-    this.questionnaire = [];
-    this.questions = [];
-    this.answers = [];
-    this.projects = [];
-
   }
 
   ngOnInit() {
-
     this.user = this.authService.getUser();
-
     this.route
       .params
       .subscribe(params => {
+        this.questionnaire = [];
+        this.questions = [];
+        this.answers = [];
+        this.projects = [];
+        this.loading = true;
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
@@ -106,7 +104,7 @@ export class AssessmentComponent implements OnInit {
       Assessment: this.assessment['uuid'],
       Project: project_id,
     }
-    this.busy = this.dataService.getAnswers(data).subscribe(
+    this.dataService.getAnswers(data).subscribe(
       response => {
         if(response.result)
         {
@@ -119,6 +117,7 @@ export class AssessmentComponent implements OnInit {
           this.questions = [];
           this.answers = [];
         }
+        this.loading = false;
       },
       (error) => {
 

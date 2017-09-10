@@ -23,7 +23,6 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "angular-tree-component": "^4.1.0",
-    "angular2-busy": "^2.0.4",
     "angular2-fullcalendar": "^1.0.19",
     "angular2-image-upload": "^0.6.5",
     "angular2-moment": "^1.6.0",
