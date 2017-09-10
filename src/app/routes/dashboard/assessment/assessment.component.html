@@ -7,35 +7,38 @@
       </a>
     </div>
   </div>
-  <table class="question-table">
-    <tbody *ngFor="let question_item of questions; let i = index">
-      <tr>
-        <td style="width:40px">
-          <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-        </td>
-        <td>
-          <div class="questions-div">
-            <span>{{question_item['Label']}}</span>
-          </div>
-        </td>
-      </tr>
-      <tr *ngFor="let item of question_item.Items; let i1 = index">
-        <td style="width:40px">
-        </td>
-        <td>
-          <div class="" *ngIf="question_item['Type'] == 'Text'">
-            <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="question_item.Items[i1]['value']" placeholder="{{question_item.Items[i1]['Text']}}"></textarea>
-          </div>
-          <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
-            <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
-            <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
-          </div>
-          <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
-            <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="question_item.Items[i1]['value']" name="{{question_item['uuid']}}" value="">
-            <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="inner-content-div">
+    <div [ngBusy]="{busy: [busy, busy1], message: '', backdrop: false, delay: 200, minDuration: 600}"></div>
+    <table class="question-table">
+      <tbody *ngFor="let question_item of questions; let i = index">
+        <tr>
+          <td style="width:40px">
+            <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
+          </td>
+          <td>
+            <div class="questions-div">
+              <span>{{question_item['Label']}}</span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let item of question_item.Items; let i1 = index">
+          <td style="width:40px">
+          </td>
+          <td>
+            <div class="" *ngIf="question_item['Type'] == 'Text'">
+              <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="question_item.Items[i1]['value']" placeholder="{{question_item.Items[i1]['Text']}}"></textarea>
+            </div>
+            <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
+              <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
+              <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
+            </div>
+            <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
+              <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="question_item.Items[i1]['value']" name="{{question_item['uuid']}}" value="">
+              <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

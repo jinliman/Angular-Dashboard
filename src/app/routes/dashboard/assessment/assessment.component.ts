@@ -5,6 +5,7 @@ import { DataService } from '../../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
+import {Subscription} from 'rxjs';
 
 import { NotificationsService } from 'angular2-notifications';
 
@@ -25,6 +26,8 @@ export class AssessmentComponent implements OnInit {
   answers: Array<Answer> = [];
   projects: object;
   user = [];
+  busy: Subscription;
+  busy1: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,15 +36,16 @@ export class AssessmentComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
-  }
-
-  ngOnInit() {
-    this.user = this.authService.getUser();
-
     this.questionnaire = [];
     this.questions = [];
     this.answers = [];
     this.projects = [];
+
+  }
+
+  ngOnInit() {
+
+    this.user = this.authService.getUser();
 
     this.route
       .params
@@ -49,7 +53,7 @@ export class AssessmentComponent implements OnInit {
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
-        this.dataService.getAssessment(data).subscribe(
+        this.busy = this.dataService.getAssessment(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['app/dashboard']);
@@ -103,7 +107,7 @@ export class AssessmentComponent implements OnInit {
       Assessment: this.assessment['uuid'],
       Project: project_id,
     }
-    this.dataService.getAnswers(data).subscribe(
+    this.busy1 = this.dataService.getAnswers(data).subscribe(
       response => {
         if(response.result)
         {
