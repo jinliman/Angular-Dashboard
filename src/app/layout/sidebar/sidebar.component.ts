@@ -33,7 +33,7 @@ export class SidebarComponent implements OnInit {
   menu: Array<object>;
   assessment_menu: object;
   userProjectRole: string;
-
+  depth : number  = 0;
   customTreeOptions: ITreeOptions = {
     // displayField: 'subTitle',
     isExpandedField: 'expanded',
@@ -67,6 +67,7 @@ export class SidebarComponent implements OnInit {
     this.ngOnInit();
   }
   updateAssessment(obj){
+    this.depth += 1;
     for(var i in obj) {
       if(this.userRole != "admin")
         obj[i].route = "/app/assessment";
@@ -76,7 +77,10 @@ export class SidebarComponent implements OnInit {
         obj[i].hasChildren = false;
       else
         obj[i].hasChildren = true;
-      obj[i].expanded = false;
+      if(this.depth == 1)
+        obj[i].expanded = true;
+      else
+        obj[i].expanded = false;
       if(obj[i].children && obj[i].children.length > 0)
       {
         this.updateAssessment(obj[i].children);
@@ -109,11 +113,7 @@ export class SidebarComponent implements OnInit {
           { route: "/app/team", Title: "Team"}
         ]
       }
-      this.menu = this.menu.concat(
-        [{ route: "/app/assessments",  Title: "Assessments", hasChildren: true, expanded: true,
-          children: this.assessment_menu
-        }]
-      )
+      this.menu = this.menu.concat( this.assessment_menu )
     }else{
       this.menu = [
         { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard"},
@@ -121,19 +121,18 @@ export class SidebarComponent implements OnInit {
         { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
         { route: "/" + this.dataService.getAdminUrl() + "calendar", Title: "Readout Calendar"},
         { route: "/" + this.dataService.getAdminUrl() + "categories", Title: "Categories"},
-        { route: "/" + this.dataService.getAdminUrl() + "assessment",  Title: "Assessments", hasChildren: true, expanded: true,
-          children: this.assessment_menu
-        }
       ]
+      this.menu = this.menu.concat(this.assessment_menu)
     }
   }
 
   ngOnInit() {
+    this.depth = 0;
     this.userProjectRole = this.authService.getUserProjectRole();
     this.dataService.getAssessmentList().subscribe(
       response => {
         this.assessment_menu = response.Categories;
-        this.assessment_menu = this.updateAssessment(this.assessment_menu);
+        this.assessment_menu = this.updateAssessment( this.assessment_menu );
         this.initMenu();
       },
       (error) => {

@@ -2,43 +2,110 @@
   <div class="loading-div" *ngIf="loading"></div>
   <div class="title">
     <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
-    <div class="button-div">
-      <a (click)="saveAnswer()" class="button pull-right">
-        <span><i class="fa fa-save"></i></span> Save
-      </a>
+    <div class="button-div clearfix">
+        <a class="svg button pull-right" routerLink="{{editAssessmentUrl}}/answer">
+          <span> <i class="fa fa-save"></i> Answer Questionnaires</span>
+        </a>
     </div>
   </div>
-  <div class="inner-content-div">
-    <table class="question-table">
-      <tbody *ngFor="let question_item of questions; let i = index">
-        <tr>
-          <td style="width:40px">
-            <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-          </td>
-          <td>
-            <div class="questions-div">
-              <span>{{question_item['Label']}}</span>
+  <table class="table">
+    <thead>
+      <tr>
+        <td class="category">
+          <div class="pull-left filter dropdown">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">All active</a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test1</a>
+              </li>
+            </ul>
+          </div>
+          <div class="pull-left filter dropdown">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">To: <span>Show All</span></a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test2</a>
+              </li>
+            </ul>
+          </div>
+          <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+        </td>
+        <td colspan="3">
+          <span>Progress/Completion Rate</span>
+          <span class="span-percent">50%</span>
+          <div class="custom-progress">
+            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="category clearfix">
+          <div>Click on attachment icons (<span [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon1.svg'"></span>) below to upload the requested documents<br>or check the "Not Available" box if the document cannot be produced:</div>
+        </td>
+        <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+      </tr>
+    </thead>
+    <tbody *ngFor="let question_group of tableData; let group_index = index">
+      <tr>
+        <td class="category">
+          <div (click)="question_group.open = !question_group.open">
+            <div class="desc-div">
+              <span [hidden]="question_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!question_group.open" [class.closed]="question_group.open"></span>
+              <span class="desc" [class.no-files]="!question_group.hasDetail">{{question_group.title}}</span>
+              <span *ngIf="question_group.hasDetail" [class.assessment-completed]="question_group.completed" class="count" >( {{question_group.subDetails.length}} )</span>
+              <span *ngIf="question_group.completed" [class.assessment-completed]="question_group.completed" class="check-icon" ><span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
             </div>
-          </td>
-        </tr>
-        <tr *ngFor="let item of question_item.Items; let i1 = index">
-          <td style="width:40px">
-          </td>
-          <td>
-            <div class="" *ngIf="question_item['Type'] == 'Text'">
-              <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="question_item.Items[i1]['value']" placeholder="{{question_item.Items[i1]['Text']}}"></textarea>
+          </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true" *ngFor="let question_item of question_group.subDetails">
+        <td class="category">
+          <div>
+            <div class="desc-div">
+              <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/document-list-icon.svg'"></div>
+              <span class="desc pull-left">{{question_item.desc}} ( {{question_item.type}} )</span>
             </div>
-            <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
-              <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
-              <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
+            <div class="comment pull-right">
+                <input type="text" name="" value="" placeholder="Add Comment">
+                <a href="javascript:;" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
             </div>
-            <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
-              <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="question_item.Items[i1]['value']" name="{{question_item['uuid']}}" value="">
-              <label for="{{item['uuid']}}">{{question_item.Items[i1]['Text']}}</label>
+          </div>
+        </td>
+        <td class="status" [class.pending]="question_item.status == 2">
+          {{statusArr[question_item.status]}}
+        </td>
+        <td width="15%">
+          <div class="dropdown user-div">
+            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
+              <span class="short-name">{{question_item.uploaderShortName}}</span>
+              <span class="user-name">{{question_item.uploaderName}}</span>
+              <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                  <a href="javascript:;">test</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td width="15%">
+          <div class="form-group checkbox">
+            <div *ngIf="question_item.status == 0">
+              <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="" checked>
+              <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            <div *ngIf="question_item.status != 0">
+              <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="">
+              <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

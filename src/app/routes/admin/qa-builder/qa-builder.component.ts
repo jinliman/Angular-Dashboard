@@ -115,12 +115,12 @@ export class QaBuilderComponent implements OnInit {
         {
           this._notificationService.success(
               'Successfully Saved!',
-              'You answer'
+              'Questionnaire'
           )
         }else{
           this._notificationService.error(
               'Sth went wrong',
-              'You answer'
+              'Questionnaire'
           )
         }
       },

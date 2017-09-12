@@ -63,6 +63,11 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getAssessmentFlat(data){
+    return this.http.post(this.url + '/api/assessment/get_flat', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   saveAsssessment(data){
     return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -100,6 +105,11 @@ export class DataService {
   /*
   ---------------- QA -----------------
   */
+
+  getQAList(){
+    return this.http.post(this.url + '/api/questionnaire/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
 
   getQA(data){
     return this.http.post(this.url + '/api/questionnaire/get', data, { headers: this.getHeaders() })

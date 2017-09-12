@@ -66,7 +66,7 @@ export class Question{
   Items: [{
        uuid    : string;
        Text    : string;
-       value   : string;
+       value   : any;
    }]
 }
 
@@ -75,7 +75,7 @@ export class Answer{
   value: string;
   Items: [{
       uuid: string;
-      value: string;
+      value: any;
   }]
 }
 

@@ -29,7 +29,8 @@
 
         <a *ngIf="!menu_item.hasChildren && menu_item.uuid" routerLink="{{menu_item.route+'/'+menu_item.uuid}}" routerLinkActive="active">{{menu_item.Title}}</a>
         <a *ngIf="!menu_item.hasChildren && !menu_item.uuid" routerLink="{{menu_item.route}}" routerLinkActive="active">{{menu_item.Title}}</a>
-        <a *ngIf="menu_item.hasChildren" class="submenu" [class.open] = "menu_item.expanded" [class.collapsed] = "!menu_item.expanded" (click)="menu_item.expanded = menu_item.expanded ? false: true;" href="javascript:;">{{menu_item.Title}}</a>
+        <a *ngIf="menu_item.hasChildren  && menu_item.uuid"  routerLink="{{menu_item.route+'/'+menu_item.uuid}}" routerLinkActive="active" class="submenu" [class.open] = "menu_item.expanded" [class.collapsed] = "!menu_item.expanded" (click)="menu_item.expanded = menu_item.expanded ? false: true;" href="javascript:;">{{menu_item.Title}}</a>
+        <a *ngIf="menu_item.hasChildren  && !menu_item.uuid"  routerLink="{{menu_item.route}}" routerLinkActive="active" class="submenu" [class.open] = "menu_item.expanded" [class.collapsed] = "!menu_item.expanded" (click)="menu_item.expanded = menu_item.expanded ? false: true;" href="javascript:;">{{menu_item.Title}}</a>
         <ul *ngIf="menu_item.hasChildren  ">
           <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu_item.children }"></ng-container>
         </ul>

@@ -57,7 +57,7 @@
           <div>
             <div class="desc-div">
               <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/level-arrow.svg'"></div>
-              <span class="desc pull-left"><b>{{assessment_item.title}}</b> &nbsp;/&nbsp; {{assessment_item.desc}}</span>
+              <span class="desc pull-left"><b>{{assessment_item.title}}</b> <span *ngIf= "assessment_item.desc != ''">&nbsp;/&nbsp; {{assessment_item.desc}}</span></span>
             </div>
           </div>
         </td>

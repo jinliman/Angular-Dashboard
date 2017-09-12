@@ -14,7 +14,7 @@ export class MainLayoutComponent implements OnInit{
     showProgressBar: false,
     pauseOnHover: false,
     clickToClose: true,
-    maxLength: 10,
+    maxLength: 30,
   }
 
   constructor(

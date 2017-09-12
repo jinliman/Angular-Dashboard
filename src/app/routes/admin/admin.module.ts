@@ -24,6 +24,7 @@ const routes: Routes = [
       { path: 'users', component: UsersComponent },
       // { path: 'qa-builder', component: QaBuilderComponent },
       { path: 'categories', component: CategoriesComponent },
+      { path: 'assessment', component: AdminAssessmentComponent },
       { path: 'assessment/:id', component: AdminAssessmentComponent },
       { path: 'assessment/:id/edit', component: QaBuilderComponent },
     ]

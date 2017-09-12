@@ -19,135 +19,83 @@ import { Question, Answer } from '../../../shared/objectSchema';
 })
 export class AssessmentComponent implements OnInit {
 
+  tableData: Array<any> = [];
   statusArr: object;
   assessment: object = {};
-  questionnaire: object = [];
-  questions: Array<Question> = [];
-  answers: Array<Answer> = [];
-  project: object;
-  user = [];
-  loading = true;
-
+  questionnaires: Array<object>= [];
+  editAssessmentUrl: string = "";
+  loading: boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
-    private dataService: DataService,
-    private _notificationService: NotificationsService
-  ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
-  }
+    private dataService: DataService
+  ) { }
 
-  onProjectSelect(data){
-    this.ngOnInit();
-  }
   ngOnInit() {
-    this.user = this.authService.getUser();
+
+    this.statusArr = {
+      0: "NA",
+      1: "Complete",
+      2: "Pending",
+    }
+
     this.route
       .params
       .subscribe(params => {
-        this.questionnaire = [];
-        this.questions = [];
-        this.answers = [];
-        this.project = JSON.parse(localStorage.getItem('project'));
-        this.loading = true;
         // Defaults to 0 if no query param provided.
+        this.assessment = {};
+        this.tableData = [];
+        this.questionnaires = [];
+        this.editAssessmentUrl = "";
+        this.loading = true;
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
-        this.dataService.getAssessment(data).subscribe(
+        this.dataService.getAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['app/dashboard']);
             this.assessment = response.result;
-            this.getAnswers()
+            this.editAssessmentUrl = "/app/assessment/"+assessment_id;
+            this.getQuestionnaire()
           },
           (error) => {
+            this.router.navigate(['app/dashboard']);
           }
         );
       });
   }
 
-  findAnswerObject(uuid){
-    for(var i in this.answers) {
-      if(this.answers[i].uuid == uuid)
-        return this.answers[i];
-      for(var j in this.answers[i].Items) {
-        if(this.answers[i].Items[j].uuid == uuid)
-          return this.answers[i].Items[j];
-      }
-    }
-    return null;
-  }
-
-  updateQuestionnair(){
-	    for(var i in this.questions) {
-        let answerObj = this.findAnswerObject(this.questions[i].uuid);
-        if( answerObj && answerObj.value )
-          this.questions[i].value = answerObj.value;
-        for(var j in this.questions[i].Items) {
-          let answerObj = this.findAnswerObject(this.questions[i].Items[j].uuid);
-          if( answerObj && answerObj.value )
-            this.questions[i].Items[j].value = answerObj.value;
-        }
-	    }
-  }
-
-  getAnswers(){
-    let project_id = this.project['id'];
-    let data = {
-      Assessment: this.assessment['uuid'],
-      Project: project_id,
-    }
-    this.dataService.getAnswers(data).subscribe(
+  getQuestionnaire(){
+    this.dataService.getQAList().subscribe(
       response => {
-        if(response.result)
-        {
-          this.questionnaire = response.result.questionnaire;
-          this.questions = response.result.questionnaire.questions || [];
-          this.answers = response.result.answers;
-          this.updateQuestionnair();
-        }else{
-          this.questionnaire = [];
-          this.questions = [];
-          this.answers = [];
-        }
-        this.loading = false;
+        this.questionnaires = response.result;
+        this.getTableData()
       },
       (error) => {
-
       }
     );
   }
 
-  saveAnswer(){
-    let questionnare_id = this.questionnaire['_id'];
-    let project_id = this.project['id'];
-    let data = {
-      Questionnaire: questionnare_id,
-      Project: project_id,
-      Answers: this.questions
-    }
-    this.dataService.saveAnswers(data).subscribe(
-      response => {
-        if(response.ERR_CODE == 'ERR_NONE')
+  getTableData(){
+    for(let entry of [this.assessment].concat(this.assessment['children']))
+    {
+      let subDetails = [];
+      let question = this.questionnaires.find(function(elem){
+        return elem['category_id'] == entry['uuid']
+      })
+      let hasDetail = false;
+      if( question && question['questions'].length )
+      {
+        hasDetail = true;
+        for( let question_entry of question['questions'])
         {
-          this._notificationService.success(
-              'Successfully Saved!',
-              'You answer'
-          )
-        }else{
-          this._notificationService.error(
-              'Sth went wrong',
-              'You answer'
-          )
+          let question_item = {status: 1, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  uploaderID: question_entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: question['createdAt']}
+          subDetails.push(question_item)
         }
-      },
-      (error) => {
-        this._notificationService.error(
-            'Sth went wrong',
-            'You answer'
-        )
       }
-    );
+      let item = {title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, subDetails: subDetails}
+      this.tableData.push(item)
+    }
+    this.loading = false;
   }
 }

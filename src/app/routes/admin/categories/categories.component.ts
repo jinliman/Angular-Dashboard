@@ -153,19 +153,19 @@ export class CategoriesComponent implements OnInit {
           this.dataService.onCategoryChanged();
           this._notificationService.success(
               'Successfully Saved!',
-              'You answer'
+              'Category'
           )
         }else{
           this._notificationService.error(
               'Sth went wrong',
-              'You answer'
+              'Category'
           )
         }
       },
       (error) => {
         this._notificationService.error(
             'Sth went wrong',
-            'You answer'
+            'Category'
         )
       }
     );

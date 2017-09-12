@@ -13,9 +13,10 @@ import { ActivatedRoute,Router } from '@angular/router';
 })
 export class AdminAssessmentComponent implements OnInit {
 
-  tableData: Array<any>;
+  tableData: Array<any> = [];
   statusArr: object;
   assessment: object = {};
+  questionnaires: Array<object>= [];
   editAssessmentUrl: string = "";
   loading: boolean;
   constructor(
@@ -31,55 +32,64 @@ export class AdminAssessmentComponent implements OnInit {
       1: "Complete",
       2: "Pending",
     }
-    this.tableData = [
-      {title: "IT Staff", hasDetail: true, open: true, completed: false,
-        subDetails: [
-          {status: 0, desc: "Company Legal Name", filename: "test.xls",  uploaderID: 1, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Corporate Address, including department,location, employee name, title, supervisor name", filename: "pdf",  uploaderID: 2, uploaderName: "Ryan",uploaderShortName: 'RB',  uploaded_at: "08/01/2017"},
-          {status: 2, desc: "Nmber of Employees", filename: "doc", uploaderID: 3, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "Applications", hasDetail: true ,open: false, completed: false,
-        subDetails: [
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 6, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 7, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "Infrastructure", hasDetail: true, open: false,  completed: true,
-        subDetails: [
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 6, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "Organization chart for IT Staff", filename: "test.xls", uploaderID: 7, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-      {title: "IT Security", hasDetail: false, open: false, completed: false},
-      {title: "IT Organization", hasDetail: true, open: false, completed: true,
-        subDetails: [
-          {status: 0, desc: "Organization chart for IT Staff", filename: "test.xls",  uploaderID: 1, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-          {status: 1, desc: "List of IT employees, including department,location, employee name, title, supervisor name", filename: "pdf",  uploaderID: 2, uploaderName: "Ryan",uploaderShortName: 'RB',  uploaded_at: "08/01/2017"},
-          {status: 2, desc: "Organization chart for IT Staff", filename: "doc", uploaderID: 3, uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: "08/01/2017"},
-        ]
-      },
-    ]
 
     this.route
       .params
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
+        this.assessment = {};
+        this.tableData = [];
+        this.questionnaires = [];
+        this.editAssessmentUrl = "";
         this.loading = true;
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
-        this.dataService.getAssessment(data).subscribe(
+        this.dataService.getAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['admin/dashboard']);
             this.assessment = response.result;
             this.editAssessmentUrl = "/" + this.dataService.getAdminUrl() + "assessment/"+assessment_id;
-            this.loading = false;
+            this.getQuestionnaire()
           },
           (error) => {
+            this.router.navigate(['admin/dashboard']);
           }
         );
       });
   }
 
+  getQuestionnaire(){
+    this.dataService.getQAList().subscribe(
+      response => {
+        this.questionnaires = response.result;
+        this.getTableData()
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getTableData(){
+    for(let entry of [this.assessment].concat(this.assessment['children']))
+    {
+      let subDetails = [];
+      let question = this.questionnaires.find(function(elem){
+        return elem['category_id'] == entry['uuid']
+      })
+      let hasDetail = false;
+      if( question && question['questions'].length )
+      {
+        hasDetail = true;
+        for( let question_entry of question['questions'])
+        {
+          let question_item = {status: 1, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  uploaderID: question_entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: question['createdAt']}
+          subDetails.push(question_item)
+        }
+      }
+      let item = {title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, subDetails: subDetails}
+      this.tableData.push(item)
+    }
+    this.loading = false;
+  }
 }
