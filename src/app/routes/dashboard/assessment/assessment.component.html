@@ -87,8 +87,8 @@
               <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
             </a>
             <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test</a>
+              <li *ngFor="let team_member of team">
+                  <a href="javascript:;">{{team_member['User']['Name']['First'] + team_member['User']['Name']['Last']}}</a>
               </li>
             </ul>
           </div>

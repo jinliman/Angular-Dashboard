@@ -36,10 +36,10 @@ export class Reason3{
   tBizImp: boolean;
   tCostSaving: boolean;
   tPerformanceDate: boolean;
-  tResOpt: boolean
+  tResOpt: boolean;
 }
 export class Reason4{
-  tReason: string
+  tReason: string;
 }
 
 export class User{

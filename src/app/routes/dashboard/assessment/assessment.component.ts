@@ -24,6 +24,8 @@ export class AssessmentComponent implements OnInit {
   assessment: object = {};
   questionnaires: Array<object>= [];
   editAssessmentUrl: string = "";
+  project: string = "";
+  team: Array<object> = [];
   loading: boolean;
   constructor(
     private route: ActivatedRoute,
@@ -47,6 +49,7 @@ export class AssessmentComponent implements OnInit {
         this.tableData = [];
         this.questionnaires = [];
         this.editAssessmentUrl = "";
+        this.project = JSON.parse(localStorage.getItem('project'))['id'];
         this.loading = true;
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
@@ -56,7 +59,8 @@ export class AssessmentComponent implements OnInit {
               this.router.navigate(['app/dashboard']);
             this.assessment = response.result;
             this.editAssessmentUrl = "/app/assessment/"+assessment_id;
-            this.getQuestionnaire()
+            this.getQuestionnaire();
+            this.getTeam();
           },
           (error) => {
             this.router.navigate(['app/dashboard']);
@@ -76,6 +80,18 @@ export class AssessmentComponent implements OnInit {
     );
   }
 
+  getTeam(){
+    let data = {id: this.project}
+    this.dataService.getTeam(data).subscribe(
+      response => {
+        this.team = response.result;
+        console.log(this.team)
+      },
+      (error) => {
+      }
+    );
+  }
+
   getTableData(){
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
@@ -89,7 +105,7 @@ export class AssessmentComponent implements OnInit {
         hasDetail = true;
         for( let question_entry of question['questions'])
         {
-          let question_item = {status: 1, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  uploaderID: question_entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: question['createdAt']}
+          let question_item = {status: 2, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  uploaderID: question_entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: question['createdAt']}
           subDetails.push(question_item)
         }
       }

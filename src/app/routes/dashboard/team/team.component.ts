@@ -14,6 +14,7 @@ export class TeamComponent implements OnInit {
   assessmentArr: Array<object> = [];
   project: string;
   team: Array<object> = [];
+  loading: boolean;
   constructor(
     private authService: AuthService,
     private dataService: DataService
@@ -51,6 +52,7 @@ export class TeamComponent implements OnInit {
       response => {
         this.assessmentArr = response.Categories;
         this.tableData = this.updateTableData();
+        this.loading = false;
       },
       (error) => {
 
@@ -58,6 +60,7 @@ export class TeamComponent implements OnInit {
     );
   }
   ngOnInit() {
+    this.loading = true;
     this.project = JSON.parse(localStorage.getItem('project'))['id'];
     let data = {id: this.project}
     this.dataService.getTeam(data).subscribe(

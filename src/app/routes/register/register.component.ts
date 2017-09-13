@@ -226,11 +226,11 @@ export class RegisterComponent implements OnInit {
         continue;
       this.newUser["Reason"+i] = null
     }
-    this.newUser.Name.Fullname = this.newUser.Name.First + " " + this.newUser.Name.Last;
     this.wizardStep = 2;
   }
 
   onRegister(){
+    this.newUser.Name.Fullname = this.newUser.Name.First + " " + this.newUser.Name.Last;
     let data = {
 			PassportCollection: {
 				EmailPassports: [
