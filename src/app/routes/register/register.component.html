@@ -3,6 +3,11 @@
     <div class="logo">
         <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
     </div>
+    <div class="wizard-progress clearfix" *ngIf="newUser.UserType != 'MEMBER'">
+      <span class="step pull-left" [ngClass]="{'active': wizardStep == 1 }" (click)="wizardStep = 1"><b><i class="fa fa-building"></i></b></span>
+      <span class="step pull-right" [ngClass]="{'active': wizardStep == 2 }"><b><i class="fa fa-user"></i></b></span>
+      <span class="line" [ngClass]="{'passed': wizardStep == 2 }"></span>
+    </div>
     <form class="form form1" (ngSubmit) = "onContinue()" #form="ngForm" *ngIf="wizardStep == 1">
       <h2 [innerHTML]="title"></h2>
       <p class="cs-alert-danger" *ngIf="isConfirmed">You already confirmed your invitation!</p>
@@ -12,7 +17,7 @@
           'has-error': company_name.invalid && company_name.touched,
           'has-success': company_name.valid && company_name.touched
         }">
-          <label for="company_name">Company Name:</label>
+          <label for="company_name" class="required">Company Name:</label>
           <input type="text" name="company_name" #company_name = "ngModel" [(ngModel)] = "newUser.Company.Name" value="" required>
           <span class="help-block" *ngIf="company_name.errors && company_name.errors.required  && company_name.touched">Company Name is required</span>
         </div>
@@ -21,7 +26,7 @@
           'has-error': contact_number.invalid && contact_number.touched,
           'has-success': contact_number.valid && contact_number.touched
         }">
-          <label for="contact_number">Contact Number:</label>
+          <label for="contact_number" class="required">Contact Number:</label>
           <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Company.Contact" value="" required>
           <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Contact Number is required</span>
         </div>
@@ -32,7 +37,7 @@
           'has-error': zipcode.invalid && zipcode.touched,
           'has-success': zipcode.valid && zipcode.touched
         }">
-          <label for="zipcode">Zip Code:</label>
+          <label for="zipcode" class="required">Zip Code:</label>
           <input type="text" name="zipcode" #zipcode = "ngModel" [(ngModel)] = "newUser.Company.ZipCode" value="" required>
           <span class="help-block" *ngIf="zipcode.errors && zipcode.errors.required  && zipcode.touched">Zip Code is required</span>
         </div>
@@ -60,38 +65,40 @@
           <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
           </ng-select>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 form-group"
-        [ngClass]="{
-          'has-error': project_name.invalid && project_name.touched,
-          'has-success': project_name.valid && project_name.touched
-        }">
-          <label for="project_name">Project Name:</label>
-          <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "newUser.ProjectName" value="" required>
-          <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="aboutus">How did you hear about us?:</label>
-          <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-md-6 form-group">
           <label for="industry">Industry:</label>
           <ng-select class="cs-select" [options]="industry_list" [(ngModel)]="newUser.Company.Industry" name="industry"  placeholder="Please select industry">
           </ng-select>
         </div>
+      </div>
+      <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
+        <div class="col-md-6 form-group"
+        [ngClass]="{
+          'has-error': project_name.invalid && project_name.touched,
+          'has-success': project_name.valid && project_name.touched
+        }">
+          <label for="project_name" class="required">Project Name:</label>
+          <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "newUser.ProjectName" value="" required placeholder="e.g Project Tango, Project Healthcare, ">
+          <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
+        </div>
+
         <div class="col-md-6 form-group">
-          <label for="diligence">Select Your Due Diligence Type:</label>
-          <ng-select class="cs-select" [options]="diligency_type" [(ngModel)]="newUser.Company.Diligence" name="diligence" placeholder="Please select diligence type">
+          <label for="aboutus">How did you hear about us?:</label>
+          <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
+          </ng-select>
+        </div>
+
+      </div>
+      <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
+        <div class="col-md-12 form-group">
+          <label for="diligence" class="required">Select Your Due Diligence Type:</label>
+          <ng-select class="cs-select" [multiple]="true" [options]="diligency_type" [(ngModel)]="newUser.Company.Diligence" name="diligence" placeholder="Please select diligence type">
           </ng-select>
         </div>
       </div>
       <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
         <div class="col-md-12 form-group">
-          <label for="ITreason">Reason for IT assessment?</label>
+          <label for="ITreason" class="required">Reason for Due Diligence</label>
           <ng-select class="cs-select" [options]="reason_type" [(ngModel)]="newUser.Reason" name="ITreason" placeholder="Please select reason">
           </ng-select>
         </div>
@@ -245,7 +252,9 @@
           <span>Back</span></a>
         </div>
         <div class="col-md-6 form-group">
-          <button type="submit" [disabled] = "form.invalid || (this.newUser.Reason == 3 && !validArr.ReasonCheckbox)" class="btn button pull-right">Continue</button>
+
+          <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !this.newUser.Reason || ( this.newUser.Reason == 3 && !this.validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button>
+          <button *ngIf="newUser.UserType == 'PRIMARY'" type="submit" [disabled] = "form.invalid" class="btn button pull-right">Continue</button>
         </div>
       </div>
     </form>
@@ -280,7 +289,8 @@
           'has-error': company_email.invalid && company_email.touched,
           'has-success': company_email.valid && company_email.touched
         }">
-          <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="Email Address">
+          <!-- <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address"> -->
+          <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
           <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
           <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
         </div>

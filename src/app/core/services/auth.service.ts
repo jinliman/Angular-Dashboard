@@ -52,18 +52,17 @@ export class AuthService {
     return user.Role;
   }
 
-  getUserProjectRole() {
-    let userProjects = JSON.parse(localStorage.getItem('userProjects'));
+  getUserProject(){
     let currentUserProject = JSON.parse(localStorage.getItem('project'));
-    let Role = null;
+    let userProjects = JSON.parse(localStorage.getItem('userProjects'));
+    let currentProject = null;
     if(userProjects && userProjects.length > 0 )
     {
-      let currentProject =  userProjects.find(function(item){
+      currentProject =  userProjects.find(function(item){
         return item['Project']['_id'] == currentUserProject['id'];
       })
-      Role = currentProject['Role']
     }
-    return Role;
+    return currentProject;
   }
 
   veryfiyRole(role) {

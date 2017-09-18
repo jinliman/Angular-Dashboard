@@ -43,7 +43,7 @@ export class AdminAssessmentComponent implements OnInit {
         this.editAssessmentUrl = "";
         this.loading = true;
         let assessment_id = params['id'] || '';
-        let data = {id: assessment_id};
+        let data = {id: assessment_id, projectID: 'all'};
         this.dataService.getAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
@@ -73,6 +73,7 @@ export class AdminAssessmentComponent implements OnInit {
   getTableData(){
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
+      console.log(entry)
       let subDetails = [];
       let question = this.questionnaires.find(function(elem){
         return elem['category_id'] == entry['uuid']

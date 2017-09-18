@@ -24,14 +24,37 @@ export class AssessmentComponent implements OnInit {
   assessment: object = {};
   questionnaires: Array<object>= [];
   editAssessmentUrl: string = "";
-  project: string = "";
+  currentProject: object;
   team: Array<object> = [];
   loading: boolean;
+
+
+  dropdownList = [];
+   selectedItems = [];
+   dropdownSettings = {};
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
-  ) { }
+    private dataService: DataService,
+    private authService: AuthService
+  ) {
+    this.dropdownList = [
+                              {"id":1,"itemName":"test"},
+                              {"id":2,"itemName":"test1"},
+                              {"id":3,"itemName":"test2"}
+                            ];
+      this.selectedItems = [
+                            {"id":1,"itemName":"test"},
+                          ];
+      this.dropdownSettings = {
+                                singleSelection: false,
+                                text:"Select Countries",
+                                selectAllText:'Select All',
+                                unSelectAllText:'UnSelect All',
+                                enableSearchFilter: false ,
+                                classes:"cs-user-select"
+                              };
+  }
 
   ngOnInit() {
 
@@ -49,10 +72,13 @@ export class AssessmentComponent implements OnInit {
         this.tableData = [];
         this.questionnaires = [];
         this.editAssessmentUrl = "";
-        this.project = JSON.parse(localStorage.getItem('project'))['id'];
+
+        this.currentProject = this.authService.getUserProject();
+        let projectID = this.currentProject['Project']['_id'] || null;
+
         this.loading = true;
         let assessment_id = params['id'] || '';
-        let data = {id: assessment_id};
+        let data = {id: assessment_id, projectID: projectID};
         this.dataService.getAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
@@ -81,11 +107,11 @@ export class AssessmentComponent implements OnInit {
   }
 
   getTeam(){
-    let data = {id: this.project}
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {id: projectID}
     this.dataService.getTeam(data).subscribe(
       response => {
         this.team = response.result;
-        console.log(this.team)
       },
       (error) => {
       }
@@ -109,7 +135,7 @@ export class AssessmentComponent implements OnInit {
           subDetails.push(question_item)
         }
       }
-      let item = {title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, subDetails: subDetails}
+      let item = {title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, filename: "test.xls",  uploaderID: entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: entry['createdAt'], subDetails: subDetails}
       this.tableData.push(item)
     }
     this.loading = false;

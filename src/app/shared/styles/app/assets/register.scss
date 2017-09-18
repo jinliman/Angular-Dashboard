@@ -6,11 +6,59 @@
     .logo{
       text-align: center;
     }
+    .wizard-progress{
+      padding-top: 50px;
+      width: 250px;
+      margin: auto;
+      position: relative;
+      .line{
+        position: absolute;
+        left: 0px;
+        z-index: -1;
+        top: calc( 50% + 25px );
+        border-bottom: 2px solid #eee;
+        width: 100%;
+        &.passed{
+          border-bottom: 2px solid $dv-color-green;
+        }
+      }
+      .step{
+        z-index: 1;
+        border: 2px solid $dv-color-green;
+        background-color: $dv-bg-main;
+        color: $dv-color-green;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &.active{
+          color: $dv-bg-sub;
+          background-color: $dv-color-green-active;
+        }
+        b{
+          margin: auto;
+          font-size: 20px;
+        }
+      }
+    }
     .form{
       background-color: $dv-bg-sub;
       border: 2px solid $dv-color-border;
       margin-top:50px;
       padding: 30px;
+      label.required{
+        position: relative;
+        &::before{
+          content: '*';
+          font-size: 20px;
+          display: block;
+          position: absolute;
+          left: -7px;
+        }
+        color: #a73729;
+      }
       &.form2{
         width: 430px;
         margin-left: auto;

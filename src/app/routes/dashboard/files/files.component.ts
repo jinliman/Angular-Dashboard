@@ -11,6 +11,7 @@ export class FilesComponent implements OnInit {
 
   tableData: Array<any> = [];
   assessmentArr: Array<object> = [];
+  currentProject: object;
   loading: boolean;
   constructor(
     private authService: AuthService,
@@ -32,8 +33,8 @@ export class FilesComponent implements OnInit {
     this.loading = false;
   }
 
-  getAssessment(){
-    this.dataService.getAssessmentListFlat().subscribe(
+  getAssessment(projectID){
+    this.dataService.getAssessmentListFlat(projectID).subscribe(
       response => {
         this.assessmentArr = response.Categories;
         this.updateTableData()
@@ -46,6 +47,8 @@ export class FilesComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.getAssessment();
+    this.currentProject = this.authService.getUserProject();
+    let projectID = this.currentProject['Project']['_id'];
+    this.getAssessment(projectID);
   }
 }

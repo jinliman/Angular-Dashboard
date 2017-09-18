@@ -281,6 +281,23 @@ textarea{
   & > div > div.single > div.clear, & > div > div.single > div.toggle {
     line-height: 39px !important;
   }
+
+  & > div > div.multiple {
+    height: 35px;
+  }
+  & > div > div.multiple > div.value, & > div > div.multiple > div.placeholder {
+    line-height: 39px !important;
+  }
+  & > div > div.multiple > div.clear, & > div > div.multiple > div.toggle {
+    line-height: 39px !important;
+  }
+  & > div > div.multiple > input{
+    height: 39px !important;
+    line-height: 39px !important;
+  }
+  & > div > div.multiple > div.option{
+    line-height: 29px;
+  }
 }
 .ui-select-toggle{
   background: $dv-bg-input;
@@ -290,21 +307,21 @@ textarea{
   font-size: 16px;
 }
 ::-webkit-input-placeholder { /* Chrome */
-  color: #697680;
+  color: #a9a9a9;
   transition: opacity 250ms ease-in-out;
 }
 :focus::-webkit-input-placeholder {
   opacity: 0.5;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: #697680;
+  color: #a9a9a9;
   transition: opacity 250ms ease-in-out;
 }
 :focus:-ms-input-placeholder {
   opacity: 0.5;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: #697680;
+  color: #a9a9a9;
   opacity: 1;
   transition: opacity 250ms ease-in-out;
 }
@@ -312,7 +329,7 @@ textarea{
   opacity: 0.5;
 }
 :-moz-placeholder { /* Firefox 4 - 18 */
-  color: #697680;
+  color: #a9a9a9;
   opacity: 1;
   transition: opacity 250ms ease-in-out;
 }
@@ -414,6 +431,37 @@ textarea{
       background-color: $dv-color-green-hover;
       border-color: transparent;
       color: #fff;
+    }
+  }
+}
+
+// Custom-User-Multi-Select
+.cs-user-select{
+  .c-btn{
+    border: none !important;
+  }
+  .selected-list{
+    .c-list{
+      .c-token{
+        &::before{
+
+          width: 32px;
+          line-height: 32px;
+          text-align: center;
+          display: inline-block;
+          color:#fff;
+          background-color: $dv-color-green;
+          border-radius: 50%;
+        }
+        background: none !important;
+        color: $dv-color-primary !important;
+        .fa-remove{
+          margin-left: 8px !important;
+        }
+      }
+    }
+    .c-btn{
+      box-shadow: none !important;
     }
   }
 }

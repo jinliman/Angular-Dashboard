@@ -33,6 +33,7 @@ export class SidebarComponent implements OnInit {
   menu: Array<object>;
   assessment_menu: object;
   userProjectRole: string;
+  currentProject: object;
   depth : number  = 0;
   customTreeOptions: ITreeOptions = {
     // displayField: 'subTitle',
@@ -128,8 +129,16 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.depth = 0;
-    this.userProjectRole = this.authService.getUserProjectRole();
-    this.dataService.getAssessmentList().subscribe(
+    let projectID = null;
+    if(this.userRole != "admin")
+    {
+      this.currentProject = this.authService.getUserProject();
+      projectID = this.currentProject['Project']['_id'] || null;
+      this.userProjectRole = this.currentProject['Role'];
+    }else{
+      projectID = 'all'
+    }
+    this.dataService.getAssessmentList(projectID).subscribe(
       response => {
         this.assessment_menu = response.Categories;
         this.assessment_menu = this.updateAssessment( this.assessment_menu );

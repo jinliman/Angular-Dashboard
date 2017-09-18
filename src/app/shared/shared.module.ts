@@ -13,6 +13,8 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import { TreeModule } from 'angular-tree-component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+
 
 //import { MaterialModule } from '@angular/material';
 
@@ -40,7 +42,8 @@ import { EqualValidator } from './directives/equal-validator.directive';
     InlineSVGModule,
     Daterangepicker,
     TreeModule,
-    Ng2Bs3ModalModule
+    Ng2Bs3ModalModule,
+    AngularMultiSelectModule
   ]
 })
 export class SharedModule {

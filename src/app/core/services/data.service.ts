@@ -45,16 +45,24 @@ export class DataService {
     return this.http.post(this.url + '/api/user/project/list', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
-  /*
-  ---------------- Assessment -----------------
-  */
-  getAssessmentList(){
-    return this.http.post(this.url + '/api/assessment/list', {}, { headers: this.getHeaders() })
+
+  getDueDiligenceType(){
+    return this.http.post(this.url + '/api/duediligence', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
-  getAssessmentListFlat(){
-    return this.http.post(this.url + '/api/assessment/list_flat', {}, { headers: this.getHeaders() })
+  /*
+  ---------------- Assessment -----------------
+  */
+  getAssessmentList(projectID = null){
+    let data = {projectID: projectID};
+    return this.http.post(this.url + '/api/assessment/list', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAssessmentListFlat(projectID = null){
+    let data = {projectID: projectID};
+    return this.http.post(this.url + '/api/assessment/list_flat', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
