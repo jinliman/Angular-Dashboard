@@ -172,7 +172,8 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getAssessmentList().subscribe(
+    let projectID = 'all';
+    this.dataService.getAssessmentList(projectID).subscribe(
       response => {
         this.categories = response.Categories;
       },
