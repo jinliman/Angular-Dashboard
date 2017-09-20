@@ -22,38 +22,31 @@ export class AssessmentComponent implements OnInit {
   tableData: Array<any> = [];
   statusArr: object;
   assessment: object = {};
+  assessment_id: string = '';
+  assignment: object = {};
+  assignmentByUser: Array<object> = [];
+  userAssignment: object = {};
   questionnaires: Array<object>= [];
+
   editAssessmentUrl: string = "";
-  currentProject: object;
+  currentProject: object = {};
   team: Array<object> = [];
+  teamList: Array<object> = [];
+  assignDisabled: boolean = false;
+  allowAnswer: boolean = false;
+  userRole: string = "";
+  user: object = {}
   loading: boolean;
+  dropdownSettings = {};
 
-
-  dropdownList = [];
-   selectedItems = [];
-   dropdownSettings = {};
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _notificationService: NotificationsService
   ) {
-    this.dropdownList = [
-                              {"id":1,"itemName":"test"},
-                              {"id":2,"itemName":"test1"},
-                              {"id":3,"itemName":"test2"}
-                            ];
-      this.selectedItems = [
-                            {"id":1,"itemName":"test"},
-                          ];
-      this.dropdownSettings = {
-                                singleSelection: false,
-                                text:"Select Countries",
-                                selectAllText:'Select All',
-                                unSelectAllText:'UnSelect All',
-                                enableSearchFilter: false ,
-                                classes:"cs-user-select"
-                              };
+    this.user = this.authService.getUser()
   }
 
   ngOnInit() {
@@ -75,16 +68,30 @@ export class AssessmentComponent implements OnInit {
 
         this.currentProject = this.authService.getUserProject();
         let projectID = this.currentProject['Project']['_id'] || null;
+        this.userRole = this.currentProject['Role'];
+        if(this.userRole == 'MEMBER')
+          this.assignDisabled = true;
+        this.allowAnswer = false;
+        this.dropdownSettings = {
+            singleSelection: false,
+            text:'--',
+            selectAllText:'Select All',
+            unSelectAllText:'UnSelect All',
+            enableSearchFilter: false ,
+            enableCheckAll: false,
+            classes:"cs-user-select",
+            disabled: this.assignDisabled
+          };
 
         this.loading = true;
-        let assessment_id = params['id'] || '';
-        let data = {id: assessment_id, projectID: projectID};
+        this.assessment_id = params['id'] || '';
+        let data = {id: this.assessment_id, projectID: projectID};
         this.dataService.getAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['app/dashboard']);
             this.assessment = response.result;
-            this.editAssessmentUrl = "/app/assessment/"+assessment_id;
+            this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
             this.getQuestionnaire();
             this.getTeam();
           },
@@ -94,12 +101,143 @@ export class AssessmentComponent implements OnInit {
         );
       });
   }
+  newArray(x,y) {
+    let d = [];
+    x.concat(y).forEach(item =>{
+       if (d.indexOf(item) == -1)
+         d.push(item);
+    });
+    return d;
+  }
+  prepareSaveData(data){
+    console.log(this.tableData)
+    let result ={};
+    for (let member of this.teamList)
+    {
+      result[member['id']] = {Assessments: new Array, Questions: new Array, QAssessments: new Array};
+    }
+    for (let assessment of this.tableData)
+    {
+      this.assignment['QAssessments'][assessment['id']] =[];
+      for( let question of assessment['questionArr'])
+      {
+        this.assignment['QAssessments'][assessment['id']] = this.newArray(this.assignment['QAssessments'][assessment['id']],question['usersAssigned'])
+      }
+    }
+    for(var i in this.assignment['Assessments'])
+    {
+      for(let item of this.assignment['Assessments'][i]){
+        if(result[item['id']]['Assessments'].indexOf(i) == -1)
+          result[item['id']]['Assessments'].push(i)
+      }
+    }
 
+    for(var i in this.assignment['Questions'])
+    {
+      for(let item of this.assignment['Questions'][i]){
+        if(result[item['id']]['Questions'].indexOf(i) == -1)
+          result[item['id']]['Questions'].push(i)
+      }
+    }
+    for(var i in this.assignment['QAssessments'])
+    {
+      for(let item of this.assignment['QAssessments'][i]){
+        if(result[item['id']]['QAssessments'].indexOf(i) == -1)
+          result[item['id']]['QAssessments'].push(i)
+      }
+    }
+    return result;
+  }
+  saveAssignment(){
+    let data = {};
+    data = this.prepareSaveData(this.tableData);
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let parma = { projectID: projectID, data: data}
+    this.dataService.saveAssignment(parma).subscribe(
+      response => {
+        if(response.ERR_CODE == 'ERR_NONE')
+        {
+          this._notificationService.success(
+              'Successfully Saved!',
+              'Questionnaire'
+          )
+        }else{
+          this._notificationService.error(
+              'Sth went wrong',
+              'Questionnaire'
+          )
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getAssignment(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let parma = { projectID: projectID}
+    this.dataService.getAssignment(parma).subscribe(
+      response => {
+        this.assignmentByUser = response.result;
+        let that = this;
+        this.userAssignment = this.assignmentByUser.find(function(item){ return item['User'] == that.user['_id'];})
+        console.log(this.userAssignment)
+        this.assignment = this.updateAssignment(this.assignmentByUser);
+        this.getTableData();
+        this.setAllowAnswer();
+        console.log(this.tableData)
+      },
+      (error) => {
+      }
+    );
+  }
+  setAllowAnswer(){
+    let userID = this.user['_id'];
+    let tmpArr = this.assignment['Assessments'][this.assessment_id] || [];
+    tmpArr = tmpArr.concat(this.assignment['QAssessments'][this.assessment_id] || []);
+    let tmp = tmpArr.find(function(i){
+      return i['id'] == userID;
+    });
+    if(tmp)
+      this.allowAnswer = true;
+  }
+  updateAssignment(data){
+    var result = { Questions: {}, Assessments: {}, QAssessments: {}};
+
+    var teamListJson = [];
+    for(let item of this.teamList)
+    {
+      teamListJson[item['id']] = item;
+    }
+
+    for(let item of data)
+    {
+      for(let q_item of item['Questions'])
+      {
+        if(!result['Questions'][q_item])
+          result['Questions'][q_item] = []
+        result['Questions'][q_item].push(teamListJson[item['User']])
+      }
+      for(let a_item of item['Assessments'])
+      {
+        if(!result['Assessments'][a_item])
+          result['Assessments'][a_item] = []
+        result['Assessments'][a_item].push(teamListJson[item['User']])
+      }
+      for(let qa_item of item['QAssessments'])
+      {
+        if(!result['QAssessments'][qa_item])
+          result['QAssessments'][qa_item] = []
+        result['QAssessments'][qa_item].push(teamListJson[item['User']])
+      }
+    }
+    return result;
+  }
   getQuestionnaire(){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getTableData()
+        this.getAssignment();
       },
       (error) => {
       }
@@ -112,16 +250,23 @@ export class AssessmentComponent implements OnInit {
     this.dataService.getTeam(data).subscribe(
       response => {
         this.team = response.result;
+        this.updateTeam();
       },
       (error) => {
       }
     );
   }
 
+  updateTeam(){
+    this.teamList  = this.team.map(function(item){
+      return {"id":item['User']['_id'],"itemName":item['User']['Name']['First']}
+    })
+  }
   getTableData(){
+
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
-      let subDetails = [];
+      let questionArr = [];
       let question = this.questionnaires.find(function(elem){
         return elem['category_id'] == entry['uuid']
       })
@@ -131,11 +276,20 @@ export class AssessmentComponent implements OnInit {
         hasDetail = true;
         for( let question_entry of question['questions'])
         {
-          let question_item = {status: 2, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  uploaderID: question_entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: question['createdAt']}
-          subDetails.push(question_item)
+          if(!this.assignment['Questions'][question_entry['uuid']])
+            this.assignment['Questions'][question_entry['uuid']] = []
+          let userAssignment = this.assignment['Questions'][question_entry['uuid']];
+
+          let question_item = { id: question_entry['uuid'], status: 2, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  usersAssigned: userAssignment}
+          questionArr.push(question_item)
         }
       }
-      let item = {title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, filename: "test.xls",  uploaderID: entry['uuid'], uploaderName: "John",uploaderShortName: 'JD',  uploaded_at: entry['createdAt'], subDetails: subDetails}
+      if(!this.assignment['Assessments'][entry['uuid']])
+        this.assignment['Assessments'][entry['uuid']] = []
+      if(!this.assignment['QAssessments'][entry['uuid']])
+        this.assignment['QAssessments'][entry['uuid']] = []
+      let userAssignment = this.assignment['Assessments'][entry['uuid']];
+      let item = { id: entry['uuid'], title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, filename: "test.xls",  usersAssigned: userAssignment, questionArr: questionArr}
       this.tableData.push(item)
     }
     this.loading = false;

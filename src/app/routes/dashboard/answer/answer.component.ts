@@ -23,7 +23,9 @@ export class AnswerComponent implements OnInit {
   questionnaire: object = [];
   questions: Array<Question> = [];
   answers: Array<Answer> = [];
+  userAssignment: object = {};
   project: object;
+
   user = [];
   loading = true;
 
@@ -53,6 +55,8 @@ export class AnswerComponent implements OnInit {
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
+
+        this.getUserAssign()
         this.dataService.getAssessment(data).subscribe(
           response => {
             if(response.result == null)
@@ -66,6 +70,21 @@ export class AnswerComponent implements OnInit {
       });
   }
 
+  getUserAssign(){
+    let projectID = this.project['id'] || null;
+    let parma = { projectID: projectID}
+
+    this.dataService.getAssignment(parma).subscribe(
+      response => {
+        let result = response.result;
+        let that = this
+        this.userAssignment = result.find(function(item){ return item['User'] == that.user['_id'];})
+        console.log(this.userAssignment)
+      },
+      (error) =>{
+      }
+    );
+  }
   findAnswerObject(uuid){
     for(var i in this.answers) {
       if(this.answers[i].uuid == uuid)

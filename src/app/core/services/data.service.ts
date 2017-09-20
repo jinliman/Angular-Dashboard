@@ -50,7 +50,34 @@ export class DataService {
     return this.http.post(this.url + '/api/duediligence', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+  /*
+  ---------------- Admin Assessment -----------------
+  */
 
+  getAdminAssessmentList(){
+    return this.http.post(this.url + '/api/admin/assessment/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessmentListFlat(projectID = null){
+    return this.http.post(this.url + '/api/admin/assessment/list_flat', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessment(data){
+    return this.http.post(this.url + '/api/admin/assessment/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessmentFlat(data){
+    return this.http.post(this.url + '/api/admin/assessment/get_flat', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  saveAsssessment(data){
+    return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   /*
   ---------------- Assessment -----------------
   */
@@ -76,8 +103,13 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
-  saveAsssessment(data){
-    return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
+  getAssignment(data){
+    return this.http.post(this.url + '/api/assessment/assignment/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  saveAssignment(data){
+    return this.http.post(this.url + '/api/assessment/assignment/save', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -151,4 +183,7 @@ export class DataService {
     return this.http.post(this.url + '/api/user/team/members', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
+
+
 }

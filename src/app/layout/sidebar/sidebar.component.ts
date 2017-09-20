@@ -94,25 +94,26 @@ export class SidebarComponent implements OnInit {
     this.menu = [];
     if(this.userRole != "admin")
     {
+      this.menu = [
+        { route: "/app/dashboard", Title: "Dashboard"}
+      ]
       if(this.userProjectRole == "INITIATOR")
       {
-        this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard"},
+        this.menu = this.menu.concat([
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"},
           { route: "/app/heatmap", Title: "Heat Map"},
           { route: "/app/reports",  Title: "Reports"},
           { route: "/app/score",  Title: "DealValue Score"}
-        ]
+        ]);
       }else if( this.userProjectRole == "PRIMARY" )
       {
-        this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard"},
+        this.menu = this.menu.concat([
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"}
-        ]
+        ]);
       }
       this.menu = this.menu.concat( this.assessment_menu )
     }else{
@@ -135,19 +136,28 @@ export class SidebarComponent implements OnInit {
       this.currentProject = this.authService.getUserProject();
       projectID = this.currentProject['Project']['_id'] || null;
       this.userProjectRole = this.currentProject['Role'];
-    }else{
-      projectID = 'all'
-    }
-    this.dataService.getAssessmentList(projectID).subscribe(
-      response => {
-        this.assessment_menu = response.Categories;
-        this.assessment_menu = this.updateAssessment( this.assessment_menu );
-        this.initMenu();
-      },
-      (error) => {
+      this.dataService.getAssessmentList(projectID).subscribe(
+        response => {
+          this.assessment_menu = response.Categories;
+          this.assessment_menu = this.updateAssessment( this.assessment_menu );
+          this.initMenu();
+        },
+        (error) => {
 
-      }
-    );
+        }
+      );
+    }else{
+      this.dataService.getAdminAssessmentList().subscribe(
+        response => {
+          this.assessment_menu = response.Categories;
+          this.assessment_menu = this.updateAssessment( this.assessment_menu );
+          this.initMenu();
+        },
+        (error) => {
+
+        }
+      );
+    }
   }
   changeStatus(obj){
     obj.open = obj.open ? false: true;

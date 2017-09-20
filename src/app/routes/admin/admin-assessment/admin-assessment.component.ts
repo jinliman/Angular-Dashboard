@@ -43,8 +43,8 @@ export class AdminAssessmentComponent implements OnInit {
         this.editAssessmentUrl = "";
         this.loading = true;
         let assessment_id = params['id'] || '';
-        let data = {id: assessment_id, projectID: 'all'};
-        this.dataService.getAssessmentFlat(data).subscribe(
+        let data = {id: assessment_id};
+        this.dataService.getAdminAssessmentFlat(data).subscribe(
           response => {
             if(response.result == null)
               this.router.navigate(['admin/dashboard']);
