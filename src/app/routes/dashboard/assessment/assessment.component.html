@@ -11,7 +11,7 @@
         </a>
     </div>
   </div>
-  <table class="table" *ngIf="this.userRole != 'INITIATOR'">
+  <table class="table" *ngIf="this.userRole == 'MEMBER'">
     <thead>
       <tr>
         <td class="category">
@@ -120,7 +120,7 @@
     </ng-container>
   </table>
 
-  <table class="table" *ngIf="this.userRole == 'INITIATOR'">
+  <table class="table" *ngIf="this.userRole != 'MEMBER'">
     <thead>
       <tr>
         <td class="category">
