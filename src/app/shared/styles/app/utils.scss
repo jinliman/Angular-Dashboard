@@ -24,6 +24,9 @@
 button {
   outline-style: none !important;
 }
+.btn-success{
+  background-color: $dv-color-green !important;
+}
 .assets{
   input.ng-valid.ng-touched{
     border-left: 5px solid $dv-color-green;

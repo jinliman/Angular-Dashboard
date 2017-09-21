@@ -1,7 +1,7 @@
 <div class="team-page">
   <div class="loading-div" *ngIf="loading"></div>
-  <div class="title">
-    <p>Document Request List</p>
+  <div class="sub-header">
+    <p>My Team</p>
     <ul>
       <li><a routerLink="../../app/dashboard" routerLinkActive="active">Dashboard</a></li>
       <li><a routerLink="../../app/progress" routerLinkActive="active">Progress</a></li>
@@ -13,6 +13,61 @@
       <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/more-icon.svg'"></a></li>
     </ul>
   </div>
+  <div class="title">
+    <div class="button-div">
+      <a (click)="inviteTeam(newTeamMemberModal)" class="button pull-right">
+        <span><i class="fa fa-save"></i></span> Invite Team Members
+      </a>
+    </div>
+  </div>
+  <modal #newTeamMemberModal [animation]=false>
+    <form class="form invite-modal" (ngSubmit) = "inviteTeamMembers(newTeamMemberModal)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Invite New Team Members</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row" *ngIf="!hasPrimary">
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': primaryemail.invalid && primaryemail.touched,
+              'has-success': primaryemail.valid && primaryemail.touched
+            }">
+            <div class="clearfix">
+              <div class="user-icon" [inlineSVG]="'/assets/images/icons/dashboard/team-icon1.svg'"></div>
+              <input class="email pull-left" type="email" name="primaryemail" #primaryemail = "ngModel" [(ngModel)] = "PrimaryEmail" value="" placeholder="Primary User email" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+            </div>
+            <span class="help-block" *ngIf="primaryemail.errors && primaryemail.errors.required  && primaryemail.touched">Primary Email is required</span>
+            <span class="help-block" *ngIf="primaryemail.errors && primaryemail.errors.pattern && primaryemail.touched">Primary Email is invalid</span>
+          </div>
+        </div>
+
+        <div class="row" *ngFor="let item of TeamEmail; let i = index">
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': item.name.invalid && item.name.touched,
+              'has-success': item.name.valid && item.name.touched
+            }">
+            <div class="clearfix">
+              <div class="user-icon" [inlineSVG]="'/assets/images/icons/dashboard/team-icon1.svg'"></div>
+              <input class="email pull-left" type="email" name="{{item.name}}" #item.name= "ngModel" [(ngModel)] = "item.value" value="" placeholder="Teammate's email" required  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+              <a class="remove-button" (click)="removeTeamMemeber(i)" ><span></span></a>
+            </div>
+            <span class="help-block" *ngIf="item.name.errors && item.name.errors.required  && item.name.touched">Email is required</span>
+            <span class="help-block" *ngIf="item.name.errors && item.name.errors.pattern && item.name.touched">Email is invalid</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group clearfix">
+            <a class="add-button" (click)="addNewTeamMembr()"><span>New Team-Member</span></a>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="newTeamMemberModal.dismiss()">Cancel</button>
+          <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Send Invitation</button>
+      </modal-footer>
+    </form>
+  </modal>
   <table class="table">
     <thead>
       <tr>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { DataService } from '../../../core/services/data.service';
 
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
@@ -14,10 +16,16 @@ export class TeamComponent implements OnInit {
   assessmentArr: Array<object> = [];
   currentProject: object;
   team: Array<object> = [];
+
+  PrimaryEmail: string = "";
+  TeamEmail: Array<object> = [];
+  hasPrimary: boolean = false;
+
   loading: boolean;
   constructor(
     private authService: AuthService,
-    private dataService: DataService
+    private dataService: DataService,
+    private _notificationService: NotificationsService
   ) {
   }
 
@@ -29,7 +37,7 @@ export class TeamComponent implements OnInit {
       let item = this.team[i];
       userItem['username'] = item['User']['Name']['First'] + ' ' + item['User']['Name']['Last'];
       userItem['shortname'] = item['User']['Name']['First'].charAt(0) + item['User']['Name']['Last'].charAt(0);
-      userItem['open'] = true;
+      userItem['open'] = false;
       let userAssessments = []
       for(let j=0; j < this.assessmentArr.length; j++)
       {
@@ -60,8 +68,64 @@ export class TeamComponent implements OnInit {
       }
     );
   }
+
+  inviteTeam(modal){
+    this.hasPrimary = this.hasPrimaryMember()
+    this.TeamEmail = [{"name": "teammember1", "value": ""}];
+    this.PrimaryEmail = '';
+    modal.open();
+  }
+
+  hasPrimaryMember(){
+    let primary =  this.team.find(function(e){
+      return e['Role'] == "PRIMARY"
+    })
+    return !!primary;
+  }
+
+  addNewTeamMembr(){
+    let newIndex = this.TeamEmail.length + 1;
+    this.TeamEmail.push({"name": "teammember" + newIndex, "value": ""});
+  }
+
+  removeTeamMemeber(index){
+    this.TeamEmail.splice(index, 1);
+  }
+
+  inviteTeamMembers(modal){
+    let token = this.authService.getToken()
+    let data = {
+      "Token"       : token,
+      "Primary"     : this.PrimaryEmail,
+      "TeamMember"  : this.TeamEmail.map(function(obj){ return obj['value']})
+    }
+    this.authService.inviteUser(data).subscribe(
+      response => {
+        if(response.ERR_CODE == 'ERR_NONE')
+        {
+          this._notificationService.success(
+              'Successfully Sent!',
+              'Category'
+          );
+          modal.close();
+        }else{
+          this._notificationService.error(
+              'Sth went wrong',
+              'Category'
+          )
+        }
+      },
+      (error) => {
+        this._notificationService.error(
+            'Sth went wrong',
+            'Category'
+        )
+      }
+    );
+  }
   ngOnInit() {
     this.loading = true;
+    this.TeamEmail = [{"name": "teammember1", "value": ""}];
     this.currentProject = this.authService.getUserProject();
     let projectID = this.currentProject['Project']['_id'];
     let data = {id: projectID}
