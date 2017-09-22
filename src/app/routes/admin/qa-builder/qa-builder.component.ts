@@ -20,7 +20,8 @@ export class QaBuilderComponent implements OnInit {
   question_type = [
     {'value':'Text', 'label':'Text'},
     {'value':'Radio', 'label':'Radio'},
-    {'value':'Checkbox', 'label':'Checkbox'}
+    {'value':'Checkbox', 'label':'Checkbox'},
+    {'value':'Dropdown', 'label':'Dropdown'}
   ]
   assessment: object = {};
   assessment_id = null;

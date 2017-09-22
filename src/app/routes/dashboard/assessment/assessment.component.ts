@@ -79,7 +79,7 @@ export class AssessmentComponent implements OnInit {
             unSelectAllText:'UnSelect All',
             enableSearchFilter: false ,
             enableCheckAll: false,
-            classes:"cs-user-select",
+            classes:"cs-user-select custom-class",
             disabled: this.assignDisabled
           };
 

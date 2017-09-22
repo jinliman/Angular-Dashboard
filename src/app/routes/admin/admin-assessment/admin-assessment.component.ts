@@ -73,7 +73,6 @@ export class AdminAssessmentComponent implements OnInit {
   getTableData(){
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
-      console.log(entry)
       let subDetails = [];
       let question = this.questionnaires.find(function(elem){
         return elem['category_id'] == entry['uuid']

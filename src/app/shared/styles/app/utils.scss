@@ -140,7 +140,7 @@ input{
     border-radius: 50%;
     width: 12px; height: 12px;
     position: absolute;
-    top: 5px; left: 5px;
+    top: 5.4px; left: 5.5px;
     font-size: 1.3em;
     line-height: 0.8;
     transition: all .2s;
@@ -455,9 +455,20 @@ textarea{
     border: none !important;
   }
   .dropdown-list{
-    padding-top: 6px !important;
     .arrow-up{
-      display: none !important;
+      border-bottom-color: #ccc !important;
+      &::after{
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 15px solid #fff;
+        position: absolute;
+        top: 3px;
+        left: -13px;
+      }
     }
   }
 
@@ -473,6 +484,9 @@ textarea{
       box-shadow: none !important;
       display: inline-flex !important;
       padding: 2px !important;
+      &>span{
+        margin-top: 5px !important;
+      }
       &.disabled{
         background: #fff;
       }
@@ -480,15 +494,75 @@ textarea{
     .c-list{
       font-weight: 400;
       .c-token{
-        padding: 0px !important;
-        background: none !important;
-        color: $dv-color-primary !important;
+        margin-top: 5px !important;
+        background: $dv-color-green !important;
+        color: #fff !important;
         float: none !important;
         .c-label{
           float: none !important;
         }
         .fa-remove{
           display: none;
+        }
+      }
+    }
+  }
+}
+
+// Custom-Dropdown-Multi-Select
+.cs-dropdown-select{
+  font-weight: 400 !important;
+  .pure-checkbox input[type="checkbox"] + label:before {
+    color: $dv-color-green !important;
+    border: 2px solid $dv-color-green !important;
+  }
+  .pure-checkbox input[type="checkbox"]:checked + label:before {
+    background: $dv-color-green !important;
+  }
+  .pure-checkbox input[type="checkbox"] + label{
+    font-weight: 400 !important;
+  }
+  .dropdown-list{
+    .arrow-up{
+      border-bottom-color: #ccc !important;
+      &::after{
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 15px solid #fff;
+        position: absolute;
+        top: 3px;
+        left: -13px;
+      }
+    }
+  }
+  .selected-list{
+    span{
+      font-size: 18px !important;
+    }
+    .c-btn{
+      box-shadow: none !important;
+      display: inline-flex !important;
+      box-shadow: none !important;
+      border: 2px solid #eaeaea;
+      border-radius: 4px;
+      &>span{
+        line-height: 28px !important;
+      }
+    }
+    .c-list{
+      font-weight: 400;
+      .c-token{
+        display: flex !important;
+        align-items: center !important;
+        background: $dv-color-green !important;
+        padding: 4px 12px !important;
+        color: #fff !important;
+        .fa-remove{
+          margin-left: 8px !important;
         }
       }
     }

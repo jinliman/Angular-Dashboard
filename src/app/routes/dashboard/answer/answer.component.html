@@ -11,7 +11,7 @@
   <div class="inner-content-div">
     <table class="question-table">
       <ng-container *ngFor="let question_item of questions; let i = index">
-        <tbody *ngIf="userAssignment['Questions'].indexOf(question_item['uuid']) != -1">
+        <tbody *ngIf="userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
           <tr>
             <td style="width:40px">
               <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
@@ -22,23 +22,38 @@
               </div>
             </td>
           </tr>
-          <tr *ngFor="let item of question_item.Items; let i1 = index">
-            <td style="width:40px">
-            </td>
-            <td>
-              <div class="" *ngIf="question_item['Type'] == 'Text'">
-                <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}"></textarea>
-              </div>
-              <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
-                <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
-                <label for="{{item['uuid']}}">{{item['Text']}}</label>
-              </div>
-              <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
-                <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
-                <label for="{{item['uuid']}}">{{item['Text']}}</label>
-              </div>
-            </td>
-          </tr>
+          <ng-container *ngIf = "question_item.Type == 'Dropdown'">
+            <tr>
+              <td style="width:40px">
+              </td>
+              <td>
+                <angular2-multiselect [data]="dropdownData[question_item['uuid']].Content" [(ngModel)]="dropdownData[question_item['uuid']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
+                <!-- <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Dropdown'" style="margin-top:15px">
+                  <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
+                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                </div> -->
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf = "question_item.Type != 'Dropdown'">
+            <tr *ngFor="let item of question_item.Items; let i1 = index">
+              <td style="width:40px">
+              </td>
+              <td>
+                <div class="" *ngIf="question_item['Type'] == 'Text'">
+                  <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}"></textarea>
+                </div>
+                <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
+                  <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
+                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                </div>
+                <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
+                  <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
+                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </ng-container>
     </table>

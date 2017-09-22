@@ -25,8 +25,11 @@ export class AnswerComponent implements OnInit {
   answers: Array<Answer> = [];
   userAssignment: object = {};
   project: object;
-
   user = [];
+
+  dropdownData: Array<object> = [];
+  test = [];
+  dropdownSettings = {};
   loading = true;
 
   constructor(
@@ -51,6 +54,15 @@ export class AnswerComponent implements OnInit {
         this.questions = [];
         this.answers = [];
         this.project = JSON.parse(localStorage.getItem('project'));
+        this.dropdownSettings = {
+            singleSelection: false,
+            text:'--',
+            selectAllText:'Select All',
+            unSelectAllText:'UnSelect All',
+            enableSearchFilter: false ,
+            enableCheckAll: true,
+            classes:"cs-dropdown-select custom-class",
+          };
         this.loading = true;
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
@@ -79,7 +91,6 @@ export class AnswerComponent implements OnInit {
         let result = response.result;
         let that = this
         this.userAssignment = result.find(function(item){ return item['User'] == that.user['_id'];})
-        console.log(this.userAssignment)
       },
       (error) =>{
       }
@@ -98,17 +109,26 @@ export class AnswerComponent implements OnInit {
   }
 
   updateQuestionnair(){
-	    for(var i in this.questions) {
-        let answerObj = this.findAnswerObject(this.questions[i].uuid);
+	    for(let qustion_group of this.questions) {
+        let answerObj = this.findAnswerObject(qustion_group.uuid);
         if( answerObj && answerObj.value )
-          this.questions[i].value = answerObj.value;
-        for(var j in this.questions[i].Items) {
-          let answerObj = this.findAnswerObject(this.questions[i].Items[j].uuid);
+          qustion_group.value = answerObj.value;
+        if(qustion_group.Type == 'Dropdown')
+        {
+          if(!this.dropdownData[qustion_group.uuid])
+            this.dropdownData[qustion_group.uuid] = { Content: [], Selected: []}
+        }
+        for(let question_item of qustion_group.Items) {
+          if(qustion_group.Type == 'Dropdown')
+          {
+            this.dropdownData[qustion_group.uuid].Content.push({"id":question_item.uuid,"itemName":question_item.Text})
+            if(qustion_group.value && qustion_group.value.split(",").indexOf(question_item.uuid) != -1)
+              this.dropdownData[qustion_group.uuid].Selected.push({"id":question_item.uuid,"itemName":question_item.Text})
+          }
+          let answerObj = this.findAnswerObject(question_item.uuid);
           if( answerObj && answerObj.value )
           {
-            this.questions[i].Items[j].value = answerObj.value;
-            if(this.questions[i].Type == "Checkbox")
-              this.questions[i].Items[j].value = answerObj.value;
+            question_item.value = answerObj.value;
           }
         }
 	    }
@@ -141,8 +161,19 @@ export class AnswerComponent implements OnInit {
       }
     );
   }
-
+  prepareSaveData(){
+    for(let item of this.questions)
+    {
+      if( item.Type == 'Dropdown')
+      {
+        item.value = this.dropdownData[item.uuid].Selected.map(function(e){
+          return e['id'];
+        }).toString();
+      }
+    }
+  }
   saveAnswer(){
+    this.prepareSaveData();
     let questionnare_id = this.questionnaire['_id'];
     let project_id = this.project['id'];
     let data = {
