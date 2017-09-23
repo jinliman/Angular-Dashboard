@@ -180,6 +180,11 @@ export class DataService {
   */
 
   getTeam(data){
+    return this.http.post(this.url + '/api/user/team/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getTeamMembers(data){
     return this.http.post(this.url + '/api/user/team/members', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }

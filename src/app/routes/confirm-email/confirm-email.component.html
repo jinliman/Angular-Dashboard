@@ -17,7 +17,7 @@
       <div class="row" *ngIf="this.canInvite">
         <div class="col-md-12 form-group button-group">
           <div class="invite-button">
-              <a [routerLink]="['/team-invite/']" [queryParams]="{token: token}" class="get-started button pull-left">Invite Team Members</a>
+              <a [routerLink]="['/team-invite/']" [queryParams]="{token: token, id:projectID}" class="get-started button pull-left">Invite Team Members</a>
           </div>
         </div>
       </div>

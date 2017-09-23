@@ -184,7 +184,8 @@ export class AssessmentComponent implements OnInit {
         console.log(this.userAssignment)
         this.assignment = this.updateAssignment(this.assignmentByUser);
         this.getTableData();
-        this.setAllowAnswer();
+        if(this.userRole != "INITIATOR")
+          this.setAllowAnswer();
         console.log(this.tableData)
       },
       (error) => {
@@ -192,6 +193,7 @@ export class AssessmentComponent implements OnInit {
     );
   }
   setAllowAnswer(){
+    this.allowAnswer = true;
     let userID = this.user['_id'];
     let tmpArr = this.assignment['Assessments'][this.assessment_id] || [];
     tmpArr = tmpArr.concat(this.assignment['QAssessments'][this.assessment_id] || []);
@@ -247,7 +249,7 @@ export class AssessmentComponent implements OnInit {
   getTeam(){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {id: projectID}
-    this.dataService.getTeam(data).subscribe(
+    this.dataService.getTeamMembers(data).subscribe(
       response => {
         this.team = response.result;
         this.updateTeam();
@@ -292,6 +294,7 @@ export class AssessmentComponent implements OnInit {
       let item = { id: entry['uuid'], title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, filename: "test.xls",  usersAssigned: userAssignment, questionArr: questionArr}
       this.tableData.push(item)
     }
+
     this.loading = false;
   }
 }

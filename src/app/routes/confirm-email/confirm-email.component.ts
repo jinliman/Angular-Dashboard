@@ -13,6 +13,7 @@ import { DataService } from '../../core/services/data.service';
 export class ConfirmEmailComponent implements OnInit {
 
   token: string;
+  projectID: string;
   isConfirmed: boolean;
   canInvite: boolean;
   constructor(
@@ -30,7 +31,9 @@ export class ConfirmEmailComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.token = params['token'] || '';
-        this.authService.confirmEmail(this.token).subscribe(
+        this.projectID = params['id'] || '';
+        let data = { token: this.token, projectID: this.projectID}
+        this.authService.confirmEmail(data).subscribe(
           response => {
             if(response)
               this.canInvite = true;

@@ -147,8 +147,8 @@ export class AuthService {
       .map((response: Response) => response.json());
   }
 
-  confirmEmail(token){
-    return this.http.get(this.url + '/api/confirmemail?token=' + token, { headers: this.getHeaders()})
+  confirmEmail(data){
+    return this.http.post(this.url + '/api/confirmemail', data, { headers: this.getHeaders()})
       .map((response: Response) => response.json());
   }
 

@@ -7,7 +7,7 @@
           <span> <i class="fa fa-save"></i> Answer Questionnaires</span>
         </a>
         <a class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
-          <span> <i class="fa fa-save"></i> Save</span>
+          <span> <i class="fa fa-save"></i> Assign To</span>
         </a>
     </div>
   </div>
@@ -105,12 +105,12 @@
             <td width="15%">
               <div class="form-group checkbox">
                 <div *ngIf="question_item.status == 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="" checked>
-                  <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
+                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item['id']}}" name="{{group_index}}_remember_me_{{question_item['id']}}" value="" checked>
+                  <label for="{{group_index}}_remember_me_{{question_item['id']}}">NA</label>
                 </div>
                 <div *ngIf="question_item.status != 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="">
-                  <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
+                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item['id']}}" name="{{group_index}}_remember_me_{{question_item['id']}}" value="">
+                  <label for="{{group_index}}_remember_me_{{question_item['id']}}">NA</label>
                 </div>
               </div>
             </td>
@@ -214,12 +214,12 @@
             <td width="15%">
               <div class="form-group checkbox">
                 <div *ngIf="question_item.status == 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="" checked>
-                  <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
+                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.id}}" name="{{group_index}}_remember_me_{{question_item.id}}" value="" checked>
+                  <label for="{{group_index}}_remember_me_{{question_item.id}}">NA</label>
                 </div>
                 <div *ngIf="question_item.status != 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="">
-                  <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
+                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.id}}" name="{{group_index}}_remember_me_{{question_item.id}}" value="">
+                  <label for="{{group_index}}_remember_me_{{question_item.id}}">NA</label>
                 </div>
               </div>
             </td>

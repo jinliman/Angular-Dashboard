@@ -16,6 +16,7 @@ export class TeamsComponent implements OnInit {
   PrimaryEmail: string;
   TeamEmail: Array<object>;
   token: string;
+  projectID: string;
   isSent: boolean;
   submitText: string;
   constructor(
@@ -27,9 +28,10 @@ export class TeamsComponent implements OnInit {
 
   onSubmit(){
     let data = {
-      "Token"       : this.token,
-      "Primary"     : this.PrimaryEmail,
-      "TeamMember"  : this.TeamEmail.map(function(obj){ return obj['value']})
+      Token       : this.token,
+      ProjectID   : this.projectID,
+      Primary     : this.PrimaryEmail,
+      TeamMember  : this.TeamEmail.map(function(obj){ return obj['value']})
     }
 
     this.authService.inviteUser(data).subscribe(
@@ -60,6 +62,7 @@ export class TeamsComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.token = params['token'] || '';
+        this.projectID = params['id'] || '';
         this.authService.validUser(this.token).subscribe(
           response => {
           },

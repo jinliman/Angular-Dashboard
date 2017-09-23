@@ -94,11 +94,14 @@ export class TeamComponent implements OnInit {
 
   inviteTeamMembers(modal){
     let token = this.authService.getToken()
+    let projectID = this.currentProject['Project']['_id'];
     let data = {
-      "Token"       : token,
-      "Primary"     : this.PrimaryEmail,
-      "TeamMember"  : this.TeamEmail.map(function(obj){ return obj['value']})
+      Token       : token,
+      ProjectID   : projectID,
+      Primary     : this.PrimaryEmail,
+      TeamMember  : this.TeamEmail.map(function(obj){ return obj['value']})
     }
+
     this.authService.inviteUser(data).subscribe(
       response => {
         if(response.ERR_CODE == 'ERR_NONE')
