@@ -295,27 +295,14 @@ export class AssessmentComponent implements OnInit {
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {id: projectID}
 
-    if(this.userRole == "INITIATOR")
-    {
-      this.dataService.getTeam(data).subscribe(
-        response => {
-          this.team = response.result;
-          this.updateTeam();
-        },
-        (error) => {
-        }
-      );
-    }else
-    {
-      this.dataService.getTeamMembers(data).subscribe(
-        response => {
-          this.team = response.result;
-          this.updateTeam();
-        },
-        (error) => {
-        }
-      );
-    }
+    this.dataService.getTeam(data).subscribe(
+      response => {
+        this.team = response.result;
+        this.updateTeam();
+      },
+      (error) => {
+      }
+    );
   }
 
   updateTeam(){
