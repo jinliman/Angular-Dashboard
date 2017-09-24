@@ -14,6 +14,7 @@ export class TeamComponent implements OnInit {
   tableData: Array<any>;
   statusArr: object;
   assessmentArr: Array<object> = [];
+  assignment: Array<object> = []
   currentProject: object;
   team: Array<object> = [];
 
@@ -31,22 +32,31 @@ export class TeamComponent implements OnInit {
 
   updateTableData(){
     let data = [];
-    for(let i=0; i < this.team.length; i++)
+
+    console.log(this.assessmentArr)
+    console.log(this.team)
+    for(let user_item of this.team)
     {
       let userItem:object = {};
-      let item = this.team[i];
-      userItem['username'] = item['User']['Name']['First'] + ' ' + item['User']['Name']['Last'];
-      userItem['shortname'] = item['User']['Name']['First'].charAt(0) + item['User']['Name']['Last'].charAt(0);
+      userItem['username'] = user_item['User']['Name']['First'] + ' ' + user_item['User']['Name']['Last'];
+      userItem['shortname'] = user_item['User']['Name']['First'].charAt(0) + user_item['User']['Name']['Last'].charAt(0);
       userItem['open'] = false;
       let userAssessments = []
-      for(let j=0; j < this.assessmentArr.length; j++)
+      for(let item of this.assessmentArr)
       {
-        let userAssessmentItem:object = {};
-        userAssessmentItem['status'] = 0;
-        userAssessmentItem['desc'] = this.assessmentArr[j]['Desc'];
-        userAssessmentItem['title'] = this.assessmentArr[j]['Title'];
-        userAssessmentItem['created_at'] = this.assessmentArr[j]['createdAt'] || this.assessmentArr[j]['created_time'];
-        userAssessments.push(userAssessmentItem);
+        let assignment_item = this.assignment.find(function(e){
+          return e['User'] == user_item['User']['_id'] && e['AssignmentID'] == item['uuid'] && ['Assessment','QAssessment'].indexOf(e['Type']) != -1;
+        })
+        if(assignment_item)
+        {
+          let userAssessmentItem:object = {};
+          userAssessmentItem['status'] = 0;
+          userAssessmentItem['desc'] = item['Desc'];
+          userAssessmentItem['title'] = item['Title'];
+          userAssessmentItem['assigned_on'] = assignment_item['updatedAt'];
+          userAssessmentItem['completed_at'] = assignment_item['updatedAt'];
+          userAssessments.push(userAssessmentItem);
+        }
       }
       userItem['hasDetail'] = (userAssessments.length>0) ? true: false;
       userItem['assessments'] = userAssessments;
@@ -56,19 +66,29 @@ export class TeamComponent implements OnInit {
   }
 
   getAssessment(projectID){
-
     this.dataService.getAssessmentListFlat(projectID).subscribe(
       response => {
         this.assessmentArr = response.Categories;
-        this.tableData = this.updateTableData();
-        this.loading = false;
+        this.getAssignment();
       },
       (error) => {
 
       }
     );
   }
-
+  getAssignment(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let parma = { projectID: projectID}
+    this.dataService.getAssignment(parma).subscribe(
+      response => {
+        this.assignment = response.result;
+        this.tableData = this.updateTableData();
+        this.loading = false;
+      },
+      (error) => {
+      }
+    );
+  }
   inviteTeam(modal){
     this.hasPrimary = this.hasPrimaryMember()
     this.TeamEmail = [{"name": "teammember1", "value": ""}];
