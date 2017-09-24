@@ -138,7 +138,7 @@ export class AssessmentComponent implements OnInit {
 
     if(!item && !item1)
       this.newAssignments.push({User: userID, AssignmentID: assignment_id, Type: type, Action: 'add'});
-
+    console.log(this.newAssignments)
   }
 
   onAssignmentDeSelect(event, assignment, type, parent_assessment = null){
@@ -149,7 +149,7 @@ export class AssessmentComponent implements OnInit {
       for(let item of parent_assessment.questionArr)
       {
         let tmp = item.usersAssigned.find(function(e){
-          return e.id = event.id
+          return e.id == event.id
         })
         if(tmp)
           count++;
@@ -173,7 +173,7 @@ export class AssessmentComponent implements OnInit {
 
     if(item)
       this.newAssignments.push({id: item['_id'], User: userID, AssignmentID: assignment_id, Type: type, Action: 'delete'});
-
+    console.log(this.newAssignments)
   }
 
   saveAssignment(){
@@ -294,14 +294,28 @@ export class AssessmentComponent implements OnInit {
   getTeam(){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {id: projectID}
-    this.dataService.getTeamMembers(data).subscribe(
-      response => {
-        this.team = response.result;
-        this.updateTeam();
-      },
-      (error) => {
-      }
-    );
+
+    if(this.userRole == "INITIATOR")
+    {
+      this.dataService.getTeam(data).subscribe(
+        response => {
+          this.team = response.result;
+          this.updateTeam();
+        },
+        (error) => {
+        }
+      );
+    }else
+    {
+      this.dataService.getTeamMembers(data).subscribe(
+        response => {
+          this.team = response.result;
+          this.updateTeam();
+        },
+        (error) => {
+        }
+      );
+    }
   }
 
   updateTeam(){
