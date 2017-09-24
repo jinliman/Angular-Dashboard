@@ -103,6 +103,7 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+
   getAssignment(data){
     return this.http.post(this.url + '/api/assessment/assignment/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -110,6 +111,11 @@ export class DataService {
 
   saveAssignment(data){
     return this.http.post(this.url + '/api/assessment/assignment/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getUserAssignment(data){
+    return this.http.post(this.url + '/api/assessment/assignment/get_user', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 

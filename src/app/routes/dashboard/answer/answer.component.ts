@@ -86,15 +86,30 @@ export class AnswerComponent implements OnInit {
     let projectID = this.project['id'] || null;
     let parma = { projectID: projectID}
 
-    this.dataService.getAssignment(parma).subscribe(
+    this.dataService.getUserAssignment(parma).subscribe(
       response => {
-        let result = response.result;
-        let that = this
-        this.userAssignment = result.find(function(item){ return item['User'] == that.user['_id'];})
+        this.userAssignment = this.updateUserAssignment(response.result)
+        console.log(this.userAssignment)
       },
       (error) =>{
       }
     );
+  }
+  updateUserAssignment(data){
+    var result = { Questions: [], Assessments: [], QAssessments: []};
+    for(let item of data)
+    {
+      if(item['User'] == this.user['_id'])
+      {
+        if(item['Type'] == 'Assessment')
+          result.Assessments.push(item['AssignmentID'])
+        else if(item['Type'] == 'QAssessment')
+          result.QAssessments.push(item['AssignmentID'])
+        else if(item['Type'] == 'Question')
+          result.Questions.push(item['AssignmentID'])
+      }
+    }
+    return result;
   }
   findAnswerObject(uuid){
     for(var i in this.answers) {

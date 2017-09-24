@@ -6,7 +6,7 @@
         <a *ngIf="allowAnswer" class="svg button pull-left" routerLink="{{editAssessmentUrl}}/answer">
           <span> <i class="fa fa-save"></i> Answer Questionnaires</span>
         </a>
-        <a class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
+        <a *ngIf="allowAssign" class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
           <span> <i class="fa fa-save"></i> Assign To</span>
         </a>
     </div>
@@ -67,7 +67,7 @@
 
           </td>
           <td width="15%">
-            <angular2-multiselect [data]="teamList" [(ngModel)]="question_group.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
+
           </td>
           <td width="15%">
             <div class="form-group checkbox">
@@ -100,7 +100,7 @@
               {{statusArr[question_item.status]}}
             </td>
             <td width="15%">
-              <angular2-multiselect  [data]="teamList" [(ngModel)]="question_item.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
+
             </td>
             <td width="15%">
               <div class="form-group checkbox">
@@ -176,7 +176,7 @@
 
           </td>
           <td width="15%">
-            <angular2-multiselect [data]="teamList" [(ngModel)]="question_group.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
+            <angular2-multiselect [data]="teamList" (onSelect)="onAssignmentSelect($event, question_group, 'Assessment')" (onDeSelect)="onAssignmentDeSelect($event, question_group, 'Assessment')" [(ngModel)]="question_group.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
           </td>
           <td width="15%">
             <div class="form-group checkbox">
@@ -209,7 +209,7 @@
               {{statusArr[question_item.status]}}
             </td>
             <td width="15%">
-              <angular2-multiselect  [data]="teamList" [(ngModel)]="question_item.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
+              <angular2-multiselect  [data]="teamList"  (onSelect)="onAssignmentSelect($event, question_item, 'Question', question_group)" (onDeSelect)="onAssignmentDeSelect($event, question_item, 'Question',question_group)"  [(ngModel)]="question_item.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
             </td>
             <td width="15%">
               <div class="form-group checkbox">
