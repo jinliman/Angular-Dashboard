@@ -63,6 +63,7 @@ export class Question{
   Type: string;
   Label: string;
   value   : string;
+  HasDocument: boolean;
   Items: [{
        uuid    : string;
        Text    : string;

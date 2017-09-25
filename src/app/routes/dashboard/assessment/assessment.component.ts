@@ -27,12 +27,15 @@ export class AssessmentComponent implements OnInit {
   allAssignment: Array<object> = [];
   userAssignment: object = {};
   questionnaires: Array<object>= [];
-  newAssignments: Array<object> = []
+  attachmentList: Array<object> = [];
 
   editAssessmentUrl: string = "";
   currentProject: object = {};
   team: Array<object> = [];
   teamList: Array<object> = [];
+
+  newAssignments: Array<object> = []
+  newAttachmentObj: object = {}
   assignDisabled: boolean = false;
   allowAnswer: boolean = false;
   allowAssign: boolean = false;
@@ -46,6 +49,7 @@ export class AssessmentComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private authService: AuthService,
+    private http: Http,
     private _notificationService: NotificationsService
   ) {
     this.user = this.authService.getUser()
@@ -102,6 +106,7 @@ export class AssessmentComponent implements OnInit {
         this.assessment = response.result;
         this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
         this.getQuestionnaire();
+        this.getUserAttachment();
         this.getTeam();
       },
       (error) => {
@@ -310,6 +315,74 @@ export class AssessmentComponent implements OnInit {
       return {"id":item['User']['_id'],"itemName":item['User']['Name']['First']}
     })
   }
+  /*
+  ---------------- Attachment --------------------
+  */
+
+  getUserAttachment(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {ProjectID : projectID}
+    this.dataService.getUserAttachment(data).subscribe(
+        response => {
+          this.updateUserAttachmetn(response.result)
+        },
+        (error) => {
+
+        }
+      );
+  }
+  updateUserAttachmetn(data){
+    this.attachmentList = [];
+    for(let item of data)
+    {
+      this.attachmentList[item['AssignmentID']] = item
+    }
+  }
+  showUserAttachment(id){
+    let result = '';
+    if(this.attachmentList[id])
+      result = this.attachmentList[id]['Comment'];
+    return result;
+  }
+  OpenUploadFileModal(modal, AssessmentID){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    this.newAttachmentObj = {Comment: '', File: null, AssessmentID: AssessmentID, ProjectID: projectID}
+    modal.open()
+  }
+
+  addNewAttachment(modal){
+    let formData = new FormData();
+    formData.append('attachment', this.newAttachmentObj['File']);
+    formData.append('data', JSON.stringify(this.newAttachmentObj));
+
+    this.dataService.saveAttachment(formData).subscribe(
+        response => {
+          this.getUserAttachment();
+          this._notificationService.success(
+              'Successfully Saved!',
+              'Attachment'
+          )
+          modal.close()
+        },
+        (error) => {
+          this._notificationService.error(
+              'Sth went wrong',
+              'Attachment'
+          )
+        }
+      );
+  }
+
+  updateFile(event)
+  {
+    console.log(event.srcElement.files)
+    if(event.srcElement.files[0])
+    {
+      this.newAttachmentObj['File'] = event.srcElement.files[0];
+    }else{
+      this.newAttachmentObj['File'] = null;
+    }
+  }
   getTableData(){
     this.tableData = [];
     for(let entry of [this.assessment].concat(this.assessment['children']))
@@ -328,7 +401,7 @@ export class AssessmentComponent implements OnInit {
             this.assignment['Questions'][question_entry['uuid']] = []
           let userAssignment = this.assignment['Questions'][question_entry['uuid']];
 
-          let question_item = { id: question_entry['uuid'], status: 2, desc: question_entry['Label'], type: question_entry['Type'], filename: "test.xls",  usersAssigned: userAssignment}
+          let question_item = { id: question_entry['uuid'], status: 2, desc: question_entry['Label'], type: question_entry['Type'], hasDocument: question_entry['HasDocument'], filename: "test.xls",  usersAssigned: userAssignment}
           questionArr.push(question_item)
         }
       }

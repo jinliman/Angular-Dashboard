@@ -50,6 +50,7 @@ export class DataService {
     return this.http.post(this.url + '/api/duediligence', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
   /*
   ---------------- Admin Assessment -----------------
   */
@@ -200,6 +201,22 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  /*
+  ---------------- Attachment -----------------
+  */
 
+  getUserAttachment(data){
+    return this.http.post(this.url + '/api/user/attachment/user', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  saveAttachment(data){
+    let headers = new Headers();
+    headers.set('Accept', 'application/json');
+  	headers.append('x-chaos-token', JSON.parse(localStorage.getItem('token')));
+
+    return this.http.post(this.url + '/api/user/attachment/save', data, { headers: headers })
+      .map((response: Response) => response.json());
+  }
 
 }
