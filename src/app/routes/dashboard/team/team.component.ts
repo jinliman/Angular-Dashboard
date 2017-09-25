@@ -17,7 +17,8 @@ export class TeamComponent implements OnInit {
   assignment: Array<object> = []
   currentProject: object;
   team: Array<object> = [];
-
+  answerList: Array<object> = [];
+  statusList: Array<object> = [];
   PrimaryEmail: string = "";
   TeamEmail: Array<object> = [];
   hasPrimary: boolean = false;
@@ -33,14 +34,12 @@ export class TeamComponent implements OnInit {
   updateTableData(){
     let data = [];
 
-    console.log(this.assessmentArr)
-    console.log(this.team)
     for(let user_item of this.team)
     {
       let userItem:object = {};
       userItem['username'] = user_item['User']['Name']['First'] + ' ' + user_item['User']['Name']['Last'];
       userItem['shortname'] = user_item['User']['Name']['First'].charAt(0) + user_item['User']['Name']['Last'].charAt(0);
-      userItem['open'] = false;
+      userItem['open'] = true;
       let userAssessments = []
       for(let item of this.assessmentArr)
       {
@@ -50,11 +49,20 @@ export class TeamComponent implements OnInit {
         if(assignment_item)
         {
           let userAssessmentItem:object = {};
-          userAssessmentItem['status'] = 0;
           userAssessmentItem['desc'] = item['Desc'];
           userAssessmentItem['title'] = item['Title'];
           userAssessmentItem['assigned_on'] = assignment_item['updatedAt'];
-          userAssessmentItem['completed_at'] = assignment_item['updatedAt'];
+          let status_item = this.statusList.find(function(e){
+            return e['User'] == user_item['User']['_id'] && e['AssessmentID'] == item['uuid'];
+          })
+          if(status_item)
+          {
+            userAssessmentItem['status'] = status_item['Status'];
+            userAssessmentItem['completed_at'] = status_item['Completed_at'];;
+          }else{
+            userAssessmentItem['status'] = 0;
+            userAssessmentItem['completed_at'] = '';
+          }
           userAssessments.push(userAssessmentItem);
         }
       }
@@ -82,8 +90,7 @@ export class TeamComponent implements OnInit {
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.assignment = response.result;
-        this.tableData = this.updateTableData();
-        this.loading = false;
+        this.getAnswerList();
       },
       (error) => {
       }
@@ -145,6 +152,76 @@ export class TeamComponent implements OnInit {
         )
       }
     );
+  }
+
+  getAnswerList(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {
+      Project: projectID
+    }
+    this.dataService.getAnswerList(data).subscribe(
+      response => {
+          this.answerList = response.result;
+          this.statusList = this.updateAnswerList();
+          this.tableData = this.updateTableData();
+          console.log(this.statusList)
+          this.loading = false;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  updateAnswerList(){
+    let result = [];
+    console.log(this.answerList)
+    for(let item of this.answerList)
+    {
+      let status_item = { AssessmentID: item['Questionnaire']['category_id'], User: item['User'], Status: 0, Completed_at: ''};
+      let status = 0;
+      if(item['Answers'])
+      {
+        status = 2;
+        status_item['Completed_at'] = item['updatedAt'];
+      }
+      let stats_completed = true;
+      for(var i in item['Questionnaire']['questions'])
+      {
+        let question_item = item['Questionnaire']['questions'][i];
+
+        if(item['Answers'])
+        {
+          let answer_item = item['Answers'][i];
+          for(var j in question_item['Items'])
+          {
+            switch(question_item['Type'])
+            {
+              case 'Text':
+                if(!answer_item['Items'][j]['value'] || (answer_item['Items'][j]['value'] && answer_item['Items'][j]['value'] == ""))
+                  stats_completed = false;
+                break;
+              case 'Radio':
+              case 'Dropdown':
+                if(!answer_item['value'] || (answer_item['value'] && answer_item['value'] == ""))
+                  stats_completed = false;
+                break;
+              case 'Checkbox':
+                if(!answer_item['Items'][j]['value'])
+                  stats_completed = false;
+                break;
+              default:
+                break;
+            }
+          }
+        }
+      }
+      if(!stats_completed)
+        status = 1;
+      status_item.Status = status;
+      result.push(status_item);
+    }
+    return result;
   }
   ngOnInit() {
     this.loading = true;

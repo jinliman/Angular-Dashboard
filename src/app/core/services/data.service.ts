@@ -176,6 +176,11 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getAnswerList(data){
+    return this.http.post(this.url + '/api/user/answer/list', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   saveAnswers(data){
     return this.http.post(this.url + '/api/user/answer/save', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
