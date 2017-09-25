@@ -90,9 +90,9 @@
                   <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/document-list-icon.svg'"></div>
                   <span class="desc pull-left">{{question_item.desc}} ( {{question_item.type}} )</span>
                 </div>
-                <div class="comment pull-right">
-                    <input type="text" name="" value="" placeholder="Add Comment">
-                    <a href="javascript:;" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
+                <div class="comment pull-right" *ngIf="question_item['hasDocument']">
+                    <input type="text" name="" [value]="showUserAttachment(question_item['id'])" placeholder="Add Comment">
+                    <a href="javascript:;" (click)="OpenUploadFileModal(newAttachmentModal, question_item['id'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
                 </div>
               </div>
             </td>
@@ -228,4 +228,37 @@
       </tbody>
     </ng-container>
   </table>
+
+  <modal #newAttachmentModal [animation]=false class="newAttachmentModal">
+    <form class="form assets" (ngSubmit) = "addNewAttachment(newAttachmentModal)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">New Attachment</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row">
+          <div class="col-md-12 form-group clearfix">
+            <input type="file" accept= "application/msword, application/vnd.ms-excel, application/pdf, image/*" id="newAttachmentInput" name="test" (change)="updateFile($event)">
+            <button type="button" class="btn btn-primary pull-left" onClick="document.getElementById('newAttachmentInput').click()">Select File</button>
+            <p class="file-name pull-left" *ngIf="newAttachmentObj.File">{{newAttachmentObj.File['name']}}</p>
+          </div>
+        </div>
+        <div class="row"
+        [ngClass]="{
+          'has-error': newComment.invalid && newComment.touched,
+          'has-success': newComment.valid && newComment.touched
+        }">
+          <div class="col-md-12 form-group">
+            <label for="newComment">Comment:</label>
+            <input type="text" name="newComment" #newComment ="ngModel" [(ngModel)] = "newAttachmentObj.Comment" value="" required>
+            <span class="help-block" *ngIf="newComment.errors && newComment.errors.required  && newComment.touched">Comment is required</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+          <button type="submit" class="btn btn-success" [disabled] = "form.invalid || !newAttachmentObj.File">Upload</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="newAttachmentModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
 </div>

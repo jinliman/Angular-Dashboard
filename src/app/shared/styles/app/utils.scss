@@ -1,4 +1,4 @@
-*{
+*, *:focus{
   outline-style: none;
 }
 .loading-div{
@@ -100,7 +100,7 @@ button{
     color: #fff;
   }
 }
-input{
+input:not([type="file"]){
   background-color: $dv-bg-input;
   padding: 6px 10px;
   border: 2px solid $dv-color-border;

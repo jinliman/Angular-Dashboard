@@ -38,6 +38,7 @@ export class FilesComponent implements OnInit {
       response => {
         this.assessmentArr = response.Categories;
         this.updateTableData()
+        console.log(this.assessmentArr)
       },
       (error) => {
 

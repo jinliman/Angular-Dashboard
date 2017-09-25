@@ -31,6 +31,14 @@
             </ng-select>
           </div>
         </td>
+        <td width="100px">
+          <div class="">
+            <div class="form-group checkbox">
+              <input type="checkbox" id="{{question_item['uuid']}}_has_document" [(ngModel)]="question_item['HasDocument']" name="{{question_item['uuid']}}_has_document" value="">
+              <label for="{{question_item['uuid']}}_has_document">Document</label>
+            </div>
+          </div>
+        </td>
         <td>
           <div class="">
             <input class="label-input" type="text" [(ngModel)]="question_item['Label']">
@@ -48,6 +56,8 @@
           </div>
         </td>
         <td>
+        </td>
+        <td>
           <div class="">
             <input class="label-input" type="text" [(ngModel)]="question_item.Items[i1]['Text']">
           </div>
@@ -56,7 +66,7 @@
       <tr>
         <td style="width:40px">
         </td>
-        <td colspan="2">
+        <td colspan="3">
           <div class="clearfix pull-right">
             <a class="add-button" (click)="add_answer_filed(i)">New Answer Filed</a>
           </div>
@@ -66,7 +76,7 @@
     <tr>
       <td style="width:40px">
       </td>
-      <td style="width:120px;" colspan="2">
+      <td style="width:120px;" colspan="3">
         <div class="clearfix pull-right">
           <a class="add-button" (click)="add_question()">Add New Questionnaire</a>
         </div>

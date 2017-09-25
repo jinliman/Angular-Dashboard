@@ -175,7 +175,7 @@ export class TeamComponent implements OnInit {
 
   updateAnswerList(){
     let result = [];
-    console.log(this.answerList)
+    console.log(this.assignment)
     for(let item of this.answerList)
     {
       let status_item = { AssessmentID: item['Questionnaire']['category_id'], User: item['User'], Status: 0, Completed_at: ''};

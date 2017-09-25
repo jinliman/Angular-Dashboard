@@ -104,7 +104,7 @@
           }
           .comment{
             width: 200px;
-            padding: 0px 10px;
+            padding: 0px 0px 0px 10px;
             border: 2px solid $dv-color-border;
             border-radius: 5px;
             display: flex;
@@ -118,8 +118,9 @@
             a{
               text-align: center;
               border-left:2px solid $dv-color-border;
-              padding-top:4px;
-              padding-left:7px;
+              padding: 4px 7px;
+              display: flex;
+              align-items: center;
             }
           }
         }
@@ -183,5 +184,14 @@
         width: 150px;
       }
     }
+  }
+}
+.newAttachmentModal{
+  #newAttachmentInput{
+    display: none;
+  }
+  .file-name{
+    margin-left: 15px;
+    font-size: 18px;
   }
 }
