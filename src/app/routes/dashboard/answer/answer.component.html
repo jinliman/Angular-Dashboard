@@ -11,7 +11,7 @@
   <div class="inner-content-div">
     <table class="question-table">
       <ng-container *ngFor="let question_item of questions; let i = index">
-        <tbody *ngIf="userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
+        <tbody *ngIf="userRole == 'PRIMARY' || userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
           <tr>
             <td style="width:40px">
               <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>

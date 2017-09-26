@@ -300,7 +300,7 @@ export class AssessmentComponent implements OnInit {
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {id: projectID}
 
-    this.dataService.getTeam(data).subscribe(
+    this.dataService.getTeamMembers(data).subscribe(
       response => {
         this.team = response.result;
         this.updateTeam();
