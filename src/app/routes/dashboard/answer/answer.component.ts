@@ -24,8 +24,9 @@ export class AnswerComponent implements OnInit {
   questions: Array<Question> = [];
   answers: Array<Answer> = [];
   userAssignment: object = {};
-  project: object;
+  currentProject: object;
   user = [];
+  userRole: string = "";
 
   dropdownData: Array<object> = [];
   test = [];
@@ -53,7 +54,9 @@ export class AnswerComponent implements OnInit {
         this.questionnaire = [];
         this.questions = [];
         this.answers = [];
-        this.project = JSON.parse(localStorage.getItem('project'));
+        this.currentProject = this.authService.getUserProject();
+        this.userRole = this.currentProject['Role'];
+        console.log(this.userRole)
         this.dropdownSettings = {
             singleSelection: false,
             text:'--',
@@ -83,7 +86,7 @@ export class AnswerComponent implements OnInit {
   }
 
   getUserAssign(){
-    let projectID = this.project['id'] || null;
+    let projectID = this.currentProject['Project']['_id'] || null;
     let parma = { projectID: projectID}
 
     this.dataService.getUserAssignment(parma).subscribe(
@@ -151,10 +154,10 @@ export class AnswerComponent implements OnInit {
   }
 
   getAnswers(){
-    let project_id = this.project['id'];
+    let projectID = this.currentProject['Project']['_id'] || null;
     let data = {
       Assessment: this.assessment['uuid'],
-      Project: project_id,
+      Project: projectID,
     }
     this.dataService.getAnswers(data).subscribe(
       response => {
@@ -190,10 +193,10 @@ export class AnswerComponent implements OnInit {
   saveAnswer(){
     this.prepareSaveData();
     let questionnare_id = this.questionnaire['_id'];
-    let project_id = this.project['id'];
+    let projectID = this.currentProject['Project']['_id'] || null;
     let data = {
       Questionnaire: questionnare_id,
-      Project: project_id,
+      Project: projectID,
       Answers: this.questions
     }
 
