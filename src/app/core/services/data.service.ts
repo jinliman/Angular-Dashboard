@@ -205,17 +205,24 @@ export class DataService {
   ---------------- Attachment -----------------
   */
 
+  getAttachment(data){
+    return this.http.post(this.url + '/api/user/attachment/list', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   getUserAttachment(data){
     return this.http.post(this.url + '/api/user/attachment/user', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
-  saveAttachment(data){
+  saveAttachment(sourceType, data){
     let headers = new Headers();
     headers.set('Accept', 'application/json');
   	headers.append('x-chaos-token', JSON.parse(localStorage.getItem('token')));
-
-    return this.http.post(this.url + '/api/user/attachment/save', data, { headers: headers })
+    let api_url = '/api/user/attachment/save';
+    if(sourceType != 'Computer')
+      api_url = '/api/user/attachment/save_link';
+    return this.http.post(this.url + api_url, data, { headers: headers })
       .map((response: Response) => response.json());
   }
 
