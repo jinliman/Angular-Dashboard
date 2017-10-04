@@ -85,6 +85,11 @@
           font-weight: 400;
           &.category{
             padding-left: 40px;
+            .comment{
+              font-size: 14px;
+              padding: 5px 35px;
+              font-style: italic;
+            }
           }
           .user-div{
             margin-left: auto;
@@ -102,19 +107,6 @@
               padding-right: 5px;
               color: $dv-color-primary;
             }
-            .dropdown-menu{
-              left:auto;
-              margin-top: 10px;
-              a{
-                font-size: 18px;
-                line-height: 33px;
-                color: $dv-color-primary;
-                i{
-                  color: $dv-color-green;
-                  padding-right:5px;
-                }
-              }
-            }
           }
         }
       }
@@ -124,6 +116,7 @@
       border: 2px solid $dv-color-border;
       padding: 14px 14px;
       font-weight: 600;
+      vertical-align: middle;
       &:first-of-type{
         border-left: none;
       }

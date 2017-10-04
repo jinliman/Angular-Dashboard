@@ -10,6 +10,10 @@ import { Subscription } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 
 import { Question, Answer } from '../../../shared/objectSchema';
+import { environment } from '../../../../environments/environment';
+
+declare var Dropbox: any;
+declare var BoxSelect: any;
 
 @Component({
   selector: 'app-answer',
@@ -27,15 +31,37 @@ export class AnswerComponent implements OnInit {
   currentProject: object;
   user = [];
   userRole: string = "";
-
+  newAttachmentObj: object = {};
+  customFileLink: string = "";
+  customFileName: string = "";
+  attAssessmentID = null
+  attachmentList: Array<object> =[];
   dropdownData: Array<object> = [];
-  test = [];
   dropdownSettings = {};
   loading = true;
+  dropboxOptions = {
+    success: (files) => {
+      this.selectDropboxFile(files)
+    },
+    cancel: function() {
+
+    },
+    linkType: "preview",
+    multiselect: false,
+    // extensions: ['.pdf', '.doc', '.docx'],
+  };
+
+  boxOptions = {
+    clientId: environment.box_client_id,
+    linkType: "shared",
+    multiselect: false
+  };
+  boxSelect = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private elementRef: ElementRef,
     private authService: AuthService,
     private dataService: DataService,
     private _notificationService: NotificationsService
@@ -71,7 +97,8 @@ export class AnswerComponent implements OnInit {
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
 
-        this.getUserAssign()
+        this.getUserAssign();
+        this.getUserAttachment();
         this.dataService.getAssessment(data).subscribe(
           response => {
             if(response.result == null)
@@ -83,6 +110,136 @@ export class AnswerComponent implements OnInit {
           }
         );
       });
+  }
+
+  /*
+  ---------------- Attachment --------------------
+  */
+
+
+  // Dropbox
+  dropboxChooser(){
+    Dropbox.choose(this.dropboxOptions)
+  }
+  selectDropboxFile(files){
+    this.newAttachmentObj['SourceType'] = 'Dropbox';
+    this.newAttachmentObj['File'] = files[0];
+    this.customFileLink = '';
+  }
+  // Box
+  boxChooser(){
+    if(this.boxSelect == null)
+    {
+      this.boxSelect = new BoxSelect(this.boxOptions);
+      let that = this;
+      this.boxSelect.success(function(files) {
+        console.log(files)
+        that.newAttachmentObj['SourceType'] = 'Box';
+        that.newAttachmentObj['File'] = {};
+        that.newAttachmentObj['File']['name'] = files[0]['name'];
+        that.newAttachmentObj['File']['link'] = files[0]['url'];
+        that.customFileLink = ''
+      });
+
+      this.boxSelect.cancel(function() {
+
+      });
+    }
+
+    this.boxSelect.launchPopup();
+  }
+
+  //Custom link
+  customLink($event){
+    let value = $event.target.value;
+    if(value != '')
+    {
+      this.newAttachmentObj['SourceType'] = 'Link';
+      this.newAttachmentObj['File'] = {};
+      this.newAttachmentObj['File']['name'] = '';
+      this.newAttachmentObj['File']['link'] = $event.target.value;
+    }else{
+      this.newAttachmentObj['SourceType'] = null;
+      this.newAttachmentObj['File'] = null;
+    }
+  }
+  // Computer
+  updateFile(event)
+  {
+    this.newAttachmentObj['SourceType'] = 'Computer'
+    if(event.srcElement.files[0])
+    {
+      this.newAttachmentObj['File'] = event.srcElement.files[0];
+    }else{
+      this.newAttachmentObj['File'] = null;
+      this.newAttachmentObj['SourceType'] = null;
+      this.customFileLink = ""
+    }
+  }
+
+  getUserAttachment(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {ProjectID : projectID}
+    this.dataService.getUserAttachment(data).subscribe(
+        response => {
+          this.updateUserAttachment(response.result)
+        },
+        (error) => {
+
+        }
+      );
+  }
+  updateUserAttachment(data){
+    this.attachmentList = [];
+    for(let item of data)
+    {
+      this.attachmentList[item['AssignmentID']] = item
+    }
+    console.log(this.attachmentList)
+  }
+  showUserAttachment(id){
+    let result = '';
+    if(this.attachmentList[id])
+      result = this.attachmentList[id]['Comment'];
+    return result;
+  }
+
+  OpenUploadFileModal(modal, AssessmentID){
+    this.attAssessmentID = AssessmentID;
+    let projectID = this.currentProject['Project']['_id'] || null;
+    this.newAttachmentObj = {Comment: '', SourceType : null, File: null, AssessmentID: this.attAssessmentID, ProjectID: projectID}
+    this.customFileLink = ""
+    this.customFileName = ""
+    modal.open()
+  }
+
+  addNewAttachment(modal){
+    let sourceType = this.newAttachmentObj['SourceType'];
+    if(sourceType == 'Link')
+    {
+      this.newAttachmentObj['File'] = {};
+      this.newAttachmentObj['File']['name'] = this.customFileName;
+      this.newAttachmentObj['File']['link'] = this.customFileLink;
+    }
+    let formData = new FormData();
+    formData.append('attachment', this.newAttachmentObj['File']);
+    formData.append('data', JSON.stringify(this.newAttachmentObj));
+    this.dataService.saveAttachment(sourceType, formData).subscribe(
+        response => {
+          this.getUserAttachment();
+          this._notificationService.success(
+              'Successfully Saved!',
+              'Attachment'
+          )
+          modal.close()
+        },
+        (error) => {
+          this._notificationService.error(
+              'Sth went wrong',
+              'Attachment'
+          )
+        }
+      );
   }
 
   getUserAssign(){
@@ -222,5 +379,28 @@ export class AnswerComponent implements OnInit {
         )
       }
     );
+  }
+
+  initDropboxScript()
+  {
+    var script = document.createElement("script");
+    script.type = "text/javascript"
+    script.src = "https://www.dropbox.com/static/api/2/dropins.js"
+    script.id = "dropboxjs"
+    var app_key_attr = document.createAttribute("data-app-key");
+    app_key_attr.value = environment.dropbox_appkey
+    script.setAttributeNode(app_key_attr)
+    this.elementRef.nativeElement.appendChild(script);
+  }
+  initBoxScript()
+  {
+    var script = document.createElement("script");
+    script.type = "text/javascript"
+    script.src = "https://cdn01.boxcdn.net/js/static/select.js"
+    this.elementRef.nativeElement.appendChild(script);
+  }
+  ngAfterViewInit() {
+    this.initDropboxScript()
+    this.initBoxScript()
   }
 }
