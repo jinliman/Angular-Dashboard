@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { NotificationsService } from 'angular2-notifications';
 
 import { Question, Answer } from '../../../shared/objectSchema';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class AssessmentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private elementRef: ElementRef,
     private dataService: DataService,
     private authService: AuthService,
     private http: Http,
@@ -344,45 +346,7 @@ export class AssessmentComponent implements OnInit {
       result = this.attachmentList[id]['Comment'];
     return result;
   }
-  OpenUploadFileModal(modal, AssessmentID){
-    let projectID = this.currentProject['Project']['_id'] || null;
-    this.newAttachmentObj = {Comment: '', File: null, AssessmentID: AssessmentID, ProjectID: projectID}
-    modal.open()
-  }
-
-  addNewAttachment(modal){
-    let formData = new FormData();
-    formData.append('attachment', this.newAttachmentObj['File']);
-    formData.append('data', JSON.stringify(this.newAttachmentObj));
-
-    this.dataService.saveAttachment(formData).subscribe(
-        response => {
-          this.getUserAttachment();
-          this._notificationService.success(
-              'Successfully Saved!',
-              'Attachment'
-          )
-          modal.close()
-        },
-        (error) => {
-          this._notificationService.error(
-              'Sth went wrong',
-              'Attachment'
-          )
-        }
-      );
-  }
-
-  updateFile(event)
-  {
-    console.log(event.srcElement.files)
-    if(event.srcElement.files[0])
-    {
-      this.newAttachmentObj['File'] = event.srcElement.files[0];
-    }else{
-      this.newAttachmentObj['File'] = null;
-    }
-  }
+  
   getTableData(){
     this.tableData = [];
     for(let entry of [this.assessment].concat(this.assessment['children']))
