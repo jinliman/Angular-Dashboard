@@ -54,8 +54,80 @@
               </td>
             </tr>
           </ng-container>
+          <tr>
+            <td style="width:40px">
+            </td>
+            <td>
+              <div class="comment-div">
+                <a href="javascript:;" data-toggle="dropdown" (click)="OpenUploadFileModal(newAttachmentModal, question_item['uuid'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
+                <input class="comment" type="text" name="" [value]="showUserAttachment(question_item['uuid'])"  placeholder="Comment" disabled>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </ng-container>
     </table>
   </div>
 </div>
+
+<modal #newAttachmentModal [animation]=false class="newAttachmentModal">
+  <form class="form assets" (ngSubmit) = "addNewAttachment(newAttachmentModal)" #form="ngForm">
+    <modal-header>
+      <h4 class="modal-title">New Attachment</h4>
+    </modal-header>
+    <modal-body>
+      <div class="">
+        <input type="file" accept= "application/msword, application/vnd.ms-excel, application/pdf, image/*" id="newAttachmentInput" name="test" (change)="updateFile($event)">
+      </div>
+      <div class="row">
+        <ul>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Computer' }" href="javascript:;" onClick="document.getElementById('newAttachmentInput').click()">Computer</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Dropbox' }" href="javascript:;" (click)="dropboxChooser()">Dropbox</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Box' }" href="javascript:;" (click)="boxChooser()">Box</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Googledrive' }" href="javascript:;">Google Drive</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Onedrive' }" href="javascript:;">OneDrive</a></li>
+          <div class="attachlink-div row">
+            <label for="attachlink-input" >Attach a link</label>
+            <div [ngClass]="{
+              'has-error': filelink.invalid && filelink.touched,
+              'has-success': filelink.valid && filelink.touched
+            }">
+              <div class="col-md-12 form-group">
+                <input type="text" name="attachlink-input" class="attachlink-input" #filelink ="ngModel" [(ngModel)] = "customFileLink" (keyup)="customLink($event)" value="" placeholder="Paste any link here...">
+              </div>
+            </div>
+            <div *ngIf="customFileLink" [ngClass]="{
+              'has-error': filelinkname.invalid && filelinkname.touched,
+              'has-success': filelinkname.valid && filelinkname.touched
+            }">
+              <div class="col-md-12 form-group">
+                <input type="text" name="attachname-input" class="attachlink-input" #filelinkname ="ngModel" [(ngModel)] = "customFileName" value="" placeholder="Input Filename">
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-12 form-group">
+          <label for="SelectedFile">File Selected: </label>
+          <p class="file-name" *ngIf="newAttachmentObj.File">{{newAttachmentObj.File['name']}}</p>
+        </div>
+      </div>
+      <div class="row"
+      [ngClass]="{
+        'has-error': newComment.invalid && newComment.touched,
+        'has-success': newComment.valid && newComment.touched
+      }">
+        <div class="col-md-12 form-group">
+          <label for="newComment">Comment:</label>
+          <input type="text" name="newComment" #newComment ="ngModel" [(ngModel)] = "newAttachmentObj.Comment" value="" required>
+          <span class="help-block" *ngIf="newComment.errors && newComment.errors.required  && newComment.touched">Comment is required</span>
+        </div>
+      </div>
+    </modal-body>
+    <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form.invalid || !newAttachmentObj.File">Upload</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="newAttachmentModal.dismiss()">Cancel</button>
+    </modal-footer>
+  </form>
+</modal>
