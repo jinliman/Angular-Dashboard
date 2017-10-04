@@ -34,45 +34,42 @@
         <td width="15%">Uploaded on<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
       </tr>
     </thead>
-    <tbody *ngFor="let file_group of tableData">
+    <tbody *ngFor="let assessment of tableData">
       <tr>
         <td class="category">
-          <div (click)="file_group.open = !file_group.open">
-            <span [hidden]="file_group.hasFile != true" href="javascript:;" class="collapse-icon" [class.opened]="!file_group.open" [class.closed]="file_group.open"></span>
-            <span class="filename" [class.no-files]="!file_group.hasFile">{{file_group.title}}</span>
+          <div (click)="assessment.open = !assessment.open">
+            <span [hidden]="assessment.hasQuestions != true" href="javascript:;" class="collapse-icon" [class.opened]="!assessment.open" [class.closed]="assessment.open"></span>
+            <span class="filename" [class.no-files]="!assessment.hasFile">{{assessment.title}}</span>
           </div>
         </td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
-      <tr class="sublist" [hidden]="file_group.hasFile != true || file_group.open != true"  *ngFor="let file_item of file_group.files">
+      <tr class="sublist" *ngFor="let question_item of assessment.questions">
         <td class="category">
           <div>
             <div [inlineSVG]="'../assets/images/icons/dashboard/level-arrow.svg'" style="width:20px; height:24px"></div>
-            <span class="filename">{{file_item.filename}}</span>
-            <div [inlineSVG]="'../assets/images/icons/dashboard/'+ file_item.filetype + '-icon.svg'" style="width:33px; height:33px"></div>
+            <span class="filename">{{question_item.attachment.Name}} ({{question_item.attachment.SourceType}})</span>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/doc-icon.svg'" style="width:33px; height:33px"></div>
+          </div>
+          <div class="comment">
+            {{question_item.attachment.Comment}}
           </div>
         </td>
         <td class="link">
-          <a href="{{file_item.link}}" [inlineSVG]="'../assets/images/icons/dashboard/link-icon.svg'"></a>
+          <a href="{{question_item.attachment.Url}}" [inlineSVG]="'../assets/images/icons/dashboard/link-icon.svg'" target="_blank"></a>
         </td>
         <td width="15%">
-          <div class="dropdown user-div">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
-              <span class="short-name">{{file_item.uploaderShortName}}</span>
-              <span class="user-name">{{file_item.uploaderName}}</span>
-              <span [inlineSVG]="'../assets/images/icons/dashboard/down-icon.svg'"></span>
+          <div class="user-div">
+            <a href="javascrpit:;" class="svg">
+              <span class="short-name">{{question_item.attachment.User.Name.shortname}}</span>
+              <span class="user-name">{{question_item.attachment.User.Name.Fullname}}</span>
             </a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test</a>
-              </li>
-            </ul>
           </div>
         </td>
         <td width="15%">
-          {{file_item.uploaded_at | amParse:'DD/MM/YYYY' | amDateFormat:'LL'}}
+          {{question_item.attachment.updatedAt | amDateFormat:'LL'}}
         </td>
       </tr>
     </tbody>
