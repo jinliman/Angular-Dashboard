@@ -267,8 +267,7 @@ export class AnswerComponent implements OnInit {
     }
     if(!pickerApiLoaded)
       onApiLoad()
-    else
-      createPicker()
+    createPicker()
 
   }
 
