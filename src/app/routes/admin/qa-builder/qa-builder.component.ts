@@ -45,6 +45,7 @@ export class QaBuilderComponent implements OnInit {
       Label: "",
       HasDocument: false,
       value: "",
+      comment: "",
       Items: [{
            uuid    : this.dataService.getUUID(),
            Text    : "",

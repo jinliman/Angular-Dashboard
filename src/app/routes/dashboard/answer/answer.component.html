@@ -59,8 +59,8 @@
             </td>
             <td>
               <div class="comment-div">
-                <a href="javascript:;" data-toggle="dropdown" (click)="OpenUploadFileModal(newAttachmentModal, question_item['uuid'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
-                <input class="comment" type="text" name="" [value]="showUserAttachment(question_item['uuid'])"  placeholder="Comment" disabled>
+                <a href="javascript:;" (click)="OpenUploadFileModal(newAttachmentModal, question_item['uuid'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
+                <input class="comment" type="text" name="" [(ngModel)]="question_item['comment']" placeholder="Comment">
               </div>
             </td>
           </tr>
@@ -84,8 +84,8 @@
           <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Computer' }" href="javascript:;" onClick="document.getElementById('newAttachmentInput').click()">Computer</a></li>
           <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Dropbox' }" href="javascript:;" (click)="dropboxChooser()">Dropbox</a></li>
           <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Box' }" href="javascript:;" (click)="boxChooser()">Box</a></li>
-          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Googledrive' }" href="javascript:;">Google Drive</a></li>
-          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Onedrive' }" href="javascript:;">OneDrive</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Googledrive' }" href="javascript:;" (click)="openGooglePicker()">Google Drive</a></li>
+          <li><a [ngClass]="{'active': newAttachmentObj['SourceType'] == 'Onedrive' }" href="javascript:;" (click)="launchOneDrivePicker()">OneDrive</a></li>
           <div class="attachlink-div row">
             <label for="attachlink-input" >Attach a link</label>
             <div [ngClass]="{
@@ -119,7 +119,7 @@
         'has-success': newComment.valid && newComment.touched
       }">
         <div class="col-md-12 form-group">
-          <label for="newComment">Comment:</label>
+          <label for="newComment" class="required">Comment:</label>
           <input type="text" name="newComment" #newComment ="ngModel" [(ngModel)] = "newAttachmentObj.Comment" value="" required>
           <span class="help-block" *ngIf="newComment.errors && newComment.errors.required  && newComment.touched">Comment is required</span>
         </div>
