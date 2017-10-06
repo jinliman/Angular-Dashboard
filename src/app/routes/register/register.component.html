@@ -91,14 +91,14 @@
       </div>
       <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
         <div class="col-md-12 form-group">
-          <label for="diligence" class="required">Select Your Due Diligence Type:</label>
+          <label for="diligence" class="required" [ngClass]="{'success': newUser.Company.Diligence != ''}">Select Your Due Diligence Type:</label>
           <ng-select class="cs-select" [multiple]="true" [options]="diligency_type" [(ngModel)]="newUser.Company.Diligence" name="diligence" placeholder="Please select diligence type">
           </ng-select>
         </div>
       </div>
       <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
         <div class="col-md-12 form-group">
-          <label for="ITreason" class="required">Reason for Due Diligence</label>
+          <label for="ITreason" class="required" [ngClass]="{'success': newUser.Reason}">Reason for Due Diligence</label>
           <ng-select class="cs-select" [options]="reason_type" [(ngModel)]="newUser.Reason" name="ITreason" placeholder="Please select reason">
           </ng-select>
         </div>
@@ -253,7 +253,7 @@
         </div>
         <div class="col-md-6 form-group">
 
-          <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !this.newUser.Reason || ( this.newUser.Reason == 3 && !this.validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button>
+          <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button>
           <button *ngIf="newUser.UserType == 'PRIMARY'" type="submit" [disabled] = "form.invalid" class="btn button pull-right">Continue</button>
         </div>
       </div>

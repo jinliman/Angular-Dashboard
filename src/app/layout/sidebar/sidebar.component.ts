@@ -94,26 +94,29 @@ export class SidebarComponent implements OnInit {
     this.menu = [];
     if(this.userRole != "admin")
     {
-      this.menu = [
-        { route: "/app/dashboard", Title: "Dashboard"}
-      ]
       if(this.userProjectRole == "INITIATOR")
       {
-        this.menu = this.menu.concat([
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard (Project Owner)"},
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"},
           { route: "/app/heatmap", Title: "Heat Map"},
           { route: "/app/reports",  Title: "Reports"},
           { route: "/app/score",  Title: "DealValue Score"}
-        ]);
+        ];
       }else if( this.userProjectRole == "PRIMARY" )
       {
-        this.menu = this.menu.concat([
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard (Primary User)"},
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"}
-        ]);
+        ];
+      }else{
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard (Team Member)"}
+        ]
       }
       this.menu = this.menu.concat( this.assessment_menu )
     }else{

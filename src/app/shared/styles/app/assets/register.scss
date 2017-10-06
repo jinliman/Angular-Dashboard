@@ -58,6 +58,19 @@
           left: -7px;
         }
         color: #a73729;
+        &.success{
+          color: $dv-color-green;
+        }
+      }
+
+      .has-success
+      {
+        label.required{
+          &::before{
+            content: ' ';
+          }
+          color: $dv-color-green;
+        }
       }
       &.form2{
         width: 430px;

@@ -4,10 +4,10 @@
     <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
     <div class="button-div pull-right clearfix">
         <a *ngIf="allowAnswer" class="svg button pull-left" routerLink="{{editAssessmentUrl}}/answer">
-          <span> <i class="fa fa-save"></i> Answer Questionnaires</span>
+          <span> <i class="fa fa-save"></i> Provide Answers Here</span>
         </a>
         <a *ngIf="allowAssign" class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
-          <span> <i class="fa fa-save"></i> Assign To</span>
+          <span> <i class="fa fa-save"></i> Assign Sections</span>
         </a>
     </div>
   </div>

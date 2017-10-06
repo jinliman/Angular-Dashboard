@@ -1,6 +1,6 @@
 <div class="header-dashboard">
 		<div class="search_div pull-left">
-				<input type="text" name="" value="" placeholder="Search Tasks">
+				<input type="text" name="" value="" placeholder="Search Project">
 				<a href="javascript:;" class="pull-right" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
 		</div>
 		<div class="project-select" *ngIf="userInfo.Role != 'admin'">
@@ -9,8 +9,8 @@
 		</div>
 		<div class="dropdown user-setting">
 			<a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
-				<span class="short-name">DV</span>
-				<span class="user-name">Deal</span>
+				<span class="short-name">{{shortname}}</span>
+				<span class="user-name">{{firstname}}</span>
 				<span [inlineSVG]="'/assets/images/icons/dashboard/down-icon.svg'"></span>
 			</a>
 			<ul class="dropdown-menu" *ngIf="userInfo.Role != 'admin'">

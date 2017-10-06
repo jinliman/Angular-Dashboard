@@ -13,6 +13,8 @@ export class HeaderDashboardComponent implements OnInit {
   userProjects : Array<object> = [];
   projectList: Array<object> = [];
   project: string;
+  firstname: string = 'Admin';
+  shortname: string = 'DV';
   constructor(
     private authService: AuthService,
     private dataService: DataService
@@ -31,6 +33,11 @@ export class HeaderDashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.userInfo = this.authService.getUser()
+    if(this.userInfo['Role'] != 'admin')
+    {
+      this.firstname = this.userInfo['Name']['First']
+      this.shortname = this.userInfo['Name']['First'][0] + this.userInfo['Name']['Last'][0];
+    }
     if(this.userInfo['Role'] != 'admin')
     {
       this.getProjectList();
