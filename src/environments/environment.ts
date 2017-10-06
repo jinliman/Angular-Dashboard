@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   serverUrl: 'http://localhost:3001',
+  hostUrl: 'http://localhost:4200/',
   adminUrl: 'admin/',
   //Dropbox
   dropbox_appkey: 'kvnozaj9myc68g5',
