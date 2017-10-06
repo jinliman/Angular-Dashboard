@@ -14,6 +14,9 @@ import { environment } from '../../../../environments/environment';
 
 declare var Dropbox: any;
 declare var BoxSelect: any;
+declare var gapi: any;
+declare var google: any;
+declare var OneDrive: any;
 
 @Component({
   selector: 'app-answer',
@@ -57,6 +60,23 @@ export class AnswerComponent implements OnInit {
     multiselect: false
   };
   boxSelect = null;
+
+  odOptions = {
+    clientId: environment.od_appkey,
+    action: "share",
+    multiSelect: false,
+    advanced: {
+      redirectUri: 'http://localhost:4200/onedriveAuth',
+      endpointHint: "api.onedrive.com"
+    },
+
+    success: (files) => {
+      this.selectOnedriveFile(files);
+    },
+    cancel: function() { /* cancel handler */ },
+    error: function(e) { /* error handler */ }
+  }
+
 
   constructor(
     private route: ActivatedRoute,
@@ -177,6 +197,93 @@ export class AnswerComponent implements OnInit {
     }
   }
 
+  //Google dataService
+  openGooglePicker(){
+    let that = this
+    // The Browser API key obtained from the Google API Console.
+    var developerKey = environment.gd_developerKey;
+
+    // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+    var clientId = environment.gd_clientId;
+
+    // Scope to use to access user's photos.
+    var scope = ['https://www.googleapis.com/auth/drive.file'];
+
+    var pickerApiLoaded = false;
+    var oauthToken;
+
+    // Use the API Loader script to load google.picker and gapi.auth.
+    function onApiLoad() {
+      gapi.load('auth', {'callback': onAuthApiLoad});
+      gapi.load('picker', {'callback': onPickerApiLoad});
+    }
+
+    function onAuthApiLoad() {
+      gapi.auth.authorize(
+          {
+            'client_id': clientId,
+            'scope': scope,
+            'immediate': false
+          },
+          handleAuthResult);
+    }
+
+    function onPickerApiLoad() {
+      pickerApiLoaded = true;
+      createPicker();
+    }
+
+    function handleAuthResult(authResult) {
+      if (authResult && !authResult.error) {
+        oauthToken = authResult.access_token;
+        createPicker();
+      }
+    }
+
+    // Create and render a Picker object for picking user Photos.
+      function createPicker() {
+      if (pickerApiLoaded && oauthToken) {
+        var picker = new google.picker.PickerBuilder().
+            addView(google.picker.​ViewId.DOCS).
+            setOAuthToken(oauthToken).
+            setDeveloperKey(developerKey).
+            setCallback(pickerCallback).
+            build();
+        picker.setVisible(true);
+      }
+    }
+    // A simple callback implementation.
+    function pickerCallback(data) {
+      console.log(data)
+      var url = 'nothing';
+      if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+        var doc = data[google.picker.Response.DOCUMENTS][0];
+        that.newAttachmentObj['SourceType'] = 'Googledrive';
+        that.newAttachmentObj['File'] = {};
+        that.newAttachmentObj['File']['name'] = doc[google.picker.Document.NAME];
+        that.newAttachmentObj['File']['link'] = doc[google.picker.Document.URL];
+        that.customFileLink = ''
+      }
+    }
+    if(!pickerApiLoaded)
+      onApiLoad()
+    else
+      createPicker()
+
+  }
+
+  //OneDrive
+  launchOneDrivePicker(){
+    OneDrive.open(this.odOptions);
+  }
+  selectOnedriveFile(files){
+    console.log(files)
+    this.newAttachmentObj['SourceType'] = 'Onedrive';
+    this.newAttachmentObj['File'] = {}
+    this.newAttachmentObj['File']['name'] = files['value'][0]['name'];
+    this.newAttachmentObj['File']['link'] = files['value'][0]['webUrl'];
+    console.log(this.newAttachmentObj)
+  }
   getUserAttachment(){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {ProjectID : projectID}
@@ -288,6 +395,9 @@ export class AnswerComponent implements OnInit {
         let answerObj = this.findAnswerObject(qustion_group.uuid);
         if( answerObj && answerObj.value )
           qustion_group.value = answerObj.value;
+        qustion_group.comment = ""
+        if( answerObj && answerObj['comment'] )
+          qustion_group.comment = answerObj['comment'];
         if(qustion_group.Type == 'Dropdown')
         {
           if(!this.dropdownData[qustion_group.uuid])
@@ -392,6 +502,7 @@ export class AnswerComponent implements OnInit {
     script.setAttributeNode(app_key_attr)
     this.elementRef.nativeElement.appendChild(script);
   }
+
   initBoxScript()
   {
     var script = document.createElement("script");
@@ -399,8 +510,24 @@ export class AnswerComponent implements OnInit {
     script.src = "https://cdn01.boxcdn.net/js/static/select.js"
     this.elementRef.nativeElement.appendChild(script);
   }
+
+  initGoogledriveScript(){
+    var script = document.createElement("script");
+    script.type = "text/javascript"
+    script.src = "https://apis.google.com/js/api.js"
+    this.elementRef.nativeElement.appendChild(script);
+  }
+
+  initOnedriveScript(){
+    var script = document.createElement("script");
+    script.type = "text/javascript"
+    script.src = "https://js.live.net/v7.2/OneDrive.js"
+    this.elementRef.nativeElement.appendChild(script);
+  }
   ngAfterViewInit() {
     this.initDropboxScript()
     this.initBoxScript()
+    this.initGoogledriveScript()
+    this.initOnedriveScript()
   }
 }

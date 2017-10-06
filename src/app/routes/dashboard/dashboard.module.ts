@@ -11,7 +11,7 @@ import { TeamComponent } from './team/team.component';
 import { AssessmentComponent } from './assessment/assessment.component';
 
 import { SharedModule } from '../../shared/shared.module';
-import { AnswerComponent } from './answer/answer.component'
+import { AnswerComponent } from './answer/answer.component';
 
 const routes: Routes = [
   {

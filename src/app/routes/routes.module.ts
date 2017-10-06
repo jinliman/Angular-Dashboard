@@ -30,6 +30,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { TeamsComponent } from './teams/teams.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ComfirmInvitationComponent } from './comfirm-invitation/comfirm-invitation.component';
+import { OnedriveAuthComponent } from './onedrive-auth/onedrive-auth.component';
 
 export const routes = [
 
@@ -82,7 +83,8 @@ export const routes = [
       {  path: 'email-sent', component: EmailSentComponent},
       {  path: 'confirm-email', component: ConfirmEmailComponent},
       {  path: 'team-invite', component: TeamsComponent },
-      {  path: 'confirm-invitation', component: ComfirmInvitationComponent }
+      {  path: 'confirm-invitation', component: ComfirmInvitationComponent },
+      {  path: 'onedriveAuth', component: OnedriveAuthComponent }
     ]
   },
 
@@ -110,7 +112,8 @@ export const routes = [
     TeamsComponent,
     AdminloginComponent,
     ConfirmEmailComponent,
-    ComfirmInvitationComponent
+    ComfirmInvitationComponent,
+    OnedriveAuthComponent
     ],
   exports: [
   	RouterModule,
