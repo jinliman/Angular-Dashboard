@@ -66,7 +66,7 @@ export class AnswerComponent implements OnInit {
     action: "share",
     multiSelect: false,
     advanced: {
-      redirectUri: 'http://localhost:4200/onedriveAuth',
+      redirectUri: environment.hostUrl + 'onedriveAuth',
       endpointHint: "api.onedrive.com"
     },
 
