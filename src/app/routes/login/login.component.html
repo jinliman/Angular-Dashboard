@@ -30,16 +30,19 @@
             <input type="password" name="password" #password="ngModel" [(ngModel)] = "userCredential.password" value="" placeholder="Password" required>
             <span class="help-block" *ngIf="password.errors && password.errors.required && password.touched">Password is required</span>
           </div>
+          <div class="col-md-12 form-group checkbox">
+            <div class="remember-me pull-right">
+              <input type="checkbox" id="remember_me" name="remember_me" value="">
+              <label for="remember_me">Remember me</label>
+            </div>
+          </div>
           <div class="col-md-12 form-group">
+            <a routerLink="/register" class="pull-left">Create account</a>
             <a routerLink="/forgot-password" class="pull-right">Forgot passowrd?</a>
           </div>
         </div>
-        <div class="row remember-me">
-          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
-            <input type="checkbox" id="remember_me" name="remember_me" value="">
-            <label for="remember_me">Remember me</label>
-          </div>
-          <div class="col-md-5 col-md-offset-1 form-group clearfix">
+        <div class="row">
+          <div class="col-md-5 form-group pull-right">
             <button type="submit" [disabled] = "form.invalid || !captcha_response" class="btn button">Login</button>
           </div>
         </div>
@@ -51,12 +54,7 @@
       </form>
     </div>
     <div class="captcha-div">
-       <re-captcha site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
-    </div>
-    <div class="bottom-div">
-      <a href="#">Use Company credentials (SSO)</a>
-      <br>
-      <a routerLink="/register">Create account</a>
+      <re-captcha class="captcha-obj" site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
     </div>
   </div>
 </div>
