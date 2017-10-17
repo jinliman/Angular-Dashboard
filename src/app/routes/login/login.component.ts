@@ -5,6 +5,8 @@ import { DataService } from '../../core/services/data.service';
 import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { ViewChild } from '@angular/core';
+import { ReCaptchaComponent } from 'angular2-recaptcha';
 
 export class User{
   email: string;
@@ -18,7 +20,10 @@ export class User{
 export class LoginComponent implements OnInit {
 
   userCredential: User;
-  isValid: boolean
+  captcha_response : string;
+  isValid: boolean;
+  @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
+
   constructor( private authService: AuthService, private router: Router) {
 
   }
@@ -31,9 +36,13 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  handleCorrectCaptcha($event){
+    this.captcha_response = $event;
+  }
 
   onSubmitLogin(){
     let data = {
+      Captcha_response : this.captcha_response,
 			PassportCollection: {
 				EmailPassports: [
 					{
@@ -62,6 +71,8 @@ export class LoginComponent implements OnInit {
             }
           );
         }else{
+          this.captcha.reset();
+          this.captcha_response = null;
           this.isValid = false;
         }
       },
@@ -72,6 +83,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.captcha_response = null;
     this.isValid = true;
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/app']);

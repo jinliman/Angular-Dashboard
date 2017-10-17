@@ -40,7 +40,7 @@
             <label for="remember_me">Remember me</label>
           </div>
           <div class="col-md-5 col-md-offset-1 form-group clearfix">
-            <button type="submit" [disabled] = "form.invalid" class="btn button">Login</button>
+            <button type="submit" [disabled] = "form.invalid || !captcha_response" class="btn button">Login</button>
           </div>
         </div>
         <div class="row social-login-div">
@@ -49,6 +49,9 @@
           </div>
         </div>
       </form>
+    </div>
+    <div class="captcha-div">
+       <re-captcha site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
     </div>
     <div class="bottom-div">
       <a href="#">Use Company credentials (SSO)</a>

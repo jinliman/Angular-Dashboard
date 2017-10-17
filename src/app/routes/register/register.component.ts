@@ -6,6 +6,8 @@ import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from "moment";
+import { ViewChild } from '@angular/core';
+import { ReCaptchaComponent } from 'angular2-recaptcha';
 
 import {Name, Company, Reason1, Reason2, Reason3, Reason4, User} from '../../shared/objectSchema';
 
@@ -23,7 +25,9 @@ export class RegisterComponent implements OnInit {
     showDropdowns: true,
     inline: false
   };
+  @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
 
+  captcha_response : string;
   country_list = [];
   state_list = [];
   city_list = [];
@@ -106,6 +110,10 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute) {
   }
 
+  handleCorrectCaptcha($event){
+    this.captcha_response = $event;
+  }
+
   selectedDate(index, value: any)
   {
     this.newUser.Reason1.tAcqDate = moment(new Date(value.start)).format("MMMM DD YYYY");
@@ -135,6 +143,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.captcha_response = null;
     let queryParam = null
     this.code = null;
     this.isConfirmed = false;
@@ -249,6 +258,7 @@ export class RegisterComponent implements OnInit {
   onRegister(){
     this.newUser.Name.Fullname = this.newUser.Name.First + " " + this.newUser.Name.Last;
     let data = {
+      Captcha_response : this.captcha_response,
 			PassportCollection: {
 				EmailPassports: [
 					{
@@ -295,6 +305,8 @@ export class RegisterComponent implements OnInit {
               }
           }
         }else{
+          this.captcha.reset();
+          this.captcha_response = null;
           this.validArr.Register = false;
         }
       },
