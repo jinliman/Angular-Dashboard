@@ -3,336 +3,439 @@
     <div class="logo">
         <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
     </div>
-    <div class="wizard-progress clearfix" *ngIf="newUser.UserType != 'MEMBER'">
-      <span class="step pull-left" [ngClass]="{'active': wizardStep == 1 }" (click)="wizardStep = 1"><b><i class="fa fa-building"></i></b></span>
-      <span class="step pull-right" [ngClass]="{'active': wizardStep == 2 }"><b><i class="fa fa-user"></i></b></span>
-      <span class="line" [ngClass]="{'passed': wizardStep == 2 }"></span>
-    </div>
-    <form class="form form1" (ngSubmit) = "onContinue()" #form="ngForm" *ngIf="wizardStep == 1">
-      <h2 [innerHTML]="title"></h2>
-      <p class="cs-alert-danger" *ngIf="isConfirmed">You already confirmed your invitation!</p>
-      <div class="row">
-        <div class="col-md-6 form-group"
-        [ngClass]="{
-          'has-error': company_name.invalid && company_name.touched,
-          'has-success': company_name.valid && company_name.touched
-        }">
-          <label for="company_name" class="required">Company Name:</label>
-          <input type="text" name="company_name" #company_name = "ngModel" [(ngModel)] = "newUser.Company.Name" value="" required>
-          <span class="help-block" *ngIf="company_name.errors && company_name.errors.required  && company_name.touched">Company Name is required</span>
+    <div class="inner-wrapper">
+      <div class="wizard-progress clearfix" *ngIf="newUser.UserType == 'INITIATOR'">
+        <div class="step-div"  [ngClass]="{'active': wizardStep == 1 }" >
+          <label for="">Step1</label>
+          <span class="step" (click)="wizardStep = 1">1</span>
         </div>
-        <div class="col-md-6 form-group"
-        [ngClass]="{
-          'has-error': contact_number.invalid && contact_number.touched,
-          'has-success': contact_number.valid && contact_number.touched
-        }">
-          <label for="contact_number" class="required">Contact Number:</label>
-          <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Company.Contact" value="" required>
-          <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Contact Number is required</span>
+        <div class="step-div" (click)="wizardStep = 2" [ngClass]="{'active': wizardStep == 2 }" >
+          <label for="">Step2</label>
+          <span class="step">2</span>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 form-group"
-        [ngClass]="{
-          'has-error': zipcode.invalid && zipcode.touched,
-          'has-success': zipcode.valid && zipcode.touched
-        }">
-          <label for="zipcode" class="required">Zip Code:</label>
-          <input type="text" name="zipcode" #zipcode = "ngModel" [(ngModel)] = "newUser.Company.ZipCode" value="" required>
-          <span class="help-block" *ngIf="zipcode.errors && zipcode.errors.required  && zipcode.touched">Zip Code is required</span>
+        <div class="step-div"  (click)="wizardStep = 3" [ngClass]="{'active': wizardStep == 3 }" >
+          <label for="">Let's get Started!</label>
+          <span class="step">3</span>
         </div>
-        <div class="col-md-6 form-group">
-          <label for="job_title">Job Tilte:</label>
-          <ng-select class="cs-select" name="job_title" [options]="job_list" [(ngModel)] = "newUser.Name.JobTitle" placeholder="Select Job Title">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 form-group">
-          <label for="country">Country:</label>
-          <ng-select class="cs-select" (selected)="onSelectCountry($event)" [options]="country_list" [(ngModel)]="newUser.Company.Country" name="country" placeholder="Please select country">
-          </ng-select>
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="state">State:</label>
-          <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="newUser.Company.State" name="state" placeholder="Please select state">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 form-group">
-          <label for="city">City:</label>
-          <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
-          </ng-select>
-        </div>
-        <div class="col-md-6 form-group">
-          <label for="industry">Industry:</label>
-          <ng-select class="cs-select" [options]="industry_list" [(ngModel)]="newUser.Company.Industry" name="industry"  placeholder="Please select industry">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
-        <div class="col-md-6 form-group"
-        [ngClass]="{
-          'has-error': project_name.invalid && project_name.touched,
-          'has-success': project_name.valid && project_name.touched
-        }">
-          <label for="project_name" class="required">Project Name:</label>
-          <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "newUser.ProjectName" value="" required placeholder="e.g Project Tango, Project Healthcare, ">
-          <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
-        </div>
-
-        <div class="col-md-6 form-group">
-          <label for="aboutus">How did you hear about us?:</label>
-          <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
-          </ng-select>
-        </div>
-
-      </div>
-      <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
-        <div class="col-md-12 form-group">
-          <label for="diligence" class="required" [ngClass]="{'success': newUser.Company.Diligence != ''}">Select Your Due Diligence Type:</label>
-          <ng-select class="cs-select" [multiple]="true" [options]="diligency_type" [(ngModel)]="newUser.Company.Diligence" name="diligence" placeholder="Please select diligence type">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
-        <div class="col-md-12 form-group">
-          <label for="ITreason" class="required" [ngClass]="{'success': newUser.Reason}">Reason for Due Diligence</label>
-          <ng-select class="cs-select" [options]="reason_type" [(ngModel)]="newUser.Reason" name="ITreason" placeholder="Please select reason">
-          </ng-select>
-        </div>
+        <span class="line"></span>
       </div>
 
-      <div *ngIf="newUser.Reason == 1" class="buy-a-company extra-info-div">
-        <p class="extra-border-title">Company Info(Buy)</p>
+      <form class="form form1" (ngSubmit) = "onContinue()" #form="ngForm" [hidden] = "wizardStep != 1">
+        <h2 [innerHTML]="title"></h2>
+
         <div class="row">
           <div class="col-md-6 form-group"
-            [ngClass]="{
-              'has-error': t_company_name.invalid && t_company_name.touched,
-              'has-success': t_company_name.valid && t_company_name.touched
-            }">
-            <label for="t_company_name">Target Company Name:</label>
-            <input type="text" name="t_company_name" #t_company_name = "ngModel" [(ngModel)] = "newUser.Reason1.tCompanyName" value="" required>
-            <span class="help-block" *ngIf="t_company_name.errors && t_company_name.errors.required  && t_company_name.touched">Company Name is required</span>
+          [ngClass]="{
+            'has-error': company_name.invalid && company_name.touched,
+            'has-success': company_name.valid && company_name.touched
+          }">
+            <label for="company_name" class="required">Company Name:</label>
+            <input type="text" name="company_name" #company_name = "ngModel" [(ngModel)] = "newUser.Company.Name" value="" required>
+            <span class="help-block" *ngIf="company_name.errors && company_name.errors.required  && company_name.touched">Company Name is required</span>
           </div>
           <div class="col-md-6 form-group">
-            <label for="tIndustry">Target Company Industry:</label>
-            <ng-select class="cs-select" name="tIndustry" [options]="industry_list" [(ngModel)] = "newUser.Reason1.tIndustry"  placeholder="Please select industry">
+            <label for="industry" class="required" [ngClass]="{'success': newUser.Company.Industry}">Industry:</label>
+            <ng-select class="cs-select" [options]="industry_list" [(ngModel)]="newUser.Company.Industry" name="industry"  placeholder="Please select industry">
             </ng-select>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 form-group"
           [ngClass]="{
-            'has-error': t_no_employee.invalid && t_no_employee.touched,
-            'has-success': t_no_employee.valid && t_no_employee.touched
+            'has-error': website.invalid && website.touched,
+            'has-success': website.valid && website.touched
           }">
-            <label for="t_no_employee">Estimated # of Employees:</label>
-            <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
-            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+            <label for="website">Website:</label>
+            <input type="text" name="website" #website = "ngModel" [(ngModel)] = "newUser.Company.Website" value="">
+            <span class="help-block" *ngIf="website.errors && website.errors.required  && website.touched">Website is required</span>
           </div>
-          <div class="col-md-6 form-group"
-          [ngClass]="{
-            'has-error': t_annual.invalid && t_annual.touched,
-            'has-success': t_annual.valid && t_annual.touched
-          }">
-            <label for="t_annual">Annual Revenue</label>
-            <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
-            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+          <div class="col-md-6 form-group">
+            <label for="country" class="required" [ngClass]="{'success': newUser.Company.Country}">Country:</label>
+            <ng-select class="cs-select" (selected)="onSelectCountry($event)" [options]="country_list" [(ngModel)]="newUser.Company.Country" name="country" placeholder="Please select country">
+            </ng-select>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 form-group"
+          <div class="col-md-6 form-group"
           [ngClass]="{
-            'has-error': t_ac_date.invalid && t_ac_date.touched,
-            'has-success': t_ac_date.valid && t_ac_date.touched
+            'has-error': address1.invalid && address1.touched,
+            'has-success': address1.valid && address1.touched
           }">
-            <label for="t_ac_date">Target Acquisition Date:</label>
-            <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "newUser.Reason1.tAcqDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(1,$event)" required />
-            <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Acquisition Date is required</span>
+            <label for="address1">Company Address 1:</label>
+            <input type="text" name="address1" #address1 = "ngModel" [(ngModel)] = "newUser.Company.Address1" value="">
+            <span class="help-block" *ngIf="address1.errors && address1.errors.required  && address1.touched">Address is required</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': address2.invalid && address2.touched,
+            'has-success': address2.valid && address2.touched
+          }">
+            <label for="address2">Company Address 2:</label>
+            <input type="text" name="address2" #address2 = "ngModel" [(ngModel)] = "newUser.Company.Address2" value="">
+            <span class="help-block" *ngIf="address2.errors && address2.errors.required  && address2.touched">Address is required</span>
           </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="state">State:</label>
+            <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="newUser.Company.State" name="state" placeholder="Please select state">
+            </ng-select>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="city">City:</label>
+            <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': zipcode.invalid && zipcode.touched,
+            'has-success': zipcode.valid && zipcode.touched
+          }">
+            <label for="zipcode">Zip Code:</label>
+            <input type="text" name="zipcode" #zipcode = "ngModel" [(ngModel)] = "newUser.Company.ZipCode" value="">
+            <span class="help-block" *ngIf="zipcode.errors && zipcode.errors.required  && zipcode.touched">Zip Code is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="aboutus">How did you hear about us?:</label>
+            <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="newUser.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
+            </ng-select>
+          </div>
+        </div>
 
-      <div *ngIf="newUser.Reason == 2" class="sell-a-company extra-info-div">
-        <p class="extra-border-title">Company Info(Sell)</p>
-        <div class="row">
-          <div class="col-md-6 form-group"
-          [ngClass]="{
-            'has-error': t_no_employee.invalid && t_no_employee.touched,
-            'has-success': t_no_employee.valid && t_no_employee.touched
-          }">
-            <label for="t_no_employee">Estimated # of Employees:</label>
-            <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason2.tEmpNo" value="" required>
-            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-6 form-group">
+            <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
           </div>
-          <div class="col-md-6 form-group"
-          [ngClass]="{
-            'has-error': t_annual.invalid && t_annual.touched,
-            'has-success': t_annual.valid && t_annual.touched
-          }">
-            <label for="t_annual">Annual Revenue</label>
-            <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason2.tAnnualRev" value="" required>
-            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 form-group"
-          [ngClass]="{
-            'has-error': t_net_income.invalid && t_net_income.touched,
-            'has-success': t_net_income.valid && t_net_income.touched
-          }">
-            <label for="t_net_income">Net Income:</label>
-            <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "newUser.Reason2.tNetIncome" value="" required>
-            <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Net Income is required</span>
-          </div>
-          <div class="col-md-6 form-group"
-          [ngClass]="{
-            'has-error': t_ac_date.invalid && t_ac_date.touched,
-            'has-success': t_ac_date.valid && t_ac_date.touched
-          }">
-            <label for="t_ac_date">Target Sell Date:</label>
-            <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "newUser.Reason2.tSellDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(2,$event)" required />
-            <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Date is required</span>
-          </div>
-        </div>
-      </div>
+          <div class="col-md-6 form-group">
+            <!-- <div *ngIf="newUser.UserType != 'MEMBER'" class="col-md-6 form-group">
+              <a class="back-button" href="javascript:;" (click)="wizardStep=1"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+              <span>Back</span></a>
+            </div>
+            <div class="col-md-6 form-group clearfix">
+              <button type="submit" [disabled] = "(form.invalid && !form.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+            </div> -->
 
-      <div *ngIf="newUser.Reason == 3" class="it-assessment extra-info-div">
-        <p class="extra-border-title">Reason for IT Assessment</p>
-        <div class="row">
+            <!-- <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button> -->
+            <button type="submit" [disabled] = "form.invalid || !newUser.Company.Industry || !newUser.Company.Country " class="btn button pull-right">Continue</button>
+          </div>
+        </div>
+      </form>
+
+      <form class="form form2" (ngSubmit) = "onContinue()" #form1="ngForm" [hidden] = "wizardStep != 2">
+        <h2 [innerHTML]="title"></h2>
+        <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
           <div class="col-md-12 form-group">
-            <p>Check all that apply:</p>
-            <div class="alert alert-danger" *ngIf="!validArr.ReasonCheckbox">
-              You should apply at least one reason!
+            <label for="diligence" class="required" [ngClass]="{'success': newUser.Company.Diligence != ''}">Select Your Due Diligence Type:</label>
+            <ng-select class="cs-select" [multiple]="true" [options]="diligency_type" [(ngModel)]="newUser.Company.Diligence" name="diligence" placeholder="Please select diligence type">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row" *ngIf="newUser.UserType == 'INITIATOR'">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': project_name.invalid && project_name.touched,
+            'has-success': project_name.valid && project_name.touched
+          }">
+            <label for="project_name" class="required">Project Name:</label>
+            <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "newUser.ProjectName" value="" required placeholder="e.g Project Tango, Project Healthcare, ">
+            <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="ITreason" class="required" [ngClass]="{'success': newUser.Reason}">Reason for Due Diligence</label>
+            <ng-select class="cs-select" [options]="reason_type" [(ngModel)]="newUser.Reason" name="ITreason" placeholder="Please select reason">
+            </ng-select>
+          </div>
+        </div>
+
+        <div *ngIf="newUser.Reason == 1" class="buy-a-company extra-info-div">
+          <p class="extra-border-title">Company Info(Buy)</p>
+          <div class="row">
+            <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': t_company_name.invalid && t_company_name.touched,
+                'has-success': t_company_name.valid && t_company_name.touched
+              }">
+              <label for="t_company_name">Target Company Name:</label>
+              <input type="text" name="t_company_name" #t_company_name = "ngModel" [(ngModel)] = "newUser.Reason1.tCompanyName" value="" required>
+              <span class="help-block" *ngIf="t_company_name.errors && t_company_name.errors.required  && t_company_name.touched">Company Name is required</span>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="tIndustry">Target Company Industry:</label>
+              <ng-select class="cs-select" name="tIndustry" [options]="industry_list" [(ngModel)] = "newUser.Reason1.tIndustry"  placeholder="Please select industry">
+              </ng-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_no_employee.invalid && t_no_employee.touched,
+              'has-success': t_no_employee.valid && t_no_employee.touched
+            }">
+              <label for="t_no_employee">Estimated # of Employees:</label>
+              <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_annual.invalid && t_annual.touched,
+              'has-success': t_annual.valid && t_annual.touched
+            }">
+              <label for="t_annual">Annual Revenue</label>
+              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': t_ac_date.invalid && t_ac_date.touched,
+              'has-success': t_ac_date.valid && t_ac_date.touched
+            }">
+              <label for="t_ac_date">Target Acquisition Date:</label>
+              <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "newUser.Reason1.tAcqDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(1,$event)" required />
+              <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Acquisition Date is required</span>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
-            <input type="checkbox" id="is_bp_improvment" name="is_bp_improvment" [(ngModel)] = "newUser.Reason3.tBizImp" (change)="reasonCheck($event)" value="">
-            <label for="is_bp_improvment">Business Process Improvement</label>
-          </div>
-          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
-            <input type="checkbox" id="is_cost_saving" name="is_cost_saving" [(ngModel)] = "newUser.Reason3.tCostSaving" (change)="reasonCheck($event)" value="">
-            <label for="is_cost_saving">Cost Savings</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
-            <input type="checkbox" id="is_measurement" name="is_measurement" [(ngModel)] = "newUser.Reason3.tPerformanceDate" (change)="reasonCheck($event)" value="">
-            <label for="is_measurement">Performance Measurement</label>
-          </div>
-          <div class="col-md-6 form-group checkbox" style="margin-top:15px">
-            <input type="checkbox" id="is_optimization" name="is_optimization" [(ngModel)] = "newUser.Reason3.tResOpt" (change)="reasonCheck($event)" value="">
-            <label for="is_optimization">Resource Optimization</label>
-          </div>
-        </div>
-      </div>
 
-      <div *ngIf="newUser.Reason == 4" class="other-assessment extra-info-div">
-        <p class="extra-border-title">Info</p>
-        <div class="row">
-          <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': t_other.invalid && t_other.touched,
-            'has-success': t_other.valid && t_other.touched
-          }">
-            <label for="t_other">Reason:</label>
-            <textarea name="t_other" #t_other = "ngModel" [(ngModel)] = "newUser.Reason4.tReason" value="" required rows="8" cols="80"></textarea>
-            <span class="help-block" *ngIf="t_other.errors && t_other.errors.required  && t_other.touched">Date is required</span>
+        <div *ngIf="newUser.Reason == 2" class="sell-a-company extra-info-div">
+          <p class="extra-border-title">Company Info(Sell)</p>
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_no_employee.invalid && t_no_employee.touched,
+              'has-success': t_no_employee.valid && t_no_employee.touched
+            }">
+              <label for="t_no_employee">Estimated # of Employees:</label>
+              <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason2.tEmpNo" value="" required>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_annual.invalid && t_annual.touched,
+              'has-success': t_annual.valid && t_annual.touched
+            }">
+              <label for="t_annual">Annual Revenue</label>
+              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason2.tAnnualRev" value="" required>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:30px">
-        <div class="col-md-6 form-group">
-          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
-          <span>Back</span></a>
-        </div>
-        <div class="col-md-6 form-group">
-
-          <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button>
-          <button *ngIf="newUser.UserType == 'PRIMARY'" type="submit" [disabled] = "form.invalid" class="btn button pull-right">Continue</button>
-        </div>
-      </div>
-    </form>
-    <form class="form form2" (ngSubmit) = "onRegister()" #form="ngForm" *ngIf="wizardStep == 2">
-      <h2>Finish Setting up your account.</h2>
-      <div class="row">
-        <div class="col-md-12 form-group"  *ngIf="!validArr.Register">
-          <div class="alert alert-danger">
-            Email is already exist!
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_net_income.invalid && t_net_income.touched,
+              'has-success': t_net_income.valid && t_net_income.touched
+            }">
+              <label for="t_net_income">Net Income:</label>
+              <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "newUser.Reason2.tNetIncome" value="" required>
+              <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Net Income is required</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_ac_date.invalid && t_ac_date.touched,
+              'has-success': t_ac_date.valid && t_ac_date.touched
+            }">
+              <label for="t_ac_date">Target Sell Date:</label>
+              <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "newUser.Reason2.tSellDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(2,$event)" required />
+              <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Date is required</span>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': firstname.invalid && firstname.touched,
-            'has-success': firstname.valid && firstname.touched
-          }">
-          <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "newUser.Name.First" value=""  required>
-          <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+        <div *ngIf="newUser.Reason == 3" class="it-assessment extra-info-div">
+          <p class="extra-border-title">Reason for IT Assessment</p>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <p>Check all that apply:</p>
+              <div class="alert alert-danger" *ngIf="!validArr.ReasonCheckbox">
+                You should apply at least one reason!
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_bp_improvment" name="is_bp_improvment" [(ngModel)] = "newUser.Reason3.tBizImp" (change)="reasonCheck($event)" value="">
+              <label for="is_bp_improvment">Business Process Improvement</label>
+            </div>
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_cost_saving" name="is_cost_saving" [(ngModel)] = "newUser.Reason3.tCostSaving" (change)="reasonCheck($event)" value="">
+              <label for="is_cost_saving">Cost Savings</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_measurement" name="is_measurement" [(ngModel)] = "newUser.Reason3.tPerformanceDate" (change)="reasonCheck($event)" value="">
+              <label for="is_measurement">Performance Measurement</label>
+            </div>
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_optimization" name="is_optimization" [(ngModel)] = "newUser.Reason3.tResOpt" (change)="reasonCheck($event)" value="">
+              <label for="is_optimization">Resource Optimization</label>
+            </div>
+          </div>
         </div>
 
-        <div class="col-md-12 form-group"
-        [ngClass]="{
-          'has-error': lasttname.invalid && lasttname.touched,
-          'has-success': lasttname.valid && lasttname.touched
-        }">
-          <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "newUser.Name.Last" value="" required>
-          <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+        <div *ngIf="newUser.Reason == 4" class="other-assessment extra-info-div">
+          <p class="extra-border-title">Info</p>
+          <div class="row">
+            <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': t_other.invalid && t_other.touched,
+              'has-success': t_other.valid && t_other.touched
+            }">
+              <label for="t_other">Reason:</label>
+              <textarea name="t_other" #t_other = "ngModel" [(ngModel)] = "newUser.Reason4.tReason" value="" required rows="8" cols="80"></textarea>
+              <span class="help-block" *ngIf="t_other.errors && t_other.errors.required  && t_other.touched">Date is required</span>
+            </div>
+          </div>
         </div>
-        <div class="col-md-12 form-group"
-        [ngClass]="{
-          'has-error': company_email.invalid && company_email.touched,
-          'has-success': company_email.valid && company_email.touched
-        }">
-          <!-- <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address"> -->
-          <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
-          <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
-          <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
-        </div>
-        <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': password.invalid && password.touched,
-            'has-success': password.valid && password.touched
-          }">
-          <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="Create Password" name="password" #password = "ngModel" [(ngModel)] = "newUser.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
-          <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">Password is required</span>
-          <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
-        </div>
-        <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': passwordConfirm.invalid && passwordConfirm.touched,
-            'has-success': passwordConfirm.valid && passwordConfirm.touched
-          }">
-          <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "newUser.PasswordConfirm" value=""  required>
-          <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Password is required</span>
-          <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 form-group" style="margin-top:15px">
-          <span class="checkbox">
-          <input type="checkbox" id="agree_term" #agree_term = "ngModel" [(ngModel)] = "newUser.AgreeTerm"  name="agree_term" value="" required>
-          <label for="agree_term">I agree with the <a href="javascript:;">Terms of Services</a> and <br> the <a href="javascript:;">Privacy Policy</a></label>
-          </span>
-        </div>
-      </div>
-      <div class="row">
-        <div *ngIf="newUser.UserType != 'MEMBER'" class="col-md-6 form-group">
+
+
+        <!-- <div *ngIf="newUser.UserType != 'MEMBER'" class="col-md-6 form-group">
           <a class="back-button" href="javascript:;" (click)="wizardStep=1"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
           <span>Back</span></a>
         </div>
         <div class="col-md-6 form-group clearfix">
           <button type="submit" [disabled] = "(form.invalid && !form.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+        </div> -->
+
+        <!-- <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox ) || (newUser.Company.Diligence == '')" class="btn button pull-right">Continue</button> -->
+
+        <div class="row">
+          <div *ngIf="newUser.UserType != 'MEMBER'" class="col-md-6 form-group">
+            <a class="back-button" href="javascript:;" (click)="wizardStep=1"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group clearfix">
+            <button type="submit" [disabled] = "form.invalid || !newUser.Company.Industry || !newUser.Company.Country || form1.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox )" class="btn button pull-right">Continue</button>
+          </div>
         </div>
-      </div>
-    </form>
-    <div class="captcha-div" [hidden]="wizardStep != 2">
+      </form>
+
+      <form class="form form3" (ngSubmit) = "onRegister()" #form2="ngForm" [hidden] = "wizardStep != 3">
+        <h2 [innerHTML]="title"></h2>
+
+        <p class="cs-alert-danger" *ngIf="isConfirmed">You already confirmed your invitation!</p>
+
+        <div class="row">
+          <div class="col-md-12 form-group"  *ngIf="!validArr.Register">
+            <div class="alert alert-danger">
+              Email is already exist!
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': firstname.invalid && firstname.touched,
+              'has-success': firstname.valid && firstname.touched
+            }">
+            <label for="firstname" class="required">First Name:</label>
+            <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "newUser.Name.First" value=""  required>
+            <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+          </div>
+
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': lasttname.invalid && lasttname.touched,
+            'has-success': lasttname.valid && lasttname.touched
+          }">
+            <label for="lasttname" class="required">Last Name:</label>
+            <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "newUser.Name.Last" value="" required>
+            <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="job_title">Job Tilte:</label>
+            <ng-select class="cs-select" name="job_title" [options]="job_list" [(ngModel)] = "newUser.Name.JobTitle" placeholder="Select Job Title">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': company_email.invalid && company_email.touched,
+            'has-success': company_email.valid && company_email.touched
+          }">
+            <!-- <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address"> -->
+            <label for="company_email" class="required">Email Address:</label>
+            <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': contact_number.invalid && contact_number.touched,
+            'has-success': contact_number.valid && contact_number.touched
+          }">
+            <label for="contact_number" class="required">Phone Number:</label>
+            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Company.Contact" value="" required>
+            <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': password.invalid && password.touched,
+              'has-success': password.valid && password.touched
+            }">
+            <label for="password" class="required">Create Password:</label>
+            <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="Create Password" name="password" #password = "ngModel" [(ngModel)] = "newUser.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+            <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">Password is required</span>
+            <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+          </div>
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+              'has-success': passwordConfirm.valid && passwordConfirm.touched
+            }">
+            <label for="passwordConfirm" class="required">Confirm Password:</label>
+            <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "newUser.PasswordConfirm" value=""  required>
+            <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Password is required</span>
+            <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin-top:15px">
+            <span class="checkbox">
+            <input type="checkbox" id="agree_term" #agree_term = "ngModel" [(ngModel)] = "newUser.AgreeTerm"  name="agree_term" value="" required>
+            <label for="agree_term">I agree with the <a href="javascript:;">Terms of Services</a> and the <a href="javascript:;">Privacy Policy</a></label>
+            </span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:30px" *ngIf="newUser.UserType == 'INITIATOR'">
+          <div class="col-md-6 form-group">
+            <a class="back-button"  href="javascript:;" (click)="wizardStep=2"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group">
+            <button *ngIf="newUser.UserType == 'INITIATOR'" type="submit" [disabled] = "form.invalid || !newUser.Company.Industry || !newUser.Company.Country || form1.invalid || !newUser.Reason || ( newUser.Reason == 3 && !validArr.ReasonCheckbox ) || (form2.invalid && !form2.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+
+            <button *ngIf="newUser.UserType != 'INITIATOR'" type="submit" [disabled] = "(form2.invalid && !form2.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:30px" *ngIf="newUser.UserType != 'INITIATOR'">
+          <div class="col-md-6 form-group">
+            <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group">
+            <button type="submit" [disabled] = "(form2.invalid && !form2.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="captcha-div" [hidden]="wizardStep != 3">
        <re-captcha site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
     </div>
   </div>
 </div>
+
+  <p class="cs-alert-danger" *ngIf="isConfirmed">You already confirmed your invitation!</p>

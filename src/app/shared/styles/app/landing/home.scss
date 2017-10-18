@@ -1,12 +1,12 @@
 .homepage{
   h1{
     text-align: center;
-    font-size: 54px;
-    font-weight: 500;
+    font-size: 50px;
+    font-weight: bold;
   }
   h2{
     font-weight: 300;
-    font-size: 35px;
+    font-size: 33px;
     margin-top: 40px;
     font-style: italic;
     line-height: 50px;
@@ -15,8 +15,52 @@
   h3{
     font-weight: 700;
     margin:0px 0px;
-    font-size: 40px;
+    font-size: 38px;
     text-align: center;
+    line-height: 50px;
+  }
+  .wrapper-keyquestions{
+    border-top:2px solid $dv-color-border;
+    width:100%;
+    padding:60px 0px;
+    section{
+      .keyquestions-list{
+        margin-top: 20px;
+        .row{
+          margin: 15px 0px;
+        }
+        .row:first-child{
+          margin-top:35px;
+        }
+        .keyquestions_item{
+          .title{
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            span{
+              font-size: 27px;
+              font-style: italic;
+              color: $dv-color-green;
+            }
+          }
+          .detail{
+            list-style: none;
+            color: $dv-color-grey;
+            padding-left: 0px;
+            font-size: 19px;
+            li{
+              padding-left: 38px;
+              line-height: 35px;
+              &::before{
+                position: absolute;
+                left: 15px;
+                content: "\2022 ";
+              }
+            }
+          }
+        }
+      }
+    }
   }
   .wrapper1{
     height: 700px;
@@ -41,30 +85,87 @@
       padding-top: 165px;
       .get-started{
         text-align: center;
-        width:555px;
         margin: 65px auto 0px auto;
-        input{
-          font-size: 20px;
-          padding:8px 15px;
-          height: 55px;
-          width: 300px;
-          border: 1px solid $dv-color-green;
-          border-radius: 2px;
-          color: $dv-color-primary;
+        p.title{
+          font-size: 35px;
+          margin-bottom: 22px;
+          font-weight: bold;
+          span{
+            font-size: 22px;
+            font-weight: 300;
+            margin-left: 33px;
+          }
         }
-        .get-started-button {
-          height: 55px;
-          padding: 12px 40px;
-          border: 2px solid $dv-color-green;
-          border-radius: 4px;
-          border-top-left-radius: 0px;
-          border-bottom-left-radius: 0px;
-          font-weight: 400;
-          background-color: $dv-color-green;
-          color: #ffffff;
-          line-height: 25px;
-          i{
-            font-weight: 300
+        .get-started-inner{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .input-div{
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-left: 20px;
+            &:first-of-type{
+              margin-left: 0px;
+            }
+            &:after{
+              content: '';
+              position: absolute;
+              color: $dv-color-green;
+              right: 13px;
+              width: 27px;
+              height: 28px;
+            }
+            &.your-name{
+              &::after{
+                background: url('assets/images/homepage/name-icon.svg') no-repeat center;
+                background-size: 100% 100%;
+              }
+            }
+            &.your-email{
+              &::after{
+                background: url('assets/images/homepage/email-icon.svg') no-repeat center;
+                background-size: 100% 100%;
+              }
+            }
+            &.your-password{
+              &::after{
+                background: url('assets/images/homepage/password-icon.svg') no-repeat center;
+                background-size: 100% 100%;
+              }
+            }
+            input{
+              font-size: 17px;
+              padding:8px 45px 8px 15px;
+              height: 50px;
+              width: 240px;
+              border: 2px solid $dv-color-green;
+              border-radius: 5px;
+              color: $dv-color-primary;
+            }
+          }
+          .get-started-button {
+            margin-left: 20px;
+            width: 240px;
+            height: 50px;
+            padding: 0px 40px;
+            line-height: 48px;
+            border: 2px solid $dv-color-green;
+            border-radius: 5px;
+            font-weight: 400;
+            background-color: $dv-color-green;
+            color: #ffffff;
+            i{
+              font-weight: 300
+            }
+          }
+        }
+        .span1{
+          font-size: 17px;
+          margin-top: 35px;
+          margin-right: 100px;
+          a{
+            color: $dv-color-green;
           }
         }
       }

@@ -3,11 +3,21 @@
     <section>
       <h1>The world’s most successful companies<br>trust dealvalue to accomplish IT due diligence</h1>
       <h2>IT &amp; Operational Due Diligence software that mitigates acquisition and<br>operational risks while highlighting ROI opportunitiesh</h2>
-      <div class="get-started">
+      <div class="get-started clearfix">
+        <p class="title">Test it Yourself. <span><i>No Credit card required!</i></span></p>
         <div class="get-started-inner">
-          <input type="text" class="pull-left" name="" value="" placeholder="Enter your business email">
-          <a href="#" class="get-started-button button pull-left">Get Started <i>for free</i></a>
+          <div class="input-div your-name">
+              <input type="text" name="" value="" [(ngModel)] = "userInfo.UserName" placeholder="Your name">
+          </div>
+          <div class="input-div your-email">
+              <input type="text" name="" value=""  [(ngModel)] = "userInfo.UserEmail" placeholder="Your email">
+          </div>
+          <div class="input-div your-password">
+              <input type="text" name="" value=""  [(ngModel)] = "userInfo.UserPassword" placeholder="Your password">
+          </div>
+          <a href="javascript:;" (click)="get_start()"  class="get-started-button button">Let's go!</a>
         </div>
+        <span class="span1 pull-right">By signing up, you are agreeing to our <a href="#">terms</a>.</span>
       </div>
     </section>
   </div>
@@ -43,6 +53,76 @@
           <div class="col-md-4 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Cost Reduction &amp; Process Improvement</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="wrapper-keyquestions">
+    <section>
+      <h3 class="m-b-20">We focus on key questions <br>
+        within the 6 pillars of our IT due dilligence framework
+      </h3>
+      <div class="keyquestions-list">
+        <div class="row">
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">IT Strategy</span>
+            </p>
+            <ul class="detail">
+              <li>Alignment of the IT strategy with the business strategy</li>
+            </ul>
+          </div>
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">IT Spending</span>
+            </p>
+            <ul class="detail">
+              <li>Reasonableness of IT spending levels compared to benchmarks</li>
+              <li>Run-rate(Opex) vs. One-time Costs (Capex)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">Business Applications</span>
+            </p>
+            <ul class="detail">
+              <li>Stability and scalability of the application portfolio</li>
+              <li>Use of commercial packages vs. Custom applications</li>
+              <li>Integrated vs. standalone applications</li>
+              <li>Level of process automation</li>
+            </ul>
+          </div>
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">IT Organization</span>
+            </p>
+            <ul class="detail">
+              <li>Leadership and appropriate skillsets</li>
+              <li>In house resources vs. effective use of third party support</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">IT Projects</span>
+            </p>
+            <ul class="detail">
+              <li>Captial, timing and resources requirement for current and future projects</li>
+              <li>Potential risks of failure(delays, additional costs)</li>
+            </ul>
+          </div>
+          <div class="col-md-6 keyquestions_item">
+            <p class="title">
+              <span class="text">Infrastructure &amp; Operation</span>
+            </p>
+            <ul class="detail">
+              <li>Scalability and redundancy of the IT infrastructure</li>
+              <li>Preparedness for disaster recovery, change management, business continuity, and service management</li>
+            </ul>
           </div>
         </div>
       </div>
