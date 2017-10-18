@@ -147,18 +147,33 @@ export class RegisterComponent implements OnInit {
     let queryParam = null
     this.code = null;
     this.isConfirmed = false;
-    this.title = "Please provide the information requested<br>to initiate your IT Assessment.";
     this.wizardStep = 1;
     this.initUser();
+
+    let quickStartInfo = null;
 
     this.route
       .queryParams
       .subscribe(params => {
         this.code = params['code'] || null;
+        if(params['UserName'])
+          quickStartInfo = params
       });
+
+    if(quickStartInfo)
+    {
+      let nameArr = quickStartInfo['UserName'].split(' ');
+      this.newUser.Email = quickStartInfo['UserEmail'];
+      this.newUser.Password = quickStartInfo['UserPassword'];
+      this.newUser.Name.First = nameArr.slice(0, -1).join(' ');
+      this.newUser.Name.Last = nameArr.slice(-1).join(' ');
+    }
     if(this.code)
     {
       this.initInvitor();
+    }else{
+      this.newUser.UserType = 'INITIATOR';
+      this.title = "Let's establish your account as the Project Owner<br>to initiate your project and begin receiving daily updates.";
     }
 
     this.getCountry();
@@ -188,28 +203,24 @@ export class RegisterComponent implements OnInit {
   initInvitor(){
     this.authService.checkInvitationCode(this.code).subscribe(
       response => {
-        console.log(response);
         this.isConfirmed = response.Data.Confirmed;
         if(!this.isConfirmed)
           this.newUser.Email = response.Data.Email;
         this.newUser.ProjectID = response.Data.Project;
         this.newUser.UserType = response.Data.Role;
-        if(this.newUser.UserType == 'MEMBER')
-          this.wizardStep = 2;
-        else
-          this.wizardStep = 1;
+        this.wizardStep = 3;
         if(this.newUser.UserType != 'INITIATOR')
           this.title = "Welcome to DealValue! <br/>Please Complete your profile";
       },
       (error) => {
-        this.router.navigate(['/register']);
+        this.router.navigate(['/app']);
       }
     );
   }
 
   initUser(){
     this.newUser = {
-      UserType: 'INITIATOR',
+      UserType: null,
       ProjectID: null,
       Email: '',
       Password: '',
@@ -225,6 +236,9 @@ export class RegisterComponent implements OnInit {
         Name: '',
         Contact: '',
         ZipCode: '',
+        Website: '',
+        Address1: '',
+        Address2: '',
         Country: '0',
         State: '0',
         City: '0',
@@ -246,13 +260,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onContinue(){
-    for(let i=1; i<=4; i++)
-    {
-      if(i == this.newUser.Reason)
-        continue;
-      this.newUser["Reason"+i] = null
-    }
-    this.wizardStep = 2;
+    // for(let i=1; i<=4; i++)
+    // {
+    //   if(i == this.newUser.Reason)
+    //     continue;
+    //   this.newUser["Reason"+i] = null
+    // }
+    this.wizardStep ++;
   }
 
   onRegister(){
