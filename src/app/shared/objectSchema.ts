@@ -9,6 +9,9 @@ export class Company{
   Name: string;
   Contact: string;
   ZipCode: string;
+  Website: string;
+  Address1: string;
+  Address2: string;
   Country: string;
   State: string;
   City: string;
