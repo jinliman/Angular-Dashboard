@@ -5,18 +5,30 @@
       <h2>IT &amp; Operational Due Diligence software that mitigates acquisition and<br>operational risks while highlighting ROI opportunitiesh</h2>
       <div class="get-started clearfix">
         <p class="title">Test it Yourself. <span><i>No Credit card required!</i></span></p>
-        <div class="get-started-inner">
-          <div class="input-div your-name">
-              <input type="text" name="" value="" [(ngModel)] = "userInfo.UserName" placeholder="Your name">
+        <form (ngSubmit) = "get_start()" class="form get-started-form" #form="ngForm">
+          <div class="input-div your-name form-group"
+          [ngClass]="{
+            'has-error': username.invalid && username.touched,
+            'has-success': username.valid && username.touched
+          }">
+              <input type="text" name="username" #username="ngModel" value="" [(ngModel)] = "userInfo.UserName" placeholder="Your name" required>
           </div>
-          <div class="input-div your-email">
-              <input type="text" name="" value=""  [(ngModel)] = "userInfo.UserEmail" placeholder="Your email">
+          <div class="input-div your-email form-group"
+          [ngClass]="{
+            'has-error': useremail.invalid && useremail.touched,
+            'has-success': useremail.valid && useremail.touched
+          }">
+              <input type="text" name="useremail" #useremail="ngModel" value="" [(ngModel)] = "userInfo.UserEmail" placeholder="Your email" required>
           </div>
-          <div class="input-div your-password">
-              <input type="text" name="" value=""  [(ngModel)] = "userInfo.UserPassword" placeholder="Your password">
+          <div class="input-div your-password form-group"
+          [ngClass]="{
+            'has-error': userpassword.invalid && userpassword.touched,
+            'has-success': userpassword.valid && userpassword.touched
+          }">
+              <input type="password" name="userpassword" #userpassword="ngModel" value="" [(ngModel)] = "userInfo.UserPassword" placeholder="Your password" required>
           </div>
-          <a href="javascript:;" (click)="get_start()"  class="get-started-button button">Let's go!</a>
-        </div>
+          <button type="submit" [disabled] = "form.invalid"  class="get-started-button btn button">Let's go!</button>
+        </form>
         <span class="span1 pull-right">By signing up, you are agreeing to our <a href="#">terms</a>.</span>
       </div>
     </section>

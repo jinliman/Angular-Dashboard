@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs';
 
 import { NotificationsService } from 'angular2-notifications';
 
-import { Question, Answer } from '../../../shared/objectSchema';
+import { Question, Answer, QuestionItem, AnswerItem } from '../../../shared/objectSchema';
 import { environment } from '../../../../environments/environment';
+import * as moment from "moment";
 
 declare var Dropbox: any;
 declare var BoxSelect: any;
@@ -40,8 +41,19 @@ export class AnswerComponent implements OnInit {
   attAssessmentID = null
   attachmentList: Array<object> =[];
   dropdownData: Array<object> = [];
+  gridData: object = {};
+
   dropdownSettings = {};
   loading = true;
+
+  public datepickerOptions: any = {
+    locale: { format: 'MMMM DD YYYY' },
+    singleDatePicker: true,
+    showDropdowns: true,
+    inline: false,
+    autoUpdateInput: false
+  };
+
   dropboxOptions = {
     success: (files) => {
       this.selectDropboxFile(files)
@@ -100,6 +112,8 @@ export class AnswerComponent implements OnInit {
         this.questionnaire = [];
         this.questions = [];
         this.answers = [];
+        this.dropdownData = [];
+        this.gridData = [];
         this.currentProject = this.authService.getUserProject();
         this.userRole = this.currentProject['Role'];
         console.log(this.userRole)
@@ -377,30 +391,114 @@ export class AnswerComponent implements OnInit {
     }
     return result;
   }
-  findAnswerObject(uuid){
+  findAnswerObject(uuid, appID = null){
     for(var i in this.answers) {
       if(this.answers[i].uuid == uuid)
         return this.answers[i];
       for(var j in this.answers[i].Items) {
-        if(this.answers[i].Items[j].uuid == uuid)
-          return this.answers[i].Items[j];
+        if(appID)
+        {
+          if(this.answers[i].Items[j].uuid == uuid && this.answers[i].Items[j].appID == appID)
+            return this.answers[i].Items[j];
+        }else{
+          if(this.answers[i].Items[j].uuid == uuid)
+            return this.answers[i].Items[j];
+        }
       }
     }
     return null;
   }
+  setDateQuestion(index, value: any)
+  {
+    this.questions[index].value = moment(new Date(value.start)).format("MMMM DD YYYY");
+  }
 
-  updateQuestionnair(){
+  new_grid_answer(question_item){
+    let newAppID = this.gridData[question_item.uuid].reduce(function(maxID, Item){
+        return Item.appID > maxID ? Item.appID: maxID;
+    },1)
+    this.gridData[question_item.uuid].push({appID: newAppID+1, Items: this.arrayClone(question_item.Items)});
+  }
+  remove_grid_answer(uuid,index){
+    this.gridData[uuid].splice(index,1);
+  }
+  move_answer_up(uuid,index){
+    if (index-1 < 0)
+      return false;
+    let tmp = this.gridData[uuid][index]
+    this.gridData[uuid][index] = this.gridData[uuid][index-1]
+    this.gridData[uuid][index-1] = tmp;
+    return true;
+  }
+  move_answer_down(uuid,index){
+    if (index+1 >= this.gridData[uuid].length)
+      return false;
+    let tmp = this.gridData[uuid][index]
+    this.gridData[uuid][index] = this.gridData[uuid][index+1]
+    this.gridData[uuid][index+1] = tmp;
+    return true;
+  }
+  toggleGridAnswer(uuid, type)
+  {
+    if(type)
+    {
+
+    }else{
+      this.gridData[uuid] = [];
+    }
+  }
+  arrayClone( arr ) {
+    var i, copy;
+    if( Array.isArray( arr ) ) {
+        copy = arr.slice( 0 );
+        for( i = 0; i < copy.length; i++ ) {
+            copy[ i ] = this.arrayClone( copy[ i ] );
+        }
+        return copy;
+    } else if( typeof arr === 'object' ) {
+        return Object.assign({}, arr);
+    } else {
+        return arr;
+    }
+  }
+
+    updateQuestionnair(){
 	    for(let qustion_group of this.questions) {
         let answerObj = this.findAnswerObject(qustion_group.uuid);
         if( answerObj && answerObj.value )
           qustion_group.value = answerObj.value;
         qustion_group.comment = ""
+
         if( answerObj && answerObj['comment'] )
           qustion_group.comment = answerObj['comment'];
         if(qustion_group.Type == 'Dropdown')
         {
           if(!this.dropdownData[qustion_group.uuid])
             this.dropdownData[qustion_group.uuid] = { Content: [], Selected: []}
+        }
+        if(qustion_group.Type == 'Grid')
+        {
+          if(!this.gridData[qustion_group.uuid])
+            this.gridData[qustion_group.uuid] = []
+          if(answerObj && answerObj['Items'] )
+          {
+            for(let answerItem of answerObj['Items'])
+            {
+              let appID = answerItem.appID;
+              let tmpObj = this.arrayClone(this.gridData[qustion_group.uuid].find(function(item){return item['appID'] == appID}));
+              if(!tmpObj)
+              {
+                tmpObj = { appID: appID, Items :  this.arrayClone(qustion_group.Items)};
+                this.gridData[qustion_group.uuid].push(tmpObj)
+              }
+              for(let tmpItem of tmpObj.Items)
+              {
+                  let tmpAnswerItem = this.findAnswerObject(tmpItem.uuid, appID);
+                  if(tmpAnswerItem && tmpAnswerItem.value)
+                    tmpItem.value = tmpAnswerItem.value;
+              }
+            }
+          }
         }
         for(let question_item of qustion_group.Items) {
           if(qustion_group.Type == 'Dropdown')
@@ -409,14 +507,18 @@ export class AnswerComponent implements OnInit {
             if(qustion_group.value && qustion_group.value.split(",").indexOf(question_item.uuid) != -1)
               this.dropdownData[qustion_group.uuid].Selected.push({"id":question_item.uuid,"itemName":question_item.Text})
           }
-          let answerObj = this.findAnswerObject(question_item.uuid);
-          if( answerObj && answerObj.value )
+          if(qustion_group.Type != 'Grid')
           {
-            question_item.value = answerObj.value;
+            let answerObjInner = this.findAnswerObject(question_item.uuid);
+            if( answerObjInner && answerObjInner.value )
+            {
+              question_item.value = answerObjInner.value;
+            }
           }
         }
 	    }
       console.log(this.questions)
+      console.log(this.gridData)
   }
 
   getAnswers(){
@@ -432,7 +534,7 @@ export class AnswerComponent implements OnInit {
           this.questionnaire = response.result.questionnaire;
           this.questions = response.result.questionnaire.questions || [];
           this.answers = response.result.answers;
-          this.updateQuestionnair();
+            this.updateQuestionnair();
         }else{
           this.questionnaire = [];
           this.questions = [];
@@ -445,17 +547,44 @@ export class AnswerComponent implements OnInit {
       }
     );
   }
-  prepareSaveData(){
-    for(let item of this.questions)
+
+  prepareGridData(question_item){
+    let result : Array<QuestionItem> = [];
+    if(question_item.value == '1')
     {
-      if( item.Type == 'Dropdown')
+      let uuid = question_item.uuid;
+      for(let appItem of this.gridData[uuid])
       {
-        item.value = this.dropdownData[item.uuid].Selected.map(function(e){
+        let appID = appItem.appID;
+        if(!result)
+        {
+          result = appItem.Items.map(function(item){ item['appID'] = appID; return item});
+        }
+        else{
+          result = result.concat(appItem.Items.map(function(item){ item['appID'] = appID; return item}));
+        }
+      }
+    }
+    return result;
+  }
+
+  prepareSaveData(){
+    for(let question_item of this.questions)
+    {
+      if( question_item.Type == 'Dropdown')
+      {
+        question_item.value = this.dropdownData[question_item.uuid].Selected.map(function(e){
           return e['id'];
         }).toString();
       }
+      if( question_item.Type == 'Grid')
+      {
+        question_item.Items = this.prepareGridData(question_item);
+      }
     }
   }
+
+
   saveAnswer(){
     this.prepareSaveData();
     let questionnare_id = this.questionnaire['_id'];

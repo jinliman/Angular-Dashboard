@@ -10,7 +10,7 @@
   </div>
   <div class="inner-content-div">
     <table class="question-table">
-      <ng-container *ngFor="let question_item of questions; let i = index">
+      <ng-container *ngFor="let question_item of questions; let question_index = index">
         <tbody *ngIf="userRole == 'PRIMARY' || userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
           <tr>
             <td style="width:40px">
@@ -23,7 +23,7 @@
             </td>
           </tr>
           <ng-container *ngIf = "question_item.Type == 'Dropdown'">
-            <tr>
+            <tr class="answer_tr">
               <td style="width:40px">
               </td>
               <td>
@@ -35,8 +35,65 @@
               </td>
             </tr>
           </ng-container>
-          <ng-container *ngIf = "question_item.Type != 'Dropdown'">
-            <tr *ngFor="let item of question_item.Items; let i1 = index">
+          <ng-container *ngIf = "question_item.Type == 'Date'">
+            <tr class="answer_tr">
+              <td style="width:40px">
+              </td>
+              <td>
+                <input type="text" [(ngModel)] = "question_item.value" value="" daterangepicker [options]="datepickerOptions"  (selected)="setDateQuestion(i,$event)"/>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf = "question_item.Type == 'Grid'">
+            <tr>
+              <td style="width:40px">
+              </td>
+              <td>
+                <div class="form-group radio radio-button-div">
+                  <div class="">
+                    <input type="radio" id="{{question_item['uuid']}}-yes-raido" name="{{question_item['uuid']}}" value="1"  [(ngModel)]="question_item['value']">
+                    <label for="{{question_item['uuid']}}-yes-raido">Yes</label>
+                  </div>
+                  <div class="">
+                    <input type="radio" id="{{question_item['uuid']}}-no-raido" name="{{question_item['uuid']}}" value="0"   [(ngModel)]="question_item['value']">
+                    <label for="{{question_item['uuid']}}-no-raido">No</label>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <ng-container *ngIf="question_item['value'] == 1">
+              <ng-container *ngFor="let gridItemGroup of gridData[question_item['uuid']]; let i = index">
+                <tr class="grid_answer_tr">
+                  <td style="width:40px">
+                    <span class="app-no-span">{{i+1}}</span>
+                  </td>
+                  <td>
+                    <div class="row grid_answer_div">
+                      <div class="col-md-4" *ngFor="let item of gridItemGroup.Items; let i1 = index">
+                          <input type="text" name="" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}">
+                      </div>
+                      <div class="col-md-12 action-div">
+                        <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'" (click)="remove_grid_answer(question_item['uuid'],i)"></span>
+                        <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_down(question_item['uuid'],i)"></span>
+                        <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_up(question_item['uuid'],i)"></span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr>
+                <td style="width:40px">
+                </td>
+                <td>
+                  <div class="clearfix add-new-div">
+                    <a class="add-button" (click)="new_grid_answer(question_item)">New Application</a>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf = "question_item.Type == 'Text' || question_item.Type == 'Radio' || question_item.Type == 'Checkbox'">
+            <tr *ngFor="let item of question_item.Items; let i1 = index" class="answer_tr">
               <td style="width:40px">
               </td>
               <td>

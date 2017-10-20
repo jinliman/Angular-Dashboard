@@ -5,17 +5,17 @@
     </div>
     <div class="inner-wrapper">
       <div class="wizard-progress clearfix" *ngIf="newUser.UserType == 'INITIATOR'">
-        <div class="step-div"  [ngClass]="{'active': wizardStep == 1 }" >
+        <div class="step-div" (click)="wizardStep = 1"  [ngClass]="{'active': wizardStep == 1 }" >
           <label for="">Step1</label>
-          <span class="step" (click)="wizardStep = 1">1</span>
+          <div class="step"><span>1</span></div>
         </div>
         <div class="step-div" (click)="wizardStep = 2" [ngClass]="{'active': wizardStep == 2 }" >
           <label for="">Step2</label>
-          <span class="step">2</span>
+          <div class="step"><span>2</span></div>
         </div>
         <div class="step-div"  (click)="wizardStep = 3" [ngClass]="{'active': wizardStep == 3 }" >
           <label for="">Let's get Started!</label>
-          <span class="step">3</span>
+          <div class="step"><span>3</span></div>
         </div>
         <span class="line"></span>
       </div>

@@ -198,16 +198,16 @@ export class TeamComponent implements OnInit {
             switch(question_item['Type'])
             {
               case 'Text':
-                if(!answer_item['Items'][j]['value'] || (answer_item['Items'][j]['value'] && answer_item['Items'][j]['value'] == ""))
+                if(!answer_item || !answer_item['Items'][j]['value'] || (answer_item['Items'][j]['value'] && answer_item['Items'][j]['value'] == ""))
                   stats_completed = false;
                 break;
               case 'Radio':
               case 'Dropdown':
-                if(!answer_item['value'] || (answer_item['value'] && answer_item['value'] == ""))
+                if(!answer_item || !answer_item['value'] || (answer_item['value'] && answer_item['value'] == ""))
                   stats_completed = false;
                 break;
               case 'Checkbox':
-                if(!answer_item['Items'][j]['value'])
+                if(!answer_item || !answer_item['Items'][j]['value'])
                   stats_completed = false;
                 break;
               default:

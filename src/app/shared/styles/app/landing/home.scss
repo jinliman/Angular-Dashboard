@@ -85,7 +85,7 @@
       padding-top: 165px;
       .get-started{
         text-align: center;
-        margin: 65px auto 0px auto;
+        margin: 48px auto 0px auto;
         p.title{
           font-size: 35px;
           margin-bottom: 22px;
@@ -96,7 +96,7 @@
             margin-left: 33px;
           }
         }
-        .get-started-inner{
+        .get-started-form{
           display: flex;
           align-items: center;
           justify-content: center;
@@ -115,6 +115,7 @@
               right: 13px;
               width: 27px;
               height: 28px;
+              top: 11px;
             }
             &.your-name{
               &::after{
@@ -162,7 +163,7 @@
         }
         .span1{
           font-size: 17px;
-          margin-top: 35px;
+          margin-top: 25px;
           margin-right: 100px;
           a{
             color: $dv-color-green;

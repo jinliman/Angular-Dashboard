@@ -27,7 +27,8 @@
           }
         }
         .step-div{
-          display: inline-block;
+          display: block;
+          align-items: center;
           text-align: center;
           z-index: 2;
           width: calc( 25% - 3px);
@@ -41,7 +42,7 @@
           }
           &.active{
             color: $dv-color-green;
-            span{
+            div{
               color: $dv-color-green;
               border: 2px solid $dv-color-green;
             }
@@ -54,10 +55,15 @@
             border-radius: 50%;
             width: 45px;
             height: 45px;
-            display: inline-grid;
+            display: flex;
+            margin: auto;
             align-items: center;
             text-align: center;
             cursor: pointer;
+            span{
+              display: block;
+              margin: auto;
+            }
             b{
               margin: auto;
               font-size: 20px;

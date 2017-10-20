@@ -36,6 +36,12 @@ export class DataService {
     return this.authService.getHeaders();
   }
 
+  isUserEmailExists(data)
+  {
+    return this.http.post(this.url + '/api/userexists', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   getUser(data) {
     return this.http.post(this.url + '/api/user/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());

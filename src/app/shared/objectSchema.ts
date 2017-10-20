@@ -61,6 +61,13 @@ export class User{
   Reason4: Reason4;
 }
 
+export class QuestionItem{
+  uuid    : string;
+  Text    : string;
+  value   : any;
+  appID   : number;
+}
+
 export class Question{
   uuid: string;
   Type: string;
@@ -68,21 +75,18 @@ export class Question{
   value   : string;
   comment : string;
   HasDocument: boolean;
-  Items: [{
-       uuid    : string;
-       Text    : string;
-       value   : any;
-   }]
+  Items: Array<QuestionItem>
 }
-
+export class AnswerItem{
+  uuid: string;
+  value: any;
+  appID: number;
+}
 export class Answer{
   uuid: string;
   value: string;
   comment: string;
-  Items: [{
-      uuid: string;
-      value: any;
-  }]
+  Items: Array<AnswerItem>
 }
 
 export class Category{

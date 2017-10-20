@@ -21,7 +21,9 @@ export class QaBuilderComponent implements OnInit {
     {'value':'Text', 'label':'Text'},
     {'value':'Radio', 'label':'Radio'},
     {'value':'Checkbox', 'label':'Checkbox'},
-    {'value':'Dropdown', 'label':'Dropdown'}
+    {'value':'Dropdown', 'label':'Dropdown'},
+    {'value':'Date', 'label':'Date'},
+    {'value':'Grid', 'label':'Grid'}
   ]
   assessment: object = {};
   assessment_id = null;
@@ -49,7 +51,8 @@ export class QaBuilderComponent implements OnInit {
       Items: [{
            uuid    : this.dataService.getUUID(),
            Text    : "",
-           value   : ""
+           value   : "",
+           appID   : 1
        }]
     };
     this.questions.push(newQuestion)
@@ -59,7 +62,8 @@ export class QaBuilderComponent implements OnInit {
     this.questions[index].Items.push({
          uuid    : this.dataService.getUUID(),
          Text    : "",
-         value   : ""
+         value   : "",
+         appID   : 1
      });
   }
 
@@ -143,6 +147,13 @@ export class QaBuilderComponent implements OnInit {
       (error) => {
       }
     );
+  }
+  QuestionTypeSelect($event,item){
+    let QuestionType = $event.value;
+    if(QuestionType == 'Date')
+    {
+      item.Items = [];
+    }
   }
 
   ngOnInit() {

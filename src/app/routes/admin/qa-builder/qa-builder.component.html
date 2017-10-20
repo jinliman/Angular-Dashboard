@@ -27,7 +27,7 @@
             <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'"  (click)="remove_question(i)"></span>
             <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_question_down(i)"></span>
             <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'"  (click)="move_question_up(i)"></span>
-            <ng-select class="cs-select" name="question_type" [options]="question_type" [(ngModel)] = "questions[i]['Type']">
+            <ng-select class="cs-select" name="question_type"  (selected)="QuestionTypeSelect($event,question_item)" [options]="question_type" [(ngModel)] = "questions[i]['Type']">
             </ng-select>
           </div>
         </td>
@@ -63,7 +63,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf = "questions[i]['Type'] != 'Date'">
         <td style="width:40px">
         </td>
         <td colspan="3">
