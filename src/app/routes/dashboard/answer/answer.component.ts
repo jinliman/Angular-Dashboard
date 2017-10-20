@@ -50,8 +50,7 @@ export class AnswerComponent implements OnInit {
     locale: { format: 'MMMM DD YYYY' },
     singleDatePicker: true,
     showDropdowns: true,
-    inline: false,
-    autoUpdateInput: false
+    inline: false
   };
 
   dropboxOptions = {
