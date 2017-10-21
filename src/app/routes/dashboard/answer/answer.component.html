@@ -51,7 +51,7 @@
               <td>
                 <div class="form-group radio radio-button-div">
                   <div class="">
-                    <input type="radio" id="{{question_item['uuid']}}-yes-raido" name="{{question_item['uuid']}}" value="1"  [(ngModel)]="question_item['value']">
+                    <input type="radio" id="{{question_item['uuid']}}-yes-raido" name="{{question_item['uuid']}}" value="1"  [(ngModel)]="question_item['value']" (click)="selectGridYes(question_item)">
                     <label for="{{question_item['uuid']}}-yes-raido">Yes</label>
                   </div>
                   <div class="">
@@ -86,7 +86,7 @@
                 </td>
                 <td>
                   <div class="clearfix add-new-div">
-                    <a class="add-button" (click)="new_grid_answer(question_item)">New Application</a>
+                    <a class="add-button" (click)="new_grid_answer(question_item)">Add Another</a>
                   </div>
                 </td>
               </tr>
