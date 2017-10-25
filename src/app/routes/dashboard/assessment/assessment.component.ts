@@ -381,7 +381,6 @@ export class AssessmentComponent implements OnInit {
     let assessmentID = group['id'];
     this.dataService.toggleNA(data).subscribe(response => {
         this.initPage()
-        this.loading = false;
       },
       (error) => {
 
