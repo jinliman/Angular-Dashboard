@@ -41,8 +41,10 @@
     height: 126px;
     &.active, &:hover{
       .img-div{
-        background: url('assets/images/icons/dashboard/progress-project-hover-icon.png') no-repeat center;
-        background-size: 100% 100%;
+        background: url('assets/images/icons/dashboard/progress-project-hover-icon.png') no-repeat center !important;
+      }
+      span{
+        display: none !important;
       }
       border-bottom: 4px solid $dv-color-green;
 

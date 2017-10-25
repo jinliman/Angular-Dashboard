@@ -57,8 +57,6 @@ export class ProgressComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.user = this.authService.getUser()
-    let that = this;
-    this.userProjectRole = this.userProjectList.find(function(item){ return item.Project['_id'] == that.projectID})
     this.getAllUserProject();
     this.getAssessment();
   }
@@ -73,6 +71,8 @@ export class ProgressComponent implements OnInit {
 
   getAllUserProject(){
     this.userProjectList = this.authService.getUserProjectList();
+    let that = this;
+    this.userProjectRole = this.userProjectList.find(function(item){ return item.Project['_id'] == that.projectID})['Role']
     this.userProjectListTab = this.eachSlice(this.userProjectList, 4);
   }
 
@@ -196,7 +196,7 @@ export class ProgressComponent implements OnInit {
 
   getTableData(){
     this.tableData = [];
-
+    console.log(this.userProjectRole)
     for(let entry of this.assessmentList)
     {
       let questionArr = this.findQuestionObject(entry);
