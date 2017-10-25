@@ -129,9 +129,7 @@
         &>td{
           border-top: none !important;
           font-weight: 400;
-          &.pending{
-            color: $dv-color-green;
-          }
+
           .desc-div{
             padding-left: 30px;
             color: $dv-color-grey;
@@ -182,6 +180,9 @@
       }
       &.status{
         width: 150px;
+        &.complete{
+          color: $dv-color-green;
+        }
       }
     }
   }

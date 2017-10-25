@@ -65,6 +65,11 @@ export class AuthService {
     return currentProject;
   }
 
+  getUserProjectList(){
+    let userProjects = JSON.parse(localStorage.getItem('userProjects'));
+    return userProjects;
+  }
+
   veryfiyRole(role) {
     let user = this.getUser();
     if(user.Role != role) {

@@ -43,6 +43,8 @@ export class AnswerComponent implements OnInit {
   dropdownData: Array<object> = [];
   gridData: object = {};
 
+  backUrl: string = '';
+
   dropdownSettings = {};
   loading = true;
 
@@ -129,6 +131,8 @@ export class AnswerComponent implements OnInit {
         // Defaults to 0 if no query param provided.
         let assessment_id = params['id'] || '';
         let data = {id: assessment_id};
+
+        this.backUrl = "/app/assessment/"+assessment_id;
 
         this.getUserAssign();
         this.getUserAttachment();
@@ -409,6 +413,7 @@ export class AnswerComponent implements OnInit {
   }
   setDateQuestion(index, value: any)
   {
+    console.log(index)
     this.questions[index].value = moment(new Date(value.start)).format("MMMM DD YYYY");
   }
 
@@ -439,12 +444,7 @@ export class AnswerComponent implements OnInit {
   }
   toggleGridAnswer(uuid, type)
   {
-    if(type)
-    {
-
-    }else{
-      this.gridData[uuid] = [];
-    }
+    this.gridData[uuid] = [];
   }
   arrayClone( arr ) {
     var i, copy;
@@ -472,12 +472,17 @@ export class AnswerComponent implements OnInit {
   updateQuestionnair(){
     for(let qustion_group of this.questions) {
       let answerObj = this.findAnswerObject(qustion_group.uuid);
-      if( answerObj && answerObj.value )
-        qustion_group.value = answerObj.value;
       qustion_group.comment = ""
 
-      if( answerObj && answerObj['comment'] )
-        qustion_group.comment = answerObj['comment'];
+      if( answerObj){
+        if(answerObj.value )
+            qustion_group.value = answerObj.value;
+        if(answerObj['comment'] )
+          qustion_group.comment = answerObj['comment'];
+        if(answerObj['Status'] != 'undefined' )
+            qustion_group.Status = answerObj['Status'];
+      }
+
       if(qustion_group.Type == 'Dropdown')
       {
         if(!this.dropdownData[qustion_group.uuid])
@@ -525,7 +530,6 @@ export class AnswerComponent implements OnInit {
       }
     }
     console.log(this.questions)
-    console.log(this.gridData)
   }
 
   getAnswers(){
@@ -588,6 +592,10 @@ export class AnswerComponent implements OnInit {
       {
         question_item.Items = this.prepareGridData(question_item);
       }
+
+      let status = question_item.Items.every(function(item){ return item['value'] != ''}) || (question_item.value != '');
+      if(question_item.Status != 0)
+        question_item.Status = status ? 2 : 1;
     }
   }
 
@@ -610,6 +618,7 @@ export class AnswerComponent implements OnInit {
               'Successfully Saved!',
               'Answer'
           )
+          this.router.navigate([this.backUrl]);
         }else{
           this._notificationService.error(
               'Sth went wrong',

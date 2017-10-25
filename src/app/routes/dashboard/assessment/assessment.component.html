@@ -4,10 +4,10 @@
     <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
     <div class="button-div pull-right clearfix">
         <a *ngIf="allowAnswer" class="svg button pull-left" routerLink="{{editAssessmentUrl}}/answer">
-          <span> <i class="fa fa-save"></i> Provide Answers Here</span>
+          <span> <i class="fa fa-commenting-o"></i> Provide Answers Here</span>
         </a>
         <a *ngIf="allowAssign" class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
-          <span> <i class="fa fa-save"></i> Assign Sections</span>
+          <span> <i class="fa fa-file-text-o"></i> Assign Sections</span>
         </a>
     </div>
   </div>
@@ -33,11 +33,11 @@
           </div>
           <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
         </td>
-        <td colspan="3">
+        <td colspan="2">
           <span>Progress/Completion Rate</span>
-          <span class="span-percent">50%</span>
+          <span class="span-percent">{{this.completePercent}}%</span>
           <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+            <progress-bar [value] = "completePercent" [max] = "100" title = "{{completePercent}}%"></progress-bar>
           </div>
         </td>
       </tr>
@@ -46,7 +46,6 @@
           <div>Click on attachment icons (<span [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon1.svg'"></span>) below to upload the requested documents<br>or check the "Not Available" box if the document cannot be produced:</div>
         </td>
         <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-        <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
         <td width="15%">Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
       </tr>
     </thead>
@@ -63,26 +62,17 @@
               </div>
             </div>
           </td>
-          <td class="status" [class.pending]="question_group.status == 2">
-
-          </td>
-          <td width="15%">
-
+          <td class="status" [class.complete]="question_group.status == 2">
+            {{statusArr[question_group.status]}}
           </td>
           <td width="15%">
             <div class="form-group checkbox">
-              <div *ngIf="question_group.status == 0">
-                <input type="checkbox" id="{{group_index}}_remember_me" name="{{group_index}}_remember_me" value="" checked>
-                <label for="{{group_index}}_remember_me">NA</label>
-              </div>
-              <div *ngIf="question_group.status != 0">
-                <input type="checkbox" id="{{group_index}}_remember_me" name="{{group_index}}_remember_me" value="">
-                <label for="{{group_index}}_remember_me">NA</label>
-              </div>
+              <input type="checkbox" id="{{group_index}}_na_check" name="{{group_index}}_na_check" value=""  [checked]="question_group.status == 0" (click)="toggleNA($event.target.checked,question_group,null)">
+              <label for="{{group_index}}_na_check">NA</label>
             </div>
           </td>
         </tr>
-        <ng-container *ngFor="let question_item of question_group.questionArr">
+        <ng-container *ngFor="let question_item of question_group.questionArr; let item_index = index">
           <tr *ngIf="userAssignment['Assessments'].indexOf(question_group['id']) != -1 || userAssignment['Questions'].indexOf(question_item['id']) != -1" class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true">
             <td class="category">
               <div>
@@ -92,22 +82,13 @@
                 </div>
               </div>
             </td>
-            <td class="status" [class.pending]="question_item.status == 2">
+            <td class="status" [class.complete]="question_item.status == 2">
               {{statusArr[question_item.status]}}
             </td>
             <td width="15%">
-
-            </td>
-            <td width="15%">
               <div class="form-group checkbox">
-                <div *ngIf="question_item.status == 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item['id']}}" name="{{group_index}}_remember_me_{{question_item['id']}}" value="" checked>
-                  <label for="{{group_index}}_remember_me_{{question_item['id']}}">NA</label>
-                </div>
-                <div *ngIf="question_item.status != 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item['id']}}" name="{{group_index}}_remember_me_{{question_item['id']}}" value="">
-                  <label for="{{group_index}}_remember_me_{{question_item['id']}}">NA</label>
-                </div>
+                <input type="checkbox" id="{{group_index}}_na_check_{{item_index}}" name="{{group_index}}_na_check_{{item_index}}" value="" [checked]="question_item.status == 0" (click)="toggleNA($event.target.checked,question_group,question_item)">
+                <label for="{{group_index}}_na_check_{{item_index}}">NA</label>
               </div>
             </td>
           </tr>
@@ -140,9 +121,9 @@
         </td>
         <td colspan="3">
           <span>Progress/Completion Rate</span>
-          <span class="span-percent">50%</span>
+          <span class="span-percent">{{this.completePercent}}%</span>
           <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+            <progress-bar [value] = "this.completePercent" [max] = "100" title = "{{this.completePercent}}%"></progress-bar>
           </div>
         </td>
       </tr>
@@ -164,30 +145,25 @@
                 <span [hidden]="question_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!question_group.open" [class.closed]="question_group.open"></span>
                 <span class="desc" [class.no-files]="!question_group.hasDetail">{{question_group.title}}</span>
                 <span *ngIf="question_group.hasDetail" [class.assessment-completed]="question_group.completed" class="count" >( {{question_group.questionArr.length}} )</span>
-                <span *ngIf="question_group.completed" [class.assessment-completed]="question_group.completed" class="check-icon" ><span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
+                <span *ngIf="question_group.completed" [class.assessment-completed]="question_group.completed" class="check-icon" >
+                  <span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
               </div>
             </div>
           </td>
-          <td class="status" [class.pending]="question_group.status == 2">
-
+          <td class="status" [class.complete]="question_group.status == 2">
+            {{statusArr[question_group.status]}}
           </td>
           <td width="15%">
             <angular2-multiselect [data]="teamList" (onSelect)="onAssignmentSelect($event, question_group, 'Assessment')" (onDeSelect)="onAssignmentDeSelect($event, question_group, 'Assessment')" [(ngModel)]="question_group.usersAssigned" [settings]="dropdownSettings"></angular2-multiselect>
           </td>
           <td width="15%">
             <div class="form-group checkbox">
-              <div *ngIf="question_group.status == 0">
-                <input type="checkbox" id="{{group_index}}_remember_me" name="{{group_index}}_remember_me" value="" checked>
-                <label for="{{group_index}}_remember_me">NA</label>
-              </div>
-              <div *ngIf="question_group.status != 0">
-                <input type="checkbox" id="{{group_index}}_remember_me" name="{{group_index}}_remember_me" value="">
-                <label for="{{group_index}}_remember_me">NA</label>
-              </div>
+              <input type="checkbox" id="{{group_index}}_na_check" name="{{group_index}}_na_check" value=""  [checked]="question_group.status == 0" (click)="toggleNA($event.target.checked,question_group,null)">
+              <label for="{{group_index}}_na_check">NA</label>
             </div>
           </td>
         </tr>
-        <ng-container *ngFor="let question_item of question_group.questionArr">
+        <ng-container *ngFor="let question_item of question_group.questionArr; let item_index = index">
           <tr class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true">
             <td class="category">
               <div>
@@ -197,7 +173,7 @@
                 </div>
               </div>
             </td>
-            <td class="status" [class.pending]="question_item.status == 2">
+            <td class="status" [class.complete]="question_item.status == 2">
               {{statusArr[question_item.status]}}
             </td>
             <td width="15%">
@@ -205,14 +181,8 @@
             </td>
             <td width="15%">
               <div class="form-group checkbox">
-                <div *ngIf="question_item.status == 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.id}}" name="{{group_index}}_remember_me_{{question_item.id}}" value="" checked>
-                  <label for="{{group_index}}_remember_me_{{question_item.id}}">NA</label>
-                </div>
-                <div *ngIf="question_item.status != 0">
-                  <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.id}}" name="{{group_index}}_remember_me_{{question_item.id}}" value="">
-                  <label for="{{group_index}}_remember_me_{{question_item.id}}">NA</label>
-                </div>
+                <input type="checkbox" id="{{group_index}}_na_check_{{item_index}}" name="{{group_index}}_na_check_{{item_index}}" value="" [checked]="question_item.status == 0" (click)="toggleNA($event.target.checked,question_group,question_item)">
+                <label for="{{group_index}}_na_check_{{item_index}}">NA</label>
               </div>
             </td>
           </tr>

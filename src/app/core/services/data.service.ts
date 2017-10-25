@@ -66,7 +66,7 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
-  getAdminAssessmentListFlat(projectID = null){
+  getAdminAssessmentListFlat(){
     return this.http.post(this.url + '/api/admin/assessment/list_flat', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
@@ -188,8 +188,18 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getUserAnswerList(data){
+    return this.http.post(this.url + '/api/user/answer/userlist', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   saveAnswers(data){
     return this.http.post(this.url + '/api/user/answer/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  toggleNA(data){
+    return this.http.post(this.url + '/api/user/answer/toggle-na', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 

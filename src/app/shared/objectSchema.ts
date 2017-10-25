@@ -74,6 +74,7 @@ export class Question{
   Label: string;
   value   : string;
   comment : string;
+  Status: number;
   HasDocument: boolean;
   Items: Array<QuestionItem>
 }
@@ -86,6 +87,7 @@ export class Answer{
   uuid: string;
   value: string;
   comment: string;
+  Status: string;
   Items: Array<AnswerItem>
 }
 

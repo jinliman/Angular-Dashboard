@@ -29,6 +29,7 @@ export class AssessmentComponent implements OnInit {
   userAssignment: object = {};
   questionnaires: Array<object>= [];
   attachmentList: Array<object> = [];
+  answers: Array<Answer> = [];
 
   editAssessmentUrl: string = "";
   currentProject: object = {};
@@ -45,6 +46,8 @@ export class AssessmentComponent implements OnInit {
   loading: boolean;
   dropdownSettings = {};
 
+  completePercent: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -55,14 +58,19 @@ export class AssessmentComponent implements OnInit {
     private _notificationService: NotificationsService
   ) {
     this.user = this.authService.getUser()
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  onProjectSelect(data){
+    this.ngOnInit();
   }
 
   ngOnInit() {
 
     this.statusArr = {
-      0: "NA",
-      1: "Complete",
-      2: "Pending",
+      0 : "NA",
+      1 : "Pending",
+      2 : "Complete"
     }
 
     this.route
@@ -80,6 +88,7 @@ export class AssessmentComponent implements OnInit {
     this.questionnaires = [];
     this.newAssignments = [];
     this.editAssessmentUrl = "";
+    this.completePercent = '0';
 
     this.currentProject = this.authService.getUserProject();
     let projectID = this.currentProject['Project']['_id'] || null;
@@ -184,7 +193,6 @@ export class AssessmentComponent implements OnInit {
   }
 
   saveAssignment(){
-    console.log(this.newAssignments)
     let projectID = this.currentProject['Project']['_id'] || null;
     let parma = { projectID: projectID, data: this.newAssignments}
     this.dataService.saveAssignment(parma).subscribe(
@@ -227,6 +235,7 @@ export class AssessmentComponent implements OnInit {
       }
     );
   }
+
   getUserAssignment(data){
     var result = { Questions: [], Assessments: [], QAssessments: []};
     for(let item of data)
@@ -291,6 +300,20 @@ export class AssessmentComponent implements OnInit {
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
+        this.getAnswerList();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getAnswerList(){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {Project: projectID}
+    this.dataService.getAnswerList(data).subscribe(
+      response => {
+        this.answers = response.result;
+        console.log(this.answers)
         this.getAssignment();
       },
       (error) => {
@@ -346,16 +369,64 @@ export class AssessmentComponent implements OnInit {
       result = this.attachmentList[id]['Comment'];
     return result;
   }
-  
+
+  toggleNA(checked, group, item){
+    if(this.userRole == "INITIATOR")
+      return;
+    this.loading = true;
+
+    let that = this;
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {checked: checked, projectID: projectID, group_id: group['uuid'], item_id:item && item['id']? item['id'] : null}
+    let assessmentID = group['id'];
+    this.dataService.toggleNA(data).subscribe(response => {
+        this.initPage()
+        this.loading = false;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  findAnswerObject(uuid, appID = null){
+    for(let answer of this.answers) {
+      if(answer['Questionnaire'] == uuid)
+        return answer
+      for(let answer_item of answer['Answers']) {
+        if(answer_item.uuid == uuid)
+          return answer_item;
+      }
+    }
+    return null;
+  }
+
+  getGroupStatus(arr)
+  {
+    let status = 1;
+    if(arr.length)
+    {
+      if(arr.every(function(item){  return item == 2 || item == 0}))
+        status = 2;
+      if(arr.every(function(item){  return item == 0}))
+        status = 0;
+    }
+    return status;
+  }
+
   getTableData(){
     this.tableData = [];
+    let totalComplete = 0;
+    let totalIncomplete = 0;
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
       let questionArr = [];
       let question = this.questionnaires.find(function(elem){
         return elem['category_id'] == entry['uuid']
       })
+
       let hasDetail = false;
+      let statusArr = [];
       if( question && question['questions'].length )
       {
         hasDetail = true;
@@ -364,20 +435,50 @@ export class AssessmentComponent implements OnInit {
           if(!this.assignment['Questions'][question_entry['uuid']])
             this.assignment['Questions'][question_entry['uuid']] = []
           let userAssignment = this.assignment['Questions'][question_entry['uuid']];
+          let answer_item = this.findAnswerObject(question_entry['uuid']);
+          let status = answer_item && answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
 
-          let question_item = { id: question_entry['uuid'], status: 2, desc: question_entry['Label'], type: question_entry['Type'], hasDocument: question_entry['HasDocument'], filename: "test.xls",  usersAssigned: userAssignment}
+          if(this.userRole == "MEMBER")
+          {
+            if(this.userAssignment['Questions'].indexOf(question_entry['uuid']) != -1 || this.userAssignment['Assessments'].indexOf(question['category_id']) != -1)
+            {
+              statusArr.push(status)
+
+              if(status == 0 || status == 2)
+                totalComplete ++;
+              else
+                totalIncomplete ++;
+            }
+          }else{
+            statusArr.push(status)
+
+            if(status == 0 || status == 2)
+              totalComplete ++;
+            else
+              totalIncomplete ++;
+          }
+
+          let question_item = { id: question_entry['uuid'], status: status, desc: question_entry['Label'], type: question_entry['Type'], hasDocument: question_entry['HasDocument'], filename: "test.xls",  usersAssigned: userAssignment}
           questionArr.push(question_item)
         }
       }
+      let groupStatus = this.getGroupStatus(statusArr);
+      let completed = [0,2].indexOf(groupStatus) != -1? true: false;
       if(!this.assignment['Assessments'][entry['uuid']])
         this.assignment['Assessments'][entry['uuid']] = []
       if(!this.assignment['QAssessments'][entry['uuid']])
         this.assignment['QAssessments'][entry['uuid']] = []
       let userAssignment = this.assignment['Assessments'][entry['uuid']];
-      let item = { id: entry['uuid'], title: entry['Title'], hasDetail: hasDetail,  open: true, completed: false, filename: "test.xls",  usersAssigned: userAssignment, questionArr: questionArr}
+      let groupUUID = question && question['_id'] ? question['_id'] : null;
+      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, completed: completed, status: groupStatus,  open: true,  usersAssigned: userAssignment, questionArr: questionArr}
       this.tableData.push(item)
     }
 
+    if(totalComplete == 0)
+      this.completePercent = '0';
+    else
+      this.completePercent = (totalComplete / (totalComplete + totalIncomplete) * 100).toFixed(0);
+    console.log(this.tableData)
     this.loading = false;
   }
 }

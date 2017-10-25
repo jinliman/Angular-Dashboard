@@ -115,7 +115,8 @@ export class SidebarComponent implements OnInit {
         ];
       }else{
         this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard (Team Member)"}
+          { route: "/app/dashboard", Title: "Dashboard (Team Member)"},
+          { route: "/app/progress", Title: "Progress"}
         ]
       }
       this.menu = this.menu.concat( this.assessment_menu )

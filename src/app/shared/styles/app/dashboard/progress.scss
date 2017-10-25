@@ -1,0 +1,109 @@
+.progress-page{
+  .row{
+    margin: 0px;
+    &.first-row{
+      border-top: 2px solid $dv-color-border;
+    }
+  }
+  .datepicker-div{
+    background-color: $dv-color-white;
+    padding: 0px 10px;
+    border: 2px solid $dv-color-border;
+    border-radius: 5px;
+    width: 390px;
+    display: flex;
+    align-items: center;
+    margin: 20px 10px;
+    float: right;
+    &>div{
+      width: 100%;
+      cursor: pointer;
+      padding: 3px;
+      .icon-div{
+        color: $dv-color-green;
+        font-size: 25px;
+      }
+      .date-text{
+        padding-left: 10px;
+        font-size: 18px;
+      }
+    }
+  }
+  .status-row{
+    border-bottom: 2px solid $dv-color-border;
+  }
+  .status-block{
+    margin: 0px !important;
+    cursor: pointer;
+    border-right: 2px solid $dv-color-border;
+    padding: 20px 20px;
+    position: relative;
+    height: 126px;
+    &.active, &:hover{
+      .img-div{
+        background: url('assets/images/icons/dashboard/progress-project-hover-icon.png') no-repeat center;
+        background-size: 100% 100%;
+      }
+      border-bottom: 4px solid $dv-color-green;
+
+    }
+    .status{
+      position: relative;
+      .title{
+        font-size: 21px;
+        font-weight: bold;
+      }
+    }
+    .icon-div{
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      .img-div
+      {
+        margin: 0px 10px;
+        width: 48px;
+        height: 50px;
+        right: 0px;
+        bottom: 0px;
+        color: $dv-color-green;
+        font-size:43px;
+        line-height: 40px;
+        font-weight: 300;
+        background: url('assets/images/icons/dashboard/progress-project-icon.png') no-repeat center;
+      }
+      span{
+        color: $dv-color-green;
+        font-size: 16px;
+        display: inline-table;
+        vertical-align: text-top;
+        margin: 0px;
+        padding: 0px;
+      }
+    }
+  }
+  .progress-div{
+    margin: 30px 20px;
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+      margin: 10px 20px;
+    }
+    .progress-item{
+      padding: 15px 20px;
+      .title{
+        margin: 0px 0px 20px 0px;
+        font-size: 17px;
+        font-weight: 400;
+      }
+      .detail{
+        .img{
+          margin-right: 15px;
+          float: left;
+        }
+      }
+    }
+  }
+}

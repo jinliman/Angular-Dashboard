@@ -2,7 +2,6 @@
   .answer_tr{
     td{
       border-top: none !important;
-      border-bottom: none !important;
       &:first-of-type{
         text-align: center;
       }
@@ -80,6 +79,16 @@
   .question-table{
     font-size: 17px;
     width: 100%;
+    .questions-div{
+      &.na{
+        span::after{
+          color: $dv-color-red;
+          font-style: italic;
+          content: '(Not Availabe)';
+          padding-left: 10px;
+        }
+      }
+    }
     td{
       vertical-align: middle !important;
       &>span{

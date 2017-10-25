@@ -172,52 +172,39 @@ export class TeamComponent implements OnInit {
       }
     );
   }
+  getGroupStatus(arr)
+  {
+    console.log(arr)
+    let status = 1;
+    if(arr.length)
+    {
+      if(arr.every(function(item){  return item == 2 || item == 0}))
+        status = 2;
+      if(arr.every(function(item){  return item == 0}))
+        status = 0;
+    }
+    return status;
+  }
 
   updateAnswerList(){
     let result = [];
-    console.log(this.assignment)
+    console.log(this.answerList)
     for(let item of this.answerList)
     {
       let status_item = { AssessmentID: item['Questionnaire']['category_id'], User: item['User'], Status: 0, Completed_at: ''};
       let status = 0;
-      if(item['Answers'])
+      if(item['Answers'] == 'undefined')
       {
-        status = 2;
-        status_item['Completed_at'] = item['updatedAt'];
-      }
-      let stats_completed = true;
-      for(var i in item['Questionnaire']['questions'])
-      {
-        let question_item = item['Questionnaire']['questions'][i];
-
-        if(item['Answers'])
-        {
-          let answer_item = item['Answers'][i];
-          for(var j in question_item['Items'])
-          {
-            switch(question_item['Type'])
-            {
-              case 'Text':
-                if(!answer_item || !answer_item['Items'][j]['value'] || (answer_item['Items'][j]['value'] && answer_item['Items'][j]['value'] == ""))
-                  stats_completed = false;
-                break;
-              case 'Radio':
-              case 'Dropdown':
-                if(!answer_item || !answer_item['value'] || (answer_item['value'] && answer_item['value'] == ""))
-                  stats_completed = false;
-                break;
-              case 'Checkbox':
-                if(!answer_item || !answer_item['Items'][j]['value'])
-                  stats_completed = false;
-                break;
-              default:
-                break;
-            }
-          }
-        }
-      }
-      if(!stats_completed)
         status = 1;
+      }else{
+        let statusArr = []
+        for(let answer_item of item['Answers'])
+        {
+          statusArr.push(answer_item['Status'])
+        }
+        status = this.getGroupStatus(statusArr)
+      }
+
       status_item.Status = status;
       result.push(status_item);
     }
@@ -240,8 +227,8 @@ export class TeamComponent implements OnInit {
     );
 
     this.statusArr = {
-      0: "Not Started",
-      1: "Started",
+      0: "NA",
+      1: "Pending",
       2: "Completed",
     }
   }

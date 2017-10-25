@@ -591,3 +591,10 @@ textarea{
     }
   }
 }
+select-dropdown
+{
+  >div
+  {
+    z-index:2 !important;
+  }
+}

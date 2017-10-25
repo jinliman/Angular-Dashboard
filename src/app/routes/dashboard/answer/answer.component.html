@@ -17,7 +17,7 @@
               <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
             </td>
             <td>
-              <div class="questions-div">
+              <div class="questions-div" [class.na]="question_item.Status == 0">
                 <span>{{question_item['Label']}}</span>
               </div>
             </td>
@@ -40,7 +40,7 @@
               <td style="width:40px">
               </td>
               <td>
-                <input type="text" [(ngModel)] = "question_item.value" value="" daterangepicker [options]="datepickerOptions"  (selected)="setDateQuestion(i,$event)"/>
+                <input type="text" [(ngModel)] = "question_item.value" value="" daterangepicker [options]="datepickerOptions"  (selected)="setDateQuestion(question_index,$event)"/>
               </td>
             </tr>
           </ng-container>
