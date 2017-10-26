@@ -594,7 +594,13 @@ export class AnswerComponent implements OnInit {
         question_item.Items = this.prepareGridData(question_item);
       }
 
-      let status = question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''}) || (typeof question_item.value != 'undefined' && question_item.value != '');
+      let status = false;
+      if(question_item.Items.length)
+      {
+        status = question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''});
+      }else{
+        status = (typeof question_item.value != 'undefined' && question_item.value != '');
+      }
       if(question_item.Status != 0)
         question_item.Status = status ? 2 : 1;
     }
