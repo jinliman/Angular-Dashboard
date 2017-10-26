@@ -193,7 +193,7 @@ export class TeamComponent implements OnInit {
     {
       let status_item = { AssessmentID: item['Questionnaire']['category_id'], User: item['User'], Status: 0, Completed_at: ''};
       let status = 0;
-      if(item['Answers'] == 'undefined')
+      if(typeof item['Answers'] == 'undefined')
       {
         status = 1;
       }else{

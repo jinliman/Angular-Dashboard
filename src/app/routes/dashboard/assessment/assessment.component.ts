@@ -435,7 +435,7 @@ export class AssessmentComponent implements OnInit {
             this.assignment['Questions'][question_entry['uuid']] = []
           let userAssignment = this.assignment['Questions'][question_entry['uuid']];
           let answer_item = this.findAnswerObject(question_entry['uuid']);
-          let status = answer_item && answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
+          let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
 
           if(this.userRole == "MEMBER")
           {
