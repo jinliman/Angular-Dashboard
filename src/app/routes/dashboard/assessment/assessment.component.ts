@@ -47,6 +47,8 @@ export class AssessmentComponent implements OnInit {
   dropdownSettings = {};
 
   completePercent: string;
+  totalComplete: number;
+  totalIncomplete: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +91,8 @@ export class AssessmentComponent implements OnInit {
     this.newAssignments = [];
     this.editAssessmentUrl = "";
     this.completePercent = '0';
+    this.totalComplete = 0;
+    this.totalIncomplete = 0;
 
     this.currentProject = this.authService.getUserProject();
     let projectID = this.currentProject['Project']['_id'] || null;
@@ -415,8 +419,6 @@ export class AssessmentComponent implements OnInit {
 
   getTableData(){
     this.tableData = [];
-    let totalComplete = 0;
-    let totalIncomplete = 0;
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
       let questionArr = [];
@@ -444,17 +446,17 @@ export class AssessmentComponent implements OnInit {
               statusArr.push(status)
 
               if(status == 0 || status == 2)
-                totalComplete ++;
+                this.totalComplete ++;
               else
-                totalIncomplete ++;
+                this.totalIncomplete ++;
             }
           }else{
             statusArr.push(status)
 
             if(status == 0 || status == 2)
-              totalComplete ++;
+              this.totalComplete ++;
             else
-              totalIncomplete ++;
+              this.totalIncomplete ++;
           }
 
           let question_item = { id: question_entry['uuid'], status: status, desc: question_entry['Label'], type: question_entry['Type'], hasDocument: question_entry['HasDocument'], filename: "test.xls",  usersAssigned: userAssignment}
@@ -473,10 +475,10 @@ export class AssessmentComponent implements OnInit {
       this.tableData.push(item)
     }
 
-    if(totalComplete == 0)
+    if(this.totalComplete == 0)
       this.completePercent = '0';
     else
-      this.completePercent = (totalComplete / (totalComplete + totalIncomplete) * 100).toFixed(0);
+      this.completePercent = (this.totalComplete / (this.totalComplete + this.totalIncomplete) * 100).toFixed(0);
     console.log(this.tableData)
     this.loading = false;
   }
