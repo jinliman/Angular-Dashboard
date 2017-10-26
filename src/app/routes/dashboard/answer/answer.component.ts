@@ -597,10 +597,9 @@ export class AnswerComponent implements OnInit {
       let status = false;
       if(question_item.Items.length)
       {
-        status = question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''});
-      }else{
-        status = (typeof question_item.value != 'undefined' && question_item.value != '');
+        status = status || question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''});
       }
+      status = status || (typeof question_item.value != 'undefined' && question_item.value != '');
       if(question_item.Status != 0)
         question_item.Status = status ? 2 : 1;
     }
