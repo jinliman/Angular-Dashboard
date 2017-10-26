@@ -196,7 +196,6 @@ export class ProgressComponent implements OnInit {
 
   getTableData(){
     this.tableData = [];
-    console.log(this.userProjectRole)
     for(let entry of this.assessmentList)
     {
       let questionArr = this.findQuestionObject(entry);
@@ -228,7 +227,6 @@ export class ProgressComponent implements OnInit {
       this.tableData.push(item)
     }
 
-    console.log(this.tableData)
     this.loading = false;
   }
 }

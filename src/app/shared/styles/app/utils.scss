@@ -79,11 +79,14 @@ a{
   }
   &.button{
     padding: 7px 17px;
-    border: 2px solid $dv-color-green;
+    // border: 2px solid $dv-color-green;
     background-color: $dv-color-green;
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
+    &:hover{
+      background-color: $dv-color-green-hover;
+    }
   }
 }
 
