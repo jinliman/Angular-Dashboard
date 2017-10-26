@@ -7,6 +7,11 @@
 			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="project" name="project" placeholder="Project List">
 			</ng-select>
 		</div>
+		<div class="signoff-div">
+			<a *ngIf="isSignoff" class="svg button pull-left" style="margin-left:20px;">
+				<span> <i class="fa fa-send-o"></i>  Submit</span>
+			</a>
+		</div>
 		<div class="dropdown user-setting">
 			<a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
 				<span class="short-name">{{shortname}}</span>
