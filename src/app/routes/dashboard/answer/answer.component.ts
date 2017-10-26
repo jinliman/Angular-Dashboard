@@ -479,7 +479,7 @@ export class AnswerComponent implements OnInit {
             qustion_group.value = answerObj.value;
         if(answerObj['comment'] )
           qustion_group.comment = answerObj['comment'];
-        if(answerObj['Status'] != 'undefined' )
+        if(typeof answerObj['Status'] != 'undefined' )
             qustion_group.Status = answerObj['Status'];
       }
 
@@ -582,6 +582,7 @@ export class AnswerComponent implements OnInit {
   prepareSaveData(){
     for(let question_item of this.questions)
     {
+      console.log(this.questions)
       if( question_item.Type == 'Dropdown')
       {
         question_item.value = this.dropdownData[question_item.uuid].Selected.map(function(e){
@@ -593,7 +594,12 @@ export class AnswerComponent implements OnInit {
         question_item.Items = this.prepareGridData(question_item);
       }
 
-      let status = question_item.Items.every(function(item){ return item['value'] != ''}) || (question_item.value != '');
+      let status = false;
+      if(question_item.Items.length)
+      {
+        status = status || question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''});
+      }
+      status = status || (typeof question_item.value != 'undefined' && question_item.value != '');
       if(question_item.Status != 0)
         question_item.Status = status ? 2 : 1;
     }
