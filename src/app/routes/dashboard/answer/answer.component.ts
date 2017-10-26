@@ -599,6 +599,11 @@ export class AnswerComponent implements OnInit {
       {
         status = status || question_item.Items.every(function(item){ return typeof item['value'] != 'undefined' && item['value'] != ''});
       }
+      if( question_item.Type == 'Checkbox')
+      {
+        if(question_item.Items.find(function(item){ return typeof item['value'] != 'undefined' && item['value']}))
+          status = true;
+      }
       status = status || (typeof question_item.value != 'undefined' && question_item.value != '');
       if(question_item.Status != 0)
         question_item.Status = status ? 2 : 1;
