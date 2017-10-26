@@ -46,6 +46,24 @@
         font-weight: 400 !important;
       }
       .category{
+        ul{
+          list-style: none;
+          display: inline-flex;
+          padding-left: 20px;
+          li{
+            margin-left: 40px;
+            &:first-of-type{
+              margin-left: 0px;
+            }
+            a{
+              color: $dv-color-primary;
+              font-weight: 600;
+              &:hover, &.active{
+                color: $dv-color-green;
+              }
+            }
+          }
+        }
         span{
           padding:0px 5px;
         }

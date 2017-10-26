@@ -15,23 +15,11 @@
     <thead>
       <tr>
         <td class="category">
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">All active</a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test1</a>
-              </li>
-            </ul>
-          </div>
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">To: <span>Show All</span></a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test2</a>
-              </li>
-            </ul>
-          </div>
-          <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+          <ul>
+            <li><a href="javascript:;" class="active">Answered({{totalComplete}})</a></li>
+            <li><a href="javascript:;">Unanswered({{totalIncomplete}})</a></li>
+            <li><a href="javascript:;">Assigned({{totalComplete+totalIncomplete}})</a></li>
+          </ul>
         </td>
         <td colspan="2">
           <span>Progress/Completion Rate</span>
@@ -101,23 +89,11 @@
     <thead>
       <tr>
         <td class="category">
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">All active</a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test1</a>
-              </li>
-            </ul>
-          </div>
-          <div class="pull-left filter dropdown">
-            <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">To: <span>Show All</span></a>
-            <ul class="dropdown-menu">
-              <li>
-                  <a href="javascript:;">test2</a>
-              </li>
-            </ul>
-          </div>
-          <div>By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+          <ul>
+            <li><a href="javascript:;" class="active">Answered ({{totalComplete}}) </a></li>
+            <li><a href="javascript:;">Unanswered ({{totalIncomplete}})</a></li>
+            <li><a href="javascript:;">Assigned ({{totalComplete+totalIncomplete}})</a></li>
+          </ul>
         </td>
         <td colspan="3">
           <span>Progress/Completion Rate</span>
