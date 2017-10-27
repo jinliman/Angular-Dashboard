@@ -15,6 +15,8 @@ import { TreeModule } from 'angular-tree-component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { ReCaptchaModule } from 'angular2-recaptcha';
+import { TabsModule } from "ng2-tabs";
+import { QuillEditorModule } from 'ngx-quill-editor';
 
 
 //import { MaterialModule } from '@angular/material';
@@ -45,7 +47,9 @@ import { EqualValidator } from './directives/equal-validator.directive';
     TreeModule,
     Ng2Bs3ModalModule,
     AngularMultiSelectModule,
-    ReCaptchaModule
+    ReCaptchaModule,
+    TabsModule,
+    QuillEditorModule
   ]
 })
 export class SharedModule {

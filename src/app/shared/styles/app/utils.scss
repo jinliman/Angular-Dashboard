@@ -110,10 +110,6 @@ svg {
 
 button{
   background-color: $dv-color-green;
-  &:hover{
-    color: $dv-color-white !important;
-    background-color: $dv-color-green-hover;
-  }
   &.button{
     padding: 7px 17px;
     font-size: 16px !important;
@@ -121,6 +117,11 @@ button{
     background-color: $dv-color-green;
     border-radius: 4px;
     color: #fff;
+  }
+  &:hover{
+    color: $dv-color-white !important;
+    background-color: $dv-color-green-hover;
+    border-color: $dv-color-green-hover;
   }
 }
 input:not([type="file"]){
@@ -368,7 +369,6 @@ textarea{
 .custom-progress{
   .progress{
     height: 36px;
-    margin-bottom: 0px;
     border-radius: 0px;
     border: 1px solid $dv-color-border;
     box-shadow: none;

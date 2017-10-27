@@ -12,6 +12,7 @@ import { AssessmentComponent } from './assessment/assessment.component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { AnswerComponent } from './answer/answer.component';
+import { SummaryComponent } from './summary/summary.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
       { path: 'team', component: TeamComponent },
       { path: 'heatmap', component: HeatmapComponent },
       { path: 'reports', component: ReportComponent },
-      { path: 'score', component: ScoreComponent },
+      { path: 'summary', component: SummaryComponent },
       { path: 'assessment/:id', component: AssessmentComponent},
       { path: 'assessment/:id/answer', component: AnswerComponent},
       {
@@ -44,7 +45,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent],
+  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent],
   exports: [
   	RouterModule
   ]
