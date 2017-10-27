@@ -47,6 +47,10 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  /*
+  ---------------- Project -----------------
+  */
+
   getUserProject(){
     return this.http.post(this.url + '/api/user/project/list', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -57,34 +61,16 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
-  /*
-  ---------------- Admin Assessment -----------------
-  */
-
-  getAdminAssessmentList(){
-    return this.http.post(this.url + '/api/admin/assessment/list', {}, { headers: this.getHeaders() })
+  submitProject(data){
+    return this.http.post(this.url + '/api/user/project/submit', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
-  getAdminAssessmentListFlat(){
-    return this.http.post(this.url + '/api/admin/assessment/list_flat', {}, { headers: this.getHeaders() })
+  getUserSubmittedProject(){
+    return this.http.post(this.url + '/api/user/project/submit_list', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
-  getAdminAssessment(data){
-    return this.http.post(this.url + '/api/admin/assessment/get', data, { headers: this.getHeaders() })
-      .map((response: Response) => response.json());
-  }
-
-  getAdminAssessmentFlat(data){
-    return this.http.post(this.url + '/api/admin/assessment/get_flat', data, { headers: this.getHeaders() })
-      .map((response: Response) => response.json());
-  }
-
-  saveAsssessment(data){
-    return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
-      .map((response: Response) => response.json());
-  }
   /*
   ---------------- Assessment -----------------
   */
@@ -242,4 +228,52 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  /**************** ADMIN *********************/
+  /*
+  ---------------- Admin Assessment -----------------
+  */
+
+  getAdminAssessmentList(){
+    return this.http.post(this.url + '/api/admin/assessment/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessmentListFlat(){
+    return this.http.post(this.url + '/api/admin/assessment/list_flat', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessment(data){
+    return this.http.post(this.url + '/api/admin/assessment/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAssessmentFlat(data){
+    return this.http.post(this.url + '/api/admin/assessment/get_flat', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  saveAsssessment(data){
+    return this.http.post(this.url + '/api/admin/assessment/save', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  /*
+  ---------------- Admin Project -----------------
+  */
+
+  getSubmittedProject(){
+    return this.http.post(this.url + '/api/admin/project/submit_list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  updateProjectFeedback(data){
+    return this.http.post(this.url + '/api/admin/project/update_feedback', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  updateProjectStatus(data){
+    return this.http.post(this.url + '/api/admin/project/update_status', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
 }

@@ -31,6 +31,17 @@ export class ProgressComponent implements OnInit {
   projectID: string;
   loading: boolean;
 
+  iconArr: Array<string> = [
+    'applications-icon.svg',
+    'recovery-icon.svg',
+    'infrastructure-icon.svg',
+    'projects-icon.svg',
+    'it-security-icon.svg',
+    'budget-icon.svg',
+    'it-organization-icon.svg',
+    'welcome-icon.svg'
+  ]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -43,6 +54,8 @@ export class ProgressComponent implements OnInit {
   }
 
   onProjectSelect(data){
+    this.currentProject = this.authService.getUserProject();
+    this.projectID = this.currentProject['Project']['_id'] || null;
     this.ngOnInit();
   }
 

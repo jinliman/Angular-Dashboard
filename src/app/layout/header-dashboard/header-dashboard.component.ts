@@ -34,29 +34,34 @@ export class HeaderDashboardComponent implements OnInit {
   }
   onSelectProject($event){
     this.dataService.onProjectChanged({id: $event['value'], name: $event['label']});
+    this.projectID = $event['value'];
+    this.updateSignOff();
   }
 
   getProjectList(){
-    let that = this;
     this.userProjects = JSON.parse(localStorage.getItem('userProjects'));
     this.projectID = JSON.parse(localStorage.getItem('project'))['id'];
     this.projectList = this.userProjects.map(function(item){
         return {'value': String(item['Project']['_id']), 'label': item['Project']['Name']};
     })
-
-    this.userProjectRole = this.userProjects.find(function(item){ return item['Project']['_id'] == that.projectID})['Role']
   }
   ngOnInit() {
-    this.isSignoff = false;
     this.userInfo = this.authService.getUser()
     if(this.userInfo['Role'] != 'admin')
     {
       this.firstname = this.userInfo['Name']['First']
       this.shortname = this.userInfo['Name']['First'][0] + this.userInfo['Name']['Last'][0];
       this.getProjectList();
-      if(this.userProjectRole == 'PRIMARY')
-        this.getAssessment();
+      this.updateSignOff();
     }
+  }
+
+  updateSignOff(){
+    let that = this;
+    this.isSignoff = false;
+    this.userProjectRole = this.userProjects.find(function(item){ return item['Project']['_id'] == that.projectID})['Role']
+    if(this.userProjectRole == 'PRIMARY')
+      this.getAssessment();
   }
 
   getAssessment(){

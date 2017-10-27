@@ -1,0 +1,132 @@
+<div class="summary-page">
+  <div class="loading-div" *ngIf="loading"></div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <td class="category">
+          <ul>
+            <li><a href="javascript:;" class="active">Answered ({{totalComplete}}) </a></li>
+            <li><a href="javascript:;">Unanswered ({{totalIncomplete}})</a></li>
+            <li><a href="javascript:;">Assigned ({{totalComplete+totalIncomplete}})</a></li>
+          </ul>
+        </td>
+        <td colspan="2">
+          <span>Progress/Completion Rate</span>
+          <span class="span-percent">{{this.completePercent}}%</span>
+          <div class="custom-progress">
+            <progress-bar [value] = "this.completePercent" [max] = "100" title = "{{this.completePercent}}%"></progress-bar>
+          </div>
+        </td>
+      </tr>
+    </thead>
+    <ng-container *ngFor="let question_group of tableData; let group_index = index">
+      <tbody>
+        <tr>
+          <td class="category">
+            <div (click)="question_group.open = !question_group.open">
+              <div class="desc-div">
+                <span [hidden]="question_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!question_group.open" [class.closed]="question_group.open"></span>
+                <span class="desc" [class.no-files]="!question_group.hasDetail">{{question_group.title}}</span>
+                <span *ngIf="question_group.hasDetail" [class.assessment-completed]="question_group.completed" class="count" >( {{question_group.questionArr.length}} )</span>
+                <span *ngIf="question_group.completed" [class.assessment-completed]="question_group.completed" class="check-icon" >
+                <span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
+              </div>
+            </div>
+          </td>
+          <td class="status" [class.complete]="question_group.status == 2">
+            {{statusArr[question_group.status]}}
+          </td>
+          <td width="15%">
+            <div class="dropdown user-div" *ngIf="question_group.usersAssigned.length">
+              <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
+                <span class="short-name">{{question_group.usersAssigned[0].shortname}}</span>
+                <span class="user-name">{{question_group.usersAssigned[0].itemName}} </span>
+                <span *ngIf="question_group.usersAssigned.length > 1" [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
+              </a>
+              <ul class="dropdown-menu" *ngIf="question_group.usersAssigned.length > 1">
+                <ng-container *ngFor="let question_group of question_group.usersAssigned; let i_index = index">
+                <li *ngIf="i_index !=0">
+                    <a href="javascript:;">question_group</a>
+                    <span class="short-name">{{question_group.usersAssigned[0].shortname}}</span>
+                    <span class="user-name">{{question_group.usersAssigned[0].itemName}} </span>
+                </li>
+                </ng-container>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <ng-container *ngFor="let question_item of question_group.questionArr; let item_index = index">
+          <tr class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true">
+            <td class="category">
+              <div>
+                <div class="desc-div">
+                  <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/document-list-icon.svg'"></div>
+                  <span class="desc pull-left">{{question_item.desc}} ( {{question_item.type}} )</span>
+                </div>
+              </div>
+            </td>
+            <td class="status" [class.complete]="question_item.status == 2">
+              {{statusArr[question_item.status]}}
+            </td>
+            <td width="15%">
+              <div class="dropdown user-div" *ngIf="question_item.usersAssigned.length">
+                <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
+                  <span class="short-name">{{question_item.usersAssigned[0].shortname}}</span>
+                  <span class="user-name">{{question_item.usersAssigned[0].itemName}} </span>
+                  <span *ngIf="question_item.usersAssigned.length > 1" [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
+                </a>
+                <ul class="dropdown-menu" *ngIf="question_item.usersAssigned.length > 1">
+                  <ng-container *ngFor="let question_item of question_item.usersAssigned; let i_index = index">
+                  <li *ngIf="i_index !=0">
+                      <a href="javascript:;">question_item</a>
+                      <span class="short-name">{{question_item.usersAssigned[0].shortname}}</span>
+                      <span class="user-name">{{question_item.usersAssigned[0].itemName}} </span>
+                  </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </ng-container>
+  </table>
+
+  <div class="title">
+    <div class="button-div pull-right">
+        <a class="svg button">
+          <span> <i class="fa fa-commenting-o"></i> Back</span>
+        </a>
+        <a class="svg button" (click)="ConfirmModal.open()" *ngIf="completePercent == '100'">
+          <span> <i class="fa fa-commenting-o"></i> Next</span>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <modal #ConfirmModal [animation]=false>
+    <form class="form assets" (ngSubmit) = "submitProject(ConfirmModal)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Terms &amp; Conditions</h4>
+      </modal-header>
+      <modal-body>
+        <div class="">
+          test Terms and Conditions
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin-top:15px">
+            <span class="checkbox">
+            <input type="checkbox" id="agree_term" #agree_term = "ngModel" [(ngModel)] = "AgreeTerm"  name="agree_term" value="" required>
+            <label for="agree_term">I agree with the <a href="javascript:;">Terms of Services</a> and the <a href="javascript:;">Privacy Policy</a></label>
+            </span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="ConfirmModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+</div>

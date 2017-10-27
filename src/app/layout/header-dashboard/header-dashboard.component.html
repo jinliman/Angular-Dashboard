@@ -4,12 +4,12 @@
 				<a href="javascript:;" class="pull-right" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
 		</div>
 		<div class="project-select" *ngIf="userInfo.Role != 'admin'">
-			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="project" name="project" placeholder="Project List">
+			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="projectID" name="project" placeholder="Project List">
 			</ng-select>
 		</div>
 		<div class="signoff-div">
-			<a *ngIf="isSignoff" class="svg button pull-left" style="margin-left:20px;">
-				<span> <i class="fa fa-send-o"></i>  Submit</span>
+			<a *ngIf="isSignoff" class="svg button pull-left" routerLink="/app/summary" style="margin-left:20px;">
+				<span> <i class="fa fa-send-o"></i> Sign Off</span>
 			</a>
 		</div>
 		<div class="dropdown user-setting">

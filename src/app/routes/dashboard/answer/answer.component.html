@@ -28,10 +28,6 @@
               </td>
               <td>
                 <angular2-multiselect [data]="dropdownData[question_item['uuid']].Content" [(ngModel)]="dropdownData[question_item['uuid']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
-                <!-- <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Dropdown'" style="margin-top:15px">
-                  <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
-                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                </div> -->
               </td>
             </tr>
           </ng-container>
