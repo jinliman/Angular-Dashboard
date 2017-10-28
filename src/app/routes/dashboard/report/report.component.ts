@@ -234,38 +234,43 @@ export class ReportComponent implements OnInit {
         for( let question_entry of question['questions'])
         {
           let answer_item = this.findAnswerObject(question_entry['uuid']);
-          let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
-          statusArr.push(status)
-
-          let question_value = answer_item['value'] || '';
           let appIDArr = [];
-          if(question_entry['Type'] == 'Grid')
+          let question_value = null;
+          if(answer_item)
           {
-            question_value = {};
-            answer_item['Items'].every(function(item){
-              if(appIDArr.indexOf(item['appID']) == -1)
-                appIDArr.push(item['appID'])
-              question_value[item['appID'] + '_' + item['uuid']] = item['value'];
-              return true;
-            })
-          }
-          if(question_entry['Type'] == 'Dropdown')
-          {
-            if(!this.dropdownData[question_entry.uuid])
-              this.dropdownData[question_entry.uuid] = { Content: [], Selected: []}
-          }
-          for(let question_entry_item of question_entry['Items'])
-          {
-            let answer_value_item = this.findAnswerValue(question_entry_item['uuid'], answer_item);
+            let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
+            statusArr.push(status)
+
+            question_value = answer_item['value'] || '';
+
+            if(question_entry['Type'] == 'Grid')
+            {
+              question_value = {};
+              answer_item['Items'].every(function(item){
+                if(appIDArr.indexOf(item['appID']) == -1)
+                  appIDArr.push(item['appID'])
+                question_value[item['appID'] + '_' + item['uuid']] = item['value'];
+                return true;
+              })
+            }
             if(question_entry['Type'] == 'Dropdown')
             {
-              this.dropdownData[question_entry.uuid]['Content'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
-              if(question_value && question_value.split(",").indexOf(question_entry_item.uuid) != -1)
-                this.dropdownData[question_entry.uuid]['Selected'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
+              if(!this.dropdownData[question_entry.uuid])
+                this.dropdownData[question_entry.uuid] = { Content: [], Selected: []}
             }
-            if(question_entry['Type'] != 'Grid')
+            for(let question_entry_item of question_entry['Items'])
             {
-              question_entry_item['value'] = answer_value_item.length ? answer_value_item[0].value : '';
+              let answer_value_item = this.findAnswerValue(question_entry_item['uuid'], answer_item);
+              if(question_entry['Type'] == 'Dropdown')
+              {
+                this.dropdownData[question_entry.uuid]['Content'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
+                if(question_value && question_value.split(",").indexOf(question_entry_item.uuid) != -1)
+                  this.dropdownData[question_entry.uuid]['Selected'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
+              }
+              if(question_entry['Type'] != 'Grid')
+              {
+                question_entry_item['value'] = answer_value_item.length ? answer_value_item[0].value : '';
+              }
             }
           }
 
@@ -277,8 +282,7 @@ export class ReportComponent implements OnInit {
 
       let groupUUID = question && question['_id'] ? question['_id'] : null;
       let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr}
-      if(questionArr.length)
-        this.tableData.push(item)
+      this.tableData.push(item)
     }
     console.log(this.tableData)
     console.log(this.dropdownData)

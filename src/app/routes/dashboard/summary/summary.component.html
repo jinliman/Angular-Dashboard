@@ -5,19 +5,26 @@
     <thead>
       <tr>
         <td class="category">
-          <ul>
-            <li><a href="javascript:;" class="active">Answered ({{totalComplete}}) </a></li>
-            <li><a href="javascript:;">Unanswered ({{totalIncomplete}})</a></li>
-            <li><a href="javascript:;">Assigned ({{totalComplete+totalIncomplete}})</a></li>
-          </ul>
         </td>
-        <td colspan="2">
+        <td colspan="3">
           <span>Progress/Completion Rate</span>
           <span class="span-percent">{{this.completePercent}}%</span>
           <div class="custom-progress">
             <progress-bar [value] = "this.completePercent" [max] = "100" title = "{{this.completePercent}}%"></progress-bar>
           </div>
         </td>
+      </tr>
+      <tr>
+        <td class="category clearfix">
+          <ul>
+            <li><a href="javascript:;" class="active">Answered ({{totalComplete}}) </a></li>
+            <li><a href="javascript:;">Unanswered ({{totalIncomplete}})</a></li>
+            <li><a href="javascript:;">Assigned ({{totalComplete+totalIncomplete}})</a></li>
+          </ul>
+        </td>
+        <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        <td width="15%">Completed Date <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
       </tr>
     </thead>
     <ng-container *ngFor="let question_group of tableData; let group_index = index">
@@ -55,6 +62,9 @@
               </ul>
             </div>
           </td>
+          <td class="status" [class.complete]="question_group.status == 2">
+            <span>{{question_group.completed_date | amDateFormat:'LL'}}</span>
+          </td>
         </tr>
         <ng-container *ngFor="let question_item of question_group.questionArr; let item_index = index">
           <tr class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true">
@@ -87,6 +97,8 @@
                 </ul>
               </div>
             </td>
+            <td class="status" [class.complete]="question_item.status == 2">
+            </td>
           </tr>
         </ng-container>
       </tbody>
@@ -95,11 +107,11 @@
 
   <div class="title">
     <div class="button-div pull-right">
-        <a class="svg button">
+        <a class="svg button" routerLink="/app/dashboard">
           <span> <i class="fa fa-commenting-o"></i> Back</span>
         </a>
         <a class="svg button" (click)="ConfirmModal.open()" *ngIf="completePercent == '100'">
-          <span> <i class="fa fa-commenting-o"></i> Next</span>
+          <span> <i class="fa fa-commenting-o"></i> Complete</span>
         </a>
     </div>
     <div class="clearfix"></div>
@@ -112,7 +124,7 @@
       </modal-header>
       <modal-body>
         <div class="">
-          test Terms and Conditions
+          Please agree to the Terms of Services and the  Privacy Policy by check the box below prior to submitting your required information.
         </div>
         <div class="row">
           <div class="col-md-12 form-group" style="margin-top:15px">

@@ -218,7 +218,7 @@ export class SummaryComponent implements OnInit {
 
   findAnswerObject(uuid, appID = null){
     for(let answer of this.answers) {
-      if(answer['Questionnaire'] == uuid)
+      if(answer['Questionnaire']['category_id'] == uuid)
         return answer
       for(let answer_item of answer['Answers']) {
         if(answer_item.uuid == uuid)
@@ -295,7 +295,10 @@ export class SummaryComponent implements OnInit {
         this.assignment['QAssessments'][entry['uuid']] = []
       let userAssignment = this.assignment['Assessments'][entry['uuid']];
       let groupUUID = question && question['_id'] ? question['_id'] : null;
-      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, completed: completed, status: groupStatus,  open: false,  usersAssigned: userAssignment, questionArr: questionArr}
+
+      let answer_group = this.findAnswerObject(entry['uuid']);
+      let updated_at = answer_group && answer_group['updatedAt'] ? answer_group['updatedAt'] : null;
+      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, completed_date: updated_at, completed: completed, status: groupStatus,  open: false,  usersAssigned: userAssignment, questionArr: questionArr}
       if(hasDetail)
         this.tableData.push(item)
     }
