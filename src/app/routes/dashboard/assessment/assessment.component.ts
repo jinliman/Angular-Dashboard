@@ -122,7 +122,6 @@ export class AssessmentComponent implements OnInit {
         this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
         this.getQuestionnaire();
         this.getUserAttachment();
-        this.getTeam();
       },
       (error) => {
         this.router.navigate(['app/dashboard']);
@@ -221,11 +220,7 @@ export class AssessmentComponent implements OnInit {
       response => {
         this.allAssignment = response.result;
         this.userAssignment = this.getUserAssignment(this.allAssignment);
-        console.log(this.userAssignment)
-        this.assignment = this.updateAssignment(this.allAssignment);
-        this.getTableData();
-        if(this.userRole != "INITIATOR")
-          this.setAllowAnswer();
+        this.getTeam();
       },
       (error) => {
       }
@@ -325,6 +320,10 @@ export class AssessmentComponent implements OnInit {
       response => {
         this.team = response.result;
         this.updateTeam();
+        this.assignment = this.updateAssignment(this.allAssignment);
+        this.getTableData();
+        if(this.userRole != "INITIATOR")
+          this.setAllowAnswer();
       },
       (error) => {
       }

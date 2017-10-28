@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
       response => {
         this.userType = response.type;
         if(this.userType == 'user')
-          alert('User exists!')
+          alert('Looks like the email address already exits if this is you, please use the Login button to access your account or try again!')
         else if(this.userType == 'invite')
           alert('Confirmation Email has already been sent!')
         else

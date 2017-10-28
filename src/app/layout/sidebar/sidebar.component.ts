@@ -103,7 +103,6 @@ export class SidebarComponent implements OnInit {
           { route: "/app/team", Title: "Team"},
           { route: "/app/heatmap", Title: "Heat Map"},
           { route: "/app/reports",  Title: "Reports"},
-          { route: "/app/score",  Title: "DealValue Score"}
         ];
       }else if( this.userProjectRole == "PRIMARY" )
       {

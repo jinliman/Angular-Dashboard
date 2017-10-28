@@ -35,11 +35,7 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   onProgressChanged(data){
-    let percent = data.percent;
-    if(percent == '100')
-      this.isSignoff = true;
-    else
-      this.isSignoff = false;
+    this.updateSignOff();
   }
 
   onSelectProject($event){
