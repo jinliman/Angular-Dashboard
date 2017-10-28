@@ -236,16 +236,17 @@ export class ReportComponent implements OnInit {
           let answer_item = this.findAnswerObject(question_entry['uuid']);
           let appIDArr = [];
           let question_value = null;
-          if(answer_item)
+
+          let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
+          statusArr.push(status)
+
+          question_value = answer_item && answer_item['value'] ? answer_item['value'] : '';
+
+          if(question_entry['Type'] == 'Grid')
           {
-            let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
-            statusArr.push(status)
-
-            question_value = answer_item['value'] || '';
-
-            if(question_entry['Type'] == 'Grid')
+            question_value = {};
+            if(answer_item)
             {
-              question_value = {};
               answer_item['Items'].every(function(item){
                 if(appIDArr.indexOf(item['appID']) == -1)
                   appIDArr.push(item['appID'])
@@ -253,24 +254,26 @@ export class ReportComponent implements OnInit {
                 return true;
               })
             }
+          }
+          if(question_entry['Type'] == 'Dropdown')
+          {
+            if(!this.dropdownData[question_entry.uuid])
+              this.dropdownData[question_entry.uuid] = { Content: [], Selected: []}
+          }
+          for(let question_entry_item of question_entry['Items'])
+          {
+            let answer_value_item = [];
+            if(answer_item)
+              answer_value_item = this.findAnswerValue(question_entry_item['uuid'], answer_item);
             if(question_entry['Type'] == 'Dropdown')
             {
-              if(!this.dropdownData[question_entry.uuid])
-                this.dropdownData[question_entry.uuid] = { Content: [], Selected: []}
+              this.dropdownData[question_entry.uuid]['Content'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
+              if(question_value && question_value.split(",").indexOf(question_entry_item.uuid) != -1)
+                this.dropdownData[question_entry.uuid]['Selected'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
             }
-            for(let question_entry_item of question_entry['Items'])
+            if(question_entry['Type'] != 'Grid')
             {
-              let answer_value_item = this.findAnswerValue(question_entry_item['uuid'], answer_item);
-              if(question_entry['Type'] == 'Dropdown')
-              {
-                this.dropdownData[question_entry.uuid]['Content'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
-                if(question_value && question_value.split(",").indexOf(question_entry_item.uuid) != -1)
-                  this.dropdownData[question_entry.uuid]['Selected'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
-              }
-              if(question_entry['Type'] != 'Grid')
-              {
-                question_entry_item['value'] = answer_value_item.length ? answer_value_item[0].value : '';
-              }
+              question_entry_item['value'] = answer_value_item.length ? answer_value_item[0].value : '';
             }
           }
 
