@@ -471,6 +471,8 @@ export class AssessmentComponent implements OnInit {
       this.completePercent = '0';
     else
       this.completePercent = (this.totalComplete / (this.totalComplete + this.totalIncomplete) * 100).toFixed(0);
+
+    this.dataService.onProgressChanged({percent: this.completePercent});
     console.log(this.tableData)
     this.loading = false;
   }

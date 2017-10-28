@@ -313,11 +313,19 @@ export class SummaryComponent implements OnInit {
     let data = {Project: projectID}
     this.dataService.submitProject(data).subscribe(
       response => {
-        console.log(response.result);
+        this._notificationService.success(
+            'Successfully Saved!',
+            'Submission'
+        )
+        modal.close();
       },
       (error) => {
+        this._notificationService.error(
+            'Sth went wrong',
+            'Submission'
+        )
+        modal.close();
       }
     );
-    modal.close();
   }
 }

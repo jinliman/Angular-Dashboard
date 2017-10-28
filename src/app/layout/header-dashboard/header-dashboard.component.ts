@@ -31,7 +31,17 @@ export class HeaderDashboardComponent implements OnInit {
     private authService: AuthService,
     private dataService: DataService
   ) {
+    this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
   }
+
+  onProgressChanged(data){
+    let percent = data.percent;
+    if(percent == '100')
+      this.isSignoff = true;
+    else
+      this.isSignoff = false;
+  }
+
   onSelectProject($event){
     this.dataService.onProjectChanged({id: $event['value'], name: $event['label']});
     this.projectID = $event['value'];

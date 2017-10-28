@@ -14,10 +14,12 @@ export class DataService {
 
   public projectChanged: EventEmitter<Object>;
   public categoryChanged: EventEmitter<Object>;
+  public progressChanged: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
     this.categoryChanged = new EventEmitter();
+    this.progressChanged = new EventEmitter();
   }
 
   onProjectChanged(data){
@@ -27,6 +29,10 @@ export class DataService {
 
   onCategoryChanged(){
     this.categoryChanged.emit(true);
+  }
+
+  onProgressChanged(data){
+    this.progressChanged.emit(data);
   }
 
   getAdminUrl(){
