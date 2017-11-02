@@ -18,7 +18,6 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import { TabsModule } from "ng2-tabs";
 import { QuillEditorModule } from 'ngx-quill-editor';
 
-
 //import { MaterialModule } from '@angular/material';
 
 //Custom Directive
@@ -49,7 +48,7 @@ import { EqualValidator } from './directives/equal-validator.directive';
     AngularMultiSelectModule,
     ReCaptchaModule,
     TabsModule,
-    QuillEditorModule
+    QuillEditorModule,
   ]
 })
 export class SharedModule {

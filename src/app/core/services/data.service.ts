@@ -15,11 +15,18 @@ export class DataService {
   public projectChanged: EventEmitter<Object>;
   public categoryChanged: EventEmitter<Object>;
   public progressChanged: EventEmitter<Object>;
+  public projectListUpdated: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
+    this.projectListUpdated = new EventEmitter();
     this.categoryChanged = new EventEmitter();
     this.progressChanged = new EventEmitter();
+  }
+
+  onProjectListUpdated(data){
+    localStorage.setItem('project', JSON.stringify(data));
+    this.projectListUpdated.emit(data);
   }
 
   onProjectChanged(data){
@@ -54,11 +61,117 @@ export class DataService {
   }
 
   /*
+  ---------------- Global Variables --------------------
+  */
+  getAboutUsList(){
+    let about_us_list = [
+      {'value':'1', 'label': 'Search Engine'},
+      {'value':'2', 'label': 'Referral'},
+      {'value':'3', 'label': 'LinkedIn'},
+      {'value':'4', 'label': 'Twitter'},
+      {'value':'5', 'label': 'Mailer'},
+      {'value':'6', 'label': 'E-mail'},
+      {'value':'7', 'label': 'Fax'},
+      {'value':'8', 'label': 'Other'}
+    ]
+    return about_us_list;
+  }
+  getReasonType(){
+    let reason_type = [
+      {'value':'1', 'label':'Buy a Company'},
+      {'value':'2', 'label':'Sell a Company'},
+      {'value':'3', 'label':'IT Assessment'},
+      {'value':'4', 'label':'Corporate Development'},
+      {'value':'5', 'label':'Other'},
+    ]
+    return reason_type;
+  }
+  getJobList(){
+    let job_list = [
+      {'value': '1', 'label': 'Advisor'},
+      {'value': '2', 'label': 'Analyst'},
+      {'value': '3', 'label': 'Consultant'},
+      {'value': '4', 'label': 'Developer'},
+      {'value': '5', 'label': 'Manager'},
+      {'value': '6', 'label': 'Director'},
+      {'value': '7', 'label': 'Managing Director'},
+      {'value': '8', 'label': 'Vice President'},
+      {'value': '9', 'label': 'President/CEO'},
+      {'value': '10', 'label': 'Partner'},
+      {'value': '11', 'label': 'Other'},
+    ]
+    return job_list;
+  }
+
+  getIndustryList()
+  {
+    let industry_list = [
+      {'value': '1', 'label': 'Advertising'},
+      {'value': '2', 'label': 'Aerospace & Defense'},
+      {'value': '3', 'label': 'Agriculture & Forestry Sector'},
+      {'value': '4', 'label': 'Arts, Entertainment &  Media'},
+      {'value': '5', 'label': 'Automotive'},
+      {'value': '6', 'label': 'Building & Construction'},
+      {'value': '7', 'label': 'Business Services'},
+      {'value': '8', 'label': 'Chemical'},
+      {'value': '9', 'label': 'Construction'},
+      {'value': '10', 'label': 'Consulting & Professional Services'},
+      {'value': '11', 'label': 'Consumer Products & Goods'},
+      {'value': '12', 'label': 'Education'},
+      {'value': '13', 'label': 'Finance & Insurance'},
+      {'value': '14', 'label': 'Government'},
+      {'value': '15', 'label': 'Healthcare'},
+      {'value': '16', 'label': 'Healthcare Information & Technology'},
+      {'value': '17', 'label': 'Manufacturing & Industrials'},
+      {'value': '18', 'label': 'Membership Organizations'},
+      {'value': '19', 'label': 'Mining'},
+      {'value': '20', 'label': 'Oil & Gas'},
+      {'value': '21', 'label': 'Pharmaceuticals'},
+      {'value': '22', 'label': 'Real Estate'},
+      {'value': '23', 'label': 'Renewables/Energy'},
+      {'value': '24', 'label': 'Restaurants, Bars & Food Services'},
+      {'value': '25', 'label': 'Retail'},
+      {'value': '26', 'label': 'Technology & Telecom'},
+      {'value': '27', 'label': 'Transportation Services'},
+      {'value': '28', 'label': 'Utilities'},
+      {'value': '29', 'label': 'Waste & Recycling'},
+      {'value': '30', 'label': 'Wholesale'},
+      {'value': '31', 'label': 'Other'}
+    ]
+    return industry_list;
+  }
+  /*
   ---------------- Project -----------------
   */
 
+  chargePayment(token){
+    let data = {stripe_token: token}
+    return this.http.post(this.url + '/api/user/charge_payment', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  postProject(data){
+    return this.http.post(this.url + '/api/user/project/new', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getTimeLapse(data){
+    return this.http.post(this.url + '/api/user/project/time_lapse', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getProject(data){
+    return this.http.post(this.url + '/api/user/project/get', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   getUserProject(){
     return this.http.post(this.url + '/api/user/project/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getProjectStatusList(data){
+    return this.http.post(this.url + '/api/user/project/status_list', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -89,6 +202,11 @@ export class DataService {
   getAssessmentListFlat(projectID = null){
     let data = {projectID: projectID};
     return this.http.post(this.url + '/api/assessment/list_flat', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAssessmentListAllFlat(){
+    return this.http.post(this.url + '/api/assessment/list_flat_all', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -177,6 +295,11 @@ export class DataService {
 
   getAnswerList(data){
     return this.http.post(this.url + '/api/user/answer/list', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAnswerAllList(data){
+    return this.http.post(this.url + '/api/user/answer/list_all', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -282,4 +405,5 @@ export class DataService {
     return this.http.post(this.url + '/api/admin/project/update_status', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
 }

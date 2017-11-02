@@ -2,6 +2,7 @@
   <div class="loading-div" *ngIf="loading"></div>
   <ng-container *ngIf="!is_report_available">
     <h2>No reports available</h2>
+    <button (click)="openCheckout()">Purchase</button>
   </ng-container>
   <ng-container *ngIf="is_report_available && !loading">
     <div class="row status-row" *ngFor="let project_group of ProjectListTab; let i = index">

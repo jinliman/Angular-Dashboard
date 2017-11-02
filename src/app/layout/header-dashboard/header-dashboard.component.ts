@@ -17,10 +17,11 @@ export class HeaderDashboardComponent implements OnInit {
   userInfo : object;
   userProjects : Array<object> = [];
   projectList: Array<object> = [];
+  currentProject: object = null;
   projectID: string;
   userProjectRole: string;
   isSignoff : boolean;
-
+  loadProjectList: boolean = false;
   assessmentList: Array<any> = [];
   questionnaires: Array<object>= [];
   answers: Array<Answer> = [];
@@ -32,6 +33,13 @@ export class HeaderDashboardComponent implements OnInit {
     private dataService: DataService
   ) {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
+    this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
+  }
+
+  onProjectListUpdated(data){
+    this.loadProjectList = false;
+    this.dataService.onProjectChanged(data);
+    this.getProjectList();
   }
 
   onProgressChanged(data){
@@ -39,35 +47,48 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   onSelectProject($event){
-    this.dataService.onProjectChanged({id: $event['value'], name: $event['label']});
+    let selectedProject = this.userProjects.find(function(item){ return item['Project']['_id'] == $event['value'] });
+    this.dataService.onProjectChanged(selectedProject);
     this.projectID = $event['value'];
     this.updateSignOff();
   }
 
   getProjectList(){
-    this.userProjects = JSON.parse(localStorage.getItem('userProjects'));
-    this.projectID = JSON.parse(localStorage.getItem('project'))['id'];
-    this.projectList = this.userProjects.map(function(item){
-        return {'value': String(item['Project']['_id']), 'label': item['Project']['Name']};
-    })
+    this.dataService.getUserProject().subscribe(response => {
+        this.userProjects = response.result;
+        this.projectList = this.userProjects.map(function(item){
+            return {'value': String(item['Project']['_id']), 'label': item['Project']['Name']};
+        })
+        this.updateSignOff();
+      },
+      (error) => {
+
+      }
+    );
+
   }
   ngOnInit() {
+    this.loadProjectList = false;
     this.userInfo = this.authService.getUser()
     if(this.userInfo['Role'] != 'admin')
     {
       this.firstname = this.userInfo['Name']['First']
       this.shortname = this.userInfo['Name']['First'][0] + this.userInfo['Name']['Last'][0];
       this.getProjectList();
-      this.updateSignOff();
     }
   }
 
   updateSignOff(){
-    let that = this;
     this.isSignoff = false;
-    this.userProjectRole = this.userProjects.find(function(item){ return item['Project']['_id'] == that.projectID})['Role']
+    this.currentProject = this.authService.getUserProject();
+    this.projectID = this.currentProject['Project']['_id'] || null;
+    this.userProjectRole = this.currentProject['Role']
+    console.log(this.projectID)
+    this.loadProjectList = true;
     if(this.userProjectRole == 'PRIMARY')
+    {
       this.getAssessment();
+    }
   }
 
   getAssessment(){
@@ -93,7 +114,9 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   getAnswerList(){
-    let data = {Project: this.projectID}
+    let data = {
+      Project: this.projectID
+    }
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;

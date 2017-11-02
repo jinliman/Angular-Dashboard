@@ -39,7 +39,7 @@ export class ReportComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     let selectedProject = this.authService.getUserProject();
@@ -58,6 +58,31 @@ export class ReportComponent implements OnInit {
       this.projectID = project.Project['_id'];
       this.getAssessment();
     }
+  }
+
+  openCheckout() {
+    let that = this;
+    var handler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_GFZkKo51tFb2tpOiSxsIcAxQ',
+      locale: 'auto',
+      token: function (token: any) {
+        console.log(token)
+        that.dataService.chargePayment(token).subscribe(
+          response => {
+            console.log(response)
+          },
+          (error) => {
+          }
+        );
+      }
+    });
+
+    handler.open({
+      name: 'Payment for DV Report',
+      description: 'This is the payment from',
+      amount: 300
+    });
+
   }
 
   ngOnInit() {

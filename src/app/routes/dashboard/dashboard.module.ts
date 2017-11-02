@@ -13,6 +13,10 @@ import { AssessmentComponent } from './assessment/assessment.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AnswerComponent } from './answer/answer.component';
 import { SummaryComponent } from './summary/summary.component';
+import { DashboardOwnerComponent } from './dashboard-owner/dashboard-owner.component';
+import { DashboardMemberComponent } from './dashboard-member/dashboard-member.component';
+import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.component';
+import { ProjectNewComponent } from './project-new/project-new.component';
 
 const routes: Routes = [
   {
@@ -28,6 +32,8 @@ const routes: Routes = [
       { path: 'summary', component: SummaryComponent },
       { path: 'assessment/:id', component: AssessmentComponent},
       { path: 'assessment/:id/answer', component: AnswerComponent},
+      { path: 'project/new', component: ProjectNewComponent},
+      { path: 'project/:id', component: DashboardDetailComponent},
       {
         path: 'assessments',
         children: [
@@ -45,7 +51,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent],
+  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent, DashboardOwnerComponent, DashboardMemberComponent, DashboardDetailComponent, ProjectNewComponent],
   exports: [
   	RouterModule
   ]

@@ -64,7 +64,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   onProjectSelect(data){
-    this.ngOnInit();
+    this.initPage();
   }
 
   ngOnInit() {
@@ -149,7 +149,6 @@ export class AssessmentComponent implements OnInit {
 
     if(!item && !item1)
       this.newAssignments.push({User: userID, AssignmentID: assignment_id, Type: type, Action: 'add'});
-    console.log(this.newAssignments)
   }
 
   onAssignmentDeSelect(event, assignment, type, parent_assessment = null){
@@ -184,7 +183,7 @@ export class AssessmentComponent implements OnInit {
 
     if(item)
       this.newAssignments.push({id: item['_id'], User: userID, AssignmentID: assignment_id, Type: type, Action: 'delete'});
-    console.log(this.newAssignments)
+
   }
 
   saveAssignment(){
@@ -304,7 +303,6 @@ export class AssessmentComponent implements OnInit {
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        console.log(this.answers)
         this.getAssignment();
       },
       (error) => {

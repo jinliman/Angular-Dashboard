@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser'
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -8,25 +8,23 @@ import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-progress',
-  templateUrl: './progress.component.html',
-  styleUrls: ['./progress.component.scss']
+  selector: 'app-dashboard-detail',
+  templateUrl: './dashboard-detail.component.html',
+  styleUrls: ['./dashboard-detail.component.scss']
 })
-export class ProgressComponent implements OnInit {
+export class DashboardDetailComponent implements OnInit {
 
   tableData: Array<any> = [];
-  userProjectList: Array<any> =[];
-  userProjectListTab:  Array<any> =[];
   assessmentList: Array<any> = [];
   questionnaires: Array<object>= [];
   answers: Array<Answer> = [];
   allAssignment: Array<object> = [];
   userAssignment: object = {};
-  currentProject: object = {};
-
-  userProjectRole: string = "";
+  selectedProject: object = {};
+  team: Array<object> = [];
   user: object = {}
   projectID: string;
   loading: boolean;
@@ -42,52 +40,49 @@ export class ProgressComponent implements OnInit {
     'welcome-icon.svg'
   ]
 
+  statusInfoArr = {
+    assessment: 0,
+    assigned: 0,
+    complete: 0,
+    pending: 0,
+    files: 0,
+    team: 0,
+    timeLapse: {
+      day: 0,
+      hour: 0,
+      min: 0
+    }
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
-    this.currentProject = this.authService.getUserProject();
-    this.projectID = this.currentProject['Project']['_id'] || null;
-  }
-
-  onProjectSelect(data){
-    this.currentProject = this.authService.getUserProject();
-    this.projectID = this.currentProject['Project']['_id'] || null;
-    this.ngOnInit();
-  }
-
-  changeProject(project){
-    if(this.projectID != project.Project['_id'])
-    {
-      this.projectID = project.Project['_id'];
-      this.ngOnInit();
-    }
   }
 
   ngOnInit() {
     this.loading = true;
+
     this.user = this.authService.getUser()
-    this.getAllUserProject();
+    this.route
+    .params
+    .subscribe(params => {
+      // Defaults to 0 if no query param provided.
+      this.projectID = params['id'] || '';
+      this.getProject();
+    });
   }
 
-  eachSlice(obj, size){
-    let arr = []
-    for (var i = 0, l = obj.length; i < l; i += size){
-      arr.push(obj.slice(i, i + size))
-    }
-    return arr
-  };
-
-  getAllUserProject(){
-    this.dataService.getUserProject().subscribe(response => {
-        this.userProjectList = response.result;
-        let that = this;
-        this.userProjectRole = this.userProjectList.find(function(item){ return item.Project['_id'] == that.projectID})['Role']
-        this.userProjectListTab = this.eachSlice(this.userProjectList, 4);
+  getProject(){
+    let data = { projectID: this.projectID}
+    this.dataService.getProject(data).subscribe(response => {
+        this.selectedProject = response.result;
         this.getAssessment();
+        this.getAttachment();
+        this.getTeam();
+        this.getTimeLapse();
       },
       (error) => {
 
@@ -146,17 +141,35 @@ export class ProgressComponent implements OnInit {
     var result = { Questions: [], Assessments: [], QAssessments: []};
     for(let item of data)
     {
-      if(item['User'] == this.user['_id'])
-      {
-        if(item['Type'] == 'Assessment')
-          result.Assessments.push(item['AssignmentID'])
-        else if(item['Type'] == 'QAssessment')
-          result.QAssessments.push(item['AssignmentID'])
-        else if(item['Type'] == 'Question')
-          result.Questions.push(item['AssignmentID'])
-      }
+      if(item['Type'] == 'Assessment')
+        result.Assessments.push(item['AssignmentID'])
+      else if(item['Type'] == 'QAssessment')
+        result.QAssessments.push(item['AssignmentID'])
+      else if(item['Type'] == 'Question')
+        result.Questions.push(item['AssignmentID'])
     }
     return result;
+  }
+
+  getTimeLapse(){
+    let parma = { projectID: this.projectID}
+    this.dataService.getTimeLapse(parma).subscribe(
+      response => {
+        let data = response.result;
+        if(data.startDate == null)
+        {
+          data.startDate = this.selectedProject['createdAt'];
+        }
+        let startDate = new Date(data.startDate).getTime();
+        let endDate = new Date(data.endDate).getTime();
+        let diffMs = endDate - startDate;
+        this.statusInfoArr.timeLapse.day = Math.floor(diffMs / 86400000); // days
+        this.statusInfoArr.timeLapse.hour = Math.floor((diffMs % 86400000) / 3600000); // hours
+        this.statusInfoArr.timeLapse.min = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+      },
+      (error) => {
+      }
+    );
   }
 
   getAllCatIds(entry)
@@ -213,6 +226,37 @@ export class ProgressComponent implements OnInit {
     return percent;
   }
 
+  uniqEs6 = (arrArg) => {
+    return arrArg.filter((elem, pos, arr) => {
+      return arr.indexOf(elem) == pos;
+    });
+  }
+
+  getAttachment(){
+    let data = {ProjectID : this.projectID}
+    this.dataService.getAttachment(data).subscribe(
+        response => {
+          this.statusInfoArr.files = response.result.length
+        },
+        (error) => {
+
+        }
+      );
+  }
+
+  getTeam(){
+    let data = {id: this.projectID}
+
+    this.dataService.getTeamMembers(data).subscribe(
+      response => {
+        this.team = response.result;
+        this.statusInfoArr.team = this.team.length;
+      },
+      (error) => {
+      }
+    );
+  }
+
   getTableData(){
     this.tableData = [];
     for(let entry of this.assessmentList)
@@ -227,25 +271,26 @@ export class ProgressComponent implements OnInit {
           {
             let answer_item = this.findAnswerObject(question_entry['uuid']);
             let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
-
-            if(this.userProjectRole == 'MEMBER' )
-            {
-              if(this.userAssignment['Questions'].indexOf(question_entry['uuid']) != -1 || this.userAssignment['Assessments'].indexOf(question['category_id']) != -1)
-              {
-                statusArr.push(status)
-              }
-            }else{
-              statusArr.push(status)
-            }
+            statusArr.push(status)
           }
         }
       }
       let getGroupPercent = this.getGroupPercent(statusArr);
 
       let item = { id: entry['uuid'], title: entry['Title'], percent: getGroupPercent, s:statusArr}
+      if(getGroupPercent == '100')
+      {
+        this.statusInfoArr.complete += 1;
+      }
+      else{
+        this.statusInfoArr.pending += 1;
+      }
+
       this.tableData.push(item)
     }
-
+    this.statusInfoArr.assigned = this.uniqEs6((this.userAssignment['Assessments']).concat(this.userAssignment['QAssessments'])).length;
+    this.statusInfoArr.assessment = this.tableData.length;
     this.loading = false;
   }
+
 }

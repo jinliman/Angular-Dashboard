@@ -1,0 +1,71 @@
+<div class="dashboard">
+  <div class="loading-div" *ngIf="loading"></div>
+  <div class="row">
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Assessments</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.assessment}}</p>
+    </div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Assigned</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/assigned-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.assigned}}</p>
+    </div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Complete</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/complete-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.complete}}</p>
+    </div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Pending</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/pending-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.pending}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Files</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/files-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.files}}</p>
+    </div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Team</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/team-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.team}}</p>
+    </div>
+    <div class="col-md-6 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Time Lapse</p>
+        <div [inlineSVG]="'../../assets/images/icons/dashboard/time-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{this.statusInfoArr.timeLapse.day}} <span>days</span> {{this.statusInfoArr.timeLapse.hour}} <span>hours</span> {{this.statusInfoArr.timeLapse.min}} <span>mins</span></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="progress-div">
+      <p class="title">Progress Bar</p>
+      <div class="col-md-6 progress-item" *ngFor="let item of tableData; let i = index">
+        <p class="title">{{item.title}}</p>
+        <div class="detail clearfix">
+          <div class="img" [inlineSVG]="'../../assets/images/icons/dashboard/' + iconArr[i % 8]"></div>
+          <div class="custom-progress">
+            <progress-bar [value] = "item.percent" [max] = "100" title = "{{item.percent}}%"></progress-bar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

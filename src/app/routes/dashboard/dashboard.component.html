@@ -1,4 +1,5 @@
 <div class="dashboard">
+  <!-- <div class="loading-div" *ngIf="loading"></div> -->
   <div class="row">
     <div class="col-md-12 datepicker-div clearfix">
       <div daterangepicker [options]="options" (selected)="selectedDate($event)">
@@ -7,137 +8,11 @@
       </div>
     </div>
   </div>
-  <div class="row first-row">
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Assessments</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Assigned</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/assigned-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Complete</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Pending</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Files</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/files-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-    <div class="col-md-3 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Team</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/team-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">1</p>
-    </div>
-    <div class="col-md-6 status-block clearfix">
-      <div class="status pull-left">
-        <p class="title">Time Lapse</p>
-        <div [inlineSVG]="'../assets/images/icons/dashboard/time-icon.svg'"></div>
-      </div>
-      <p class="value pull-right">03 <span>days</span> 04 <span>hours</span> 11 <span>mins</span></p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="progress-div">
-      <p class="title">Progress Bar</p>
-      <div class="col-md-6 progress-item">
-        <p class="title">Applications</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 progress-item">
-        <p class="title">Disaster Recovery</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/recovery-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "10" [max] = "100" title = "10%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="col-md-6 progress-item">
-        <p class="title">Infrastructure</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/infrastructure-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "30" [max] = "100" title = "30%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 progress-item">
-        <p class="title">IT Projects</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/projects-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="col-md-6 progress-item">
-        <p class="title">IT Security</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/it-security-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "60" [max] = "100" title = "60%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 progress-item">
-        <p class="title">IT Budget</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/budget-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "80" [max] = "100" title = "80%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="col-md-6 progress-item">
-        <p class="title">IT Organization</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/it-organization-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 progress-item">
-        <p class="title">Welcome to dealvalue!</p>
-        <div class="detail clearfix">
-          <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/welcome-icon.svg'"></div>
-          <div class="custom-progress">
-            <progress-bar [value] = "100" [max] = "100" title = "100%"></progress-bar>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ng-container *ngIf="userProjectRole == 'MEMBER'">
+    <app-dashboard-member [pID]="projectID"></app-dashboard-member>
+  </ng-container>
+
+  <ng-container *ngIf="userProjectRole != 'MEMBER'">
+    <app-dashboard-owner [pID]="projectID"></app-dashboard-owner>
+  </ng-container>
 </div>

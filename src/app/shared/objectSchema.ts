@@ -100,3 +100,13 @@ export class Category{
 	expanded		: boolean;
 	Questions 	: Array<object>;
 }
+
+export class Project{
+  Name: string;
+  Company: Company;
+  Reason: number;
+  Reason1: Reason1;
+  Reason2: Reason2;
+  Reason3: Reason3;
+  Reason4: Reason4;
+}
