@@ -1,76 +1,78 @@
 <div class="loading-div" *ngIf="loading"></div>
-<div class="row first-row">
-  <div class="col-md-3 status-block clearfix">
-    <div class="status pull-left">
-      <p class="title">Total Projects</p>
-      <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+<ng-container *ngIf="!loading">
+  <div class="row first-row">
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Total Projects</p>
+        <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.total}}</p>
     </div>
-    <p class="value pull-right">{{statusInfoArr.total}}</p>
-  </div>
-  <div class="col-md-3 status-block clearfix">
-    <div class="status pull-left">
-      <p class="title">Total Completes</p>
-      <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Total Completes</p>
+        <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.completed}}</p>
     </div>
-    <p class="value pull-right">{{statusInfoArr.completed}}</p>
-  </div>
-  <div class="col-md-3 status-block clearfix">
-    <div class="status pull-left">
-      <p class="title">Total Holds</p>
-      <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Total Holds</p>
+        <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.hold}}</p>
     </div>
-    <p class="value pull-right">{{statusInfoArr.hold}}</p>
-  </div>
-  <div class="col-md-3 status-block clearfix">
-    <div class="status pull-left">
-      <p class="title">Total In Progress</p>
-      <div [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+    <div class="col-md-3 status-block clearfix">
+      <div class="status pull-left">
+        <p class="title">Total In Progress</p>
+        <div [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+      </div>
+      <p class="value pull-right">{{statusInfoArr.in_progress}}</p>
     </div>
-    <p class="value pull-right">{{statusInfoArr.in_progress}}</p>
   </div>
-</div>
 
-<div class="row">
-  <div class="project-list-div">
-    <p class="title">Projects</p>
-    <table class="project-list-table">
-      <thead>
-        <tr>
-          <td width="60px">#</td>
-          <td width="15%">Project Name</td>
-          <td width="15%">Start Date</td>
-          <td width="15%">Deadline Date</td>
-          <td width="15%">Status</td>
-          <td>Progress</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of tableData; let i = index" (click)="viewDetail(item)">
-          <td>{{i+1}}</td>
-          <td>{{item.Project.Name}}</td>
-          <td>{{item.createdAt | amDateFormat:'LL'}}</td>
-          <td>{{item.endDate | amDateFormat:'LL'}}</td>
-          <td>
-            <div class="status-div" *ngIf="item.Status == 'Accept'">
-              <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
-              <span>{{item.Status}}</span>
-            </div>
-            <div class="status-div" *ngIf="item.Status == 'Pending'">
-              <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
-              <span>In Progress</span>
-            </div>
-            <div class="status-div" *ngIf="item.Status == 'Reject'">
-              <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
-              <span>{{item.Status}}</span>
-            </div>
-          </td>
-          <td>
-            <div class="custom-progress">
-              <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="row">
+    <div class="project-list-div">
+      <p class="title">Projects</p>
+      <table class="project-list-table">
+        <thead>
+          <tr>
+            <td width="60px">#</td>
+            <td width="15%">Project Name</td>
+            <td width="15%">Start Date</td>
+            <td width="15%">Deadline Date</td>
+            <td width="15%">Status</td>
+            <td>Progress</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData; let i = index" (click)="viewDetail(item)">
+            <td>{{i+1}}</td>
+            <td>{{item.Project.Name}}</td>
+            <td>{{item.createdAt | amDateFormat:'LL'}}</td>
+            <td>{{item.endDate | amDateFormat:'LL'}}</td>
+            <td>
+              <div class="status-div" *ngIf="item.Status == 'Accept'">
+                <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+                <span>{{item.Status}}</span>
+              </div>
+              <div class="status-div" *ngIf="item.Status == 'Pending'">
+                <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                <span>In Progress</span>
+              </div>
+              <div class="status-div" *ngIf="item.Status == 'Reject'">
+                <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+                <span>{{item.Status}}</span>
+              </div>
+            </td>
+            <td>
+              <div class="custom-progress">
+                <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+</ng-container>
