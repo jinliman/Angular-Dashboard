@@ -71,7 +71,6 @@ export class DashboardOwnerComponent implements OnInit {
   getAllUserProject(){
     this.dataService.getUserProject().subscribe(response => {
         this.userProjectList = response.result;
-        let that = this;
         this.userOwnProjectList = this.userProjectList.filter(function(item){ return item.Role != 'MEMBER'})
         this.getProjecStatus();
       },

@@ -49,12 +49,13 @@ export class ReportComponent implements OnInit {
   onProjectSelect(data){
     this.currentProject = this.authService.getUserProject();
     this.projectID = this.currentProject['Project']['_id'] || null;
-    this.ngOnInit();
+    this.initReport();
   }
 
   changeProject(project){
     if(this.projectID != project.Project['_id'])
     {
+      this.loading = true;
       this.projectID = project.Project['_id'];
       this.getAssessment();
     }
@@ -86,8 +87,6 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.is_report_available = true;
     this.dropdownSettings = {
         singleSelection: false,
         text:'--',
@@ -97,6 +96,12 @@ export class ReportComponent implements OnInit {
         enableCheckAll: false,
         classes:"cs-dropdown-select custom-class",
       };
+    this.initReport()
+  }
+
+  initReport(){
+    this.loading = true;
+    this.is_report_available = true;
     this.dropdownData = []
     this.getSubmittedProject();
   }

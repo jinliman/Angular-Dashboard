@@ -1,140 +1,142 @@
 <div class="admin-report-page">
-  <div class="loading-div" *ngIf="loading"></div>
-  <ng-container *ngIf="!loading">
-    <div class="row status-row" *ngFor="let project_group of ProjectListTab; let i = index">
-      <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
-        <div class="status">
-          <p class="title">{{project.Project.Name}}</p>
+  <div class="row status-row" *ngFor="let project_group of ProjectListTab; let i = index">
+    <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
+      <div class="status">
+        <p class="title">{{project.Project.Name}}</p>
+      </div>
+      <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
+    </div>
+  </div>
+  <div class="">
+    <div class="loading-div" *ngIf="loading"></div>
+    <ng-container *ngIf="!loading">
+      <div class="row button-div">
+        <p class="pull-left">Status: <span>{{projectStatus}}</span></p>
+        <div class="pull-right">
+          <a class="svg button" (click)="releaseReport()">
+            <span> <i class="fa fa-check"></i> Release</span>
+          </a>
+          <a class="svg button" (click)="openDeclineModal(RejectModal)">
+            <span> <i class="fa fa-hand-paper-o"></i> Decline</span>
+          </a>
         </div>
-        <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
       </div>
-    </div>
-    <div class="row button-div">
-      <p class="pull-left">Status: <span>{{projectStatus}}</span></p>
-      <div class="pull-right">
-        <a class="svg button" (click)="releaseReport()">
-          <span> <i class="fa fa-check"></i> Release</span>
-        </a>
-        <a class="svg button" (click)="openDeclineModal(RejectModal)">
-          <span> <i class="fa fa-hand-paper-o"></i> Decline</span>
-        </a>
-      </div>
-    </div>
-    <div class="row content-div">
-      <tabset>
-          <tab title="Methodology">
-            <div class="content-block">
-              <div class="header-title-div">
-                  <h3>Methodology</h3>
-                  <span class="edit-icon" (click)="openModal(EditModal,'Methdology','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-              </div>
-
-              <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Methdology']">
-              </div>
-            </div>
-          </tab>
-          <tab title="Executive Summary">
-            <div class="content-block">
-              <div class="header-title-div">
-                  <h3>Executive Summary</h3>
-                  <span class="edit-icon" (click)="openModal(EditModal,'Executive','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-              </div>
-
-              <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Executive']">
-              </div>
-            </div>
-          </tab>
-          <tab title="Heat Map">
-            <div class="content-block">
-              <div class="header-title-div">
-                  <h3>Heat Map</h3>
-                  <span class="edit-icon" (click)="openModal(EditModal,'HeatMap','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-              </div>
-
-              <div class="ql-editor feedback-div" [innerHTML]="feedbackList['HeatMap']">
-              </div>
-            </div>
-          </tab>
-          <tab title="Document">
-            <div class="content-block">
-              <div class="header-title-div">
-                  <h3>Document</h3>
-                  <span class="edit-icon" (click)="openModal(EditModal,'Document','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-              </div>
-
-              <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Document']">
-              </div>
-            </div>
-          </tab>
-          <tab title="{{table_item.title}}" *ngFor="let table_item of tableData; let i = index">
-            <div class="content-block">
-              <div class="header-title-div">
-                  <h3>{{table_item.title}}</h3>
-                  <span class="edit-icon" (click)="openModal(EditModal,table_item['id']);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-              </div>
-
-              <div class="ql-editor feedback-div" [innerHTML]="feedbackList[table_item['id']]">
-              </div>
-              <div class="question-div" *ngFor="let question of table_item.questionArr; let q_i = index">
-                <div class="main-question">
-                  <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-                  <p>{{question.desc}} <span *ngIf="question.status == 0">(Not Availabe)</span></p>
+      <div class="row content-div">
+        <tabset>
+            <tab title="Methodology">
+              <div class="content-block">
+                <div class="header-title-div">
+                    <h3>Methodology</h3>
+                    <span class="edit-icon" (click)="openModal(EditModal,'Methdology','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                 </div>
-                <div class="answer-div" *ngIf="question.status != 0">
-                  <ng-container *ngIf="question['type'] == 'Text'">
-                    <ng-container *ngFor="let item of question.items">
-                      <p class="answer-p">{{item.value}}</p>
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="question['type'] == 'Date'">
-                    <p class="answer-p">{{question.value}}</p>
-                  </ng-container>
-                  <ng-container *ngIf="question['type'] == 'Grid'">
-                    <table class="grid-table">
-                      <thead>
-                        <tr>
-                          <td></td>
-                          <td  *ngFor="let item of question.items">
-                            {{item.Text}}
-                          </td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr  *ngFor="let app_id of question.appIDs; let app_index = index">
-                          <td>{{app_index+1}}</td>
-                          <td  *ngFor="let item of question.items">
-                            {{question.value[app_id+'_'+item.uuid]}}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </ng-container>
-                  <ng-container *ngIf="question['type'] == 'Radio'">
-                    <ng-container *ngFor="let item of question.items">
-                      <div class="form-group radio">
-                        <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question['value']" name="{{question['id']}}" [value]="item['uuid']">
-                        <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                      </div>
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="question['type'] == 'Checkbox'">
-                    <ng-container *ngFor="let item of question.items">
-                      <div class="form-group checkbox" style="margin-top:15px">
-                        <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question['id']}}" value="">
-                        <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                      </div>
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="question['type'] == 'Dropdown'">
-                    <angular2-multiselect [data]="dropdownData[question['id']].Content" [(ngModel)]="dropdownData[question['id']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
-                  </ng-container>
+
+                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Methdology']">
                 </div>
               </div>
-            </div>
-          </tab>
-      </tabset>
-    </div>
-  </ng-container>
+            </tab>
+            <tab title="Executive Summary">
+              <div class="content-block">
+                <div class="header-title-div">
+                    <h3>Executive Summary</h3>
+                    <span class="edit-icon" (click)="openModal(EditModal,'Executive','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Executive']">
+                </div>
+              </div>
+            </tab>
+            <tab title="Heat Map">
+              <div class="content-block">
+                <div class="header-title-div">
+                    <h3>Heat Map</h3>
+                    <span class="edit-icon" (click)="openModal(EditModal,'HeatMap','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['HeatMap']">
+                </div>
+              </div>
+            </tab>
+            <tab title="Document">
+              <div class="content-block">
+                <div class="header-title-div">
+                    <h3>Document</h3>
+                    <span class="edit-icon" (click)="openModal(EditModal,'Document','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Document']">
+                </div>
+              </div>
+            </tab>
+            <tab title="{{table_item.title}}" *ngFor="let table_item of tableData; let i = index">
+              <div class="content-block">
+                <div class="header-title-div">
+                    <h3>{{table_item.title}}</h3>
+                    <span class="edit-icon" (click)="openModal(EditModal,table_item['id']);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                </div>
+
+                <div class="ql-editor feedback-div" [innerHTML]="feedbackList[table_item['id']]">
+                </div>
+                <div class="question-div" *ngFor="let question of table_item.questionArr; let q_i = index">
+                  <div class="main-question">
+                    <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
+                    <p>{{question.desc}} <span *ngIf="question.status == 0">(Not Availabe)</span></p>
+                  </div>
+                  <div class="answer-div" *ngIf="question.status != 0">
+                    <ng-container *ngIf="question['type'] == 'Text'">
+                      <ng-container *ngFor="let item of question.items">
+                        <p class="answer-p">{{item.value}}</p>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="question['type'] == 'Date'">
+                      <p class="answer-p">{{question.value}}</p>
+                    </ng-container>
+                    <ng-container *ngIf="question['type'] == 'Grid'">
+                      <table class="grid-table">
+                        <thead>
+                          <tr>
+                            <td></td>
+                            <td  *ngFor="let item of question.items">
+                              {{item.Text}}
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr  *ngFor="let app_id of question.appIDs; let app_index = index">
+                            <td>{{app_index+1}}</td>
+                            <td  *ngFor="let item of question.items">
+                              {{question.value[app_id+'_'+item.uuid]}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
+                    <ng-container *ngIf="question['type'] == 'Radio'">
+                      <ng-container *ngFor="let item of question.items">
+                        <div class="form-group radio">
+                          <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question['value']" name="{{question['id']}}" [value]="item['uuid']">
+                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="question['type'] == 'Checkbox'">
+                      <ng-container *ngFor="let item of question.items">
+                        <div class="form-group checkbox" style="margin-top:15px">
+                          <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question['id']}}" value="">
+                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="question['type'] == 'Dropdown'">
+                      <angular2-multiselect [data]="dropdownData[question['id']].Content" [(ngModel)]="dropdownData[question['id']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </tab>
+        </tabset>
+      </div>
+    </ng-container>
+  </div>
 
   <modal #EditModal [animation]=false>
     <modal-header>

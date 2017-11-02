@@ -1,28 +1,28 @@
 <div class="progress-page">
-  <div class="loading-div" *ngIf="loading"></div>
-  <ng-container *ngIf="!loading">
-    <div class="row status-row" *ngFor="let project_group of userProjectListTab; let i = index">
-      <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
-        <div class="status">
-          <p class="title">{{project.Project.Name}}</p>
-        </div>
-        <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
+  <div class="row status-row" *ngFor="let project_group of userProjectListTab; let i = index">
+    <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
+      <div class="status">
+        <p class="title">{{project.Project.Name}}</p>
       </div>
+      <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
     </div>
+  </div>
 
     <div class="row">
-      <div class="progress-div">
-        <p class="title">Progress Bar</p>
-        <div class="col-md-6 progress-item" *ngFor="let item of tableData; let i = index">
-          <p class="title">{{item.title}}</p>
-          <div class="detail clearfix">
-            <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/' + iconArr[i % 8]"></div>
-            <div class="custom-progress">
-              <progress-bar [value] = "item.percent" [max] = "100" title = "{{item.percent}}%"></progress-bar>
+      <div class="loading-div" *ngIf="loading"></div>
+      <ng-container *ngIf="!loading">
+        <div class="progress-div">
+          <p class="title">Progress Bar</p>
+          <div class="col-md-6 progress-item" *ngFor="let item of tableData; let i = index">
+            <p class="title">{{item.title}}</p>
+            <div class="detail clearfix">
+              <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/' + iconArr[i % 8]"></div>
+              <div class="custom-progress">
+                <progress-bar [value] = "item.percent" [max] = "100" title = "{{item.percent}}%"></progress-bar>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
-  </ng-container>
 </div>
