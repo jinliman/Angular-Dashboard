@@ -68,11 +68,34 @@ export class DashboardOwnerComponent implements OnInit {
     this.getAllUserProject();
   }
 
+  apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getProjecStatus(resolve);
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(resolve);
+    }))
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(resolve);
+      resolve();
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerListAll(resolve);
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      console.log(1)
+      this.getTableData();
+    });
+  }
   getAllUserProject(){
     this.dataService.getUserProject().subscribe(response => {
         this.userProjectList = response.result;
         this.userOwnProjectList = this.userProjectList.filter(function(item){ return item.Role != 'MEMBER'})
-        this.getProjecStatus();
+        this.apiHandler();
       },
       (error) => {
 
@@ -80,7 +103,9 @@ export class DashboardOwnerComponent implements OnInit {
     );
   }
 
-  getProjecStatus(){
+
+
+  getProjecStatus(resolve){
     let projectIDs = this.userOwnProjectList.map(function(item){return item.Project['_id']});
     let data = {
       ids: projectIDs
@@ -99,7 +124,7 @@ export class DashboardOwnerComponent implements OnInit {
             projectItem['endDate'] = null;
           }
         }
-        this.getAssessment()
+        resolve();
       },
       (error) => {
 
@@ -107,10 +132,10 @@ export class DashboardOwnerComponent implements OnInit {
     );
   }
 
-  getAssessment(){
+  getAssessment(resolve){
     this.dataService.getAssessmentListAllFlat().subscribe(response => {
         this.assessmentList = response.result;
-        this.getQuestionnaire();
+        resolve();
       },
       (error) => {
 
@@ -118,18 +143,18 @@ export class DashboardOwnerComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerListAll();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerListAll(){
+  getAnswerListAll(resolve){
     let ProjectIds = this.assessmentList.map(function(item){ return item['projectID']});
     let data = {
       ProjectIds: ProjectIds
@@ -138,7 +163,7 @@ export class DashboardOwnerComponent implements OnInit {
       response => {
         this.answers = response.result;
         console.log(this.answers)
-        this.getTableData();
+        resolve();
       },
       (error) => {
       }

@@ -204,6 +204,7 @@
     border-top:2px solid $dv-color-border;
     width:100%;
     padding:60px 0px;
+    background-color: $dv-bg-sub;
     section{
       .feature_list{
         .row{
@@ -241,7 +242,6 @@
     border-top:2px solid $dv-color-border;
     width:100%;
     padding:60px 0px;
-    background-color: $dv-bg-sub;
     section{
       padding-top:30px;
       h3{
@@ -320,6 +320,7 @@
     width:100%;
     padding:60px 0px;
     text-align: center;
+    background-color: $dv-bg-sub;
     h3{
       margin-bottom: 50px;
     }

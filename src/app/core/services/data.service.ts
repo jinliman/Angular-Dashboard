@@ -144,8 +144,7 @@ export class DataService {
   ---------------- Project -----------------
   */
 
-  chargePayment(token){
-    let data = {stripe_token: token}
+  chargePayment(data){
     return this.http.post(this.url + '/api/user/charge_payment', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }

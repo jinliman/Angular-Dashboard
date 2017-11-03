@@ -9,6 +9,8 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -39,7 +41,8 @@ export class ReportComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _notificationService: NotificationsService
   ) {
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     let selectedProject = this.authService.getUserProject();
@@ -57,20 +60,28 @@ export class ReportComponent implements OnInit {
     {
       this.loading = true;
       this.projectID = project.Project['_id'];
+      this.currentProject = project;
       this.getAssessment();
     }
   }
 
-  openCheckout() {
+  openCheckout(id) {
     let that = this;
     var handler = (<any>window).StripeCheckout.configure({
       key: 'pk_test_GFZkKo51tFb2tpOiSxsIcAxQ',
       locale: 'auto',
       token: function (token: any) {
-        console.log(token)
-        that.dataService.chargePayment(token).subscribe(
+        let data = {
+          projectID: id,
+          stripe_token: token
+        }
+        that.dataService.chargePayment(data).subscribe(
           response => {
-            console.log(response)
+            let projectItem = that.ProjectList.find(function(item){ return item['Project']['_id'] == id;})
+            projectItem.Paid = true;
+            that.loading = true;
+            that.projectID = id;
+            that.getSubmittedProject();
           },
           (error) => {
           }
@@ -117,21 +128,23 @@ export class ReportComponent implements OnInit {
   getSubmittedProject(){
     this.dataService.getUserSubmittedProject().subscribe(response => {
         this.ProjectList = response.result;
-        if(this.ProjectList.length == 0 )
+        let validProjectList = this.ProjectList.filter(function(item){ return item['Paid'] == true})
+        this.ProjectListTab = this.eachSlice(this.ProjectList, 4);
+        if(validProjectList.length == 0 )
         {
           this.loading = false;
           this.is_report_available = false;
         }else{
+          this.is_report_available = true;
           let that = this;
-          this.currentProject = this.ProjectList.find(function(item){
+          this.currentProject = validProjectList.find(function(item){
             return item.Project['_id'] == that.projectID;
           })
           if(!this.currentProject)
           {
-            this.currentProject  =  this.ProjectList[0];
+            this.currentProject  =  validProjectList[0];
             this.projectID = this.currentProject['Project']['_id'];
           }
-          this.ProjectListTab = this.eachSlice(this.ProjectList, 4);
           this.getAssessment();
         }
       },
@@ -247,7 +260,6 @@ export class ReportComponent implements OnInit {
   }
 
   getTableData(){
-    console.log(this.answers)
     this.tableData = [];
     for(let entry of this.assessmentList)
     {
@@ -317,8 +329,6 @@ export class ReportComponent implements OnInit {
       let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr}
       this.tableData.push(item)
     }
-    console.log(this.tableData)
-    console.log(this.dropdownData)
     this.loading = false;
   }
 

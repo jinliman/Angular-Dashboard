@@ -1,16 +1,24 @@
 <div class="report-page">
+  <div class="row status-row" *ngFor="let project_group of ProjectListTab; let i = index">
+    <ng-container *ngFor="let project of project_group; let i1 = index">
+      <div class="col-md-3 status-block clearfix" *ngIf="project.Paid" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
+        <div class="status">
+          <p class="title">{{project.Project.Name}}</p>
+        </div>
+        <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
+      </div>
+
+      <div class="col-md-3 status-block-lock clearfix" *ngIf="!project.Paid" (click)="openCheckout(project.Project['_id'])">
+        <div class="status">
+          <p class="title">{{project.Project.Name}}</p>
+        </div>
+        <div class="icon-div"><div class="img-div"></div><span>Unlock</span></div>
+      </div>
+    </ng-container>
+  </div>
   <ng-container *ngIf="!is_report_available">
     <h2>No reports available</h2>
-    <button (click)="openCheckout()">Purchase</button>
   </ng-container>
-  <div class="row status-row" *ngFor="let project_group of ProjectListTab; let i = index">
-    <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
-      <div class="status">
-        <p class="title">{{project.Project.Name}}</p>
-      </div>
-      <div class="icon-div"><div class="img-div"></div><span *ngIf="projectID != project.Project['_id']">View Progress</span></div>
-    </div>
-  </div>
   <div class="">
     <div class="loading-div" *ngIf="loading"></div>
     <ng-container *ngIf="is_report_available && !loading">

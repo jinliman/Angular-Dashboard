@@ -67,6 +67,21 @@ export class ReportComponent implements OnInit {
     }
     this.dataService.updateProjectFeedback(data).subscribe(
       response => {
+        if( this.editor_type == 'default')
+        {
+          this.currentProject[this.editor_id] = this.feedbackList[this.editor_id];
+        }
+        else{
+          let that = this;
+          let obj = this.currentProject['Assessments'].find(function(item){ return item['AssignmentID'] == that.editor_id})
+          if( obj )
+          {
+            obj['Desc'] = this.editorContent;
+          }else{
+            obj = { AssignmentID : this.editor_id, Desc: this.editorContent, _id: this.currentProject['_id']}
+            this.currentProject['Assessments'].push(obj)
+          }
+        }
       },
       (error) => {
       }
@@ -154,7 +169,6 @@ export class ReportComponent implements OnInit {
   getSubmittedProject(){
     this.dataService.getSubmittedProject().subscribe(response => {
         this.ProjectList = response.result;
-        console.log(this.ProjectList)
         this.currentProject = this.ProjectList[0];
         this.projectStatus = this.currentProject['Status']
         this.projectID = this.currentProject['Project']['_id'];
@@ -176,8 +190,8 @@ export class ReportComponent implements OnInit {
     {
       this.feedbackList[item['AssignmentID']] = item['Desc'];
     }
-    console.log(this.feedbackList)
   }
+
   getAssessment(){
     this.getFeedbackList();
     this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
@@ -275,7 +289,6 @@ export class ReportComponent implements OnInit {
   }
 
   getTableData(){
-    console.log(this.answers)
     this.tableData = [];
     for(let entry of this.assessmentList)
     {
