@@ -68,7 +68,7 @@ export class ReportComponent implements OnInit {
   openCheckout(id) {
     let that = this;
     var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_GFZkKo51tFb2tpOiSxsIcAxQ',
+      key: 'pk_test_LGUc6Wm6OYJHrh5Ts6yOM6iC',
       locale: 'auto',
       token: function (token: any) {
         let data = {
