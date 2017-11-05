@@ -47,6 +47,7 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   onSelectProject($event){
+    console.log(1)
     let selectedProject = this.userProjects.find(function(item){ return item['Project']['_id'] == $event['value'] });
     this.dataService.onProjectChanged(selectedProject);
     this.projectID = $event['value'];
@@ -56,6 +57,7 @@ export class HeaderDashboardComponent implements OnInit {
   getProjectList(){
     this.dataService.getUserProject().subscribe(response => {
         this.userProjects = response.result;
+        console.log(this.userProjects)
         this.projectList = this.userProjects.map(function(item){
             return {'value': String(item['Project']['_id']), 'label': item['Project']['Name']};
         })
@@ -80,6 +82,7 @@ export class HeaderDashboardComponent implements OnInit {
 
   updateSignOff(){
     this.isSignoff = false;
+    console.log(this.isSignoff)
     this.currentProject = this.authService.getUserProject();
     this.projectID = this.currentProject['Project']['_id'] || null;
     this.userProjectRole = this.currentProject['Role']

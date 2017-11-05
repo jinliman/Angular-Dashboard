@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://184.73.114.16',
-  hostUrl: 'http://54.173.44.230/',
+  serverUrl: 'https://api.dealvalue.com',
+  hostUrl: 'https://itdd.dealvalue.com',
   adminUrl: 'admin/',
   //Dropbox
   dropbox_appkey: 'kvnozaj9myc68g5',

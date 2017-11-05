@@ -41,6 +41,9 @@
             <a routerLink="/forgot-password" class="pull-right">Forgot passowrd?</a>
           </div>
         </div>
+        <div class="captcha-div">
+          <re-captcha class="captcha-obj" site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
+        </div>
         <div class="row">
           <div class="col-md-5 form-group pull-right">
             <button type="submit" [disabled] = "form.invalid || !captcha_response" class="btn button">Login</button>
@@ -52,9 +55,6 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="captcha-div">
-      <re-captcha class="captcha-obj" site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
     </div>
   </div>
 </div>

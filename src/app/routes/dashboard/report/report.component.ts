@@ -77,6 +77,10 @@ export class ReportComponent implements OnInit {
         }
         that.dataService.chargePayment(data).subscribe(
           response => {
+            this._notificationService.success(
+                'Successfully Sent!',
+                'Payment'
+            )
             let projectItem = that.ProjectList.find(function(item){ return item['Project']['_id'] == id;})
             projectItem.Paid = true;
             that.loading = true;
@@ -84,6 +88,10 @@ export class ReportComponent implements OnInit {
             that.getSubmittedProject();
           },
           (error) => {
+            this._notificationService.error(
+                'Sth went wrong',
+                'Payment'
+            )
           }
         );
       }
