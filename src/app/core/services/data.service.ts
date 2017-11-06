@@ -414,4 +414,13 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getAdminAllProject(){
+    return this.http.post(this.url + '/api/admin/project/list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAllProjectUsers(){
+    return this.http.post(this.url + '/api/admin/project/users', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
 }
