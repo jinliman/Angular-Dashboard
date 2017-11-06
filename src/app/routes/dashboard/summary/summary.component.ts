@@ -316,6 +316,7 @@ export class SummaryComponent implements OnInit {
     let data = {Project: projectID}
     this.dataService.submitProject(data).subscribe(
       response => {
+        this.dataService.onProjectSubmitted();
         this._notificationService.success(
             'Successfully Saved!',
             'Submission'

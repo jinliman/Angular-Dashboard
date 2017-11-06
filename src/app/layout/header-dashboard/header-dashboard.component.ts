@@ -34,6 +34,11 @@ export class HeaderDashboardComponent implements OnInit {
   ) {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
     this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
+    this.dataService.projectSubmitted.subscribe(data => this.onProjectSubmitted());
+  }
+
+  onProjectSubmitted(){
+    this.updateSignOff();
   }
 
   onProjectListUpdated(data){
@@ -47,7 +52,6 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   onSelectProject($event){
-    console.log(1)
     let selectedProject = this.userProjects.find(function(item){ return item['Project']['_id'] == $event['value'] });
     this.dataService.onProjectChanged(selectedProject);
     this.projectID = $event['value'];
@@ -81,17 +85,26 @@ export class HeaderDashboardComponent implements OnInit {
   }
 
   updateSignOff(){
+    let that = this;
     this.isSignoff = false;
-    console.log(this.isSignoff)
-    this.currentProject = this.authService.getUserProject();
-    this.projectID = this.currentProject['Project']['_id'] || null;
-    this.userProjectRole = this.currentProject['Role']
-    console.log(this.projectID)
-    this.loadProjectList = true;
-    if(this.userProjectRole == 'PRIMARY')
-    {
-      this.getAssessment();
-    }
+    let tProject = this.authService.getUserProject();
+    let data = { projectID: tProject['Project']['_id']}
+    this.dataService.getProject(data).subscribe(response => {
+        this.currentProject = response.result;
+        this.projectID = this.currentProject['Project']['_id'] || null;
+        this.userProjectRole = this.currentProject['Role']
+        this.loadProjectList = true;
+        let projectStatus = this.currentProject && this.currentProject['Status'] ? this.currentProject['Status'] : 'Pending';
+        console.log(this.currentProject)
+        if(this.userProjectRole == 'PRIMARY' && ['Pending', 'Reject'].indexOf(projectStatus) != -1)
+        {
+          this.getAssessment();
+        }
+      },
+      (error) => {
+
+      }
+    );
   }
 
   getAssessment(){

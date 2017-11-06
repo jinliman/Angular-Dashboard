@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
 
           this.authService.userInfo().subscribe(
             user => {
+              console.log(user)
               localStorage.setItem('user', JSON.stringify(user.UserInfo));
               localStorage.setItem('project', JSON.stringify(user.UserProjects[0]));
               this.navigateUser();

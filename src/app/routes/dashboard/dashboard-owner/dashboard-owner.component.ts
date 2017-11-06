@@ -71,23 +71,21 @@ export class DashboardOwnerComponent implements OnInit {
   apiHandler(){
     let promiseArr= [];
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getProjecStatus(resolve);
+      this.getProjecStatus(() => { console.log('final4'); resolve(); });
     }))
 
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getAssessment(resolve);
+      this.getAssessment(() => { console.log('final3'); resolve(); });
     }))
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getQuestionnaire(resolve);
-      resolve();
+      this.getQuestionnaire(() => { console.log('final2'); resolve(); });
     }))
 
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getAnswerListAll(resolve);
+      this.getAnswerListAll(() => { console.log('final1'); resolve(); });
     }))
 
     Promise.all(promiseArr).then(() => {
-      console.log(1)
       this.getTableData();
     });
   }
@@ -102,8 +100,6 @@ export class DashboardOwnerComponent implements OnInit {
       }
     );
   }
-
-
 
   getProjecStatus(resolve){
     let projectIDs = this.userOwnProjectList.map(function(item){return item.Project['_id']});
@@ -155,14 +151,13 @@ export class DashboardOwnerComponent implements OnInit {
   }
 
   getAnswerListAll(resolve){
-    let ProjectIds = this.assessmentList.map(function(item){ return item['projectID']});
+    let ProjectIds = this.userOwnProjectList.map(function(item){ return item['Project']['_id']});
     let data = {
       ProjectIds: ProjectIds
     }
     this.dataService.getAnswerAllList(data).subscribe(
       response => {
         this.answers = response.result;
-        console.log(this.answers)
         resolve();
       },
       (error) => {

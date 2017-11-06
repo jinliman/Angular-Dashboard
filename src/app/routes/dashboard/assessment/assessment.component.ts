@@ -94,37 +94,47 @@ export class AssessmentComponent implements OnInit {
     this.totalComplete = 0;
     this.totalIncomplete = 0;
 
-    this.currentProject = this.authService.getUserProject();
-    let projectID = this.currentProject['Project']['_id'] || null;
-    this.userRole = this.currentProject['Role'];
-    this.allowAnswer = false;
-    if(this.userRole != "MEMBER")
-      this.allowAssign = true;
-    this.dropdownSettings = {
-        singleSelection: false,
-        text:'--',
-        selectAllText:'Select All',
-        unSelectAllText:'UnSelect All',
-        enableSearchFilter: false ,
-        enableCheckAll: false,
-        classes:"cs-user-select custom-class",
-        disabled: this.assignDisabled
-      };
-
-    this.loading = true;
-
-    let data = {id: this.assessment_id, projectID: projectID};
-    this.dataService.getAssessmentFlat(data).subscribe(
+    let tProject = this.authService.getUserProject();
+    let data = { projectID: tProject['Project']['_id']}
+    this.dataService.getProject(data).subscribe(
       response => {
-        if(response.result == null)
-          this.router.navigate(['app/dashboard']);
-        this.assessment = response.result;
-        this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
-        this.getQuestionnaire();
-        this.getUserAttachment();
+        this.currentProject = response.result;
+        let projectID = this.currentProject['Project']['_id'] || null;
+        let projectStatus = this.currentProject['Status'] || null;
+        this.userRole = this.currentProject['Role'];
+        this.allowAnswer = false;
+        if(this.userRole != "MEMBER" && ['Accept','Submitted'].indexOf(projectStatus) == -1)
+          this.allowAssign = true;
+        this.dropdownSettings = {
+            singleSelection: false,
+            text:'--',
+            selectAllText:'Select All',
+            unSelectAllText:'UnSelect All',
+            enableSearchFilter: false ,
+            enableCheckAll: false,
+            classes:"cs-user-select custom-class",
+            disabled: this.assignDisabled
+          };
+
+        this.loading = true;
+
+        let data = {id: this.assessment_id, projectID: projectID};
+        this.dataService.getAssessmentFlat(data).subscribe(
+          response => {
+            if(response.result == null)
+              this.router.navigate(['app/dashboard']);
+            this.assessment = response.result;
+            this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
+            this.getQuestionnaire();
+            this.getUserAttachment();
+          },
+          (error) => {
+            this.router.navigate(['app/dashboard']);
+          }
+        );
       },
       (error) => {
-        this.router.navigate(['app/dashboard']);
+
       }
     );
   }
@@ -320,7 +330,8 @@ export class AssessmentComponent implements OnInit {
         this.updateTeam();
         this.assignment = this.updateAssignment(this.allAssignment);
         this.getTableData();
-        if(this.userRole != "INITIATOR")
+        let projectStatus = this.currentProject['Status'] || null;
+        if(this.userRole != "INITIATOR" && ['Accept','Submitted'].indexOf(projectStatus) == -1)
           this.setAllowAnswer();
       },
       (error) => {
@@ -364,7 +375,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   toggleNA(checked, group, item){
-    if(this.userRole == "INITIATOR")
+    if(this.userRole == "INITIATOR" || !this.allowAnswer)
       return;
     this.loading = true;
 

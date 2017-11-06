@@ -158,7 +158,7 @@ export class DashboardDetailComponent implements OnInit {
         let data = response.result;
         if(data.startDate == null)
         {
-          data.startDate = this.selectedProject['createdAt'];
+          data.startDate = this.selectedProject['Project']['createdAt'];
         }
         let startDate = new Date(data.startDate).getTime();
         let endDate = new Date(data.endDate).getTime();

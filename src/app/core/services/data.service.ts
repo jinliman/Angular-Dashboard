@@ -16,12 +16,21 @@ export class DataService {
   public categoryChanged: EventEmitter<Object>;
   public progressChanged: EventEmitter<Object>;
   public projectListUpdated: EventEmitter<Object>;
+  public projectSubmitted: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
     this.projectListUpdated = new EventEmitter();
     this.categoryChanged = new EventEmitter();
     this.progressChanged = new EventEmitter();
+    this.projectSubmitted = new EventEmitter();
+  }
+
+  onProjectSubmitted(){
+    let data = JSON.parse(localStorage.getItem('project'));
+    data['Status'] = 'Submitted';
+    localStorage.setItem('project', JSON.stringify(data));
+    this.projectSubmitted.emit();
   }
 
   onProjectListUpdated(data){
