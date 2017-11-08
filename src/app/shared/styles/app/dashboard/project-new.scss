@@ -68,6 +68,7 @@
     .form{
       padding: 0px 30px 30px 30px;
       label.required{
+        color: #a73729;
         position: relative;
         &::before{
           content: '*';

@@ -13,7 +13,7 @@
     </div>
 
     <form class="form form1" (ngSubmit) = "onContinue()" #form="ngForm" [hidden] = "wizardStep != 1">
-      <h2> Create your own Project</h2>
+      <h2> Create Your Due Diligence Project</h2>
 
       <div class="row">
         <div class="col-md-6 form-group"
@@ -108,7 +108,7 @@
     </form>
 
     <form class="form form2" (ngSubmit) = "onCreateProject()" #form1="ngForm" [hidden] = "wizardStep != 2">
-      <h2> Select your Duediligence</h2>
+      <h2> Create Your Due Diligence Project</h2>
       <div class="row">
         <div class="col-md-12 form-group">
           <label for="diligence" class="required" [ngClass]="{'success': newProject.Company.Diligence != ''}">Select Your Due Diligence Type:</label>
@@ -141,12 +141,12 @@
               'has-error': t_company_name.invalid && t_company_name.touched,
               'has-success': t_company_name.valid && t_company_name.touched
             }">
-            <label for="t_company_name">Target Company Name:</label>
+            <label for="t_company_name" class="required">Target Company Name:</label>
             <input type="text" name="t_company_name" #t_company_name = "ngModel" [(ngModel)] = "newProject.Reason1.tCompanyName" value="" required>
             <span class="help-block" *ngIf="t_company_name.errors && t_company_name.errors.required  && t_company_name.touched">Company Name is required</span>
           </div>
           <div class="col-md-6 form-group">
-            <label for="tIndustry">Target Company Industry:</label>
+            <label for="tIndustry" class="required" [ngClass]="{'success': newProject.Reason1.tIndustry}">Target Company Industry:</label>
             <ng-select class="cs-select" name="tIndustry" [options]="industry_list" [(ngModel)] = "newProject.Reason1.tIndustry"  placeholder="Please select industry">
             </ng-select>
           </div>
@@ -157,7 +157,7 @@
             'has-error': t_no_employee.invalid && t_no_employee.touched,
             'has-success': t_no_employee.valid && t_no_employee.touched
           }">
-            <label for="t_no_employee">Estimated # of Employees:</label>
+            <label for="t_no_employee" class="required">Estimated # of Employees:</label>
             <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newProject.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
             <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
           </div>
@@ -166,7 +166,7 @@
             'has-error': t_annual.invalid && t_annual.touched,
             'has-success': t_annual.valid && t_annual.touched
           }">
-            <label for="t_annual">Annual Revenue</label>
+            <label for="t_annual" class="required">Annual Revenue</label>
             <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newProject.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
             <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
           </div>
@@ -192,7 +192,7 @@
             'has-error': t_no_employee.invalid && t_no_employee.touched,
             'has-success': t_no_employee.valid && t_no_employee.touched
           }">
-            <label for="t_no_employee">Estimated # of Employees:</label>
+            <label for="t_no_employee" class="required">Estimated # of Employees:</label>
             <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newProject.Reason2.tEmpNo" value="" required>
             <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
           </div>
@@ -201,7 +201,7 @@
             'has-error': t_annual.invalid && t_annual.touched,
             'has-success': t_annual.valid && t_annual.touched
           }">
-            <label for="t_annual">Annual Revenue</label>
+            <label for="t_annual" class="required">Annual Revenue</label>
             <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newProject.Reason2.tAnnualRev" value="" required>
             <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
           </div>
@@ -212,7 +212,7 @@
             'has-error': t_net_income.invalid && t_net_income.touched,
             'has-success': t_net_income.valid && t_net_income.touched
           }">
-            <label for="t_net_income">Net Income:</label>
+            <label for="t_net_income" class="required">Net Income:</label>
             <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "newProject.Reason2.tNetIncome" value="" required>
             <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Net Income is required</span>
           </div>
@@ -268,7 +268,7 @@
             'has-error': t_other.invalid && t_other.touched,
             'has-success': t_other.valid && t_other.touched
           }">
-            <label for="t_other">Reason:</label>
+            <label for="t_other" class="required">Reason:</label>
             <textarea name="t_other" #t_other = "ngModel" [(ngModel)] = "newProject.Reason4.tReason" value="" required rows="8" cols="80"></textarea>
             <span class="help-block" *ngIf="t_other.errors && t_other.errors.required  && t_other.touched">Date is required</span>
           </div>
