@@ -111,6 +111,16 @@ export class DashboardOwnerComponent implements OnInit {
         for(let projectItem of this.userOwnProjectList)
         {
           let statusItem = statusList.find(function(item){ return item['Project'] == projectItem.Project['_id']})
+
+          var currentTime = new Date(projectItem['createdAt']);
+          if(currentTime.getDay() == 0)
+            currentTime.setDate(currentTime.getDate()+15);
+          else if(currentTime.getDay() == 6)
+            currentTime.setDate(currentTime.getDate()+16);
+          else
+            currentTime.setDate(currentTime.getDate()+14);
+
+          projectItem['deadlineDate'] = currentTime;
           if(statusItem)
           {
             projectItem['Status'] = statusItem['Status'];

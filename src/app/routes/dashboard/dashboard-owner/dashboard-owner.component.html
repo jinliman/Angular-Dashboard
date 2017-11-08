@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-3 status-block clearfix">
       <div class="status pull-left">
-        <p class="title">Total Holds</p>
+        <p class="title">Total on Holds</p>
         <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
       </div>
       <p class="value pull-right">{{statusInfoArr.hold}}</p>
@@ -41,6 +41,7 @@
             <td width="15%">Project Name</td>
             <td width="15%">Start Date</td>
             <td width="15%">Deadline Date</td>
+            <td width="15%">Complete Date</td>
             <td width="15%">Status</td>
             <td>Progress</td>
           </tr>
@@ -50,11 +51,12 @@
             <td>{{i+1}}</td>
             <td>{{item.Project.Name}}</td>
             <td>{{item.createdAt | amDateFormat:'LL'}}</td>
+            <td>{{item.deadlineDate | amDateFormat:'LL'}}</td>
             <td>{{item.endDate | amDateFormat:'LL'}}</td>
             <td>
               <div class="status-div" *ngIf="item.Status == 'Accept'">
                 <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
-                <span>{{item.Status}}</span>
+                <span>Complete</span>
               </div>
               <div class="status-div" *ngIf="item.Status == 'Pending'">
                 <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
