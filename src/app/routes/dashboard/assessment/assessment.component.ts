@@ -45,6 +45,7 @@ export class AssessmentComponent implements OnInit {
   user: object = {}
   loading: boolean;
   dropdownSettings = {};
+  isInit: boolean = false;
 
   completePercent: string;
   totalComplete: number;
@@ -64,7 +65,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   onProjectSelect(data){
-    this.initPage();
+    this.initPage(true);
   }
 
   ngOnInit() {
@@ -80,11 +81,12 @@ export class AssessmentComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.assessment_id = params['id'] || '';
-        this.initPage();
+        this.initPage(true);
       });
   }
 
-  initPage(){
+  initPage(isInit = false){
+    this.isInit = isInit;
     this.assessment = {};
     this.tableData = [];
     this.questionnaires = [];
@@ -419,6 +421,10 @@ export class AssessmentComponent implements OnInit {
 
   getTableData(){
     this.tableData = [];
+    this.completePercent = '0';
+    this.totalComplete = 0;
+    this.totalIncomplete = 0;
+    
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
       let questionArr = [];
@@ -479,8 +485,8 @@ export class AssessmentComponent implements OnInit {
       this.completePercent = '0';
     else
       this.completePercent = (this.totalComplete / (this.totalComplete + this.totalIncomplete) * 100).toFixed(0);
-
-    this.dataService.onProgressChanged({percent: this.completePercent});
+    if(!this.isInit)
+      this.dataService.onProgressChanged({percent: this.completePercent});
     console.log(this.tableData)
     this.loading = false;
   }
