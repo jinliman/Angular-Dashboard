@@ -67,7 +67,7 @@
             </ng-template>
             <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu }"></ng-container>
             <li>
-              <a href="javascript:;" (click)="activeTab = about_page">About This Report</a>
+              <a href="javascript:;" (click)="activeTab = 'about_page'" [class.active] ="activeTab == 'about_page'">About This Report</a>
             </li>
           </ul>
         </div>
@@ -424,8 +424,8 @@
                  </div>
   				     </div>
              </ng-container>
-             <div class="dynamic_page about_page" *ngIf="activeTab == 'about_page'">
-               <h3 class="padding-class">Document</h3>
+             <div class="about_page" *ngIf="activeTab == 'about_page'">
+               <h3>About this project</h3>
              </div>
           </div>
         </div>
