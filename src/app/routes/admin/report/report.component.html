@@ -47,7 +47,7 @@
               <ul>
                 <ng-template #recursiveDocument let-menu>
                   <li *ngFor="let menu_item of menu">
-                    <a href="javascript:;" (click)="activeTab = 'document'" [class.active] ="activeTab == 'document'" >{{menu_item.Title}}</a>
+                    <a href="javascript:;" (click)="activeTab = 'document'" >{{menu_item.Title}}</a>
                     <ng-container *ngIf="menu_item.hasChildren">
                       <ng-container *ngTemplateOutlet="recursiveDocument; context:{ $implicit: menu_item.children }"></ng-container>
                     </ng-container>
