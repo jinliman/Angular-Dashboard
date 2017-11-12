@@ -201,6 +201,23 @@
           color: $dv-color-green;
         }
       }
+      .status-filter-icon{
+        cursor: pointer;
+        .up-image{
+          svg{
+            -ms-transform: rotate(180deg); /* IE 9 */
+            -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+            transform: rotate(180deg);
+          }
+        }
+        .down-image{
+          svg{
+            -ms-transform: rotate(0deg); /* IE 9 */
+            -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+            transform: rotate(0deg);
+          }
+        }
+      }
     }
   }
 }

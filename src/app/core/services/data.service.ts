@@ -163,6 +163,11 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getProjectUsers(data){
+    return this.http.post(this.url + '/api/user/project/users', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   getTimeLapse(data){
     return this.http.post(this.url + '/api/user/project/time_lapse', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -180,6 +185,11 @@ export class DataService {
 
   getProjectStatusList(data){
     return this.http.post(this.url + '/api/user/project/status_list', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getProjectAttachment(data){
+    return this.http.post(this.url + '/api/user/project/attachment', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -259,17 +269,32 @@ export class DataService {
   ---------------- Data -----------------
   */
   getCountryList(){
-    return this.http.post(this.url + '/api/data/country', {}, { headers: this.getHeaders() })
+    return this.http.post(this.url + '/api/data/country_list', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
   getStateList(data){
-    return this.http.post(this.url + '/api/data/state', data, { headers: this.getHeaders() })
+    return this.http.post(this.url + '/api/data/state_list', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
   getCityList(data){
-    return this.http.post(this.url + '/api/data/city', data, { headers: this.getHeaders() })
+    return this.http.post(this.url + '/api/data/city_list ', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getCountryItem(data){
+    return this.http.post(this.url + '/api/data/country', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getStateItem(data){
+    return this.http.post(this.url + '/api/data/state', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getCityItem(data){
+    return this.http.post(this.url + '/api/data/city ', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 
@@ -395,6 +420,15 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  getAdminAssessmentListFlatProject(){
+    return this.http.post(this.url + '/api/admin/assessment/list_flat_project', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAnswerList(){
+    return this.http.post(this.url + '/api/admin/answer/list_all', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   /*
   ---------------- Admin Project -----------------
   */
@@ -421,6 +455,16 @@ export class DataService {
 
   getAdminAllProjectUsers(){
     return this.http.post(this.url + '/api/admin/project/users', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminProjectStatusList(){
+    return this.http.post(this.url + '/api/admin/project/status_list', {}, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminProject(data){
+    return this.http.post(this.url + '/api/admin/project/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 }

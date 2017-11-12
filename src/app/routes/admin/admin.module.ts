@@ -12,6 +12,7 @@ import { ReportComponent } from './report/report.component';
 import { QaBuilderComponent } from './qa-builder/qa-builder.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { AdminAssessmentComponent } from './admin-assessment/admin-assessment.component';
+import { ProjectDetailComponent } from './project-detail/project-detail.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminComponent },
+      { path: 'project/:id', component: ProjectDetailComponent },
       { path: 'calendar', component: CalendarPageComponent },
       { path: 'reports', component: ReportComponent },
       { path: 'users', component: UsersComponent },
@@ -38,7 +40,7 @@ const routes: Routes = [
     SharedModule,
   ],
   declarations: [
-    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent],
+    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent, ProjectDetailComponent],
   exports: [
   	RouterModule
   ]

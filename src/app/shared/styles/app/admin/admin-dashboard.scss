@@ -81,4 +81,71 @@
       margin:0px 4px;
     }
   }
+  .project-list-div{
+    margin: 30px 0px;
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+      margin: 10px 20px;
+    }
+    .custom-progress{
+      .progress{
+        margin-bottom: 0px;
+        height: 20px;
+        .progress-bar-title {
+            line-height: 17px;
+            font-size: 15px;
+        }
+      }
+    }
+    .status-div{
+      display: flex;
+      align-items: center;
+      .svg{
+        display: flex;
+        align-items: center;
+      }
+      span{
+        padding-left: 10px;
+      }
+    }
+    table.project-list-table{
+      width: 100%;
+      min-width: 800px;
+      border-bottom: 1px solid $dv-color-border !important;
+      td{
+        vertical-align: middle !important;
+      }
+      thead{
+        background-color: $dv-bg-dashboard;
+        td{
+          font-weight: 600;
+          color: $dv-color-primary;
+        }
+      }
+      th,td{
+        border-top: 2px solid $dv-color-border !important;
+        border: 2px solid $dv-color-border;
+        padding: 14px 14px;
+        color: $dv-color-grey;
+        &:first-of-type{
+          border-left: none;
+        }
+        &:last-of-type{
+          border-right: none;
+        }
+      }
+      tbody{
+        tr{
+          cursor: pointer;
+          &:hover{
+            background-color: $dv-bg-dashboard;
+            td{
+              color: $dv-color-green-active;
+            }
+          }
+        }
+      }
+    }
+  }
 }

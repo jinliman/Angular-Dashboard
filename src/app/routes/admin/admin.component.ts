@@ -8,6 +8,7 @@ import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../shared/objectSchema';
+import { environment } from '../../../environments/environment';
 import * as moment from "moment";
 
 @Component({
@@ -37,8 +38,13 @@ export class AdminComponent implements OnInit {
   };
 
   loading: boolean = false;
-  ProjectList: Array<object> = [];
-  ProjectUsers: Array<object> = [];
+  ProjectList: Array<any> = [];
+  ProjectUsers: Array<any> = [];
+
+  tableData: Array<any> = [];
+  assessmentList: Array<any> = [];
+  questionnaires: Array<object>= [];
+  answers: Array<Answer> = [];
 
   statusInfoArr = {
     total: 0,
@@ -94,7 +100,30 @@ export class AdminComponent implements OnInit {
     }))
 
     Promise.all(promiseArr).then(() => {
-      this.initData();
+      this.apiHandlerProjectTable()
+    });
+  }
+
+  public apiHandlerProjectTable(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getProjecStatus(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerListAll(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
     });
   }
 
@@ -120,9 +149,151 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  public initData(){
+  getProjecStatus(resolve){
+    for(let projectItem of this.ProjectList)
+    {
+      let statusItem = projectItem['Status'];
+
+      var currentTime = new Date(projectItem['createdAt']);
+      if(currentTime.getDay() == 0)
+        currentTime.setDate(currentTime.getDate()+15);
+      else if(currentTime.getDay() == 6)
+        currentTime.setDate(currentTime.getDate()+16);
+      else
+        currentTime.setDate(currentTime.getDate()+14);
+
+      projectItem['deadlineDate'] = currentTime;
+      if(statusItem)
+      {
+        projectItem['Status'] = statusItem['Status'];
+        projectItem['endDate'] = statusItem['updatedAt'];
+      }else{
+        projectItem['Status'] = 'Pending';
+        projectItem['endDate'] = null;
+      }
+    }
+    resolve();
+  }
+
+  getAssessment(resolve){
+    this.dataService.getAdminAssessmentListFlatProject().subscribe(response => {
+        this.assessmentList = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getQuestionnaire(resolve){
+    this.dataService.getQAList().subscribe(
+      response => {
+        this.questionnaires = response.result;
+        resolve();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getAnswerListAll(resolve){
+    this.dataService.getAdminAnswerList().subscribe(
+      response => {
+        this.answers = response.result;
+        resolve();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getAllCatIds(entry)
+  {
+    let idArr = []
+    function recursive(obj){
+      idArr.push(obj.uuid)
+      if(obj.children)
+      {
+        for(let item of obj.children){
+            recursive(item);
+        }
+      }
+    }
+    recursive(entry)
+    return idArr;
+  }
+
+  findQuestionObject(entry)
+  {
+    let idArr = this.getAllCatIds(entry)
+    let result = [];
+    for(let item of this.questionnaires)
+    {
+      if(idArr.indexOf(item['category_id']) != -1)
+        result.push(item);
+    }
+
+    return result;
+  }
+
+  findAnswerObject(userProjectID, uuid, appID = null){
+    for(let answer of this.answers) {
+      if(answer['Project'] != userProjectID)
+        continue;
+      if(answer['Questionnaire'] == uuid)
+        return answer
+      for(let answer_item of answer['Answers']) {
+        if(answer_item.uuid == uuid)
+          return answer_item;
+      }
+    }
+    return null;
+  }
+
+  getGroupPercent(arr)
+  {
+    let completedCnt = 0;
+    let percent = '0';
+    arr.forEach(function(item){
+      if(item == 2 || item == 0)
+        completedCnt += 1;
+    })
+    if(completedCnt)
+      percent = (completedCnt / arr.length * 100).toFixed(0);
+    return percent;
+  }
+
+  viewDetail(item){
+      let selProjectID = item['_id']
+      this.router.navigate([environment.adminUrl + 'project/'+selProjectID]);
+  }
+  getTableData(){
+    this.tableData = [];
     for(let entry of this.ProjectList)
     {
+      let userProjectID = entry['_id'];
+      let assessment = this.assessmentList.find(function(item){ return item['projectID'] == userProjectID})
+      let statusArr = [];
+      for(let assessment_item of assessment.categories)
+      {
+        let questionArr = this.findQuestionObject(assessment_item);
+        for(let question of questionArr)
+        {
+          if( question && question['questions'].length )
+          {
+            for( let question_entry of question['questions'])
+            {
+              let answer_item = this.findAnswerObject(userProjectID, question_entry['uuid']);
+              let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
+
+              statusArr.push(status)
+            }
+          }
+        }
+      }
+      let getGroupPercent = this.getGroupPercent(statusArr);
+      entry['progress'] = getGroupPercent;
       this.statusInfoArr.total++;
       if(entry['Status'] == 'Accept')
         this.statusInfoArr.completed++;
@@ -130,6 +301,7 @@ export class AdminComponent implements OnInit {
           this.statusInfoArr.hold++;
       else
         this.statusInfoArr.in_progress++;
+      this.tableData.push(entry);
     }
 
     for(let entry of this.ProjectUsers)
@@ -141,6 +313,8 @@ export class AdminComponent implements OnInit {
       else
         this.statusInfoArr.num_members++;
     }
+
     this.loading = false;
   }
+
 }

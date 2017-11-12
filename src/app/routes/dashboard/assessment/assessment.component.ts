@@ -46,6 +46,10 @@ export class AssessmentComponent implements OnInit {
   loading: boolean;
   dropdownSettings = {};
   isInit: boolean = false;
+  sortFilter: any = {
+    type: null,
+    order: true
+  }
 
   completePercent: string;
   totalComplete: number;
@@ -419,12 +423,18 @@ export class AssessmentComponent implements OnInit {
     return status;
   }
 
+  sort_by_type(type){
+    this.sortFilter.order = !this.sortFilter.order;
+    this.sortFilter.type = type;
+    this.sortTableData();
+  }
+
   getTableData(){
     this.tableData = [];
     this.completePercent = '0';
     this.totalComplete = 0;
     this.totalIncomplete = 0;
-    
+
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
       let questionArr = [];
@@ -487,6 +497,57 @@ export class AssessmentComponent implements OnInit {
       this.completePercent = (this.totalComplete / (this.totalComplete + this.totalIncomplete) * 100).toFixed(0);
     if(!this.isInit)
       this.dataService.onProgressChanged({percent: this.completePercent});
+    console.log(this.tableData)
+    this.sortTableData();
+  }
+
+  sortTableData()
+  {
+    for(let assessment of this.tableData)
+    {
+      if(this.sortFilter.type == 'status')
+      {
+        if(this.sortFilter.order)
+        {
+          assessment.questionArr.sort(function(a,b){
+            if(a.status < b.status)
+              return -1;
+            if(a.status > b.status)
+              return 1;
+            return 0;
+          });
+        }else{
+          assessment.questionArr.sort(function(a,b){
+            if(a.status > b.status)
+              return -1;
+            if(a.status < b.status)
+              return 1;
+            return 0;
+          });
+        }
+      }
+      if(this.sortFilter.type == 'na')
+      {
+        if(this.sortFilter.order)
+        {
+          assessment.questionArr.sort(function(a,b){
+            if(a.status < b.status)
+              return 1;
+            if(a.status > b.status)
+              return -1;
+            return 0;
+          });
+        }else{
+          assessment.questionArr.sort(function(a,b){
+            if(a.status > b.status)
+              return 1;
+            if(a.status < b.status)
+              return -1;
+            return 0;
+          });
+        }
+      }
+    }
     console.log(this.tableData)
     this.loading = false;
   }

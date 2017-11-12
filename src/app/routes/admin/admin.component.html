@@ -69,14 +69,53 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group button-div clearfix">
-        <div class="pull-right">
-          <span class="desc">View: </span>
-          <button type="button"  class="btn button">Week</button>
-          <button type="button"  class="btn button">Month</button>
-          <button type="button"  class="btn button">Year</button>
-          <button type="button"  class="btn button">Total</button>
-        </div>
+      <div class="project-list-div">
+        <p class="title">Projects</p>
+        <table class="project-list-table">
+          <thead>
+            <tr>
+              <td width="60px">#</td>
+              <td width="15%">Project Name</td>
+              <td width="15%">Start Date</td>
+              <td width="15%">Deadline Date</td>
+              <td width="15%">Complete Date</td>
+              <td width="15%">Status</td>
+              <td>Progress</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of tableData; let i = index" (click)="viewDetail(item)">
+              <td>{{i+1}}</td>
+              <td>{{item.Name}}</td>
+              <td>{{item.createdAt | amDateFormat:'LL'}}</td>
+              <td>{{item.deadlineDate | amDateFormat:'LL'}}</td>
+              <td>{{item.endDate | amDateFormat:'LL'}}</td>
+              <td>
+                <div class="status-div" *ngIf="item.Status == 'Accept'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+                  <span>Complete</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Pending'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                  <span>In Progress</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Submitted'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                  <span>Submitted</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Reject'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+                  <span>{{item.Status}}</span>
+                </div>
+              </td>
+              <td>
+                <div class="custom-progress">
+                  <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </ng-container>
