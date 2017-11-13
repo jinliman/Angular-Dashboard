@@ -23,113 +23,477 @@
     <div class="loading-div" *ngIf="loading"></div>
     <ng-container *ngIf="is_report_available && !loading">
       <div class="row content-div">
-        <tabset>
-            <tab title="Methodology">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Methodology</h3>
-                </div>
+        <div class="report-inner-sidebar">
+          <ul>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'cover_page'" [class.active] ="activeTab == 'cover_page'">Cover Page</a>
+            </li>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'methdology'" [class.active] ="activeTab == 'methdology'">Methdology</a>
+            </li>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'executive_summary'" [class.active] ="activeTab == 'executive_summary'">Eecutive Summary</a>
+            </li>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'heat_map'" [class.active] ="activeTab == 'heat_map'">Heat Map</a>
+            </li>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'key_metrics'" [class.active] ="activeTab == 'key_metrics'">Key Metrics</a>
+            </li>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'document'" [class.active] ="activeTab == 'document'" class="submenu" [class.open] = "document_menu.expanded" [class.collapsed] = "!document_menu.expanded" (click)="document_menu.expanded = document_menu.expanded ? false: true;">Documents</a>
+              <ul>
+                <ng-template #recursiveDocument let-menu>
+                  <li *ngFor="let menu_item of menu">
+                    <a href="javascript:;" (click)="activeTab = 'document'" >{{menu_item.Title}}</a>
+                    <ng-container *ngIf="menu_item.hasChildren">
+                      <ng-container *ngTemplateOutlet="recursiveDocument; context:{ $implicit: menu_item.children }"></ng-container>
+                    </ng-container>
+                  </li>
+                </ng-template>
+                <ng-container *ngTemplateOutlet="recursiveDocument; context:{ $implicit: menu }"></ng-container>
+              </ul>
+            </li>
+            <ng-template #recursiveList let-menu>
+              <li *ngFor="let menu_item of menu">
+                <a *ngIf="!menu_item.hasChildren && menu_item.uuid" href="javascript:;" (click)="activeTab = menu_item.uuid" [class.active] ="activeTab == menu_item.uuid" >{{menu_item.Title}}</a>
+                <a *ngIf="menu_item.hasChildren  && menu_item.uuid" href="javascript:;" (click)="activeTab = menu_item.uuid" [class.active] ="activeTab == menu_item.uuid"  class="submenu" [class.open] = "menu_item.expanded" [class.collapsed] = "!menu_item.expanded" (click)="menu_item.expanded = menu_item.expanded ? false: true;" >{{menu_item.Title}}</a>
+                <ul *ngIf="menu_item.hasChildren">
+                  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu_item.children }"></ng-container>
+                </ul>
+              </li>
+            </ng-template>
+            <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: menu }"></ng-container>
+            <li>
+              <a href="javascript:;" (click)="activeTab = 'about_page'" [class.active] ="activeTab == 'about_page'">About This Report</a>
+            </li>
+          </ul>
+        </div>
+        <div class="content-inner">
+          <div class="">
+			       <div class="cover_page" *ngIf="activeTab == 'cover_page'">
+               <div class="logo-img-div">
+                 <div class="check-image" [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
+                 <img class="logo" src="./assets/images/logo/logo.png" alt="logo" width="303" height="45">
+               </div>
+               <h2>IT Due Diligience Report</h2>
+               <div class="row page-content">
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">Prepared By:</p>
+                   <p class="detail"><span>Deal Value, Inc</span></p>
+                 </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">Project Detail:</p>
+                   <p class="detail">
+                     <span>{{project_info['Company_Name']}}</span>
+                     <span>{{project_info['Project_Name']}}</span>
+                     <span>{{project_info['Address1']}}</span>
+                     <span>{{project_info['Address2']}}</span>
+                     <span class="address_info_span">
+                       <span *ngIf="project_info['City'] != ''">{{project_info['City']}}, </span>
+                       <span *ngIf="project_info['State'] != ''">{{project_info['State']}}, </span>
+                       <span *ngIf="project_info['Country'] != ''">{{project_info['Country']}}</span>
+                     </span>
+                     <span>{{project_info['ZipCode']}}</span>
+                   </p>
+                 </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">Primary Contact:</p>
+                   <p class="detail">
+                     <span>{{project_info['Primary_User']}}</span>
+                   </p>
+                   <p class="title">Industry:</p>
+                   <p class="detail">
+                     <span *ngFor="let item of project_info['Industry']">{{item}}</span>
+                   </p>
+                   <p class="title">Website:</p>
+                   <p class="detail">
+                     <span>{{project_info['Webiste']}}</span>
+                   </p>
+                 </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">Annual Revenue:</p>
+                   <p class="detail">
+                     <span>{{project_info['Annual_Revvenue']}}</span>
+                   </p>
+                   <p class="title">Number of Employees:</p>
+                   <p class="detail">
+                     <span>{{project_info['Number_Employee']}}</span>
+                   </p>
+                   <p class="title">Years in Business:</p>
+                   <p class="detail">
+                     <span>{{project_info['Years_Business']}}</span>
+                   </p>
+                 </div>
 
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Methdology']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Executive Summary">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Executive Summary</h3>
-                </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">Start Date:</p>
+                   <p class="detail">
+                     <span>{{project_info['Start_Date'] | amDateFormat:'LL'}}</span>
+                   </p>
+                 </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">End Date:</p>
+                   <p class="detail">
+                     <span>{{project_info['End_Date'] | amDateFormat:'LL'}}</span>
+                   </p>
+                 </div>
+                 <div class="col-md-3 content-item-div">
+                   <p class="title">DealValue Review Date:</p>
+                   <p class="detail">
+                     <span>{{project_info['Review_Date'] | amDateFormat:'LL'}}</span>
+                   </p>
+                 </div>
+               </div>
+				     </div>
+			       <div class="methdology_page" *ngIf="activeTab == 'methdology'">
+               <h2>Methdology</h2>
+               <p>Leveraging 500+ IT Due Diligence projects, DealValue evaluates Information Technology risks and opportunities across multiple dimensions, including the following:</p>
+               <div class="row">
+                 <div class="col-md-6 property-item-div">
+                   <div class="">
+                      <h3 class="title">IT Strategy</h3>
+                      <ul>
+                        <li>Alignment of the IT strategy with the businessstrategy</li>
+                      </ul>
+                   </div>
+                   <div class="">
+                      <h3 class="title">Application Portfolio</h3>
+                      <ul>
+                        <li>Stability and scalability of the application portfolio</li>
+                        <li>Use of commercial packages vs. Custom applications</li>
+                        <li>Integrated vs. standalone applications</li>
+                        <li>Level of process automation</li>
+                      </ul>
+                   </div>
+                   <div class="">
+                      <h3 class="title">IT Projects</h3>
+                      <ul>
+                        <li>Capital, timing and resources requirements tocomplete the current and future projects</li>
+                        <li>Potential risks of failure (delays, additional costs)</li>
+                      </ul>
+                   </div>
+                 </div>
+                 <div class="col-md-6 property-item-div">
+                   <div class="">
+                      <h3 class="title">IT Spending</h3>
+                      <ul>
+                        <li>Reasonableness of IT spending levels compared tobenchmarks</li>
+                        <li>Run-rate (Opex) vs. One-time Costs (Capex) </li>
+                      </ul>
+                   </div>
+                   <div class="">
+                      <h3 class="title">IT Organization</h3>
+                      <ul>
+                        <li>Leadership and appropriate skillsets</li>
+                        <li>In house resources vs. effective use of third partysupport</li>
+                      </ul>
+                   </div>
+                   <div class="">
+                      <h3 class="title">IT Infrastructure</h3>
+                      <ul>
+                        <li>Scalability and redundancy of the IT infrastructure</li>
+                        <li>Preparedness for disaster recovery, changemanagement, business continuity, and servicemanagement</li>
+                      </ul>
+                   </div>
+                 </div>
+               </div>
+               <h2>Approach for Increasing the IT Value &amp; Decreasing IT Risk</h2>
+               <div class="row">
+                 <div class="col-md-12 methdology-bottom-content">
+                   <div class="approach-item-div">
+                     <div class="">
+                        <h3 class="title">IT Strategy</h3>
+                        <ul class="main-ul">
+                          <li><span>Develop <b>stakeholder analysis</b></span></li>
+                          <li><span>Review/set the <b>vision, mission, and goals</b> of the broader organization </span></li>
+                          <li><span>Understand <b>external requirements</b> (legal, regulatory, etc.) </span></li>
+                          <li><span>Review <b>internal organizational requirements, commitments and SLA’s</b> </span></li>
+                          <li><span>Review overarching <b>Information Technology Strategy</b> </span></li>
+                          <li><span>Develop <b>organizational overview</b> including any relevant outside parties: </span>
+                            <ul>
+                              <li>Key vendors & service providers</li>
+                              <li>Outsourced areas</li>
+                            </ul>
+                          </li>
+                          <li><span>Gather any (internal or external) <b>“customer” satisfaction</b> feedback or, if needed, initiatecustomer survey</span></li>
+                        </ul>
+                     </div>
+                     <div class="">
+                        <h3 class="title">Baseline of Current State</h3>
+                        <ul class="main-ul">
+                          <li><span>Issue <b>information request &amp; conduct interviews</b></span>
+                            <ul>
+                              <li>Documentation on arch, systems, software, processes, run books, etc.</li>
+                              <li>Historic data capture</li>
+                              <li>Client-specific interview guides; qualitative information</li>
+                              <li>Baseline of current <b>spend and cost structure</b></li>
+                            </ul>
+                          </li>
+                          <li><span>Baseline <b>IT functions</b>: </span>
+                            <ul>
+                              <li>Applications, Infrastructure, Service Management, Data Management, Security &amp; Technology Tools</li>
+                            </ul>
+                          </li>
+                          <li><span>Baseline <b>system lifecycle</b> from planning to deployment </span></li>
+                          <li><span>Baseline <b>IT Governance, Processes, and PMO</b>, e.g. strategy, governance, roles &amp; responsibilities, policies, procedures, architecture </span></li>
+                          <li><span>Baseline <b>personnel management</b> structure and approaches including <b>change management</b> techniques </span></li>
+                        </ul>
+                     </div>
+                     <div class="">
+                        <h3 class="title">Analysis and Evalutaion</h3>
+                        <ul class="main-ul">
+                          <li><span>Compare baseline information to <b>internal priorities</b> and <b>commitments</b> and identify gaps,with a focus on:</span>
+                            <ul>
+                              <li>Spend</li>
+                              <li>Resources</li>
+                              <li>“Customer” needs</li>
+                            </ul>
+                          </li>
+                          <li><span>Evaluate baseline findings <b>versus other guidelines, standards, and best practices</b> </span>
+                            <ul>
+                              <li>Adoption of external “best practices” or performance metrics</li>
+                              <li>Following of Industry guidelines or standards and any internal guidelines or standards</li>
+                              <li>Use of standard tools</li>
+                            </ul>
+                          </li>
+                          <li><span>Review baseline findings with our functional experts and <b>identify improvement opportunities</b></span>
+                            <ul>
+                              <li>By IT function</li>
+                              <li>IT security</li>
+                              <li>Comparison with proprietary benchmarks</li>
+                            </ul>
+                          </li>
+                        </ul>
+                     </div>
+                     <div class="">
+                        <h3 class="title">Final Recommendations</h3>
+                        <ul class="main-ul">
+                          <li><span>Compile results of <b>“customer” survey</b> (if conducted)</span>
+                            <ul>
+                              <li>Link finding to relevant underlying IT operations</li>
+                            </ul>
+                          </li>
+                          <li><span><b>Confirm and validate assessments</b> with client workshop </span>
+                            <ul>
+                              <li>Confirm findings with client</li>
+                              <li>Revise assessment</li>
+                            </ul>
+                          </li>
+                          <li><span>Develop <b>recommendations</b></span>
+                            <ul>
+                              <li>Incorporation of McGladrey Consulting expertise</li>
+                              <li>Revision for client viability</li>
+                              <li>Identification of “quick hits”, medium-term opportunities, long-term opportunities</li>
+                            </ul>
+                          </li>
+                          <li><span>Advance recommendations into actionable <b>roadmap with project plans</b></span>
+                            <ul>
+                              <li>Develop business cases, if needed</li>
+                            </ul>
+                          </li>
+                          <li><span>Present <b>final report</b></span>
+                            <ul>
+                              <li>Confirm client acceptance</li>
+                              <li>Conduct client satisfaction / feedback survey</li>
+                            </ul>
+                          </li>
+                        </ul>
+                     </div>
+                   </div>
+                   <div class="green-arrow-div">
+                     <div class="">
+                       <p>Project / Stakeholder Management & Communication</p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+				     </div>
+             <div class="executive_page" *ngIf="activeTab == 'executive_summary'">
+               <h2>Executive Summary</h2>
+               <div class="row page-content">
+                 <p>We have read all documents outlined in our Information Request List, provided by  <b>{{project_info['Company_Name']}}</b>  (the “Company” or “<b>{{project_info['Company_Name']}}</b>”). Our findings related to the IT operations are limited to information obtained through review of these documents along with interviews with  <b>{{project_info['Primary_User']}}</b>  and  <b>{{project_info['Team_Users']}}</b>  at the Company, and were conducted between  <b>{{project_info['Start_Date'] | amDateFormat:'LL'}}</b>  and  <b>{{project_info['End_Date'] | amDateFormat:'LL'}}</b>, online and via video conference. Information provided by the Company has not been independently verified. To the extent that requested information or access to certain individuals was not made available to us, or in the event information provided was incomplete or inaccurate, these findings may be incomplete. </p>
+                 <p>The scope of this review was to perform a high-level review of the information technology (“IT”) environment supporting the Company’s technology landscape, IT organization, IT spending, risks and opportunities across supported business processes. The review consisted of assessing documentation provided by the Company as well as video meetings and phone conversations with the Company’s staff. Our IT review of the Company was limited to information provided herein with our procedures designed to bring potential IT concerns to Management, Seller and/or Buyer’s attention.</p>
+               </div>
+				     </div>
+             <div class="heat_map_page" *ngIf="activeTab == 'heat_map'">
+               <div class="header-title-div">
+                 <h2>Heat Map</h2>
+               </div>
+               <div class="heatmap_content">
+                 <table cellspacing="10" class="table1">
+                   <thead>
+                     <tr>
+                       <th width="40%"></th>
+                       <th width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span>Integrity</span></div></th>
+                       <th width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span>Fit</span></div></th>
+                       <th width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span>Viability</span></div></th>
+                       <th width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span>Cost</span></div></th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngFor = "let item of tableData">
+                       <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div><span>{{item.title}}</span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4"> <span></span> </td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4"><span></span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4"><span></span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4"><span></span></td>
+                     </tr>
+                   </tbody>
+                 </table>
 
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Executive']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Heat Map">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Heat Map</h3>
-                </div>
+                 <table class="table2">
+                   <thead>
+                     <tr>
+                       <th width="40%">Degree of Risk, Mitigation Expense and/or Effort</th>
+                       <th width="15%">Category</th>
+                       <th width="45%">Description</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <td><div><div class="color orange"></div><p class="desc">Time sensitive and <br>needs to be addressed</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span class="span_heatmap_type">Integrity</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td rowspan="2"><div><div class="color yellow"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span class="span_heatmap_type">Fit</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span class="span_heatmap_type">Viability</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td><div><div class="color green"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span class="span_heatmap_type">Cost</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
 
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['HeatMap']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Document">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Document</h3>
-                </div>
+             </div>
+             <div class="key_metrics_page" *ngIf="activeTab == 'key_metrics'">
+               <h2>Key Metrics</h2>
+				     </div>
+             <div class="document_page dynamic_page" *ngIf="activeTab == 'document'">
+               <h2 class="padding-class">Document</h2>
+               <p class="padding-class">The following key documents were requested as part of the IT Due Diligence process. Please use the link below next to the file name to view the document and note that those documents that noted in orange were requested by Deal Value, but not received. As they were noted as being Not Available (N/A). These are considered key documents and any document request omissions have been reflected in your project heat map.</p>
+               <div class="attachment-table" *ngFor="let table_item of tableData; let i = index">
+                 <ng-container *ngIf = "table_item.attachments.length">
+                   <h4 class="padding-class">{{table_item['title']}}</h4>
+                   <table>
+                     <thead>
+                       <tr>
+                         <th width="40%">File Name</th>
+                         <th width="30%">File Source</th>
+                         <th width="30%">File Comment</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr *ngFor = "let attachment_file of table_item.attachments">
+                         <td><a href="{{getFileUrl(attachment_file)}}" target="_blank">{{attachment_file['Name']}}</a></td>
+                         <td>{{attachment_file['SourceType']}}</td>
+                         <td>{{attachment_file['Comment']}}</td>
+                       </tr>
+                     </tbody>
+                   </table>
+                 </ng-container>
+               </div>
+				     </div>
+             <ng-container *ngFor="let table_item of this.tableData">
+               <div class="dynamic_page" *ngIf="activeTab == table_item.id">
+                 <div class="header-title-div padding-class">
+                    <h2>{{table_item.title}}</h2>
+                 </div>
 
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Document']">
-                </div>
-              </div>
-            </tab>
-            <tab title="{{table_item.title}}" *ngFor="let table_item of tableData; let i = index">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>{{table_item.title}}</h3>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList[table_item['id']]">
-                </div>
-                <div class="question-div" *ngFor="let question of table_item.questionArr; let q_i = index">
-                  <div class="main-question">
-                    <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-                    <p>{{question.desc}} <span *ngIf="question.status == 0">(Not Availabe)</span></p>
-                  </div>
-                  <div class="answer-div" *ngIf="question.status != 0">
-                    <ng-container *ngIf="question['type'] == 'Text'">
-                      <ng-container *ngFor="let item of question.items">
-                        <p class="answer-p">{{item.value}}</p>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Date'">
-                      <p class="answer-p">{{question.value}}</p>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Grid'">
-                      <table class="grid-table">
-                        <thead>
-                          <tr>
-                            <td></td>
-                            <td  *ngFor="let item of question.items">
-                              {{item.Text}}
-                            </td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr  *ngFor="let app_id of question.appIDs; let app_index = index">
-                            <td>{{app_index+1}}</td>
-                            <td  *ngFor="let item of question.items">
-                              {{question.value[app_id+'_'+item.uuid]}}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Radio'">
-                      <ng-container *ngFor="let item of question.items">
-                        <div class="form-group radio">
-                          <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question['value']" name="{{question['id']}}" [value]="item['uuid']">
-                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                        </div>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Checkbox'">
-                      <ng-container *ngFor="let item of question.items">
-                        <div class="form-group checkbox" style="margin-top:15px">
-                          <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question['id']}}" value="">
-                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                        </div>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Dropdown'">
-                      <angular2-multiselect [data]="dropdownData[question['id']].Content" [(ngModel)]="dropdownData[question['id']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-            </tab>
-        </tabset>
+                 <div class="ql-editor padding-class" [innerHTML]="feedbackList[table_item['id']]">
+                 </div>
+                 <div class="qa-table" *ngIf = "table_item.questionArr.length">
+                   <!--
+                   Normal QA table
+                   -->
+                   <table>
+                     <thead>
+                       <tr>
+                         <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
+                           <th *ngIf="question['type'] != 'Grid'">{{question.desc}}</th>
+                         </ng-container>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr>
+                         <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
+                           <td *ngIf="question['type'] != 'Grid'">
+                             <span *ngIf="question.status == 0">(NA)</span>
+                             <ng-container *ngIf="question.status != 0">
+                               <ng-container *ngIf="question['type'] == 'Text'">
+                                 <span *ngFor="let item of question.items">{{item.value}}</span>
+                               </ng-container>
+                               <ng-container *ngIf="question['type'] == 'Date'">
+                                 <span>{{question.value}}</span>
+                               </ng-container>
+                               <ng-container *ngIf="question['type'] == 'Radio'">
+                                 <ng-container *ngFor="let item of question.items">
+                                   <span *ngIf="question['value'] == item['uuid']">{{item['Text']}}</span>
+                                 </ng-container>
+                               </ng-container>
+                               <ng-container *ngIf="question['type'] == 'Checkbox' || question['type'] == 'Dropdown'">
+                                 <ng-container *ngFor="let item of question.items">
+                                   <span *ngIf="item['value']">{{item['Text']}}</span>
+                                 </ng-container>
+                               </ng-container>
+                             </ng-container>
+                           </td>
+                         </ng-container>
+                       </tr>
+                     </tbody>
+                   </table>
+                   <!--
+                   Grid QA table
+                   -->
+                   <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
+                     <div *ngIf="question['type'] == 'Grid'">
+                       <h4 class="padding-class">{{question.desc}} (Grid Question)</h4>
+                       <table >
+                         <thead>
+                           <tr>
+                             <th  *ngFor="let item of question.items">
+                               {{item.Text}}
+                             </th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr *ngFor="let app_id of question.appIDs; let app_index = index">
+                             <td  *ngFor="let item of question.items">
+                               {{question.value[app_id+'_'+item.uuid]}}
+                             </td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+                   </ng-container>
+                 </div>
+  				     </div>
+             </ng-container>
+             <div class="about_page" *ngIf="activeTab == 'about_page'">
+               <div class="header-title-div">
+                 <h2>About this project</h2>
+                 <img class="logo-img" src="./assets/images/logo/logo.png" alt="logo" width="161" >
+               </div>
+               <div class="">
+                 <p>This report was generated automatically using the DealValue Valuation and Due Diligence Platform.</p>
+                 <p>DealValue is the easy way to compute and generate valuation reports. To get a report for your company or other companies please visit <a class="link" href="www.dealvalue.com">www.dealvalue.com</a>.</p>
+               </div>
+               <div class="">
+                 <h3>Important Legal Notes</h3>
+                 <p>Deal Value, Inc. does not represent or endorse the accuracy or reliability of any advice, opinion, statement or any other information displayed or distributed through this report or its website. The estimates and the data contained herein are made using the information provided by the user, publicly available information and data for different industries. Deal Value, Inc. has not audited or attempted to confirm this information for accuracy or completeness. Under no circumstances the present report is to be used or considered as an offer, solicitation, or recommendation to sell, or a solicitation of any offer to buy any security. Deal Value, Inc. excludes any warranties and responsibilities concerning the results to be obtained from the present report nor their use and shall not be liable for any claims, losses or damages arising from or occasioned by any inaccuracy, error, delay, or omission, or from use of the report or actions taken in reliance on the information contained in it. The use of this report and the information provided herein is subject to Deal Value, Inc. online Terms of Use and Privacy Policy.</p>
+               </div>
+             </div>
+          </div>
+        </div>
       </div>
     </ng-container>
   </div>

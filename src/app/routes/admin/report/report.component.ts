@@ -8,6 +8,8 @@ import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
+import { NotificationsService } from 'angular2-notifications';
+
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -28,6 +30,7 @@ export class ReportComponent implements OnInit {
   currentProject: object;
   feedbackList: Array<any> = [];
   decline_reason: string;
+  hold_reason: string;
   projectStatus: string = ''
   menu: Array<any> = [];
   attachment: Array<any> = [];
@@ -41,7 +44,7 @@ export class ReportComponent implements OnInit {
   dropdownSettings: object;
   dropdownData: Array<object> = [];
   document_menu: any = [];
-  activeTab = 'cover_page';
+  activeTab = 'heat_map';
   loading: boolean;
 
   constructor(
@@ -49,6 +52,7 @@ export class ReportComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private authService: AuthService,
+    private _notificationService: NotificationsService
   ) {
 
   }
@@ -61,6 +65,28 @@ export class ReportComponent implements OnInit {
   public editor_id = null;
   public editor_type = null;
 
+  openHeatmap(modal){
+    modal.open('lg');
+  }
+  submitHeatmap(modal){
+    let heatmap_arr = this.tableData.map(function(item){return item['Heatmap']});
+    let data = {
+      id: this.currentProject['_id'],
+      data: heatmap_arr
+    }
+    console.log(data)
+    this.dataService.updateHeatmap(data).subscribe(
+      response => {
+          this._notificationService.success(
+              'Successfully Saved!',
+              'Heatmap'
+          )
+          modal.close();
+      },
+      (error) => {
+      }
+    );
+  }
   openModal(modal, id, type){
     modal.open('lg');
     this.editor_id = id;
@@ -139,6 +165,29 @@ export class ReportComponent implements OnInit {
     modal.close()
   }
 
+  openHoldModal(modal){
+    this.hold_reason = '';
+    modal.open()
+  }
+  holdReport(modal){
+    let data = {
+      id: this.currentProject['_id'],
+      data: {
+        Status: 'Hold',
+        Reason: this.hold_reason
+      }
+    }
+    this.dataService.updateProjectStatus(data).subscribe(
+      response => {
+        this.currentProject['Status'] = 'Hold';
+        this.projectStatus = 'Hold'
+      },
+      (error) => {
+      }
+    );
+    modal.close()
+  }
+
 
   changeProject(project){
     if(this.projectID != project.Project['_id'])
@@ -207,10 +256,6 @@ export class ReportComponent implements OnInit {
 
     promiseArr.push(new Promise((resolve, reject) => {
       this.getAssignment(() => {resolve(); });
-    }))
-
-    promiseArr.push(new Promise((resolve, reject) => {
-      this.getProjectStatus(() => {resolve(); });
     }))
 
     promiseArr.push(new Promise((resolve, reject) => {
@@ -301,10 +346,6 @@ export class ReportComponent implements OnInit {
       (error) => {
       }
     );
-  }
-
-  getProjectStatus(resolve){
-    resolve()
   }
 
   getFeedbackList(){
@@ -508,12 +549,12 @@ export class ReportComponent implements OnInit {
   }
 
   updateSidebarList(){
-    // this.menu = []
-    // for(let item of this.assessmentList)
-    // {
-    //     this.menu = this.menu.concat(item.children)
-    // }
-    this.menu = this.assessmentList;
+    this.menu = []
+    for(let item of this.assessmentList)
+    {
+        this.menu = this.menu.concat(item.children)
+    }
+    // this.menu = this.assessmentList;
   }
 
   getCompanyInfo(){
@@ -547,12 +588,20 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  getHeatMap(){
+    for(let item of this.tableData){
+      let heatmap_item = this.currentProject['Heatmap'].find(function(h_item){ return h_item['AssignmentID'] == item.id});
+      item['Heatmap'] = heatmap_item || { AssignmentID : item.id};
+    }
+  }
+
   getTableData(){
     this.tableData = [];
     this.menu = [];
-    this.recursiveUpdate(this.assessmentList)
+    this.recursiveUpdate(this.assessmentList[0]['children'])
     this.updateSidebarList();
     this.getCompanyInfo();
+    this.getHeatMap();
     console.log(this.menu)
     console.log(this.tableData)
     this.loading = false;

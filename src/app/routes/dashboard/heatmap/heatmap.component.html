@@ -11,33 +11,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div><span>Business Application</span></td>
-        <td class="green"></td>
-        <td class="green-light"></td>
-        <td class="none"></td>
-        <td class="green"></td>
-      </tr>
-      <tr>
-        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/infrastructure-icon.svg'"></div><span>Infrastructure</span></td>
-        <td class="green"></td>
-        <td class="green"></td>
-        <td class="green"></td>
-        <td class="none"></td>
-      </tr>
-      <tr>
-        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/it-organization-icon.svg'"></div><span>IT Organizations, IT Strategy and Controls</span></td>
-        <td class="green"></td>
-        <td class="green"></td>
-        <td class="green-light"></td>
-        <td class="none"></td>
-      </tr>
-      <tr>
-        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/custom-development-icon.svg'"></div><span>Custom Application Development</span></td>
-        <td class="green"></td>
-        <td class="green"></td>
-        <td class="none"></td>
-        <td class="green-light"></td>
+      <tr *ngFor = "let item of tableData">
+        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div><span>{{item.title}}</span></td>
+        <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4"> <span></span> </td>
+        <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4"><span></span></td>
+        <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4"><span></span></td>
+        <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4"><span></span></td>
       </tr>
     </tbody>
   </table>
@@ -45,29 +24,29 @@
   <table class="table2">
     <thead>
       <tr>
-        <td width="40%">Degree of Risk, Mitigation Expense and/or Effort</td>
-        <td width="15%">Category</td>
-        <td width="45%">Description</td>
+        <th width="40%">Degree of Risk, Mitigation Expense and/or Effort</th>
+        <th width="15%">Category</th>
+        <th width="45%">Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><div><div class="color green"></div><p class="desc">Time sensitive and <br>needs to be addressed</p></div></td>
-        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span>Integrity</span></div></td>
+        <td><div><div class="color orange"></div><p class="desc">Time sensitive and <br>needs to be addressed</p></div></td>
+        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span class="span_heatmap_type">Integrity</span></div></td>
         <td>Risk of data corruption, loss and/or security vulnerabilities</td>
       </tr>
       <tr>
-        <td rowspan="2"><div><div class="color green-light"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
-        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span>Integrity</span></div></td>
+        <td rowspan="2"><div><div class="color yellow"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
+        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span class="span_heatmap_type">Fit</span></div></td>
         <td>Risk of data corruption, loss and/or security vulnerabilities</td>
       </tr>
       <tr>
-        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span>Integrity</span></div></td>
+        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span class="span_heatmap_type">Viability</span></div></td>
         <td>Risk of data corruption, loss and/or security vulnerabilities</td>
       </tr>
       <tr>
-        <td><div><div class="color none"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
-        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span>Integrity</span></div></td>
+        <td><div><div class="color green"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
+        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span class="span_heatmap_type">Cost</span></div></td>
         <td>Risk of data corruption, loss and/or security vulnerabilities</td>
       </tr>
     </tbody>

@@ -448,6 +448,10 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  updateHeatmap(data){
+      return this.http.post(this.url + '/api/admin/project/update_heatmap', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   getAdminAllProject(){
     return this.http.post(this.url + '/api/admin/project/list', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());

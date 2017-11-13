@@ -9,6 +9,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 
+import { environment } from '../../../../environments/environment';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
@@ -30,11 +31,18 @@ export class ReportComponent implements OnInit {
   decline_reason: string;
   is_report_available: boolean;
   currentProject:object;
+  menu: Array<any> = [];
+  attachment: Array<any> = [];
+  project_info: any = {};
+  project_users: any = [];
+  address_info: Array<any> = [];
 
   user: object = {}
   projectID: string = null;
   dropdownSettings: object;
   dropdownData: Array<object> = [];
+  document_menu: any = [];
+  activeTab = 'cover_page';
   loading: boolean;
 
   constructor(
@@ -61,7 +69,7 @@ export class ReportComponent implements OnInit {
       this.loading = true;
       this.projectID = project.Project['_id'];
       this.currentProject = project;
-      this.getAssessment();
+      this.apiHandler();
     }
   }
 
@@ -153,12 +161,56 @@ export class ReportComponent implements OnInit {
             this.currentProject  =  validProjectList[0];
             this.projectID = this.currentProject['Project']['_id'];
           }
-          this.getAssessment();
+          this.apiHandler();
         }
       },
       (error) => {
       }
     );
+  }
+
+  apiHandler(){
+    this.address_info = [];
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getProjectUsers(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getProjectAttachment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getCountry(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getState(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getCity(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
+    });
   }
 
   getFeedbackList(){
@@ -171,11 +223,11 @@ export class ReportComponent implements OnInit {
       this.feedbackList[item['AssignmentID']] = item['Desc'];
     }
   }
-  getAssessment(){
+  getAssessment(resolve){
     this.getFeedbackList();
-    this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
+    this.dataService.getAssessmentList(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
-        this.getQuestionnaire();
+        resolve();
       },
       (error) => {
 
@@ -183,35 +235,100 @@ export class ReportComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let data = {Project: this.projectID}
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getAssignment();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAssignment(){
+  getAssignment(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.allAssignment = response.result;
-        this.getTableData();
+        resolve();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getProjectAttachment(resolve){
+    let data = {id: this.projectID}
+    this.dataService.getProjectAttachment(data).subscribe(
+      response => {
+        this.attachment = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getProjectUsers(resolve){
+    let data = {id: this.projectID}
+    this.dataService.getProjectUsers(data).subscribe(
+      response => {
+        this.project_users = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getCountry(resolve){
+    let data = {id: this.currentProject['Project']['Company']['Country']}
+    this.dataService.getCountryItem(data).subscribe(
+      response => {
+        this.address_info['Country'] = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getState(resolve)
+  {
+    let data = {id: this.currentProject['Project']['Company']['State']}
+    this.dataService.getStateItem(data).subscribe(
+      response => {
+        this.address_info['State'] = response.result;
+        resolve();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  getCity(resolve)
+  {
+    let data = {id: this.currentProject['Project']['Company']['City']}
+    this.dataService.getCityItem(data).subscribe(
+      response => {
+        this.address_info['City'] = response.result;
+        resolve();
       },
       (error) => {
       }
@@ -267,9 +384,15 @@ export class ReportComponent implements OnInit {
     return status;
   }
 
-  getTableData(){
-    this.tableData = [];
-    for(let entry of this.assessmentList)
+  getFileUrl(file){
+    let url = file.Url;
+    if( file.SourceType == 'Computer' )
+      url = environment.serverUrl + '/' + url;
+    return url;
+  }
+  recursiveUpdate(entries)
+  {
+    for(let entry of entries)
     {
       let questionArr = [];
       let question = this.questionnaires.find(function(elem){
@@ -278,19 +401,20 @@ export class ReportComponent implements OnInit {
 
       let hasDetail = false;
       let statusArr = [];
+      let attachmentList = [];
       if( question && question['questions'].length )
       {
         hasDetail = true;
         for( let question_entry of question['questions'])
         {
           let answer_item = this.findAnswerObject(question_entry['uuid']);
+          if(answer_item)
+            attachmentList = attachmentList.concat(this.attachment.filter(function(item){ return item['AssignmentID'] == answer_item['uuid']}));
           let appIDArr = [];
           let question_value = null;
-
           let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
           statusArr.push(status)
-
-          question_value = answer_item && answer_item['value'] ? answer_item['value'] : '';
+          question_value = (answer_item && answer_item['value']) ? answer_item['value'] : '';
 
           if(question_entry['Type'] == 'Grid')
           {
@@ -319,9 +443,14 @@ export class ReportComponent implements OnInit {
             {
               this.dropdownData[question_entry.uuid]['Content'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
               if(question_value && question_value.split(",").indexOf(question_entry_item.uuid) != -1)
+              {
                 this.dropdownData[question_entry.uuid]['Selected'].push({"id":question_entry_item.uuid,"itemName":question_entry_item.Text})
+                question_entry_item['value'] = true;
+              }else{
+                question_entry_item['value'] = false;
+              }
             }
-            if(question_entry['Type'] != 'Grid')
+            if(question_entry['Type'] != 'Grid' && question_entry['Type'] != 'Dropdown')
             {
               question_entry_item['value'] = answer_value_item.length ? answer_value_item[0].value : '';
             }
@@ -334,9 +463,74 @@ export class ReportComponent implements OnInit {
       let groupStatus = this.getGroupStatus(statusArr);
 
       let groupUUID = question && question['_id'] ? question['_id'] : null;
-      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr}
+      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr, attachments: attachmentList}
+      entry['hasChildren'] = entry.children && entry.children.length;
+      entry['expanded'] = false;
+      entry['type'] = 'assessment';
       this.tableData.push(item)
+      if(entry.children.length)
+      {
+        this.recursiveUpdate(entry.children)
+      }
     }
+  }
+
+  updateSidebarList(){
+    this.menu = []
+    for(let item of this.assessmentList)
+    {
+        this.menu = this.menu.concat(item.children)
+    }
+    // this.menu = this.assessmentList;
+  }
+
+  getCompanyInfo(){
+    let that = this;
+    this.project_info =  Object.assign({}, this.currentProject['Project']['Company']);
+    this.project_info['Project_Name'] = this.currentProject['Project']['Name'];
+    this.project_info['Company_Name'] = this.currentProject['Project']['Company']['Name'];
+
+    this.project_info['Country'] = this.address_info['Country'] ? this.address_info['Country']['label'] : '';
+    this.project_info['State'] = this.address_info['State'] ? this.address_info['State']['label'] : '';
+    this.project_info['City'] = this.address_info['City'] ? this.address_info['City']['label'] : '';
+
+    this.project_info['Industry'] = this.menu.map(function(item){ return item['Title']});
+    this.project_info['Annual_Revvenue'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tAnnualRev'] ? this.currentProject['Reason2']['tAnnualRev'] : 'NA';
+    this.project_info['Number_Employee'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tEmpNo'] ? this.currentProject['Reason2']['tEmpNo'] : 'NA';
+    this.project_info['Years_Business'] = 'NA';
+    this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
+    this.project_info['End_Date'] = this.currentProject['createdAt'];
+    this.project_info['Review_Date'] = this.currentProject['updatedAt'];
+
+    let PrimaryUser = this.project_users.find(function(item){ return item['Role'] == 'PRIMARY'});
+    this.project_info['Primary_User'] = PrimaryUser ? PrimaryUser['User']['Name']['Fullname'] : 'NA';
+    let TeamUsers = this.project_users.filter(function(item){ return item['Role'] == 'MEMBER'});
+    if(TeamUsers)
+    {
+      let tmp = TeamUsers.map(function(item){ return item['User']['Name']['Fullname']});
+      this.project_info['Team_Users'] = tmp.join(", ");
+    }else
+    {
+      this.project_info['Team_Users'] = 'NA';
+    }
+  }
+
+  getHeatMap(){
+    for(let item of this.tableData){
+      let heatmap_item = this.currentProject['Heatmap'].find(function(h_item){ return h_item['AssignmentID'] == item.id});
+      item['Heatmap'] = heatmap_item || { AssignmentID : item.id};
+    }
+  }
+
+  getTableData(){
+    this.tableData = [];
+    this.menu = [];
+    this.recursiveUpdate(this.assessmentList[0]['children'])
+    this.updateSidebarList();
+    this.getCompanyInfo();
+    this.getHeatMap();
+    console.log(this.menu)
+    console.log(this.tableData)
     this.loading = false;
   }
 

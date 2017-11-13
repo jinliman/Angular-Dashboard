@@ -19,7 +19,7 @@ export class UsersComponent implements OnInit {
   tableData: Array<any> = [];
   userTypeArr: object;
   ProjectUsers: Array<any> = [];
-
+  loading: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +37,7 @@ export class UsersComponent implements OnInit {
       3: 'Team Member'
     }
     this.tableData = [];
+    this.loading = true;
     this.apiHandler();
   }
   public apiHandler(){
@@ -80,7 +81,7 @@ export class UsersComponent implements OnInit {
         lastLogin: "August 14, 2017"
       })
     }
-
+    this.loading = false;
     console.log(this.tableData)
   }
 

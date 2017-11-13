@@ -1,43 +1,46 @@
 <div class="admin-user-page">
-  <div class="clearfix sub-header">
-    <p class="title">Users</p>
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <td>ID</td>
-        <td>User Type</td>
-        <td>User Name</td>
-        <td>User Company Name</td>
-        <td>Created</td>
-        <td>Last Login</td>
-        <td></td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of tableData">
-        <td>{{item.ID}}</td>
-        <td>
-          <div class="clearfix">
-            <span *ngIf="item.userType == 1" class="img" [inlineSVG]="'/assets/images/icons/dashboard/primary-user-icon.svg'"></span>
-            <span *ngIf="item.userType == 2"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
-            <span *ngIf="item.userType == 3"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
-            <span class="desc">{{userTypeArr[item.userType]}}</span>
-          </div>
-        </td>
-        <td>{{item.userName}}<span class="short-name">{{item.userShortName}}</span></td>
-        <td>{{item.userCompanyName}}</td>
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="clearfix sub-header">
+      <p class="title">Users</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>User Type</td>
+          <td>User Name</td>
+          <td>User Company Name</td>
+          <td>Created</td>
+          <td>Last Login</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tableData">
+          <td>{{item.ID}}</td>
+          <td>
+            <div class="clearfix">
+              <span *ngIf="item.userType == 1" class="img" [inlineSVG]="'/assets/images/icons/dashboard/primary-user-icon.svg'"></span>
+              <span *ngIf="item.userType == 2"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+              <span *ngIf="item.userType == 3"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+              <span class="desc">{{userTypeArr[item.userType]}}</span>
+            </div>
+          </td>
+          <td>{{item.userName}}<span class="short-name">{{item.userShortName}}</span></td>
+          <td>{{item.userCompanyName}}</td>
 
-        <td>{{item.date | amDateFormat:'LL'}}</td>
-        <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
-        <td>
-          <div class="report">
-            <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
-            <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
-            <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td>{{item.date | amDateFormat:'LL'}}</td>
+          <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
+          <td>
+            <div class="report">
+              <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+              <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
+              <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>

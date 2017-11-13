@@ -16,7 +16,7 @@
           <a class="svg button" (click)="releaseReport()">
             <span> <i class="fa fa-check"></i> Release</span>
           </a>
-          <a class="svg button">
+          <a class="svg button" (click)="openHoldModal(HoldModal)">
             <span> <i class="fa fa-hand-paper-o"></i> Hold</span>
           </a>
           <a class="svg button" (click)="openDeclineModal(RejectModal)">
@@ -24,8 +24,8 @@
           </a>
         </div>
       </div>
-      <div class="row content-div1">
-        <div class="col-md-3 report-inner-sidebar">
+      <div class="row content-div">
+        <div class="report-inner-sidebar">
           <ul>
             <li>
               <a href="javascript:;" (click)="activeTab = 'cover_page'" [class.active] ="activeTab == 'cover_page'">Cover Page</a>
@@ -71,7 +71,7 @@
             </li>
           </ul>
         </div>
-        <div class="col-md-9 content-inner">
+        <div class="content-inner">
           <div class="">
 			       <div class="cover_page" *ngIf="activeTab == 'cover_page'">
                <div class="logo-img-div">
@@ -101,7 +101,7 @@
                  <div class="col-md-3 content-item-div">
                    <p class="title">Primary Contact:</p>
                    <p class="detail">
-                     <span>{{project_info['Contact']}}</span>
+                     <span>{{project_info['Primary_User']}}</span>
                    </p>
                    <p class="title">Industry:</p>
                    <p class="detail">
@@ -318,13 +318,70 @@
                </div>
 				     </div>
              <div class="heat_map_page" *ngIf="activeTab == 'heat_map'">
-               <h3>Heat Map</h3>
+               <div class="header-title-div">
+                 <h2>Heat Map</h2>
+                 <span class="edit-icon" (click)="openHeatmap(HeatmapModal)"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+               </div>
+               <div class="heatmap_content">
+                 <table cellspacing="10" class="table1">
+                   <thead>
+                     <tr>
+                       <td width="40%"></td>
+                       <td width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span>Integrity</span></div></td>
+                       <td width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span>Fit</span></div></td>
+                       <td width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span>Viability</span></div></td>
+                       <td width="15%"><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span>Cost</span></div></td>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngFor = "let item of tableData">
+                       <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div><span>{{item.title}}</span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4"> <span></span> </td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4"><span></span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4"><span></span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4"><span></span></td>
+                     </tr>
+                   </tbody>
+                 </table>
+
+                 <table class="table2">
+                   <thead>
+                     <tr>
+                       <th width="40%">Degree of Risk, Mitigation Expense and/or Effort</th>
+                       <th width="15%">Category</th>
+                       <th width="45%">Description</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr>
+                       <td><div><div class="color orange"></div><p class="desc">Time sensitive and <br>needs to be addressed</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span class="span_heatmap_type">Integrity</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td rowspan="2"><div><div class="color yellow"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span class="span_heatmap_type">Fit</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span class="span_heatmap_type">Viability</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                     <tr>
+                       <td><div><div class="color green"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
+                       <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span class="span_heatmap_type">Cost</span></div></td>
+                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
+
              </div>
              <div class="key_metrics_page" *ngIf="activeTab == 'key_metrics'">
-               <h3>Key Metrics</h3>
+               <h2>Key Metrics</h2>
 				     </div>
              <div class="document_page dynamic_page" *ngIf="activeTab == 'document'">
-               <h3 class="padding-class">Document</h3>
+               <h2 class="padding-class">Document</h2>
                <p class="padding-class">The following key documents were requested as part of the IT Due Diligence process. Please use the link below next to the file name to view the document and note that those documents that noted in orange were requested by Deal Value, but not received. As they were noted as being Not Available (N/A). These are considered key documents and any document request omissions have been reflected in your project heat map.</p>
                <div class="attachment-table" *ngFor="let table_item of tableData; let i = index">
                  <ng-container *ngIf = "table_item.attachments.length">
@@ -351,7 +408,7 @@
              <ng-container *ngFor="let table_item of this.tableData">
                <div class="dynamic_page" *ngIf="activeTab == table_item.id">
                  <div class="header-title-div padding-class">
-                    <h3>{{table_item.title}}</h3>
+                    <h2>{{table_item.title}}</h2>
                     <span class="edit-icon" (click)="openModal(EditModal,table_item['id']);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                  </div>
 
@@ -425,125 +482,22 @@
   				     </div>
              </ng-container>
              <div class="about_page" *ngIf="activeTab == 'about_page'">
-               <h3>About this project</h3>
+               <div class="header-title-div">
+                 <h2>About this project</h2>
+                 <img class="logo-img" src="./assets/images/logo/logo.png" alt="logo" width="161" >
+               </div>
+               <div class="">
+                 <p>This report was generated automatically using the DealValue Valuation and Due Diligence Platform.</p>
+                 <p>DealValue is the easy way to compute and generate valuation reports. To get a report for your company or other companies please visit <a class="link" href="www.dealvalue.com">www.dealvalue.com</a>.</p>
+               </div>
+               <div class="">
+                 <h3>Important Legal Notes</h3>
+                 <p>Deal Value, Inc. does not represent or endorse the accuracy or reliability of any advice, opinion, statement or any other information displayed or distributed through this report or its website. The estimates and the data contained herein are made using the information provided by the user, publicly available information and data for different industries. Deal Value, Inc. has not audited or attempted to confirm this information for accuracy or completeness. Under no circumstances the present report is to be used or considered as an offer, solicitation, or recommendation to sell, or a solicitation of any offer to buy any security. Deal Value, Inc. excludes any warranties and responsibilities concerning the results to be obtained from the present report nor their use and shall not be liable for any claims, losses or damages arising from or occasioned by any inaccuracy, error, delay, or omission, or from use of the report or actions taken in reliance on the information contained in it. The use of this report and the information provided herein is subject to Deal Value, Inc. online Terms of Use and Privacy Policy.</p>
+               </div>
              </div>
           </div>
         </div>
       </div>
-      <!-- <div class="row content-div">
-        <tabset>
-            <tab title="Methodology">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Methodology</h3>
-                    <span class="edit-icon" (click)="openModal(EditModal,'Methdology','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Methdology']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Executive Summary">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Executive Summary</h3>
-                    <span class="edit-icon" (click)="openModal(EditModal,'Executive','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Executive']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Heat Map">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Heat Map</h3>
-                    <span class="edit-icon" (click)="openModal(EditModal,'HeatMap','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['HeatMap']">
-                </div>
-              </div>
-            </tab>
-            <tab title="Document">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>Document</h3>
-                    <span class="edit-icon" (click)="openModal(EditModal,'Document','default');"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList['Document']">
-                </div>
-              </div>
-            </tab>
-            <tab title="{{table_item.title}}" *ngFor="let table_item of tableData; let i = index">
-              <div class="content-block">
-                <div class="header-title-div">
-                    <h3>{{table_item.title}}</h3>
-                    <span class="edit-icon" (click)="openModal(EditModal,table_item['id']);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                </div>
-
-                <div class="ql-editor feedback-div" [innerHTML]="feedbackList[table_item['id']]">
-                </div>
-                <div class="question-div" *ngFor="let question of table_item.questionArr; let q_i = index">
-                  <div class="main-question">
-                    <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-                    <p>{{question.desc}} <span *ngIf="question.status == 0">(Not Availabe)</span></p>
-                  </div>
-                  <div class="answer-div" *ngIf="question.status != 0">
-                    <ng-container *ngIf="question['type'] == 'Text'">
-                      <ng-container *ngFor="let item of question.items">
-                        <p class="answer-p">{{item.value}}</p>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Date'">
-                      <p class="answer-p">{{question.value}}</p>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Grid'">
-                      <table class="grid-table">
-                        <thead>
-                          <tr>
-                            <td></td>
-                            <td  *ngFor="let item of question.items">
-                              {{item.Text}}
-                            </td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr  *ngFor="let app_id of question.appIDs; let app_index = index">
-                            <td>{{app_index+1}}</td>
-                            <td  *ngFor="let item of question.items">
-                              {{question.value[app_id+'_'+item.uuid]}}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Radio'">
-                      <ng-container *ngFor="let item of question.items">
-                        <div class="form-group radio">
-                          <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question['value']" name="{{question['id']}}" [value]="item['uuid']">
-                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                        </div>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Checkbox'">
-                      <ng-container *ngFor="let item of question.items">
-                        <div class="form-group checkbox" style="margin-top:15px">
-                          <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question['id']}}" value="">
-                          <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                        </div>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="question['type'] == 'Dropdown'">
-                      <angular2-multiselect [data]="dropdownData[question['id']].Content" [(ngModel)]="dropdownData[question['id']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-            </tab>
-        </tabset>
-      </div> -->
     </ng-container>
   </div>
 
@@ -587,6 +541,115 @@
       <modal-footer>
         <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="RejectModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #HoldModal [animation]=false>
+    <form class="form assets" (ngSubmit) = "holdReport(HoldModal)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Reason for Hold</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row"
+        [ngClass]="{
+          'has-error': reason.invalid && reason.touched,
+          'has-success': reason.valid && reason.touched
+        }">
+          <div class="col-md-12 form-group">
+            <label for="reason">Reason:</label>
+            <textarea rows="8" cols="80" name="reason" #reason ="ngModel" [(ngModel)] = "hold_reason" value="" required></textarea>
+            <span class="help-block" *ngIf="reason.errors && reason.errors.required  && reason.touched">Reason is required</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="HoldModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #HeatmapModal [animation]=false>
+    <form class="form heatmap_modal" (ngSubmit) = "submitHeatmap(HeatmapModal)" #form="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Reason for Hold</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8">
+            <table cellspacing="10" class="table1">
+              <thead>
+                <tr>
+                  <th>Color Scale</th>
+                  <th>Score</th>
+                  <th>Score</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="orange">Orange</td>
+                  <td class="orange">0</td>
+                  <td class="orange">1</td>
+                  <td class="orange">2</td>
+                </tr>
+                <tr>
+                  <td class="yellow">Yellow</td>
+                  <td class="yellow">3</td>
+                  <td class="yellow"></td>
+                  <td class="yellow"></td>
+                </tr>
+                <tr>
+                  <td class="green">Green</td>
+                  <td class="green">4</td>
+                  <td class="green">5</td>
+                  <td class="green"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table cellspacing="10" class="table2">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th width="15%">Integrity</th>
+                  <th width="15%">Fit</th>
+                  <th width="15%">Viability</th>
+                  <th width="15%">Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor = "let item of tableData">
+                  <td>{{item.title}}</td>
+                  <td [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4">
+                    <input type="number" [(ngModel)]="item['Heatmap']['Integrity']" name="integrity" value="item['Heatmap']['Integrity']" min="0" max="5">
+                  </td>
+                  <td [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4">
+                    <input type="number" [(ngModel)]="item['Heatmap']['Fit']" name="fit" value="" min="0" max="5">
+                  </td>
+                  <td [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4">
+                    <input type="number" [(ngModel)]="item['Heatmap']['Viability']" name="viability" value="" min="0" max="5">
+                  </td>
+                  <td [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4">
+                    <input type="number" [(ngModel)]="item['Heatmap']['Cost']" name="cost" value="" min="0" max="5">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="HeatmapModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
   </modal>

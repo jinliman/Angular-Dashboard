@@ -36,52 +36,37 @@
       }
     }
     tbody{
+
+    }
+  }
+  table.table1{
+    tbody{
       td{
         .img{
           margin-right: 15px;
           float: left;
         }
-        &.green{
-          &::before{
-            height: 40px;
+        &.color-block{
+          span{
+            height: 35px;
             width: calc(100% - 10px);
-            margin: 0px;
-            padding: 0px;
-            top:10px;
-            left:5px;
-            content: '';
-            position: absolute;
+            background-color: $dv-bg-main;
             display: block;
-            background-color: $dv-color-green;
           }
-        }
-        &.green-light{
-          &::before{
-            height: 40px;
-            width: calc(100% - 10px);
-            margin: 0px;
-            padding: 0px;
-            top:10px;
-            left:5px;
-            content: '';
-            position: absolute;
-            display: block;
-            background-color: $dv-color-green-light;
+          &.green{
+            span{
+              background-color: $dv-color-green;
+            }
           }
-        }
-        &.none{
-          &::before{
-            height: 40px;
-            width: calc(100% - 10px);
-            margin: 0px;
-            padding: 0px;
-            top:10px;
-            left:5px;
-            content: '';
-            position: absolute;
-            display: block;
-            background-color: $dv-bg-input;
-            border: 2px solid $dv-color-border;
+          &.yellow{
+            span{
+              background-color: $dv-color-yellow;
+            }
+          }
+          &.orange{
+            span{
+              background-color: $dv-color-orange;
+            }
           }
         }
       }
@@ -118,12 +103,11 @@
           &.green{
             background: $dv-color-green;
           }
-          &.green-light{
-            background: $dv-color-green-light;
+          &.yellow{
+            background: $dv-color-yellow;
           }
-          &.none{
-            border: 2px solid $dv-color-border;
-            background: $dv-bg-input;
+          &.orange{
+            background: $dv-color-orange;
           }
 
         }

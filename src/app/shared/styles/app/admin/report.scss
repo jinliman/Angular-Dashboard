@@ -10,12 +10,13 @@
     padding: 30px 30px 10px;
   }
 
-  .content-div1{
+  .content-div{
     margin: 20px;
     position: relative;
     border: 2px solid $dv-color-border;
     display: flex;
     .report-inner-sidebar{
+      flex: 0 0 300px;
       background-color: $dv-bg-dashboard;
       display: block;
       padding: 0px; margin: 0px;
@@ -117,9 +118,12 @@
     .content-inner{
       padding: 40px 0px;
       height: 100%;
+      flex: 1;
       display: block;
       h2{
         font-size: 25px;
+        margin-bottom: 20px;
+        font-weight: bold;
       }
       p{
         font-weight: 300;
@@ -139,6 +143,10 @@
           font-weight: bold;
           margin-top: 40px;
           margin-bottom: 40px;
+        }
+        h3{
+          margin-top: 30px;
+          margin-bottom: 20px;
         }
         .page-content{
           .content-item-div{
@@ -171,6 +179,9 @@
         }
       }
       .methdology_page{
+        p{
+          color:$dv-color-grey;
+        }
         padding: 0px 30px;
         .property-item-div{
           margin: 0px;
@@ -277,16 +288,190 @@
         }
       }
       .executive_page{
+        p{
+          color:$dv-color-grey;
+        }
         padding: 0px 30px;
       }
       .heat_map_page{
         padding: 0px 30px;
+        .header-title-div
+        {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          h2{
+            margin: 0px;
+          }
+          .edit-icon{
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: $dv-color-green;
+          }
+        }
+        .heatmap_content{
+          .title{
+            font-size: 21px;
+            font-weight: bold;
+            margin: 0px;
+          }
+          table
+          {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            td{
+              position: relative;
+              text-align: center;
+              vertical-align: middle;
+              font-weight: 600;
+              &:first-of-type{
+                text-align: left;
+              }
+              .img{
+                margin-right: 10px;
+                display: flex;
+              }
+              padding: 12px 5px;
+            }
+            thead {
+              &>tr>td {
+                &>div {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+              }
+            }
+            tbody{
+
+            }
+          }
+          table.table1{
+            tbody{
+              td{
+                .img{
+                  margin-right: 15px;
+                  float: left;
+                }
+                &.color-block{
+                  span{
+                    height: 35px;
+                    width: calc(100% - 10px);
+                    background-color: $dv-bg-main;
+                    display: block;
+                  }
+                  &.green{
+                    span{
+                      background-color: $dv-color-green;
+                    }
+                  }
+                  &.yellow{
+                    span{
+                      background-color: $dv-color-yellow;
+                    }
+                  }
+                  &.orange{
+                    span{
+                      background-color: $dv-color-orange;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          table.table2{
+            margin-top: 45px;
+            thead{
+              th{
+                text-align: left;
+              }
+            }
+            tbody {
+              &>tr>td {
+                &>div {
+                  display: flex;
+                  align-items: center;
+                  justify-content: none;
+                  font-weight: 600;
+                }
+              }
+              td{
+                color: $dv-color-grey;
+                text-align: left;
+                font-weight: 400;
+                .span_heatmap_type{
+                  color: $dv-color-primary;
+                }
+                &>div{
+                  display: flex;
+                  align-items: center;
+                }
+                .img{
+                  width: 36px;
+                }
+                .color{
+                  width: 45px;
+                  height: 45px;
+                  float: left;
+                  border-radius: 0px;
+                  &.green{
+                    background: $dv-color-green;
+                  }
+                  &.yellow{
+                    background: $dv-color-yellow;
+                  }
+                  &.orange{
+                    background: $dv-color-orange;
+                  }
+
+                }
+                .desc{
+                  line-height: 20px;
+                  font-weight: 400;
+                  float: left;
+                  font-size: 16px;
+                  margin-left: 15px;
+                  margin-bottom: 0px;
+                }
+              }
+            }
+          }
+        }
       }
       .key_metrics_page{
         padding: 0px 30px;
       }
       .about_page{
         padding: 0px 30px;
+        p{
+          color:$dv-color-grey;
+        }
+        a.link{
+          font-weight: 400;
+        }
+        .header-title-div
+        {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          h2{
+            margin: 0px;
+          }
+          .edit-icon{
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: $dv-color-green;
+          }
+          .logo-img{
+            float: right;
+          }
+        }
       }
       .dynamic_page{
         .padding-class{
@@ -299,7 +484,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          h3{
+          h2{
             margin: 0px;
           }
           .edit-icon{
@@ -307,6 +492,9 @@
             cursor: pointer;
             font-size: 20px;
             color: $dv-color-green;
+          }
+          .logo-img{
+            float: right;
           }
         }
         h4{
@@ -340,80 +528,6 @@
     }
   }
 
-  .content-div{
-    margin: 15px 20px;
-    .tabset-content{
-      border: 2px solid $dv-color-border;
-      border-top: none;
-      padding: 20px;
-      .content-block{
-        .feedback-div{
-          margin-bottom: 25px;
-        }
-        .header-title-div
-        {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          h3{
-            margin: 30px 0px;
-          }
-          .edit-icon{
-            float: right;
-            cursor: pointer;
-            font-size: 20px;
-            color: $dv-color-green;
-          }
-        }
-        .question-div{
-          margin-bottom: 35px;
-          .main-question{
-            display: flex;
-            align-items: center;
-            p{
-              margin-left: 10px;
-              font-weight: bold;
-              span{
-                color: #a54848;
-                font-style: italic;
-                padding-left: 10px;
-                font-weight: normal;
-              }
-            }
-          }
-          .answer-div{
-            padding-left: 35px;
-            .form-group{
-              padding-top: 6px;
-            }
-            .cs-dropdown-select{
-              .selected-list{
-                span
-                {
-                  font-size: 15px !important;
-                }
-                .c-btn{
-                  padding: 5px 10px;
-                }
-              }
-            }
-            .grid-table{
-              margin-top: 20px;
-              thead{
-                td{
-                  font-weight: 600;
-                }
-              }
-              td{
-                border: 2px solid #eaeaea;
-                padding: 10px 20px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
   .datepicker-div{
     background-color: $dv-color-white;
     padding: 0px 10px;
@@ -520,4 +634,51 @@
 }
 .modal-inner-title{
   margin: 5px 0px 15px 0px;
+}
+.heatmap_modal{
+  table{
+    width: 100%;
+    th{
+      background: $dv-bg-dashboard;
+      color: $dv-color-primary;
+    }
+    th, td{
+      border: 2px solid $dv-color-border;
+      padding: 5px 10px;
+    }
+  }
+  .table1{
+    td{
+      &.orange{
+        background-color: $dv-color-orange;
+      }
+      &.yellow{
+        background-color: $dv-color-yellow;
+      }
+      &.green{
+        background-color: $dv-color-green;
+      }
+    }
+  }
+  .table2{
+    margin-top:20px;
+    td{
+      input{
+        border: none;
+        background-color: transparent;
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+      }
+      &.orange{
+        background-color: $dv-color-orange;
+      }
+      &.yellow{
+        background-color: $dv-color-yellow;
+      }
+      &.green{
+        background-color: $dv-color-green;
+      }
+    }
+  }
 }
