@@ -292,6 +292,7 @@ export class ProjectDetailComponent implements OnInit {
     this.statusInfoArr.assigned = this.uniqEs6((this.userAssignment['Assessments']).concat(this.userAssignment['QAssessments'])).length;
     this.statusInfoArr.assessment = this.tableData.length;
     this.loading = false;
+    console.log(this.selectedProject)
   }
 
 }

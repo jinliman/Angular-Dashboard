@@ -22,7 +22,8 @@ export class TeamComponent implements OnInit {
   PrimaryEmail: string = "";
   TeamEmail: Array<object> = [];
   hasPrimary: boolean = false;
-
+  userRole: string = "";
+  
   loading: boolean;
   constructor(
     private authService: AuthService,
@@ -214,6 +215,7 @@ export class TeamComponent implements OnInit {
     this.loading = true;
     this.TeamEmail = [{"name": "teammember1", "value": ""}];
     this.currentProject = this.authService.getUserProject();
+    this.userRole = this.currentProject['Role'];
     let projectID = this.currentProject['Project']['_id'];
     let data = {id: projectID}
     this.dataService.getTeam(data).subscribe(

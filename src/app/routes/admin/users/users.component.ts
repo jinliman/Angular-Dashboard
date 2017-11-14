@@ -54,6 +54,7 @@ export class UsersComponent implements OnInit {
   public getAllProjectUsers(resolve){
     this.dataService.getAdminAllProjectUsers().subscribe(response => {
         this.ProjectUsers = response.result;
+        console.log(this.ProjectUsers)
         resolve()
       },
       (error) => {
@@ -78,7 +79,7 @@ export class UsersComponent implements OnInit {
         userShortName: item.User.Name.First[0] + item.User.Name.Last[0],
         userCompanyName: item.Project.Company.Name,
         date: item.createdAt,
-        lastLogin: "August 14, 2017"
+        lastLogin: item.User.LastLogin
       })
     }
     this.loading = false;

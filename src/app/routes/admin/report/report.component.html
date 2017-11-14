@@ -11,7 +11,7 @@
     <div class="loading-div" *ngIf="loading"></div>
     <ng-container *ngIf="!loading">
       <div class="row button-div">
-        <p class="pull-left">Status: <span>{{projectStatus}}</span></p>
+        <p class="pull-left status-p">Status: <span>{{projectStatus}}</span></p>
         <div class="pull-right">
           <a class="svg button" (click)="releaseReport()">
             <span> <i class="fa fa-check"></i> Release</span>
@@ -20,7 +20,7 @@
             <span> <i class="fa fa-hand-paper-o"></i> Hold</span>
           </a>
           <a class="svg button" (click)="openDeclineModal(RejectModal)">
-            <span> <i class="fa fa-close"></i> Decline</span>
+            <span> <i class="fa fa-close"></i> Reject</span>
           </a>
         </div>
       </div>
@@ -313,7 +313,7 @@
              <div class="executive_page" *ngIf="activeTab == 'executive_summary'">
                <h2>Executive Summary</h2>
                <div class="row page-content">
-                 <p>We have read all documents outlined in our Information Request List, provided by  <b>{{project_info['Company_Name']}}</b>  (the “Company” or “<b>{{project_info['Company_Name']}}</b>”). Our findings related to the IT operations are limited to information obtained through review of these documents along with interviews with  <b>{{project_info['Primary_User']}}</b>  and  <b>{{project_info['Team_Users']}}</b>  at the Company, and were conducted between  <b>{{project_info['Start_Date'] | amDateFormat:'LL'}}</b>  and  <b>{{project_info['End_Date'] | amDateFormat:'LL'}}</b>, online and via video conference. Information provided by the Company has not been independently verified. To the extent that requested information or access to certain individuals was not made available to us, or in the event information provided was incomplete or inaccurate, these findings may be incomplete. </p>
+                 <p>We have read all documents outlined in our Information Request List, provided by  <b>{{project_info['Company_Name']}}</b>  (the “Company” or “<b>{{project_info['Company_Name']}}</b>”). Our findings related to the IT operations are limited to information obtained through review of these documents along with interviews with  <b>{{project_info['Primary_User']}}</b>  and  <b>{{project_info['Team_Users']}}</b>  at the Company, and were conducted between  <b>{{project_info['Start_Date'] | amDateFormat:'LL'}}</b>  and  <b>{{project_info['Review_Date'] | amDateFormat:'LL'}}</b>, online and via video conference. Information provided by the Company has not been independently verified. To the extent that requested information or access to certain individuals was not made available to us, or in the event information provided was incomplete or inaccurate, these findings may be incomplete. </p>
                  <p>The scope of this review was to perform a high-level review of the information technology (“IT”) environment supporting the Company’s technology landscape, IT organization, IT spending, risks and opportunities across supported business processes. The review consisted of assessing documentation provided by the Company as well as video meetings and phone conversations with the Company’s staff. Our IT review of the Company was limited to information provided herein with our procedures designed to bring potential IT concerns to Management, Seller and/or Buyer’s attention.</p>
                </div>
 				     </div>
@@ -459,7 +459,7 @@
                    -->
                    <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
                      <div *ngIf="question['type'] == 'Grid'">
-                       <h4 class="padding-class">{{question.desc}} (Grid Question)</h4>
+                       <h4 class="padding-class">{{question.desc}}</h4>
                        <table >
                          <thead>
                            <tr>

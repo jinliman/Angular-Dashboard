@@ -38,7 +38,6 @@ export class AssessmentComponent implements OnInit {
 
   newAssignments: Array<object> = []
   newAttachmentObj: object = {}
-  assignDisabled: boolean = false;
   allowAnswer: boolean = false;
   allowAssign: boolean = false;
   userRole: string = "";
@@ -109,7 +108,7 @@ export class AssessmentComponent implements OnInit {
         let projectStatus = this.currentProject['Status'] || null;
         this.userRole = this.currentProject['Role'];
         this.allowAnswer = false;
-        if(this.userRole != "MEMBER" && ['Accept','Submitted'].indexOf(projectStatus) == -1)
+        if(this.userRole != "MEMBER" && ['Accept','Submitted','Hold'].indexOf(projectStatus) == -1)
           this.allowAssign = true;
         this.dropdownSettings = {
             singleSelection: false,
@@ -119,7 +118,7 @@ export class AssessmentComponent implements OnInit {
             enableSearchFilter: false ,
             enableCheckAll: false,
             classes:"cs-user-select custom-class",
-            disabled: this.assignDisabled
+            disabled: !this.allowAssign
           };
 
         this.loading = true;
@@ -151,6 +150,7 @@ export class AssessmentComponent implements OnInit {
     {
       this.onAssignmentSelectCustom(event, parent_assessment['id'], 'QAssessment')
     }
+    this.saveAssignment();
   }
 
   onAssignmentSelectCustom(event, assignment_id, type){
@@ -164,7 +164,10 @@ export class AssessmentComponent implements OnInit {
     });
 
     if(!item && !item1)
+    {
       this.newAssignments.push({User: userID, AssignmentID: assignment_id, Type: type, Action: 'add'});
+      this.allAssignment.push({User: userID, AssignmentID: assignment_id, Type: type});
+    }
   }
 
   onAssignmentDeSelect(event, assignment, type, parent_assessment = null){
@@ -183,6 +186,7 @@ export class AssessmentComponent implements OnInit {
       if(!count)
         this.onAssignmentDeSelectCustom(event, parent_assessment['id'], 'QAssessment')
     }
+    this.saveAssignment();
   }
 
   onAssignmentDeSelectCustom(event, assignment_id, type, assessment_id1 = null){
@@ -198,24 +202,26 @@ export class AssessmentComponent implements OnInit {
     })
 
     if(item)
+    {
       this.newAssignments.push({id: item['_id'], User: userID, AssignmentID: assignment_id, Type: type, Action: 'delete'});
+      let qa_index = this.allAssignment.findIndex(function(e){
+        return e['User'] == userID && e['AssignmentID'] == assignment_id && e['Type'] == type;
+      });
+      this.allAssignment.splice(qa_index, 1)
+    }
 
   }
 
   saveAssignment(){
+    if(!this.allowAssign)
+      return false;
     let projectID = this.currentProject['Project']['_id'] || null;
     let parma = { projectID: projectID, data: this.newAssignments}
     this.dataService.saveAssignment(parma).subscribe(
       response => {
         if(response.ERR_CODE == 'ERR_NONE')
         {
-          this._notificationService.success(
-              'Successfully Saved!',
-              'Assignment'
-          )
           this.newAssignments = [];
-          this.loading = true;
-          this.getAssignment()
         }else{
           this._notificationService.error(
               'Sth went wrong',
@@ -337,7 +343,7 @@ export class AssessmentComponent implements OnInit {
         this.assignment = this.updateAssignment(this.allAssignment);
         this.getTableData();
         let projectStatus = this.currentProject['Status'] || null;
-        if(this.userRole != "INITIATOR" && ['Accept','Submitted'].indexOf(projectStatus) == -1)
+        if(this.userRole != "INITIATOR" && ['Accept','Submitted','Hold'].indexOf(projectStatus) == -1)
           this.setAllowAnswer();
       },
       (error) => {
@@ -505,6 +511,27 @@ export class AssessmentComponent implements OnInit {
   {
     for(let assessment of this.tableData)
     {
+      if(this.sortFilter.type == 'assign')
+      {
+        if(this.sortFilter.order)
+        {
+          assessment.questionArr.sort(function(a,b){
+            if(a.usersAssigned.length < b.usersAssigned.length)
+              return -1;
+            if(a.usersAssigned.length > b.usersAssigned.length)
+              return 1;
+            return 0;
+          });
+        }else{
+          assessment.questionArr.sort(function(a,b){
+            if(a.usersAssigned.length > b.usersAssigned.length)
+              return -1;
+            if(a.usersAssigned.length < b.usersAssigned.length)
+              return 1;
+            return 0;
+          });
+        }
+      }
       if(this.sortFilter.type == 'status')
       {
         if(this.sortFilter.order)

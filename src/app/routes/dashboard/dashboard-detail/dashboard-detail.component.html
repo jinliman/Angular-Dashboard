@@ -1,4 +1,4 @@
-<div class="dashboard">
+<div class="dashboard dashboard-detail">
   <div class="loading-div" *ngIf="loading"></div>
   <ng-container *ngIf="!loading">
     <div class="row">
@@ -56,6 +56,16 @@
     </div>
 
     <div class="row">
+      <div class="project-status-div">
+        <ng-container *ngIf = "selectedProject.Status == 'Hold'">
+          <p class="title"> Project on Hold </p>
+          <p class="reason">{{selectedProject['Reason']}}</p>
+        </ng-container>
+        <ng-container *ngIf = "selectedProject.Status == 'Reject'">
+          <p class="title"> Project is declined by admin. </p>
+          <p class="reason">{{selectedProject['Reason']}}</p>
+        </ng-container>
+      </div>
       <div class="progress-div">
         <p class="title">Progress Bar</p>
         <div class="col-md-6 progress-item" *ngFor="let item of tableData; let i = index">

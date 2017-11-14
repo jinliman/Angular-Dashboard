@@ -4,8 +4,23 @@
   align-items: center;
   height: $dv-dashboard-header-height;
   .project-select{
-    margin-left: 20px;
-    width: 200px;
+    position: relative;
+    width: 300px;
+    color: $dv-color-grey;
+    .search-icon{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .cs-select > div {
+      background-color: #fff;
+      > div.single > div.toggle {
+        display: none;
+      }
+    }
+    select-dropdown > div .options ul li {
+      padding: 10px 8px;
+    }
   }
   .signoff-div{
     a.button{

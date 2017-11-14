@@ -89,7 +89,7 @@
               <td>{{item.Name}}</td>
               <td>{{item.createdAt | amDateFormat:'LL'}}</td>
               <td>{{item.deadlineDate | amDateFormat:'LL'}}</td>
-              <td>{{item.endDate | amDateFormat:'LL'}}</td>
+              <td><span *ngIf="item.Status == 'Accept'">{{item.endDate | amDateFormat:'LL'}}</span></td>
               <td>
                 <div class="status-div" *ngIf="item.Status == 'Accept'">
                   <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
@@ -104,6 +104,10 @@
                   <span>Submitted</span>
                 </div>
                 <div class="status-div" *ngIf="item.Status == 'Reject'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+                  <span>{{item.Status}}</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Hold'">
                   <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
                   <span>{{item.Status}}</span>
                 </div>

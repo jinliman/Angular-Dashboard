@@ -50,6 +50,7 @@ export class AdminComponent implements OnInit {
     total: 0,
     completed: 0,
     in_progress: 0,
+    reject: 0,
     hold: 0,
     num_initiators: 0,
     num_owners: 0,
@@ -73,6 +74,7 @@ export class AdminComponent implements OnInit {
       total: 0,
       completed: 0,
       in_progress: 0,
+      reject: 0,
       hold: 0,
       num_initiators: 0,
       num_owners: 0,
@@ -166,7 +168,7 @@ export class AdminComponent implements OnInit {
       if(statusItem)
       {
         projectItem['Status'] = statusItem['Status'];
-        projectItem['endDate'] = statusItem['updatedAt'];
+        projectItem['endDate'] = statusItem['updateDate'];
       }else{
         projectItem['Status'] = 'Pending';
         projectItem['endDate'] = null;
@@ -298,6 +300,8 @@ export class AdminComponent implements OnInit {
       if(entry['Status'] == 'Accept')
         this.statusInfoArr.completed++;
       else if(entry['Status'] == 'Reject')
+          this.statusInfoArr.reject++;
+      else if(entry['Status'] == 'Hold')
           this.statusInfoArr.hold++;
       else
         this.statusInfoArr.in_progress++;

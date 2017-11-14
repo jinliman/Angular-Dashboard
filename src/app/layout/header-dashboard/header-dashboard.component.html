@@ -1,11 +1,8 @@
 <div class="header-dashboard">
-		<div class="search_div pull-left">
-				<input type="text" name="" value="" placeholder="Search Project">
-				<a href="javascript:;" class="pull-right" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
-		</div>
 		<div class="project-select" *ngIf="userInfo.Role != 'admin' && loadProjectList">
 			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="projectID" name="project" placeholder="Project List">
 			</ng-select>
+			<a href="javascript:;" class="search-icon" [inlineSVG]="'/assets/images/icons/dashboard/search-icon.svg'"></a>
 		</div>
 		<div class="signoff-div">
 			<a class="svg button pull-left"  *ngIf="userInfo.Role != 'admin'" routerLink="/app/project/new" style="margin-left:20px;">

@@ -7,9 +7,6 @@
           <a *ngIf="allowAnswer" class="svg button pull-left" routerLink="{{editAssessmentUrl}}/answer">
             <span> <i class="fa fa-commenting-o"></i> Provide Answers Here</span>
           </a>
-          <!-- <a *ngIf="allowAssign" class="svg button pull-left" style="margin-left:20px;" (click)="saveAssignment()">
-            <span> <i class="fa fa-file-text-o"></i> Assign Sections</span>
-          </a> -->
       </div>
     </div>
     <table class="table" *ngIf="this.userRole == 'MEMBER'">
@@ -35,7 +32,7 @@
             <div>Click on the "Answer" box above or below  <br>to complete and upload requested documents:</div>
           </td>
           <td class="status"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('status')">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'" [class.up-image]="this.sortFilter.type =='status' && this.sortFilter.order"></span></a></td>
-          <td width="15%"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('na')"  [class.up-image]="this.sortFilter.type =='na' && this.sortFilter.order"> Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></a></td>
+          <td width="15%"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('na')"> Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"   [class.up-image]="this.sortFilter.type =='na' && this.sortFilter.order"></span></a></td>
         </tr>
       </thead>
       <ng-container *ngFor="let question_group of tableData; let group_index = index">
@@ -93,7 +90,7 @@
             <ul>
               <li><a href="javascript:;" class="active">Answered ({{totalComplete}}) </a></li>
               <li><a href="javascript:;">Unanswered ({{totalIncomplete}})</a></li>
-              <li><a href="javascript:;">Assigned ({{totalComplete+totalIncomplete}})</a></li>
+              <li><a href="javascript:;">Questions ({{totalComplete+totalIncomplete}})</a></li>
             </ul>
           </td>
           <td colspan="3">
@@ -109,7 +106,7 @@
             <div>Click on the "Answer" box above or below  <br>to complete and upload requested documents:</div>
           </td>
           <td class="status"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('status')">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'" [class.up-image]="this.sortFilter.type =='status' && this.sortFilter.order"></span></a></td>
-          <td width="15%">Assigned To <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+          <td width="15%"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('assign')"> Assigned To <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"  [class.up-image]="this.sortFilter.type =='assign' && this.sortFilter.order"></span></a></td>
           <td width="15%"> <a class="status-filter-icon" href="javascript:;" (click)="sort_by_type('na')"> Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'" [class.up-image]="this.sortFilter.type =='na' && this.sortFilter.order"></span></a></td>
         </tr>
       </thead>

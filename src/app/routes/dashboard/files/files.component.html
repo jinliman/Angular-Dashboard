@@ -7,71 +7,75 @@
       <li><a routerLink="../../app/progress" routerLinkActive="active">Progress</a></li>
       <li><a routerLink="../../app/files" routerLinkActive="active">Files</a></li>
       <li><a routerLink="../../app/team" routerLinkActive="active">Team</a></li>
-      <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
-      <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
+      <ng-container *ngIf="userRole == 'INITIATOR'">
+        <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
+        <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
+      </ng-container>
       <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/info-icon.svg'"></a></li>
       <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/more-icon.svg'"></a></li>
     </ul>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <td class="category"><div class="filter">By Status<span [inlineSVG]="'../assets/images/icons/dashboard/down-icon.svg'"></span></div></td>
-        <td colspan="3">
-          <span>Progress/Completion Rate</span>
-          <span class="span-percent">50%</span>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="category"><div class="">
-          File Name <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
-        </div></td>
-        <td class="link">Link<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-        <td width="15%">Uploaded by<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-        <td width="15%">Uploaded on<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-      </tr>
-    </thead>
-    <tbody *ngFor="let assessment of tableData">
-      <tr>
-        <td class="category">
-          <div (click)="assessment.open = !assessment.open">
-            <span [hidden]="assessment.hasQuestions != true" href="javascript:;" class="collapse-icon" [class.opened]="!assessment.open" [class.closed]="assessment.open"></span>
-            <span class="filename" [class.no-files]="!assessment.hasFile">{{assessment.title}}</span>
-          </div>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class="sublist" *ngFor="let question_item of assessment.questions">
-        <td class="category">
-          <div>
-            <div [inlineSVG]="'../assets/images/icons/dashboard/level-arrow.svg'" style="width:20px; height:24px"></div>
-            <span class="filename">{{question_item.attachment.Name}} ({{question_item.attachment.SourceType}})</span>
-            <div [inlineSVG]="'../assets/images/icons/dashboard/doc-icon.svg'" style="width:33px; height:33px"></div>
-          </div>
-          <div class="comment">
-            {{question_item.attachment.Comment}}
-          </div>
-        </td>
-        <td class="link">
-          <a href="{{question_item.attachment.Url}}" [inlineSVG]="'../assets/images/icons/dashboard/link-icon.svg'" target="_blank"></a>
-        </td>
-        <td width="15%">
-          <div class="user-div">
-            <a href="javascrpit:;" class="svg">
-              <span class="short-name">{{question_item.attachment.User.Name.shortname}}</span>
-              <span class="user-name">{{question_item.attachment.User.Name.Fullname}}</span>
-            </a>
-          </div>
-        </td>
-        <td width="15%">
-          {{question_item.attachment.updatedAt | amDateFormat:'LL'}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-container *ngIf="!loading">
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="category"><div class="filter">By Status<span [inlineSVG]="'../assets/images/icons/dashboard/down-icon.svg'"></span></div></td>
+          <td colspan="3">
+            <span>Progress/Completion Rate</span>
+            <span class="span-percent">50%</span>
+            <div class="custom-progress">
+              <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="category"><div class="">
+            File Name <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
+          </div></td>
+          <td class="link">Link<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+          <td width="15%">Uploaded by<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+          <td width="15%">Uploaded on<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+        </tr>
+      </thead>
+      <tbody *ngFor="let assessment of tableData">
+        <tr>
+          <td class="category">
+            <div (click)="assessment.open = !assessment.open">
+              <span [hidden]="assessment.hasQuestions != true" href="javascript:;" class="collapse-icon" [class.opened]="!assessment.open" [class.closed]="assessment.open"></span>
+              <span class="filename" [class.no-files]="!assessment.hasFile">{{assessment.title}}</span>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="sublist" *ngFor="let question_item of assessment.questions">
+          <td class="category">
+            <div>
+              <div [inlineSVG]="'../assets/images/icons/dashboard/level-arrow.svg'" style="width:20px; height:24px"></div>
+              <span class="filename">{{question_item.attachment.Name}} ({{question_item.attachment.SourceType}})</span>
+              <div [inlineSVG]="'../assets/images/icons/dashboard/doc-icon.svg'" style="width:33px; height:33px"></div>
+            </div>
+            <div class="comment">
+              {{question_item.attachment.Comment}}
+            </div>
+          </td>
+          <td class="link">
+            <a href="{{question_item.attachment.Url}}" [inlineSVG]="'../assets/images/icons/dashboard/link-icon.svg'" target="_blank"></a>
+          </td>
+          <td width="15%">
+            <div class="user-div">
+              <a href="javascrpit:;" class="svg">
+                <span class="short-name">{{question_item.attachment.User.Name.shortname}}</span>
+                <span class="user-name">{{question_item.attachment.User.Name.Fullname}}</span>
+              </a>
+            </div>
+          </td>
+          <td width="15%">
+            {{question_item.attachment.updatedAt | amDateFormat:'LL'}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>

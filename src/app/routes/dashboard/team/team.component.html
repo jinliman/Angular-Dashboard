@@ -7,8 +7,10 @@
       <li><a routerLink="../../app/progress" routerLinkActive="active">Progress</a></li>
       <li><a routerLink="../../app/files" routerLinkActive="active">Files</a></li>
       <li><a routerLink="../../app/team" routerLinkActive="active">Team</a></li>
-      <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
-      <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
+      <ng-container *ngIf="userRole == 'INITIATOR'">
+        <li><a routerLink="../../app/heatmap" routerLinkActive="active">Heat Map</a></li>
+        <li><a routerLink="../../app/reports" routerLinkActive="active">Reports</a></li>
+      </ng-container>
       <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/info-icon.svg'"></a></li>
       <li><a href="javascript:;" [inlineSVG]="'../assets/images/icons/dashboard/more-icon.svg'"></a></li>
     </ul>
@@ -68,70 +70,71 @@
       </modal-footer>
     </form>
   </modal>
-  <table class="table">
-    <thead>
-      <tr>
-        <td class="category">
-          <div class="filter">By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
-        </td>
-        <td colspan="3">
-          <span>Progress/Completion Rate</span>
-          <span class="span-percent">50%</span>
-          <div class="custom-progress">
-            <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="category clearfix">
-          <div class="">
-            User Name <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
-          </div>
-        </td>
-        <td class="status">Status </td>
-        <td width="15%">Assgned On </td>
-        <td width="15%">Complete on </td>
-      </tr>
-    </thead>
-    <tbody *ngFor="let userItem of tableData">
-      <tr>
-        <td class="category">
-          <div (click)="userItem.open = !userItem.open">
-            <div class="desc-div">
-              <span [hidden]="userItem.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!userItem.open" [class.closed]="userItem.open"></span>
-              <span class="desc" [class.no-files]="!userItem.hasDetail">{{userItem.username}}</span>
-              <span class="short-name">{{userItem.shortname}}</span>
+  <ng-container *ngIf="!loading">
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="category">
+            <div class="filter">By Status<span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></div>
+          </td>
+          <td colspan="3">
+            <span>Progress/Completion Rate</span>
+            <span class="span-percent">50%</span>
+            <div class="custom-progress">
+              <progress-bar [value] = "50" [max] = "100" title = "50%"></progress-bar>
             </div>
-          </div>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr class="sublist" [hidden]="userItem.hasDetail != true || userItem.open != true"  *ngFor="let assessment_item of userItem.assessments">
-        <td class="category">
-          <div>
-            <div class="desc-div">
-              <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/level-arrow.svg'"></div>
-              <span class="desc pull-left"><b>{{assessment_item.title}}</b> <span *ngIf= "assessment_item.desc != ''">&nbsp;/&nbsp; {{assessment_item.desc}}</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="category clearfix">
+            <div class="">
+              User Name <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
             </div>
-          </div>
-        </td>
-        <td class="status" [class.pending]="assessment_item.status == 2">
-          {{statusArr[assessment_item.status]}}
-        </td>
-        <td>
-          <div class="">
-            <span>{{assessment_item.assigned_on | amDateFormat:'LL'}}</span>
-          </div>
-        </td>
-        <td>
-          <div class="">
-            <span>{{assessment_item.completed_at | amDateFormat:'LL'}}</span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+          </td>
+          <td class="status">Status </td>
+          <td width="15%">Assgned On </td>
+          <td width="15%">Complete on </td>
+        </tr>
+      </thead>
+      <tbody *ngFor="let userItem of tableData">
+        <tr>
+          <td class="category">
+            <div (click)="userItem.open = !userItem.open">
+              <div class="desc-div">
+                <span [hidden]="userItem.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!userItem.open" [class.closed]="userItem.open"></span>
+                <span class="desc" [class.no-files]="!userItem.hasDetail">{{userItem.username}}</span>
+                <span class="short-name">{{userItem.shortname}}</span>
+              </div>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="sublist" [hidden]="userItem.hasDetail != true || userItem.open != true"  *ngFor="let assessment_item of userItem.assessments">
+          <td class="category">
+            <div>
+              <div class="desc-div">
+                <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/level-arrow.svg'"></div>
+                <span class="desc pull-left"><b>{{assessment_item.title}}</b> <span *ngIf= "assessment_item.desc != ''">&nbsp;/&nbsp; {{assessment_item.desc}}</span></span>
+              </div>
+            </div>
+          </td>
+          <td class="status" [class.pending]="assessment_item.status == 2">
+            {{statusArr[assessment_item.status]}}
+          </td>
+          <td>
+            <div class="">
+              <span>{{assessment_item.assigned_on | amDateFormat:'LL'}}</span>
+            </div>
+          </td>
+          <td>
+            <div class="">
+              <span>{{assessment_item.completed_at | amDateFormat:'LL'}}</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>

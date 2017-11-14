@@ -48,6 +48,7 @@ export class DashboardOwnerComponent implements OnInit {
     completed: 0,
     in_progress: 0,
     hold: 0,
+    reject: 0
   }
 
   @Input() pID: string;
@@ -124,7 +125,7 @@ export class DashboardOwnerComponent implements OnInit {
           if(statusItem)
           {
             projectItem['Status'] = statusItem['Status'];
-            projectItem['endDate'] = statusItem['updatedAt'];
+            projectItem['endDate'] = statusItem['updateDate'];
           }else{
             projectItem['Status'] = 'Pending';
             projectItem['endDate'] = null;
@@ -265,6 +266,8 @@ export class DashboardOwnerComponent implements OnInit {
       if(entry['Status'] == 'Accept')
         this.statusInfoArr.completed++;
       else if(entry['Status'] == 'Reject')
+          this.statusInfoArr.reject++;
+      else if(entry['Status'] == 'Hold')
           this.statusInfoArr.hold++;
       else
         this.statusInfoArr.in_progress++;

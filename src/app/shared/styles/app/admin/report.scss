@@ -8,6 +8,11 @@
 
   .button-div{
     padding: 30px 30px 10px;
+    .status-p{
+      font-size: 26px;
+      font-weight: bold;
+      color: $dv-color-orange;
+    }
   }
 
   .content-div{

@@ -136,6 +136,10 @@ export class ReportComponent implements OnInit {
       response => {
         this.currentProject['Status'] = 'Accept';
         this.projectStatus = 'Accept'
+        this._notificationService.success(
+            'Project Released!',
+            'Report'
+        )
       },
       (error) => {
       }
@@ -158,6 +162,10 @@ export class ReportComponent implements OnInit {
       response => {
         this.currentProject['Status'] = 'Reject';
         this.projectStatus = 'Reject'
+        this._notificationService.success(
+            'Project Declined!',
+            'Report'
+        )
       },
       (error) => {
       }
@@ -181,6 +189,10 @@ export class ReportComponent implements OnInit {
       response => {
         this.currentProject['Status'] = 'Hold';
         this.projectStatus = 'Hold'
+        this._notificationService.success(
+            'Project Held!',
+            'Report'
+        )
       },
       (error) => {
       }
@@ -559,6 +571,7 @@ export class ReportComponent implements OnInit {
 
   getCompanyInfo(){
     let that = this;
+    console.log(this.currentProject)
     this.project_info =  Object.assign({}, this.currentProject['Project']['Company']);
     this.project_info['Project_Name'] = this.currentProject['Project']['Name'];
     this.project_info['Company_Name'] = this.currentProject['Project']['Company']['Name'];
@@ -572,8 +585,8 @@ export class ReportComponent implements OnInit {
     this.project_info['Number_Employee'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tEmpNo'] ? this.currentProject['Reason2']['tEmpNo'] : 'NA';
     this.project_info['Years_Business'] = 'NA';
     this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
-    this.project_info['End_Date'] = this.currentProject['createdAt'];
-    this.project_info['Review_Date'] = this.currentProject['updatedAt'];
+    this.project_info['End_Date'] = this.currentProject['submitDate'];
+    this.project_info['Review_Date'] = this.currentProject['updateDate'];
 
     let PrimaryUser = this.project_users.find(function(item){ return item['Role'] == 'PRIMARY'});
     this.project_info['Primary_User'] = PrimaryUser ? PrimaryUser['User']['Name']['Fullname'] : 'NA';

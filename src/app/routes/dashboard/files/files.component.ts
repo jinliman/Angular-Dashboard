@@ -16,6 +16,7 @@ export class FilesComponent implements OnInit {
   questionnaires: Array<object> = [];
   attachmentArr: Array<object> = [];
   currentProject: object;
+  userRole: string = "";
   loading: boolean;
   constructor(
     private authService: AuthService,
@@ -99,6 +100,7 @@ export class FilesComponent implements OnInit {
     this.loading = true;
     this.tableData = [];
     this.currentProject = this.authService.getUserProject();
+    this.userRole = this.currentProject['Role'];
     let projectID = this.currentProject['Project']['_id'];
     this.getAssessment(projectID);
   }

@@ -76,7 +76,7 @@ export class ReportComponent implements OnInit {
   openCheckout(id) {
     let that = this;
     var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_LGUc6Wm6OYJHrh5Ts6yOM6iC',
+      key: environment.stripe_publick_key,
       locale: 'auto',
       token: function (token: any) {
         let data = {
@@ -85,7 +85,7 @@ export class ReportComponent implements OnInit {
         }
         that.dataService.chargePayment(data).subscribe(
           response => {
-            this._notificationService.success(
+            that._notificationService.success(
                 'Successfully Sent!',
                 'Payment'
             )
@@ -96,7 +96,7 @@ export class ReportComponent implements OnInit {
             that.getSubmittedProject();
           },
           (error) => {
-            this._notificationService.error(
+            that._notificationService.error(
                 'Sth went wrong',
                 'Payment'
             )
@@ -499,8 +499,8 @@ export class ReportComponent implements OnInit {
     this.project_info['Number_Employee'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tEmpNo'] ? this.currentProject['Reason2']['tEmpNo'] : 'NA';
     this.project_info['Years_Business'] = 'NA';
     this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
-    this.project_info['End_Date'] = this.currentProject['createdAt'];
-    this.project_info['Review_Date'] = this.currentProject['updatedAt'];
+    this.project_info['End_Date'] = this.currentProject['submitDate'];
+    this.project_info['Review_Date'] = this.currentProject['updateDate'];
 
     let PrimaryUser = this.project_users.find(function(item){ return item['Role'] == 'PRIMARY'});
     this.project_info['Primary_User'] = PrimaryUser ? PrimaryUser['User']['Name']['Fullname'] : 'NA';
