@@ -44,7 +44,7 @@ export class ReportComponent implements OnInit {
   dropdownSettings: object;
   dropdownData: Array<object> = [];
   document_menu: any = [];
-  activeTab = 'heat_map';
+  activeTab = 'cover_page';
   loading: boolean;
 
   constructor(

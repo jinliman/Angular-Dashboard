@@ -168,7 +168,7 @@ export class AdminComponent implements OnInit {
       if(statusItem)
       {
         projectItem['Status'] = statusItem['Status'];
-        projectItem['endDate'] = statusItem['updateDate'];
+        projectItem['endDate'] = statusItem['submitDate'];
       }else{
         projectItem['Status'] = 'Pending';
         projectItem['endDate'] = null;
@@ -299,8 +299,6 @@ export class AdminComponent implements OnInit {
       this.statusInfoArr.total++;
       if(entry['Status'] == 'Accept')
         this.statusInfoArr.completed++;
-      else if(entry['Status'] == 'Reject')
-          this.statusInfoArr.reject++;
       else if(entry['Status'] == 'Hold')
           this.statusInfoArr.hold++;
       else

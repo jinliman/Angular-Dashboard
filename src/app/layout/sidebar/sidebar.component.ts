@@ -97,7 +97,7 @@ export class SidebarComponent implements OnInit {
       if(this.userProjectRole == "INITIATOR")
       {
         this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard (Project Owner)"},
+          { route: "/app/dashboard", Title: "Dashboard - Project Owner"},
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"},
@@ -107,21 +107,22 @@ export class SidebarComponent implements OnInit {
       }else if( this.userProjectRole == "PRIMARY" )
       {
         this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard (Primary User)"},
+          { route: "/app/dashboard", Title: "Dashboard - Primary User"},
           { route: "/app/progress", Title: "Progress"},
           { route: "/app/files", Title: "Files"},
           { route: "/app/team", Title: "Team"}
         ];
+        this.menu = this.menu.concat( this.assessment_menu )
       }else{
         this.menu = [
-          { route: "/app/dashboard", Title: "Dashboard (Team Member)"},
+          { route: "/app/dashboard", Title: "Dashboard - Team Member"},
           { route: "/app/progress", Title: "Progress"}
         ]
+        this.menu = this.menu.concat( this.assessment_menu )
       }
-      this.menu = this.menu.concat( this.assessment_menu )
     }else{
       this.menu = [
-        { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard"},
+        { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
         { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
         { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
         { route: "/" + this.dataService.getAdminUrl() + "calendar", Title: "Readout Calendar"},

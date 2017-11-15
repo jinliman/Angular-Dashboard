@@ -12,7 +12,7 @@
 			<div class="action-div pull-left">
 				<a routerLink="/register" class="get-started button pull-left">Get Started <i>for free</i></a>
 				<a *ngIf="!isLoggedIn" routerLink="/login" class="login button pull-left">Log in</a>
-				<a *ngIf="isLoggedIn" routerLink="/logout" class="login button pull-left">Log out</a>
+				<a *ngIf="isLoggedIn" routerLink="{{dashboardUrl}}" class="login button pull-left">Dashboard</a>
 			</div>
 		</div>
 		<div class="clearfix">

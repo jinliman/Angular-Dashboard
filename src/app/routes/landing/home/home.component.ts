@@ -12,8 +12,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService,
-  ) { }
+    private dataService: DataService
+  ) {
+  }
 
   userInfo: object;
   userType: string = '';
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
       response => {
         this.userType = response.type;
         if(this.userType == 'user')
-          alert('Looks like the email address already exits if this is you, please use the Login button to access your account or try again!')
+          alert('Looks like the email address already has an account. If this is you, please use your login credentials to access your account or select Forgot Password to reset your password.')
         else if(this.userType == 'invite')
           alert('Confirmation Email has already been sent!')
         else

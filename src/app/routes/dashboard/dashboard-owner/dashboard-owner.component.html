@@ -67,12 +67,12 @@
                 <span>Submitted</span>
               </div>
               <div class="status-div" *ngIf="item.Status == 'Reject'">
-                <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
-                <span>{{item.Status}}</span>
+                <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                <span>In Progress </span>
               </div>
               <div class="status-div" *ngIf="item.Status == 'Hold'">
                 <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
-                <span>{{item.Status}}</span>
+                <span>On Hold</span>
               </div>
             </td>
             <td>

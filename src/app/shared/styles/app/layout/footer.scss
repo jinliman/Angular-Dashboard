@@ -19,7 +19,8 @@
     }
   }
   ul{
-    width: 70%;
+    width: calc(70% - 200px);
+    margin-right: 200px;
     list-style: none;
     column-count: 5;
     line-height: 25px;
