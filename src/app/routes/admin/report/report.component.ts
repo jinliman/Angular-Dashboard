@@ -240,11 +240,17 @@ export class ReportComponent implements OnInit {
   getSubmittedProject(){
     this.dataService.getSubmittedProject().subscribe(response => {
         this.ProjectList = response.result;
-        this.currentProject = this.ProjectList[0];
-        this.projectStatus = this.currentProject['Status']
-        this.projectID = this.currentProject['Project']['_id'];
-        this.ProjectListTab = this.eachSlice(this.ProjectList, 4);
-        this.apiHandler();
+        if(this.ProjectList.length)
+        {
+          this.currentProject = this.ProjectList[0];
+          this.projectStatus = this.currentProject['Status'];
+          this.projectID = this.currentProject['Project']['_id'];
+          this.ProjectListTab = this.eachSlice(this.ProjectList, 4);
+          this.apiHandler();
+        }else{
+          this.currentProject = null;
+          this.loading = false;
+        }
       },
       (error) => {
       }

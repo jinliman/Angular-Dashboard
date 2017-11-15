@@ -10,7 +10,7 @@
   <h2 *ngIf="ProjectListTab.length == 0" class="no_report">No Report Available</h2>
   <div class="">
     <div class="loading-div" *ngIf="loading"></div>
-    <ng-container *ngIf="!loading">
+    <ng-container *ngIf="!loading && ProjectListTab.length">
       <div class="row button-div">
         <p class="pull-left status-p">Status:
           <span *ngIf="projectStatus == 'Accept'">Complete</span>
