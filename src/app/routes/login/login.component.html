@@ -30,15 +30,15 @@
             <input type="password" name="password" #password="ngModel" [(ngModel)] = "userCredential.password" value="" placeholder="Password" required>
             <span class="help-block" *ngIf="password.errors && password.errors.required && password.touched">Password is required</span>
           </div>
-          <div class="col-md-12 form-group checkbox">
+          <div class="col-md-12 form-group checkbox clearfix">
             <div class="remember-me pull-right">
               <input type="checkbox" id="remember_me" name="remember_me" value="">
               <label for="remember_me">Remember me</label>
             </div>
           </div>
-          <div class="col-md-12 form-group">
-            <a routerLink="/register" class="pull-left">Create account</a>
-            <a routerLink="/forgot-password" class="pull-right">Forgot passowrd?</a>
+          <div class="col-md-12 form-group clearfix forgot-password-div">
+            <a routerLink="/register" class="">Create account</a>
+            <a routerLink="/forgot-password" class="">Forgot passowrd?</a>
           </div>
         </div>
         <div class="captcha-div">

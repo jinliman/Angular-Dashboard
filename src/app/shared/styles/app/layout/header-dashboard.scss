@@ -3,6 +3,28 @@
   display: flex;
   align-items: center;
   height: $dv-dashboard-header-height;
+  .nav-icon{
+    float: left;
+    margin-right: 10px;
+    position: relative;
+    padding: 9px 10px;
+    background-color: $dv-color-green;
+    background-image: none;
+    border-radius: 4px;
+    cursor: pointer;
+    .icon-bar {
+        background-color: $dv-color-white;
+    }
+    .icon-bar+.icon-bar {
+        margin-top: 4px;
+    }
+    .icon-bar{
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 1px;
+    }
+  }
   .project-select{
     position: relative;
     width: 300px;

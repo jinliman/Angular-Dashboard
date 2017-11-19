@@ -1,6 +1,6 @@
 .login{
   .wrapper{
-    width: 480px;
+    max-width: 480px;
     margin: 0px auto;
     padding: 80px 0px;
     color: $dv-color-grey;
@@ -54,6 +54,16 @@
         input[type='checkbox']{
           width: 20px;
         }
+        &.forgot-password-div{
+          display: flex;
+          margin-top: -2px;
+          a{
+            flex: 0 0 50%;
+            &:last-of-type{
+              text-align: right;
+            }
+          }
+        }
         .back-button{
           span{
             padding-left: 10px;
@@ -83,6 +93,21 @@
     justify-content: center;
     .captcha-obj{
       display: block;
+    }
+  }
+  @media (max-width: 480px) {
+    .form{
+      .row{
+        padding: 0px;
+      }
+    }
+    .forgot-password-div{
+      display: flex;
+      flex-wrap: wrap;
+      a{
+        flex: 0 0 100% !important;
+        text-align: right;
+      }
     }
   }
 }

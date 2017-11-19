@@ -14,7 +14,7 @@ body {
 
 	.content-wrapper {
 		section {
-			width: 1200px	;
+			max-width: 1400px	;
 			margin: 0 auto;
 		}
 	}
@@ -22,6 +22,7 @@ body {
 	.dashboard-wrapper{
 		.content-wrapper{
 			margin-left: $dv-sidebar-width;
+			// margin-left: 0px;
 			padding:0px 8px;
 			.dashboard-content{
 					height: calc(100vh - #{$dv-footer-height} - #{$dv-dashboard-header-height} - 10px);

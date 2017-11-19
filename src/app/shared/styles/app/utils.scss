@@ -605,3 +605,21 @@ select-dropdown
     z-index:2 !important;
   }
 }
+.content-wrapper{
+    padding-top: 102px;
+}
+@media (max-width: 1300px) {
+  .content-wrapper{
+      padding-top: 142px;
+  }
+}
+@media (max-width: 900px) {
+  .content-wrapper{
+      padding-top: 85px;
+  }
+}
+@media (max-width: 768px) {
+  .content-wrapper{
+      padding-top: 82px;
+  }
+}

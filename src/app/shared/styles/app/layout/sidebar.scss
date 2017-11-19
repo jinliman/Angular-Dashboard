@@ -1,5 +1,6 @@
 .sidebar{
   position: fixed;
+  // display: none;
   top: 0px;
   left: 0px;
   width: $dv-sidebar-width;
@@ -105,5 +106,10 @@
         }
       }
     }
+  }
+}
+@media (max-width: 1300px) {
+  .sidebar{
+    // display: none;
   }
 }

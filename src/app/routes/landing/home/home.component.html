@@ -1,35 +1,39 @@
 <div class="homepage">
   <div class="wrapper1">
     <section>
-      <h1>The world’s most successful companies<br>trust dealvalue to accomplish IT due diligence</h1>
-      <h2>IT &amp; Operational Due Diligence software that mitigates acquisition and<br>operational risks while highlighting ROI opportunities</h2>
+      <h1>The world’s most successful companies<br> trust dealvalue to accomplish IT due diligence</h1>
+      <h2>IT &amp; Operational Due Diligence software that mitigates acquisition and<br> operational risks while highlighting ROI opportunities</h2>
       <div class="get-started clearfix">
         <p class="title">Test it Yourself. <span><i>No Credit card required!</i></span></p>
         <form (ngSubmit) = "get_start()" class="form get-started-form" #form="ngForm">
-          <div class="input-div your-name form-group"
-          [ngClass]="{
-            'has-error': username.invalid && username.touched,
-            'has-success': username.valid && username.touched
-          }">
-              <input type="text" name="username" #username="ngModel" value="" [(ngModel)] = "userInfo.UserName" placeholder="Your name" required>
+          <div class="">
+            <div class="input-div your-name form-group"
+            [ngClass]="{
+              'has-error': username.invalid && username.touched,
+              'has-success': username.valid && username.touched
+            }">
+                <input type="text" name="username" #username="ngModel" value="" [(ngModel)] = "userInfo.UserName" placeholder="Your name" required>
+            </div>
+            <div class="input-div your-email form-group"
+            [ngClass]="{
+              'has-error': useremail.invalid && useremail.touched,
+              'has-success': useremail.valid && useremail.touched
+            }">
+                <input type="text" name="useremail" #useremail="ngModel" value="" [(ngModel)] = "userInfo.UserEmail" placeholder="Your email" required>
+            </div>
           </div>
-          <div class="input-div your-email form-group"
-          [ngClass]="{
-            'has-error': useremail.invalid && useremail.touched,
-            'has-success': useremail.valid && useremail.touched
-          }">
-              <input type="text" name="useremail" #useremail="ngModel" value="" [(ngModel)] = "userInfo.UserEmail" placeholder="Your email" required>
+          <div class="">
+            <div class="input-div your-password form-group"
+            [ngClass]="{
+              'has-error': userpassword.invalid && userpassword.touched,
+              'has-success': userpassword.valid && userpassword.touched
+            }">
+                <input type="password" name="userpassword" #userpassword="ngModel" value="" [(ngModel)] = "userInfo.UserPassword" placeholder="Your password" required>
+            </div>
+            <button type="submit" [disabled] = "form.invalid"  class="get-started-button btn button">Let's go!</button>
           </div>
-          <div class="input-div your-password form-group"
-          [ngClass]="{
-            'has-error': userpassword.invalid && userpassword.touched,
-            'has-success': userpassword.valid && userpassword.touched
-          }">
-              <input type="password" name="userpassword" #userpassword="ngModel" value="" [(ngModel)] = "userInfo.UserPassword" placeholder="Your password" required>
-          </div>
-          <button type="submit" [disabled] = "form.invalid"  class="get-started-button btn button">Let's go!</button>
         </form>
-        <span class="span1 pull-right">By signing up, you are agreeing to our <a href="#">terms</a>.</span>
+        <span class="span1">By signing up, you are agreeing to our <a href="#">terms</a>.</span>
       </div>
     </section>
   </div>
@@ -39,30 +43,27 @@
       <p class="p1">From pre-deal to post close and everything in between,<br>we’ve got you covered to mitigate investment risks and capture deal value.</p>
       <div class="assessment_list ">
         <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-4 assessment_item">
+          <div class="col-md-4 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Mergers &amp; Acquisitions</span>
           </div>
-          <div class="col-md-4 assessment_item">
+          <div class="col-md-4 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Carve-outs</span>
           </div>
-          <div class="col-md-3 assessment_item">
+          <div class="col-md-3 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Add-ons &amp; Roll-ups</span>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 assessment_item">
+          <div class="col-md-4 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Private Equity</span>
           </div>
-          <div class="col-md-4 assessment_item">
+          <div class="col-md-4 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Coroporate Development</span>
           </div>
-          <div class="col-md-4 assessment_item">
+          <div class="col-md-4 col-sm-6 assessment_item">
             <div [inlineSVG]="'../assets/images/icons/homepage/checkmark-icon.svg'"></div>
             <span>Cost Reduction &amp; Process Improvement</span>
           </div>
@@ -77,7 +78,7 @@
       </h3>
       <div class="keyquestions-list">
         <div class="row">
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">IT Strategy</span>
             </p>
@@ -85,7 +86,7 @@
               <li>Alignment of the IT strategy with the business strategy</li>
             </ul>
           </div>
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">IT Spending</span>
             </p>
@@ -96,7 +97,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">Business Applications</span>
             </p>
@@ -107,7 +108,7 @@
               <li>Level of process automation</li>
             </ul>
           </div>
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">IT Organization</span>
             </p>
@@ -118,7 +119,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">IT Projects</span>
             </p>
@@ -127,7 +128,7 @@
               <li>Potential risks of failure(delays, additional costs)</li>
             </ul>
           </div>
-          <div class="col-md-6 keyquestions_item">
+          <div class="col-md-6 col-sm-6 keyquestions_item">
             <p class="title">
               <span class="text">Infrastructure &amp; Operation</span>
             </p>
@@ -144,74 +145,70 @@
     <section>
       <h3>Features</h3>
       <div class="feature_list">
-        <div class="row">
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/report-icon.svg'"></span>
-              <span class="text">IT Assessment Report</span>
-            </p>
-            <p class="detail">Detailed assessment of business<br>applications, infrastructure &amp; IT organization<br>along with costs, risk &amp; opportunities.</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/dashboard-icon.svg'"></span>
-              <span class="text">Dashboard</span>
-            </p>
-            <p class="detail">An overview of your workloadand priorities.</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/heatmap-icon.svg'"></span>
-              <span class="text">Heat Map</span>
-            </p>
-            <p class="detail">A visual overview of technologyrisks &amp; opportunities.</p>
-          </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/report-icon.svg'"></span>
+            <span class="text">IT Assessment Report</span>
+          </p>
+          <p class="detail">Detailed assessment of business applications, infrastructure &amp; IT organization along with costs, risk &amp; opportunities.</p>
         </div>
-        <div class="row">
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/collaboration-icon.svg'"></span>
-              <span class="text">Collaborate</span>
-            </p>
-            <p class="detail">Buyers, Sellers, Management andIT Leadership interact with ease.</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/task-icon.svg'"></span>
-              <span class="text">Task Management</span>
-            </p>
-            <p class="detail">Proactively track tasks and progress<br>to drive deal speed.</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/dashboard-icon.svg'"></span>
-              <span class="text">Timeline</span>
-            </p>
-            <p class="detail">Review and assign IT Assessment<br>tasks with one click.</p>
-          </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/dashboard-icon.svg'"></span>
+            <span class="text">Dashboard</span>
+          </p>
+          <p class="detail">An overview of your workloadand priorities.</p>
         </div>
-        <div class="row">
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/mobile-icon.svg'"></span>
-              <span class="text">Mobile</span>
-            </p>
-            <p class="detail">Track progress, metrics and<br>comminucate on the move.</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/resource-icon.svg'"></span>
-              <span class="text">Resource Management</span>
-            </p>
-            <p class="detail">Allocate tasks and view pendingitems by resource across all projects..</p>
-          </div>
-          <div class="col-md-4 feature_item">
-            <p class="title">
-              <span class="img" [inlineSVG]="'../assets/images/icons/homepage/workflow-icon.svg'"></span>
-              <span class="text">Workflow</span>
-            </p>
-            <p class="detail">Automated workflow to streamline<br>deal speed and deal value.</p>
-          </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/heatmap-icon.svg'"></span>
+            <span class="text">Heat Map</span>
+          </p>
+          <p class="detail">A visual overview of technologyrisks &amp; opportunities.</p>
+        </div>
+
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/collaboration-icon.svg'"></span>
+            <span class="text">Collaborate</span>
+          </p>
+          <p class="detail">Buyers, Sellers, Management andIT Leadership interact with ease.</p>
+        </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/task-icon.svg'"></span>
+            <span class="text">Task Management</span>
+          </p>
+          <p class="detail">Proactively track tasks and progress to drive deal speed.</p>
+        </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/dashboard-icon.svg'"></span>
+            <span class="text">Timeline</span>
+          </p>
+          <p class="detail">Review and assign IT Assessment tasks with one click.</p>
+        </div>
+
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/mobile-icon.svg'"></span>
+            <span class="text">Mobile</span>
+          </p>
+          <p class="detail">Track progress, metrics and comminucate on the move.</p>
+        </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/resource-icon.svg'"></span>
+            <span class="text">Resource Management</span>
+          </p>
+          <p class="detail">Allocate tasks and view pendingitems by resource across all projects..</p>
+        </div>
+        <div class="feature_item">
+          <p class="title">
+            <span class="img" [inlineSVG]="'../assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <span class="text">Workflow</span>
+          </p>
+          <p class="detail">Automated workflow to streamline deal speed and deal value.</p>
         </div>
       </div>
     </section>
@@ -220,7 +217,7 @@
     <section>
       <h3>How IT Due Diligence Creates Organizational and Transaction Value</h3>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-5">
           <div class="pdf-div clearfix">
             <a class="title" href="#"><img src="../assets/images/logo/logo1.png" width="131" height="19"></a>
             <br>
@@ -231,20 +228,24 @@
             </a>
           </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-sm-7">
           <div class="state_div">
             <h4>The State of IT Due Diligence in 2017</h4>
             <div class="row">
-              <div class="col-md-5  col-xs-6">
+              <div class="col-md-5  col-sm-12">
                 <p>We surveyed over 300 buyers, sellers<br> and technology executives to learn <br>about why their most successful<br> transactions included IT Due Diligence. <br>Don’t let surprises kill your ROI.</p>
-                <a href="#" class="download-button button">Download <i>free</i> report</a>
               </div>
-              <div class="col-md-7 col-xs-6">
+              <div class="col-md-7 col-sm-12">
                 <ul>
                   <li>Top technology challenges buyers &amp; sellers<br>battle every day</li>
                   <li>Don’t let surprises and high Advisor fees<br>kill your deal value  or ROI</li>
                   <li>Which DealValue features increase<br> opportunities and reduce risks</li>
                 </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 download-report-button">
+                <a href="#" class="download-button button">Download <i>free</i> report</a>
               </div>
             </div>
           </div>
@@ -255,42 +256,38 @@
   <div class="wrapper5">
     <section>
       <h3>Secure and global access from anywhere at anytime </h3>
-      <div class="row">
-        <div class="col-md-3 tablet1">
+      <div class="row outer-img-tablet">
+        <div class="col-md-3 col-sm-0 tablet1">
           <img src="./assets/images/homepage/tablet1.png" alt="tablet">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 tablet2">
           <img src="./assets/images/homepage/tablet2.png" alt="tablet">
         </div>
-        <div class="col-md-3 tablet1">
+        <div class="col-md-3 col-sm-0 tablet1">
           <img src="./assets/images/homepage/tablet1.png" alt="tablet">
         </div>
       </div>
     </section>
   </div>
   <div class="wrapper6">
-    <section>
+    <section class="clearfix">
       <h3>Your data stays safe in the cloud.</h3>
       <p class="sub-title">We encrypt our connections. Keep data safe and private.<br>And we work hard to protect your information.</p>
-      <div class="row">
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-4">
-          <ul class="icon-div">
-            <li>
-              <div [inlineSVG]="'../assets/images/icons/homepage/lock-icon.svg'"></div>
-              <span>AES 128-bit encryption</span>
-            </li>
-            <li>
-              <div [inlineSVG]="'../assets/images/icons/homepage/shield-icon.svg'"></div>
-              <span>TLS/SSL</span>
-            </li>
-            <li>
-              <div style="margin-left:-9px;" [inlineSVG]="'../assets/images/icons/homepage/authentication-icon.svg'"></div>
-              <span>Two-step authentication</span>
-            </li>
-          </ul>
-        </div>
+      <div class="outer-icon-div">
+        <ul class="icon-div">
+          <li>
+            <div [inlineSVG]="'../assets/images/icons/homepage/lock-icon.svg'"></div>
+            <span>AES 128-bit encryption</span>
+          </li>
+          <li>
+            <div [inlineSVG]="'../assets/images/icons/homepage/shield-icon.svg'"></div>
+            <span>TLS/SSL</span>
+          </li>
+          <li>
+            <div style="margin-left:-9px;" [inlineSVG]="'../assets/images/icons/homepage/authentication-icon.svg'"></div>
+            <span>Two-step authentication</span>
+          </li>
+        </ul>
       </div>
     </section>
   </div>

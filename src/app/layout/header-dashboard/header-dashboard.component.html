@@ -1,4 +1,10 @@
 <div class="header-dashboard">
+		<div class="nav-icon" data-toggle="left-side-bar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</div>
 		<div class="project-select" *ngIf="userInfo.Role != 'admin' && loadProjectList">
 			<ng-select class="cs-select" (selected)="onSelectProject($event)" [options]="projectList" [(ngModel)]="projectID" name="project" placeholder="Project List">
 			</ng-select>

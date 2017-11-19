@@ -1,6 +1,6 @@
 .register{
   .wrapper{
-    width: 720px;
+    max-width: 720px;
     margin: 0px auto;
     padding: 80px 0px;
     .logo{
@@ -163,5 +163,18 @@
   .captcha-div{
     margin: 25px auto;
     width: 302px;
+  }
+  @media (max-width: 480px) {
+    .wrapper{
+      .inner-wrapper{
+        .form{
+          h2{
+            br{
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
 }
