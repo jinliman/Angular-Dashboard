@@ -17,6 +17,7 @@ export class DataService {
   public progressChanged: EventEmitter<Object>;
   public projectListUpdated: EventEmitter<Object>;
   public projectSubmitted: EventEmitter<Object>;
+  public sidebarToggled: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
@@ -24,6 +25,11 @@ export class DataService {
     this.categoryChanged = new EventEmitter();
     this.progressChanged = new EventEmitter();
     this.projectSubmitted = new EventEmitter();
+    this.sidebarToggled = new EventEmitter();
+  }
+
+  onSidebarToggled(data){
+    this.sidebarToggled.emit(data);
   }
 
   onProjectSubmitted(){

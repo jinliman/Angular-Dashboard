@@ -25,6 +25,7 @@ export class HeaderDashboardComponent implements OnInit {
   assessmentList: Array<any> = [];
   questionnaires: Array<object>= [];
   answers: Array<Answer> = [];
+  isSidebarCollapsed: boolean = false;
 
   firstname: string = 'Admin';
   shortname: string = 'DV';
@@ -35,6 +36,11 @@ export class HeaderDashboardComponent implements OnInit {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
     this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
     this.dataService.projectSubmitted.subscribe(data => this.onProjectSubmitted());
+  }
+
+  toggleSidebar(){
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.dataService.onSidebarToggled(this.isSidebarCollapsed)
   }
 
   onProjectSubmitted(){

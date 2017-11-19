@@ -27,7 +27,7 @@
   }
   .project-select{
     position: relative;
-    width: 300px;
+    min-width: 200px;
     color: $dv-color-grey;
     .search-icon{
       position: absolute;

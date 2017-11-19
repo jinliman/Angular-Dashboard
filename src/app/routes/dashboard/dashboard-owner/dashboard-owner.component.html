@@ -1,28 +1,28 @@
 <div class="loading-div" *ngIf="loading"></div>
 <ng-container *ngIf="!loading">
   <div class="row first-row">
-    <div class="col-md-3 status-block clearfix">
+    <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
       <div class="status pull-left">
         <p class="title">Total Projects</p>
         <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
       </div>
       <p class="value pull-right">{{statusInfoArr.total}}</p>
     </div>
-    <div class="col-md-3 status-block clearfix">
+    <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
       <div class="status pull-left">
         <p class="title">Total Completes</p>
         <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
       </div>
       <p class="value pull-right">{{statusInfoArr.completed}}</p>
     </div>
-    <div class="col-md-3 status-block clearfix">
+    <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
       <div class="status pull-left">
         <p class="title">Total on Holds</p>
         <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
       </div>
       <p class="value pull-right">{{statusInfoArr.hold}}</p>
     </div>
-    <div class="col-md-3 status-block clearfix">
+    <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
       <div class="status pull-left">
         <p class="title">Total In Progress</p>
         <div [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>

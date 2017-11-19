@@ -1,6 +1,6 @@
 <div class="progress-page">
   <div class="row status-row" *ngFor="let project_group of userProjectListTab; let i = index">
-    <div class="col-md-3 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
+    <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix" *ngFor="let project of project_group; let i1 = index" [class.active]="projectID == project.Project['_id']" (click)="changeProject(project)">
       <div class="status">
         <p class="title">{{project.Project.Name}}</p>
       </div>

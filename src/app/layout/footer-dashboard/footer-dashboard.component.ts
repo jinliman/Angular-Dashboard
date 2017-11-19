@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  selector: 'app-footer-dashboard',
+  templateUrl: './footer-dashboard.component.html',
+  styleUrls: ['./footer-dashboard.component.scss']
 })
-export class FooterComponent implements OnInit {
+export class FooterDashboardComponent implements OnInit {
 
   isLoggedIn = false;
 

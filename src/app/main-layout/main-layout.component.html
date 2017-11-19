@@ -2,7 +2,7 @@
 <div class="dashboard-wrapper">
 	<app-sidebar></app-sidebar>
 
-	<div class="content-wrapper">
+	<div class="content-wrapper" [class.wide-screen]="isSidebarCollapsed">
 		<div class="">
 			<app-header-dashboard class="header-wrapper"></app-header-dashboard>
 			<div class="dashboard-content">
@@ -10,6 +10,6 @@
 			</div>
 		</div>
 	</div>
-	<app-footer class="footer-wrapper"></app-footer>
+	<app-footer-dashboard class="footer-wrapper"></app-footer-dashboard>
 
 </div>

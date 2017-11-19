@@ -22,20 +22,24 @@ body {
 	.dashboard-wrapper{
 		.content-wrapper{
 			margin-left: $dv-sidebar-width;
-			// margin-left: 0px;
 			padding:0px 8px;
+			min-width: 768px;
 			.dashboard-content{
-					height: calc(100vh - #{$dv-footer-height} - #{$dv-dashboard-header-height} - 10px);
-					border: 2px solid $dv-color-border;
-					background-color: $dv-color-white;
-					overflow: auto;
-					position: relative;
+				height: calc(100vh - #{$dv-footer-height} - #{$dv-dashboard-header-height} - 10px);
+				border: 2px solid $dv-color-border;
+				background-color: $dv-color-white;
+				overflow: auto;
+				position: relative;
+			}
+			&.wide-screen{
+				margin-left: 0px;
 			}
 		}
-		.footer{
+		.footer-dashboard{
 			position: fixed;
 			width: 100%;
 			bottom: 0px;
+			height: 100px;
 		}
 	}
 }

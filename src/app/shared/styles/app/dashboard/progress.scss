@@ -30,12 +30,12 @@
     }
   }
   .status-row{
-    border-bottom: 2px solid $dv-color-border;
   }
   .status-block{
     margin: 0px !important;
     cursor: pointer;
     border-right: 2px solid $dv-color-border;
+    border-bottom: 2px solid $dv-color-border;
     padding: 20px 20px;
     position: relative;
     height: 126px;

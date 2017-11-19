@@ -1,6 +1,8 @@
 .sidebar{
+  &.collapse{
+    display: none;
+  }
   position: fixed;
-  // display: none;
   top: 0px;
   left: 0px;
   width: $dv-sidebar-width;

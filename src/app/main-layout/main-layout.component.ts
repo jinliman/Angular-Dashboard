@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { DataService } from '../core/services/data.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -16,11 +17,17 @@ export class MainLayoutComponent implements OnInit{
     clickToClose: true,
     maxLength: 30,
   }
-
+  isSidebarCollapsed :boolean = false;
   constructor(
-    private router: Router
+    private router: Router,
+    private dataService: DataService,
   ) {
+    this.dataService.sidebarToggled.subscribe(data => this.onSidebarToggled(data));
+  }
 
+  onSidebarToggled(data)
+  {
+    this.isSidebarCollapsed = data;
   }
   ngOnInit() {
   }
