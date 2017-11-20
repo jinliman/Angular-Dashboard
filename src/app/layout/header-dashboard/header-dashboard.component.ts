@@ -36,6 +36,8 @@ export class HeaderDashboardComponent implements OnInit {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
     this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
     this.dataService.projectSubmitted.subscribe(data => this.onProjectSubmitted());
+    if(window.innerWidth <= 1024)
+      this.isSidebarCollapsed = true;
   }
 
   toggleSidebar(){

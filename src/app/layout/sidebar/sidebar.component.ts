@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
     animateExpand: false
   }
   isSidebarCollapsed: boolean = false;
-  
+
   constructor(
     private authService: AuthService,
     private dataService: DataService)
@@ -60,6 +60,8 @@ export class SidebarComponent implements OnInit {
     this.dataService.categoryChanged.subscribe(data => this.onCategoryChanged(data));
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     this.dataService.sidebarToggled.subscribe(data => this.onSidebarToggled(data));
+    if(window.innerWidth <= 1024)
+      this.isSidebarCollapsed = true;
   }
 
   onSidebarToggled(data)

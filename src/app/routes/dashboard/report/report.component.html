@@ -415,47 +415,49 @@
                    <!--
                    Normal QA table
                    -->
-                   <table>
-                     <thead>
-                       <tr>
-                         <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
-                           <th *ngIf="question['type'] != 'Grid'">{{question.desc}}</th>
-                         </ng-container>
-                       </tr>
-                     </thead>
-                     <tbody>
-                       <tr>
-                         <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
-                           <td *ngIf="question['type'] != 'Grid'">
-                             <span *ngIf="question.status == 0">(NA)</span>
-                             <ng-container *ngIf="question.status != 0">
-                               <ng-container *ngIf="question['type'] == 'Text'">
-                                 <span *ngFor="let item of question.items">{{item.value}}</span>
-                               </ng-container>
-                               <ng-container *ngIf="question['type'] == 'Date'">
-                                 <span>{{question.value}}</span>
-                               </ng-container>
-                               <ng-container *ngIf="question['type'] == 'Radio'">
-                                 <ng-container *ngFor="let item of question.items">
-                                   <span *ngIf="question['value'] == item['uuid']">{{item['Text']}}</span>
+                   <div class="table-div">
+                     <table>
+                       <thead>
+                         <tr>
+                           <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
+                             <th *ngIf="question['type'] != 'Grid'">{{question.desc}}</th>
+                           </ng-container>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr>
+                           <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
+                             <td *ngIf="question['type'] != 'Grid'">
+                               <span *ngIf="question.status == 0">(NA)</span>
+                               <ng-container *ngIf="question.status != 0">
+                                 <ng-container *ngIf="question['type'] == 'Text'">
+                                   <span *ngFor="let item of question.items">{{item.value}}</span>
+                                 </ng-container>
+                                 <ng-container *ngIf="question['type'] == 'Date'">
+                                   <span>{{question.value}}</span>
+                                 </ng-container>
+                                 <ng-container *ngIf="question['type'] == 'Radio'">
+                                   <ng-container *ngFor="let item of question.items">
+                                     <span *ngIf="question['value'] == item['uuid']">{{item['Text']}}</span>
+                                   </ng-container>
+                                 </ng-container>
+                                 <ng-container *ngIf="question['type'] == 'Checkbox' || question['type'] == 'Dropdown'">
+                                   <ng-container *ngFor="let item of question.items">
+                                     <span *ngIf="item['value']">{{item['Text']}}</span>
+                                   </ng-container>
                                  </ng-container>
                                </ng-container>
-                               <ng-container *ngIf="question['type'] == 'Checkbox' || question['type'] == 'Dropdown'">
-                                 <ng-container *ngFor="let item of question.items">
-                                   <span *ngIf="item['value']">{{item['Text']}}</span>
-                                 </ng-container>
-                               </ng-container>
-                             </ng-container>
-                           </td>
-                         </ng-container>
-                       </tr>
-                     </tbody>
-                   </table>
-                   <!--
-                   Grid QA table
-                   -->
+                             </td>
+                           </ng-container>
+                         </tr>
+                       </tbody>
+                     </table>
+                   </div>
+                     <!--
+                     Grid QA table
+                     -->
                    <ng-container *ngFor="let question of table_item.questionArr; let q_i = index">
-                     <div *ngIf="question['type'] == 'Grid'">
+                     <div *ngIf="question['type'] == 'Grid'" class="table-div">
                        <table >
                          <thead>
                            <tr>

@@ -121,6 +121,7 @@
       padding: 40px 0px;
       height: 100%;
       flex: 1;
+      width: calc( 100% - 300px);
       display: block;
       h2{
         font-size: 25px;
@@ -504,6 +505,15 @@
           margin: 35px 0px;
         }
         .qa-table{
+          .table-div{
+            width: 100%;
+            overflow-x: auto;
+            &:first-of-type{
+              table{
+                margin-top: 0px;
+              }
+            }
+          }
           table{
             margin-top: 60px;
           }

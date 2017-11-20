@@ -23,6 +23,8 @@ export class MainLayoutComponent implements OnInit{
     private dataService: DataService,
   ) {
     this.dataService.sidebarToggled.subscribe(data => this.onSidebarToggled(data));
+    if(window.innerWidth <= 1024)
+      this.isSidebarCollapsed = true;
   }
 
   onSidebarToggled(data)
