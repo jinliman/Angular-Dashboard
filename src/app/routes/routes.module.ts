@@ -31,6 +31,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ComfirmInvitationComponent } from './comfirm-invitation/comfirm-invitation.component';
 import { OnedriveAuthComponent } from './onedrive-auth/onedrive-auth.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes = [
 
@@ -80,6 +81,7 @@ export const routes = [
       {  path: 'register', component: RegisterComponent},
       {  path: 'logout', component: LogoutComponent},
       {  path: 'forgot-password', component: ForgotPasswordComponent},
+      {  path: 'reset-password', component: ResetPasswordComponent},
       {  path: 'email-sent', component: EmailSentComponent},
       {  path: 'confirm-email', component: ConfirmEmailComponent},
       {  path: 'team-invite', component: TeamsComponent },
@@ -113,7 +115,8 @@ export const routes = [
     AdminloginComponent,
     ConfirmEmailComponent,
     ComfirmInvitationComponent,
-    OnedriveAuthComponent
+    OnedriveAuthComponent,
+    ResetPasswordComponent
     ],
   exports: [
   	RouterModule,

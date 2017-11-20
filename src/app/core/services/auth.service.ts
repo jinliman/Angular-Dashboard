@@ -144,6 +144,15 @@ export class AuthService {
       .map((response: Response) => response.json());
   }
 
+  forgotPasswordRequest(data){
+    return this.http.post(this.url + '/api/forgot_password', data, { headers: this.getHeaders()})
+      .map((response: Response) => response.json());
+  }
+  resetPassword(data){
+    return this.http.post(this.url + '/api/reset_password', data, { headers: this.getHeaders()})
+      .map((response: Response) => response.json());
+  }
+
 
   inviteUser(data){
     return this.http.post(this.url + '/api/invite', data, { headers: this.getHeaders() })
