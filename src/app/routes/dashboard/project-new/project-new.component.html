@@ -159,7 +159,7 @@
           }">
             <label for="t_no_employee" class="required">Estimated # of Employees:</label>
             <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newProject.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
-            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
           </div>
           <div class="col-md-6 form-group"
           [ngClass]="{
@@ -168,7 +168,7 @@
           }">
             <label for="t_annual" class="required">Annual Revenue</label>
             <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newProject.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
-            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
           </div>
         </div>
         <div class="row">
@@ -194,7 +194,7 @@
           }">
             <label for="t_no_employee" class="required">Estimated # of Employees:</label>
             <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newProject.Reason2.tEmpNo" value="" required>
-            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+            <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
           </div>
           <div class="col-md-6 form-group"
           [ngClass]="{
@@ -203,7 +203,7 @@
           }">
             <label for="t_annual" class="required">Annual Revenue</label>
             <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newProject.Reason2.tAnnualRev" value="" required>
-            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+            <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
           </div>
         </div>
         <div class="row">
@@ -214,7 +214,7 @@
           }">
             <label for="t_net_income" class="required">Net Income:</label>
             <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "newProject.Reason2.tNetIncome" value="" required>
-            <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Net Income is required</span>
+            <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Only number allowed</span>
           </div>
           <div class="col-md-6 form-group"
           [ngClass]="{

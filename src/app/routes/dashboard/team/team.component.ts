@@ -23,7 +23,7 @@ export class TeamComponent implements OnInit {
   TeamEmail: Array<object> = [];
   hasPrimary: boolean = false;
   userRole: string = "";
-  
+
   loading: boolean;
   constructor(
     private authService: AuthService,
@@ -135,21 +135,21 @@ export class TeamComponent implements OnInit {
         if(response.ERR_CODE == 'ERR_NONE')
         {
           this._notificationService.success(
-              'Successfully Sent!',
-              'Category'
+              'Invitation Sent!',
+              'Team'
           );
           modal.close();
         }else{
           this._notificationService.error(
               'Sth went wrong',
-              'Category'
+              'Team'
           )
         }
       },
       (error) => {
         this._notificationService.error(
             'Sth went wrong',
-            'Category'
+            'Team'
         )
       }
     );

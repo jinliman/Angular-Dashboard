@@ -77,13 +77,13 @@
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
-            <label for="state">State:</label>
-            <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="newUser.Company.State" name="state" placeholder="Please select state">
+            <label for="city">City:</label>
+            <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
             </ng-select>
           </div>
           <div class="col-md-6 form-group">
-            <label for="city">City:</label>
-            <ng-select class="cs-select" [options]="city_list" [(ngModel)]="newUser.Company.City" name="city" placeholder="Please select city">
+            <label for="state">State:</label>
+            <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="newUser.Company.State" name="state" placeholder="Please select state">
             </ng-select>
           </div>
         </div>
@@ -176,7 +176,7 @@
             }">
               <label for="t_no_employee">Estimated # of Employees:</label>
               <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
-              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
             </div>
             <div class="col-md-6 form-group"
             [ngClass]="{
@@ -185,7 +185,7 @@
             }">
               <label for="t_annual">Annual Revenue</label>
               <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
-              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
             </div>
           </div>
           <div class="row">
@@ -211,7 +211,7 @@
             }">
               <label for="t_no_employee">Estimated # of Employees:</label>
               <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "newUser.Reason2.tEmpNo" value="" required>
-              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Estimated # is required</span>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
             </div>
             <div class="col-md-6 form-group"
             [ngClass]="{
@@ -220,7 +220,7 @@
             }">
               <label for="t_annual">Annual Revenue</label>
               <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "newUser.Reason2.tAnnualRev" value="" required>
-              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Annual Revenue is required</span>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
             </div>
           </div>
           <div class="row">
@@ -231,7 +231,7 @@
             }">
               <label for="t_net_income">Net Income:</label>
               <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "newUser.Reason2.tNetIncome" value="" required>
-              <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Net Income is required</span>
+              <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Only number allowed</span>
             </div>
             <div class="col-md-6 form-group"
             [ngClass]="{

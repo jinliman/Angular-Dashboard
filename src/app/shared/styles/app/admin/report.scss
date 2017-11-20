@@ -126,6 +126,7 @@
     .content-inner{
       padding: 40px 0px;
       height: 100%;
+      width: calc( 100% - 300px);
       flex: 1;
       display: block;
       h2{
@@ -509,6 +510,20 @@
         h4{
           font-size: 20px;
           margin: 35px 0px;
+        }
+        .qa-table{
+          .table-div{
+            width: 100%;
+            overflow-x: auto;
+            &:first-of-type{
+              table{
+                margin-top: 0px;
+              }
+            }
+          }
+          table{
+            margin-top: 60px;
+          }
         }
         table{
           width: 100%;

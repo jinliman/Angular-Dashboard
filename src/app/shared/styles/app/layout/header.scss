@@ -88,7 +88,7 @@
       border-color: $dv-color-green;
       border: 2px solid $dv-color-green;
       color: #ffffff;
-      float: left;
+      float: right;
       i{
         font-weight: 200
       }
@@ -193,11 +193,13 @@
       }
       .action-div {
         .get-started {
+          margin-top: 10px;
           float: none;
           display: block;
         }
         .login{
           margin-top: 10px;
+          float: none;
           display: block;
         }
       }
