@@ -84,10 +84,8 @@ export class DataService {
       {'value':'2', 'label': 'Referral'},
       {'value':'3', 'label': 'LinkedIn'},
       {'value':'4', 'label': 'Twitter'},
-      {'value':'5', 'label': 'Mailer'},
-      {'value':'6', 'label': 'E-mail'},
-      {'value':'7', 'label': 'Fax'},
-      {'value':'8', 'label': 'Other'}
+      {'value':'5', 'label': 'DealValue Partner'},
+      {'value':'6', 'label': 'Other'}
     ]
     return about_us_list;
   }
@@ -451,6 +449,16 @@ export class DataService {
 
   updateProjectStatus(data){
     return this.http.post(this.url + '/api/admin/project/update_status', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getHeatmap(data){
+    return this.http.post(this.url + '/api/user/project/get_heatmap', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getHeatmapDesc(){
+    return this.http.post(this.url + '/api/user/project/get_heatmapdesc', {}, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 

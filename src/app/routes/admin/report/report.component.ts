@@ -40,11 +40,16 @@ export class ReportComponent implements OnInit {
   address_info: Array<any> = [];
 
   user: object = {}
+
   projectID: string;
   dropdownSettings: object;
   dropdownData: Array<object> = [];
   document_menu: any = [];
-  activeTab = 'cover_page';
+  heatmapData: Array<object> = [];
+  inputHeatmapData: Array<object> = [];
+  heatmapScoreDescription: object = {};
+  heatmapScoreDescriptionOrg: Array<object> = [];
+  activeTab = 'heat_map';
   loading: boolean;
 
   constructor(
@@ -65,22 +70,59 @@ export class ReportComponent implements OnInit {
   public editor_id = null;
   public editor_type = null;
 
+  ngOnInit() {
+    this.loading = true;
+    this.dropdownSettings = {
+        singleSelection: false,
+        text:'--',
+        selectAllText:'Select All',
+        unSelectAllText:'UnSelect All',
+        enableSearchFilter: false ,
+        enableCheckAll: false,
+        classes:"cs-dropdown-select custom-class",
+      };
+    this.dropdownData = []
+    this.getSubmittedProject();
+    this.heatmapScoreDescription = {}
+    this.heatmapScoreDescriptionOrg = [];
+  }
+
+  getDes(value)
+  {
+    let result = this.heatmapScoreDescription['level1'];
+    if(value == null || value == '')
+      result = 'Not Available';
+    else if(value < 3)
+      result = this.heatmapScoreDescription['level1'];
+    else if(value >= 3 && value < 4)
+      result = this.heatmapScoreDescription['level2'];
+    else if(value >= 4)
+      result = this.heatmapScoreDescription['level3'];
+    return result || 'Not Available';
+  }
   openHeatmap(modal){
     modal.open('lg');
+    for(let item of this.heatmapScoreDescriptionOrg)
+    {
+      this.heatmapScoreDescription[item['label']] = item['description']
+    }
   }
   submitHeatmap(modal){
-    let heatmap_arr = this.tableData.map(function(item){return item['Heatmap']});
+    let heatmap_arr = this.inputHeatmapData;
     let data = {
       id: this.currentProject['_id'],
+      descList: this.heatmapScoreDescription,
       data: heatmap_arr
     }
-    console.log(data)
     this.dataService.updateHeatmap(data).subscribe(
       response => {
           this._notificationService.success(
               'Successfully Saved!',
               'Heatmap'
           )
+          this.heatmapData = response.result;
+          this.getHeatmapDescription(() => {});
+          this.getTableData();
           modal.close();
       },
       (error) => {
@@ -213,22 +255,6 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.loading = true;
-    this.dropdownSettings = {
-        singleSelection: false,
-        text:'--',
-        selectAllText:'Select All',
-        unSelectAllText:'UnSelect All',
-        enableSearchFilter: false ,
-        enableCheckAll: false,
-        classes:"cs-dropdown-select custom-class",
-      };
-    this.dropdownData = []
-    this.getSubmittedProject();
-  }
-
-
   eachSlice(obj, size){
     let arr = []
     for (var i = 0, l = obj.length; i < l; i += size){
@@ -296,11 +322,48 @@ export class ReportComponent implements OnInit {
       this.getCity(() => {resolve(); });
     }))
 
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getHeatmapDescription(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getHeatmap(() => {resolve(); });
+    }))
+
     Promise.all(promiseArr).then(() => {
       this.getTableData();
     });
   }
 
+  getHeatmap(resolve){
+    let data = {projectID: this.projectID}
+    this.dataService.getHeatmap(data).subscribe(
+      response => {
+        this.heatmapData  = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getHeatmapDescription(resolve)
+  {
+    this.dataService.getHeatmapDesc().subscribe(
+      response => {
+        this.heatmapScoreDescriptionOrg = response.result;
+        for(let item of this.heatmapScoreDescriptionOrg)
+        {
+          this.heatmapScoreDescription[item['label']] = item['description']
+        }
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
   getProjectAttachment(resolve){
     let data = {id: this.projectID}
     this.dataService.getProjectAttachment(data).subscribe(
@@ -379,7 +442,7 @@ export class ReportComponent implements OnInit {
   }
 
   getAssessment(resolve){
-    console.log(this.currentProject)
+
     this.getFeedbackList();
     this.dataService.getAssessmentList(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
@@ -481,6 +544,38 @@ export class ReportComponent implements OnInit {
       url = environment.serverUrl + '/' + url;
     return url;
   }
+
+  updateHeatMap(entries, heatmap){
+    let t_heatmap = [];
+    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    let that = this;
+    function recursive(obj){
+      for(let entry of obj)
+      {
+          let heatmap_item = that.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entry['uuid']});
+          t_heatmap.push(heatmap_item)
+          if(entry.children.length)
+          {
+            recursive(entry.children)
+          }
+      }
+    }
+    recursive(entries);
+    t_heatmap.forEach((item, index) => {
+      if(item == undefined)
+        return;
+      t_heatmapSum.Cost += item.Cost || 0;
+      t_heatmapSum.Fit += item.Fit || 0;
+      t_heatmapSum.Integrity += item.Integrity || 0;
+      t_heatmapSum.Viability += item.Viability || 0;
+    })
+    t_heatmapSum.Cost = t_heatmapSum.Cost ? t_heatmapSum.Cost / t_heatmap.length : null;
+    t_heatmapSum.Fit = t_heatmapSum.Fit ? t_heatmapSum.Fit / t_heatmap.length : null;
+    t_heatmapSum.Integrity = t_heatmapSum.Integrity ? t_heatmapSum.Integrity  / t_heatmap.length: null;
+    t_heatmapSum.Viability = t_heatmapSum.Viability ? t_heatmapSum.Viability  / t_heatmap.length: null;
+    return t_heatmapSum;
+  }
+
   recursiveUpdate(entries)
   {
     for(let entry of entries)
@@ -553,8 +648,10 @@ export class ReportComponent implements OnInit {
       }
       let groupStatus = this.getGroupStatus(statusArr);
 
+      let assessment_heatmap = this.updateHeatMap([entry],null)
+
       let groupUUID = question && question['_id'] ? question['_id'] : null;
-      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr, attachments: attachmentList}
+      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr, attachments: attachmentList, Heatmap: assessment_heatmap}
       entry['hasChildren'] = entry.children && entry.children.length;
       entry['expanded'] = false;
       entry['type'] = 'assessment';
@@ -577,7 +674,7 @@ export class ReportComponent implements OnInit {
 
   getCompanyInfo(){
     let that = this;
-    console.log(this.currentProject)
+
     this.project_info =  Object.assign({}, this.currentProject['Project']['Company']);
     this.project_info['Project_Name'] = this.currentProject['Project']['Name'];
     this.project_info['Company_Name'] = this.currentProject['Project']['Company']['Name'];
@@ -606,12 +703,11 @@ export class ReportComponent implements OnInit {
       this.project_info['Team_Users'] = 'NA';
     }
   }
-
-  getHeatMap(){
-    for(let item of this.tableData){
-      let heatmap_item = this.currentProject['Heatmap'].find(function(h_item){ return h_item['AssignmentID'] == item.id});
-      item['Heatmap'] = heatmap_item || { AssignmentID : item.id};
-    }
+  updateHeatMapInput(){
+    this.tableData.forEach((item, index) => {
+      let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == item.id});
+      this.inputHeatmapData[index] = Object.assign({}, heatmap_item || { AssignmentID : item.id});
+    });
   }
 
   getTableData(){
@@ -620,9 +716,7 @@ export class ReportComponent implements OnInit {
     this.recursiveUpdate(this.assessmentList[0]['children'])
     this.updateSidebarList();
     this.getCompanyInfo();
-    this.getHeatMap();
-    console.log(this.menu)
-    console.log(this.tableData)
+    this.updateHeatMapInput();
     this.loading = false;
   }
 }

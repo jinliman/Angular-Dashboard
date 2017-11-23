@@ -42,6 +42,9 @@ export class ReportComponent implements OnInit {
   dropdownSettings: object;
   dropdownData: Array<object> = [];
   document_menu: any = [];
+  heatmapData: Array<object> = [];
+  heatmapScoreDescription: object = {};
+  heatmapScoreDescriptionOrg: Array<object> = [];
   activeTab = 'cover_page';
   loading: boolean;
 
@@ -208,9 +211,47 @@ export class ReportComponent implements OnInit {
       this.getCity(() => {resolve(); });
     }))
 
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getHeatmapDescription(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getHeatmap(() => {resolve(); });
+    }))
+
     Promise.all(promiseArr).then(() => {
       this.getTableData();
     });
+  }
+
+  getHeatmap(resolve){
+    let data = {projectID: this.projectID}
+    this.dataService.getHeatmap(data).subscribe(
+      response => {
+        this.heatmapData  = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getHeatmapDescription(resolve)
+  {
+    this.dataService.getHeatmapDesc().subscribe(
+      response => {
+        this.heatmapScoreDescriptionOrg = response.result;
+        for(let item of this.heatmapScoreDescriptionOrg)
+        {
+          this.heatmapScoreDescription[item['label']] = item['description']
+        }
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
   }
 
   getFeedbackList(){
@@ -390,6 +431,50 @@ export class ReportComponent implements OnInit {
       url = environment.serverUrl + '/' + url;
     return url;
   }
+  getDes(value)
+  {
+    let result = this.heatmapScoreDescription['level1'];
+    if(value == null || value == '')
+      result = 'Not Available';
+    else if(value < 3)
+      result = this.heatmapScoreDescription['level1'];
+    else if(value >= 3 && value < 4)
+      result = this.heatmapScoreDescription['level2'];
+    else if(value >= 4)
+      result = this.heatmapScoreDescription['level3'];
+    return result || 'Not Available';
+  }
+  updateHeatMap(entries, heatmap){
+    let t_heatmap = [];
+    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    let that = this;
+    function recursive(obj){
+      for(let entry of obj)
+      {
+          let heatmap_item = that.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entry['uuid']});
+          t_heatmap.push(heatmap_item)
+          if(entry.children.length)
+          {
+            recursive(entry.children)
+          }
+      }
+    }
+    recursive(entries);
+    t_heatmap.forEach((item, index) => {
+      if(item == undefined)
+        return;
+      t_heatmapSum.Cost += item.Cost || 0;
+      t_heatmapSum.Fit += item.Fit || 0;
+      t_heatmapSum.Integrity += item.Integrity || 0;
+      t_heatmapSum.Viability += item.Viability || 0;
+    })
+    t_heatmapSum.Cost = t_heatmapSum.Cost ? t_heatmapSum.Cost / t_heatmap.length : null;
+    t_heatmapSum.Fit = t_heatmapSum.Fit ? t_heatmapSum.Fit / t_heatmap.length : null;
+    t_heatmapSum.Integrity = t_heatmapSum.Integrity ? t_heatmapSum.Integrity  / t_heatmap.length: null;
+    t_heatmapSum.Viability = t_heatmapSum.Viability ? t_heatmapSum.Viability  / t_heatmap.length: null;
+    return t_heatmapSum;
+  }
+
   recursiveUpdate(entries)
   {
     for(let entry of entries)
@@ -462,8 +547,10 @@ export class ReportComponent implements OnInit {
       }
       let groupStatus = this.getGroupStatus(statusArr);
 
+      let assessment_heatmap = this.updateHeatMap([entry],null)
+
       let groupUUID = question && question['_id'] ? question['_id'] : null;
-      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr, attachments: attachmentList}
+      let item = { id: entry['uuid'], uuid: groupUUID, title: entry['Title'], hasDetail: hasDetail, status: groupStatus,  open: true, questionArr: questionArr, attachments: attachmentList, Heatmap: assessment_heatmap}
       entry['hasChildren'] = entry.children && entry.children.length;
       entry['expanded'] = false;
       entry['type'] = 'assessment';
@@ -515,21 +602,12 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  getHeatMap(){
-    for(let item of this.tableData){
-      let heatmap_item = this.currentProject['Heatmap'].find(function(h_item){ return h_item['AssignmentID'] == item.id});
-      item['Heatmap'] = heatmap_item || { AssignmentID : item.id};
-    }
-  }
-
   getTableData(){
     this.tableData = [];
     this.menu = [];
     this.recursiveUpdate(this.assessmentList[0]['children'])
     this.updateSidebarList();
     this.getCompanyInfo();
-    this.getHeatMap();
-    console.log(this.menu)
     console.log(this.tableData)
     this.loading = false;
   }

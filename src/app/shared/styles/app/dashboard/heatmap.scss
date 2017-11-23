@@ -47,24 +47,25 @@
           float: left;
         }
         &.color-block{
-          span{
+          >span{
             height: 35px;
             width: calc(100% - 10px);
             background-color: $dv-bg-main;
             display: block;
+            cursor: pointer;
           }
           &.green{
-            span{
+            >span{
               background-color: $dv-color-green;
             }
           }
           &.yellow{
-            span{
+            >span{
               background-color: $dv-color-yellow;
             }
           }
           &.orange{
-            span{
+            >span{
               background-color: $dv-color-orange;
             }
           }

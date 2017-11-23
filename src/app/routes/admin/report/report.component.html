@@ -343,10 +343,34 @@
                    <tbody>
                      <tr *ngFor = "let item of tableData">
                        <td><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/applications-icon.svg'"></div><span>{{item.title}}</span></td>
-                       <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4"> <span></span> </td>
-                       <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4"><span></span></td>
-                       <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4"><span></span></td>
-                       <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4"><span></span></td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes(item['Heatmap']['Integrity'])}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes(item['Heatmap']['Fit'])}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes(item['Heatmap']['Viability'])}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes(item['Heatmap']['Cost'])}}
+                           </span>
+                         </span>
+                       </td>
                      </tr>
                    </tbody>
                  </table>
@@ -368,16 +392,16 @@
                      <tr>
                        <td rowspan="2"><div><div class="color yellow"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
                        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span class="span_heatmap_type">Fit</span></div></td>
-                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                       <td>Ability of resource(s) to fulfill current and near-team business needs</td>
                      </tr>
                      <tr>
                        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/viability-icon.svg'"></div><span class="span_heatmap_type">Viability</span></div></td>
-                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                       <td>Ability of resource(s) to scale or expand to accommodate future plans</td>
                      </tr>
                      <tr>
                        <td><div><div class="color green"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
                        <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span class="span_heatmap_type">Cost</span></div></td>
-                       <td>Risk of data corruption, loss and/or security vulnerabilities</td>
+                       <td>Ability of minimize spend and optimize efficiency while enabling business value</td>
                      </tr>
                    </tbody>
                  </table>
@@ -581,20 +605,19 @@
   <modal #HeatmapModal [animation]=false>
     <form class="form heatmap_modal" (ngSubmit) = "submitHeatmap(HeatmapModal)" #form="ngForm">
       <modal-header>
-        <h4 class="modal-title">Reason for Hold</h4>
+        <h4 class="modal-title">DealValue Score Card</h4>
       </modal-header>
       <modal-body>
         <div class="row">
-          <div class="col-md-2">
-          </div>
-          <div class="col-md-8">
+          <div class="col-md-12">
             <table cellspacing="10" class="table1">
               <thead>
                 <tr>
-                  <th>Color Scale</th>
-                  <th>Score</th>
-                  <th>Score</th>
-                  <th>Score</th>
+                  <th width="15%">Color Scale</th>
+                  <th width="10%">Score</th>
+                  <th width="10%">Score</th>
+                  <th width="10%">Score</th>
+                  <th>Description</th>
                 </tr>
               </thead>
               <tbody>
@@ -603,23 +626,24 @@
                   <td class="orange">0</td>
                   <td class="orange">1</td>
                   <td class="orange">2</td>
+                  <td class="desc"><textarea name="desc1" [(ngModel)]="heatmapScoreDescription.level1" rows="2" cols="80"></textarea></td>
                 </tr>
                 <tr>
                   <td class="yellow">Yellow</td>
                   <td class="yellow">3</td>
                   <td class="yellow"></td>
                   <td class="yellow"></td>
+                  <td class="desc"><textarea name="desc2" [(ngModel)]="heatmapScoreDescription.level2" rows="2" cols="80"></textarea></td>
                 </tr>
                 <tr>
                   <td class="green">Green</td>
                   <td class="green">4</td>
                   <td class="green">5</td>
                   <td class="green"></td>
+                  <td class="desc"><textarea name="desc3" [(ngModel)]="heatmapScoreDescription.level3" rows="2" cols="80"></textarea></td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div class="col-md-2">
           </div>
         </div>
         <div class="row">
@@ -635,19 +659,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor = "let item of tableData">
+                <tr *ngFor = "let item of tableData; let i = index">
                   <td>{{item.title}}</td>
-                  <td [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4">
-                    <input type="number" [(ngModel)]="item['Heatmap']['Integrity']" name="integrity" value="item['Heatmap']['Integrity']" min="0" max="5">
+                  <td [class.orange] ="inputHeatmapData[i]['Integrity']<3 && inputHeatmapData[i]['Integrity'] != null" [class.yellow] ="inputHeatmapData[i]['Integrity'] >=3 && inputHeatmapData[i]['Integrity'] <4" [class.green]="inputHeatmapData[i]['Integrity'] >=4">
+                    <input type="number" [(ngModel)]="inputHeatmapData[i]['Integrity']" name="integrity{{i}}" value="inputHeatmapData[i]['Integrity']" min="0" max="5">
                   </td>
-                  <td [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4">
-                    <input type="number" [(ngModel)]="item['Heatmap']['Fit']" name="fit" value="" min="0" max="5">
+                  <td [class.orange] ="inputHeatmapData[i]['Fit']<3 && inputHeatmapData[i]['Fit'] != null" [class.yellow] ="inputHeatmapData[i]['Fit'] >=3 && inputHeatmapData[i]['Fit'] <4" [class.green]="inputHeatmapData[i]['Fit'] >=4">
+                    <input type="number" [(ngModel)]="inputHeatmapData[i]['Fit']" name="fit{{i}}" value="" min="0" max="5">
                   </td>
-                  <td [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4">
-                    <input type="number" [(ngModel)]="item['Heatmap']['Viability']" name="viability" value="" min="0" max="5">
+                  <td [class.orange] ="inputHeatmapData[i]['Viability']<3 && inputHeatmapData[i]['Viability'] != null" [class.yellow] ="inputHeatmapData[i]['Viability'] >=3 && inputHeatmapData[i]['Viability'] <4" [class.green]="inputHeatmapData[i]['Viability'] >=4">
+                    <input type="number" [(ngModel)]="inputHeatmapData[i]['Viability']" name="viability{{i}}" value="" min="0" max="5">
                   </td>
-                  <td [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4">
-                    <input type="number" [(ngModel)]="item['Heatmap']['Cost']" name="cost" value="" min="0" max="5">
+                  <td [class.orange] ="inputHeatmapData[i]['Cost']<3 && inputHeatmapData[i]['Cost'] != null" [class.yellow] ="inputHeatmapData[i]['Cost'] >=3 && inputHeatmapData[i]['Cost'] <4" [class.green]="inputHeatmapData[i]['Cost'] >=4">
+                    <input type="number" [(ngModel)]="inputHeatmapData[i]['Cost']" name="cost{{i}}" value="" min="0" max="5">
                   </td>
                 </tr>
               </tbody>

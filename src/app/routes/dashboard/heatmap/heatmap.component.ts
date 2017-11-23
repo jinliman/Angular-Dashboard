@@ -20,6 +20,9 @@ export class HeatmapComponent implements OnInit {
   currentProject:object;
   projectID: string = null;
   assessmentList: Array<any> = [];
+  heatmapData: Array<object> = [];
+  heatmapScoreDescription: object = {};
+  heatmapScoreDescriptionOrg: Array<object> = [];
   tableData: Array<any> = [];
 
   loading: boolean;
@@ -49,7 +52,7 @@ export class HeatmapComponent implements OnInit {
     let data = {projectID: this.projectID}
     this.dataService.getProject(data).subscribe(response => {
         this.currentProject = response.result;
-        console.log(this.currentProject)
+        this.heatmapData = this.currentProject['Heatmap']
         this.apiHandler()
       },
       (error) => {
@@ -62,6 +65,10 @@ export class HeatmapComponent implements OnInit {
     let promiseArr= [];
     promiseArr.push(new Promise((resolve, reject) => {
       this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getHeatmapDescription(() => {resolve(); });
     }))
 
     Promise.all(promiseArr).then(() => {
@@ -80,19 +87,82 @@ export class HeatmapComponent implements OnInit {
     );
   }
 
+  getHeatmapDescription(resolve)
+  {
+    this.dataService.getHeatmapDesc().subscribe(
+      response => {
+        this.heatmapScoreDescriptionOrg = response.result;
+        for(let item of this.heatmapScoreDescriptionOrg)
+        {
+          this.heatmapScoreDescription[item['label']] = item['description']
+        }
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
   recursiveUpdate(entries)
   {
     for(let entry of entries)
     {
       let item = { id: entry['uuid'], title: entry['Title']}
-      let heatmap_item = this.currentProject['Heatmap'].find(function(h_item){ return h_item['AssignmentID'] == item.id});
-      item['Heatmap'] = heatmap_item || { AssignmentID : item.id};
+      let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == item.id});
+      let assessment_heatmap = this.updateHeatMap([entry],null)
+      item['Heatmap'] = assessment_heatmap;
       this.tableData.push(item)
       if(entry.children.length)
       {
         this.recursiveUpdate(entry.children)
       }
     }
+  }
+
+  getDes(value)
+  {
+    let result = this.heatmapScoreDescription['level1'];
+    if(value == null || value == '')
+      result = 'Not Available';
+    else if(value < 3)
+      result = this.heatmapScoreDescription['level1'];
+    else if(value >= 3 && value < 4)
+      result = this.heatmapScoreDescription['level2'];
+    else if(value >= 4)
+      result = this.heatmapScoreDescription['level3'];
+    return result || 'Not Available';
+  }
+
+  updateHeatMap(entries, heatmap){
+    let t_heatmap = [];
+    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    let that = this;
+    function recursive(obj){
+      for(let entry of obj)
+      {
+          let heatmap_item = that.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entry['uuid']});
+          t_heatmap.push(heatmap_item)
+          if(entry.children.length)
+          {
+            recursive(entry.children)
+          }
+      }
+    }
+    recursive(entries);
+    t_heatmap.forEach((item, index) => {
+      if(item == undefined)
+        return;
+      t_heatmapSum.Cost += item.Cost || 0;
+      t_heatmapSum.Fit += item.Fit || 0;
+      t_heatmapSum.Integrity += item.Integrity || 0;
+      t_heatmapSum.Viability += item.Viability || 0;
+    })
+    t_heatmapSum.Cost = t_heatmapSum.Cost ? t_heatmapSum.Cost / t_heatmap.length : null;
+    t_heatmapSum.Fit = t_heatmapSum.Fit ? t_heatmapSum.Fit / t_heatmap.length : null;
+    t_heatmapSum.Integrity = t_heatmapSum.Integrity ? t_heatmapSum.Integrity  / t_heatmap.length: null;
+    t_heatmapSum.Viability = t_heatmapSum.Viability ? t_heatmapSum.Viability  / t_heatmap.length: null;
+    return t_heatmapSum;
   }
 
   getTableData(){
