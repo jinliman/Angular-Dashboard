@@ -36,12 +36,6 @@ const routes: Routes = [
       { path: 'project/new', component: ProjectNewComponent},
       { path: 'project/:id', component: DashboardDetailComponent},
       { path: 'user/profile', component: UserProfileComponent},
-      {
-        path: 'assessments',
-        children: [
-          {  path: '', loadChildren: './assessments/assessments.module#AssessmentsModule'}
-        ]
-      },
       { path: '**', redirectTo: 'dashboard'}
     ]
   }
