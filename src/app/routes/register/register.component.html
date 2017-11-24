@@ -373,7 +373,7 @@
             'has-success': contact_number.valid && contact_number.touched
           }">
             <label for="contact_number" class="required">Phone Number:</label>
-            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Company.Contact" value="" required>
+            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Contact" value="" required>
             <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
           </div>
         </div>

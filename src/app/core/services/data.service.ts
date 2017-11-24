@@ -18,6 +18,7 @@ export class DataService {
   public projectListUpdated: EventEmitter<Object>;
   public projectSubmitted: EventEmitter<Object>;
   public sidebarToggled: EventEmitter<Object>;
+  public profileUpdated: EventEmitter<Object>;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
@@ -26,6 +27,11 @@ export class DataService {
     this.progressChanged = new EventEmitter();
     this.projectSubmitted = new EventEmitter();
     this.sidebarToggled = new EventEmitter();
+    this.profileUpdated = new EventEmitter();
+  }
+
+  onProfileUpdated(data){
+    this.profileUpdated.emit(data);
   }
 
   onSidebarToggled(data){
@@ -75,6 +81,15 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  updateUserData(data) {
+    return this.http.post(this.url + '/api/user/update', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  updateUserPassword(data) {
+    return this.http.post(this.url + '/api/user/update_password', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   /*
   ---------------- Global Variables --------------------
   */

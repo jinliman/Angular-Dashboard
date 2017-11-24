@@ -1,0 +1,35 @@
+.profile-page{
+  padding: 40px 40px;
+  .title{
+    font-size: 21px;
+    font-weight: bold;
+    margin: 0px;
+  }
+  .content-inner{
+    margin-top:40px;
+    .sub-title-div{
+      .edit-icon{
+        float: right;
+        cursor: pointer;
+        font-size: 20px;
+        color: $dv-color-green;
+      }
+      .sub-title{
+        font-size: 19px;
+      }
+    }
+    .info-div{
+      margin: 20px 0px;
+      .info-title{
+        float: left;
+        display: block;
+        width: 200px;
+      }
+      .content{
+        float: left;
+        display: block;
+        width: 200px;
+      }
+    }
+  }
+}

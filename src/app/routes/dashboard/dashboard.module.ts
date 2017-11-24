@@ -17,6 +17,7 @@ import { DashboardOwnerComponent } from './dashboard-owner/dashboard-owner.compo
 import { DashboardMemberComponent } from './dashboard-member/dashboard-member.component';
 import { DashboardDetailComponent } from './dashboard-detail/dashboard-detail.component';
 import { ProjectNewComponent } from './project-new/project-new.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'assessment/:id/answer', component: AnswerComponent},
       { path: 'project/new', component: ProjectNewComponent},
       { path: 'project/:id', component: DashboardDetailComponent},
+      { path: 'user/profile', component: UserProfileComponent},
       {
         path: 'assessments',
         children: [
@@ -51,7 +53,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent, DashboardOwnerComponent, DashboardMemberComponent, DashboardDetailComponent, ProjectNewComponent],
+  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent, DashboardOwnerComponent, DashboardMemberComponent, DashboardDetailComponent, ProjectNewComponent, UserProfileComponent],
   exports: [
   	RouterModule
   ]

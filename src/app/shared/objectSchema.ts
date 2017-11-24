@@ -59,6 +59,7 @@ export class User{
   Reason2: Reason2;
   Reason3: Reason3;
   Reason4: Reason4;
+  Contact: string;
 }
 
 export class QuestionItem{

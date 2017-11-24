@@ -197,7 +197,8 @@ export class RegisterComponent implements OnInit {
       Reason1: null,
       Reason2: null,
       Reason3: null,
-      Reason4: null
+      Reason4: null,
+      Contact: null
     }
     this.validArr = {
       Register: true,
@@ -238,6 +239,7 @@ export class RegisterComponent implements OnInit {
       Reason2: this.newUser.Reason2,
       Reason3: this.newUser.Reason3,
       Reason4: this.newUser.Reason4,
+      Contact: this.newUser.Contact,
       Code: this.code
 		};
 

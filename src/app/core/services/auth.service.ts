@@ -119,14 +119,6 @@ export class AuthService {
       .map((response: Response) => response.json());
   }
 
-  updateUserData() {
-    this.userInfo().subscribe(
-      user => {
-        localStorage.setItem('user', JSON.stringify(user.UserInfo));
-      }
-    );
-  }
-
   resendConfirmation(code){
     let data = { code: code };
     return this.http.post(this.url + '/api/resendconfirm', data, { headers: this.getHeaders() })
