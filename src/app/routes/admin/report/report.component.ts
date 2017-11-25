@@ -87,18 +87,15 @@ export class ReportComponent implements OnInit {
     this.heatmapScoreDescriptionOrg = [];
   }
 
-  getDes(value)
+  getDes(label)
   {
-    let result = this.heatmapScoreDescription['level1'];
-    if(value == null || value == '')
-      result = 'Not Available';
-    else if(value < 3)
-      result = this.heatmapScoreDescription['level1'];
-    else if(value >= 3 && value < 4)
-      result = this.heatmapScoreDescription['level2'];
-    else if(value >= 4)
-      result = this.heatmapScoreDescription['level3'];
+    let result = this.heatmapScoreDescription[label];
     return result || 'Not Available';
+  }
+
+  getDes1(label)
+  {
+    return label || 'Not Available';
   }
   openHeatmap(modal){
     modal.open('lg');
@@ -547,7 +544,13 @@ export class ReportComponent implements OnInit {
 
   updateHeatMap(entries, heatmap){
     let t_heatmap = [];
+    let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entries[0]['uuid']});
     let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    t_heatmapSum['CostDesc'] = heatmap_item && heatmap_item['CostDesc'] ? heatmap_item['CostDesc']: null;
+    t_heatmapSum['IntegrityDesc'] = heatmap_item && heatmap_item['IntegrityDesc'] ? heatmap_item['IntegrityDesc']: null;
+    t_heatmapSum['ViabilityDesc'] = heatmap_item && heatmap_item['ViabilityDesc'] ? heatmap_item['ViabilityDesc']: null;
+    t_heatmapSum['FitDesc'] = heatmap_item && heatmap_item['FitDesc'] ? heatmap_item['FitDesc']: null;
+    
     let that = this;
     function recursive(obj){
       for(let entry of obj)

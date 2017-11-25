@@ -18,28 +18,28 @@
           <td class="color-block" [class.orange] ="item['Heatmap']['Integrity']<3 && item['Heatmap']['Integrity'] != null" [class.yellow] ="item['Heatmap']['Integrity'] >=3 && item['Heatmap']['Integrity'] <4" [class.green]="item['Heatmap']['Integrity'] >=4">
             <span class="custom-tooltip" >
               <span class="custom-tooltiptext tooltip-top">
-                {{getDes(item['Heatmap']['Integrity'])}}
+                {{getDes1(item['Heatmap']['IntegrityDesc'])}}
               </span>
             </span>
           </td>
           <td class="color-block" [class.orange] ="item['Heatmap']['Fit']<3 && item['Heatmap']['Fit'] != null" [class.yellow] ="item['Heatmap']['Fit'] >=3 && item['Heatmap']['Fit'] <4" [class.green]="item['Heatmap']['Fit'] >=4">
             <span class="custom-tooltip" >
               <span class="custom-tooltiptext tooltip-top">
-                {{getDes(item['Heatmap']['Fit'])}}
+                {{getDes1(item['Heatmap']['FitDesc'])}}
               </span>
             </span>
           </td>
           <td class="color-block" [class.orange] ="item['Heatmap']['Viability']<3 && item['Heatmap']['Viability'] != null" [class.yellow] ="item['Heatmap']['Viability'] >=3 && item['Heatmap']['Viability'] <4" [class.green]="item['Heatmap']['Viability'] >=4">
             <span class="custom-tooltip" >
               <span class="custom-tooltiptext tooltip-top">
-                {{getDes(item['Heatmap']['Viability'])}}
+                {{getDes1(item['Heatmap']['ViabilityDesc'])}}
               </span>
             </span>
           </td>
           <td class="color-block" [class.orange] ="item['Heatmap']['Cost']<3 && item['Heatmap']['Cost'] != null" [class.yellow] ="item['Heatmap']['Cost'] >=3 && item['Heatmap']['Cost'] <4" [class.green]="item['Heatmap']['Cost'] >=4">
             <span class="custom-tooltip" >
               <span class="custom-tooltiptext tooltip-top">
-                {{getDes(item['Heatmap']['Cost'])}}
+                {{getDes1(item['Heatmap']['CostDesc'])}}
               </span>
             </span>
           </td>
@@ -57,12 +57,12 @@
       </thead>
       <tbody>
         <tr>
-          <td><div><div class="color orange"></div><p class="desc">Time sensitive and <br>needs to be addressed</p></div></td>
+          <td><div><div class="color orange"></div><p class="desc">{{getDes('level1')}}</p></div></td>
           <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/integrity-icon.svg'"></div><span class="span_heatmap_type">Integrity</span></div></td>
           <td>Risk of data corruption, loss and/or security vulnerabilities</td>
         </tr>
         <tr>
-          <td rowspan="2"><div><div class="color yellow"></div><p class="desc">Risk reduction options <br>should be considered</p></div></td>
+          <td rowspan="2"><div><div class="color yellow"></div><p class="desc">{{getDes('level2')}}</p></div></td>
           <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/fit-icon.svg'"></div><span class="span_heatmap_type">Fit</span></div></td>
           <td>Risk of data corruption, loss and/or security vulnerabilities</td>
         </tr>
@@ -71,7 +71,7 @@
           <td>Risk of data corruption, loss and/or security vulnerabilities</td>
         </tr>
         <tr>
-          <td><div><div class="color green"></div><p class="desc">Low/Acceptable to No risk</p></div></td>
+          <td><div><div class="color green"></div><p class="desc">{{getDes('level3')}}</p></div></td>
           <td><div><div class="img" [inlineSVG]="'../assets/images/icons/dashboard/cost-icon.svg'"></div><span class="span_heatmap_type">Cost</span></div></td>
           <td>Risk of data corruption, loss and/or security vulnerabilities</td>
         </tr>

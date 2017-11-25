@@ -7,13 +7,12 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { NotificationsService } from 'angular2-notifications';
-
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  selector: 'app-user-setting',
+  templateUrl: './user-setting.component.html',
+  styleUrls: ['./user-setting.component.scss']
 })
-export class UserProfileComponent implements OnInit {
+export class UserSettingComponent implements OnInit {
 
   userInfo : object = {};
   userProjects : Array<object> = [];
@@ -130,4 +129,5 @@ export class UserProfileComponent implements OnInit {
     this.initUpdateUserInfo();
     modal.open();
   }
+
 }

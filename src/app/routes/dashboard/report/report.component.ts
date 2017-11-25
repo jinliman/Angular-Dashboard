@@ -431,22 +431,20 @@ export class ReportComponent implements OnInit {
       url = environment.serverUrl + '/' + url;
     return url;
   }
-  getDes(value)
+  getDes(label)
   {
-    let result = this.heatmapScoreDescription['level1'];
-    if(value == null || value == '')
-      result = 'Not Available';
-    else if(value < 3)
-      result = this.heatmapScoreDescription['level1'];
-    else if(value >= 3 && value < 4)
-      result = this.heatmapScoreDescription['level2'];
-    else if(value >= 4)
-      result = this.heatmapScoreDescription['level3'];
+    let result = this.heatmapScoreDescription[label];
     return result || 'Not Available';
+  }
+  getDes1(label)
+  {
+    return label || 'Not Available';
   }
   updateHeatMap(entries, heatmap){
     let t_heatmap = [];
-    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entries[0]['uuid']});
+    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null,
+        CostDesc: heatmap_item['CostDesc'] , FitDesc: heatmap_item['FitDesc'], IntegrityDesc: heatmap_item['IntegrityDesc'], ViabilityDesc: heatmap_item['ViabilityDesc']};
     let that = this;
     function recursive(obj){
       for(let entry of obj)

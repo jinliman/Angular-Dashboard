@@ -1,12 +1,13 @@
 <div class="profile-page">
   <div class="loading-div" *ngIf="loading"></div>
-  <p class="title">User Profile</p>
+  <p class="title">User Setting</p>
   <ng-container *ngIf="!loading">
     <div class="row content-inner">
       <div class="col-md-12">
         <div class="sub-title-div clearfix">
           <p class="sub-title pull-left">Contact Information</p>
           <span class="edit-icon pull-right" (click)="openModal(EditModal);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+          <ui-switch  size="small" color="#60a628" switchColor="#fcfcfc"></ui-switch>
         </div>
         <div class="info-div clearfix">
           <span class="info-title">Full Name :</span>

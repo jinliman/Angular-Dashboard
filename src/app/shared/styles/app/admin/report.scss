@@ -373,7 +373,7 @@
                     width: calc(100% - 10px);
                     background-color: $dv-bg-main;
                     display: block;
-                    cursor: pointer; 
+                    cursor: pointer;
                   }
                   &.green{
                     >span{
@@ -441,6 +441,7 @@
 
                 }
                 .desc{
+                  width: calc( 100% - 60px );
                   line-height: 20px;
                   font-weight: 400;
                   float: left;
@@ -701,6 +702,18 @@
         padding: 0px;
         margin: 0px;
         width: 100%;
+
+      }
+      .popover-content{
+        padding: 0px;
+      }
+      .popover-title{
+        font-style: italic;
+        font-weight: bold;
+        color: #f27a08;
+      }
+      textarea{
+        border: none;
       }
       &.orange{
         background-color: $dv-color-orange;
