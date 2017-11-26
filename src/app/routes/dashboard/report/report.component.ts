@@ -443,8 +443,11 @@ export class ReportComponent implements OnInit {
   updateHeatMap(entries, heatmap){
     let t_heatmap = [];
     let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entries[0]['uuid']});
-    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null,
-        CostDesc: heatmap_item['CostDesc'] , FitDesc: heatmap_item['FitDesc'], IntegrityDesc: heatmap_item['IntegrityDesc'], ViabilityDesc: heatmap_item['ViabilityDesc']};
+    let t_heatmapSum = {AssignmentID : entries[0].uuid, Cost: null , Fit: null, Integrity:null, Viability:null};
+    t_heatmapSum['CostDesc'] = heatmap_item && heatmap_item['CostDesc'] ? heatmap_item['CostDesc']: null;
+    t_heatmapSum['IntegrityDesc'] = heatmap_item && heatmap_item['IntegrityDesc'] ? heatmap_item['IntegrityDesc']: null;
+    t_heatmapSum['ViabilityDesc'] = heatmap_item && heatmap_item['ViabilityDesc'] ? heatmap_item['ViabilityDesc']: null;
+    t_heatmapSum['FitDesc'] = heatmap_item && heatmap_item['FitDesc'] ? heatmap_item['FitDesc']: null;
     let that = this;
     function recursive(obj){
       for(let entry of obj)
