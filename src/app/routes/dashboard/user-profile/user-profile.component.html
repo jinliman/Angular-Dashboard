@@ -39,6 +39,14 @@
     				<span> <i class="fa fa-setting"></i> Update Password</span>
     			</a>
         </div>
+        <div class="info-div clearfix">
+          <span class="info-title">User Since :</span>
+          <span class="content">{{userInfo.createdAt | amDateFormat:'LL'}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Last Login :</span>
+          <span class="content">{{userInfo.LastLogin | amDateFormat:'LL'}}</span>
+        </div>
       </div>
     </div>
   </ng-container>
