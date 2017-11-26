@@ -1,88 +1,52 @@
-<div class="profile-page">
+<div class="user-setting">
   <div class="loading-div" *ngIf="loading"></div>
   <p class="title">User Setting</p>
   <ng-container *ngIf="!loading">
     <div class="row content-inner">
       <div class="col-md-12">
         <div class="sub-title-div clearfix">
-          <p class="sub-title pull-left">Contact Information</p>
+          <p class="sub-title pull-left">Email Notification</p>
           <span class="edit-icon pull-right" (click)="openModal(EditModal);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-          <ui-switch  size="small" color="#60a628" switchColor="#fcfcfc"></ui-switch>
         </div>
         <div class="info-div clearfix">
-          <span class="info-title">Full Name :</span>
-          <span class="content">{{userInfo.Name.Fullname}}</span>
+          <span class="info-title">Daily Mail:</span>
+          <span class="content success" *ngIf="userSetting['dailymail']">On</span>
+          <span class="content danger" *ngIf="!userSetting['dailymail']">Off</span>
         </div>
         <div class="info-div clearfix">
-          <span class="info-title">Job Title :</span>
-          <span class="content">{{jobTitle}}</span>
+          <span class="info-title">Project Update :</span>
+          <span class="content success" *ngIf="userSetting['projectupdate']">On</span>
+          <span class="content danger" *ngIf="!userSetting['projectupdate']">Off</span>
         </div>
         <div class="info-div clearfix">
-          <span class="info-title">Contact :</span>
-          <span class="content">{{userInfo.Contact}}</span>
-        </div>
-        <div class="info-div clearfix">
-          <span class="info-title">Companies :</span>
-          <span class="content">
-            <span style="display:block;" *ngFor="let item of userProjects" >{{item['Project']['Company']['Name']}}</span>
-          </span>
-        </div>
-        <div class="info-div clearfix">
-          <span class="info-title">Email :</span>
-          <span class="content">{{userInfo.Email}}</span>
-        </div>
-        <div class="info-div clearfix">
-          <span class="info-title">Password :</span>
-          <span class="content">*****</span>
-        </div>
-        <div class="info-div clearfix">
-          <a class="svg button" (click)="openModal(passwordModal);">
-    				<span> <i class="fa fa-setting"></i> Update Password</span>
-    			</a>
+          <span class="info-title">New Assignment :</span>
+          <span class="content success" *ngIf="userSetting['newassignment']">On</span>
+          <span class="content danger" *ngIf="!userSetting['newassignment']">Off</span>
         </div>
       </div>
     </div>
   </ng-container>
 
   <modal #EditModal [animation]=false>
-    <form class="form" (ngSubmit) = "updateProfile(EditModal)" #form1="ngForm">
+    <form class="form user-setting-modal" (ngSubmit) = "updateSetting(EditModal)" #form1="ngForm">
       <modal-header>
-        <h4 class="modal-title">Update Profile</h4>
+        <h4 class="modal-title">Update Setting</h4>
       </modal-header>
       <modal-body>
         <div class="row assets">
-          <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': firstname.invalid && firstname.touched,
-              'has-success': firstname.valid && firstname.touched
-            }">
-            <label for="firstname" class="required">First Name:</label>
-            <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "userInfoUpdate.First" value=""  required>
-            <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+          <div class="col-md-12 form-group">
+            <label>Daily Mail:</label>
+            <ui-switch [checked]="userSettingUpdate['dailymail']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['dailymail'] = !userSettingUpdate['dailymail']"></ui-switch>
           </div>
 
-          <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': lasttname.invalid && lasttname.touched,
-            'has-success': lasttname.valid && lasttname.touched
-          }">
-            <label for="lasttname" class="required">Last Name:</label>
-            <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "userInfoUpdate.Last" value="" required>
-            <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
-          </div>
           <div class="col-md-12 form-group">
-            <label for="job_title">Job Tilte:</label>
-            <ng-select class="cs-select" name="job_title" [options]="jobTilteArr" [(ngModel)] = "userInfoUpdate.JobTitle" placeholder="Select Job Title">
-            </ng-select>
+            <label>Project Update:</label>
+            <ui-switch [checked]="userSettingUpdate['projectupdate']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['projectupdate'] = !userSettingUpdate['projectupdate']"></ui-switch>
           </div>
-          <div class="col-md-12 form-group"
-          [ngClass]="{
-            'has-error': contact_number.invalid && contact_number.touched,
-            'has-success': contact_number.valid && contact_number.touched
-          }">
-            <label for="contact_number" class="required">Phone Number:</label>
-            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "userInfoUpdate.Contact" value="" required>
-            <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+
+          <div class="col-md-12 form-group">
+            <label>New Assignment:</label>
+            <ui-switch [checked]="userSettingUpdate['newassignment']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['newassignment'] = !userSettingUpdate['newassignment']"></ui-switch>
           </div>
         </div>
       </modal-body>
@@ -93,52 +57,4 @@
     </form>
   </modal>
 
-  <modal #passwordModal [animation]=false>
-    <form class="form " (ngSubmit) = "updatePassword(passwordModal)" #form2="ngForm">
-      <modal-header>
-        <h4 class="modal-title">Update Password</h4>
-      </modal-header>
-      <modal-body>
-        <div class="row assets">
-          <div class="col-md-12 form-group">
-            <p *ngIf="!isValidPassword" class="error">Current Password is incorrect</p>
-          </div>
-          <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': passwordOld.invalid && passwordOld.touched,
-              'has-success': passwordOld.valid && passwordOld.touched
-            }">
-            <label for="passwordOld" class="required">Current Password:</label>
-            <input type="password" placeholder="Current Password" name="passwordOld" #passwordOld = "ngModel" [(ngModel)] = "passwordInfo.PasswordOld" value="">
-            <span class="help-block" *ngIf="passwordOld.errors && passwordOld.errors.required  && passwordOld.touched">Current Password is required</span>
-            <span class="help-block" *ngIf="passwordOld.errors && passwordOld.errors.pattern && passwordOld.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
-          </div>
-          <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': password.invalid && password.touched,
-              'has-success': password.valid && password.touched
-            }">
-            <label for="password" class="required">New Password:</label>
-            <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="New Password" name="password" #password = "ngModel" [(ngModel)] = "passwordInfo.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
-            <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">New Password is required</span>
-            <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
-          </div>
-          <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': passwordConfirm.invalid && passwordConfirm.touched,
-              'has-success': passwordConfirm.valid && passwordConfirm.touched
-            }">
-            <label for="passwordConfirm" class="required">Confirm Password:</label>
-            <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "passwordInfo.PasswordConfirm" value=""  required>
-            <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Confrim Password is required</span>
-            <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
-          </div>
-        </div>
-      </modal-body>
-      <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="passwordModal.dismiss()">Cancel</button>
-      </modal-footer>
-    </form>
-  </modal>
 </div>

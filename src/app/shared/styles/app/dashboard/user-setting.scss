@@ -1,4 +1,4 @@
-.setting-page{
+.user-setting{
   padding: 40px 40px;
   .title{
     font-size: 21px;
@@ -29,7 +29,19 @@
         float: left;
         display: block;
         width: 200px;
+        font-weight: bold;
+        &.success{
+          color: $dv-color-green;
+        }
+        &.danger{
+          color: $dv-color-orange;
+        }
       }
     }
+  }
+}
+.user-setting-modal{
+  label{
+    width: 180px;
   }
 }

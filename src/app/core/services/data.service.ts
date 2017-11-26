@@ -80,7 +80,14 @@ export class DataService {
     return this.http.post(this.url + '/api/user/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
-
+  getUserSetting(data) {
+    return this.http.get(this.url + '/api/user/setting', { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  updateUserSetting(data){
+    return this.http.post(this.url + '/api/user/update_setting', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   updateUserData(data) {
     return this.http.post(this.url + '/api/user/update', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());

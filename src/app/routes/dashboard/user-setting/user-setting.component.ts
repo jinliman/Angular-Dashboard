@@ -15,12 +15,9 @@ import { NotificationsService } from 'angular2-notifications';
 export class UserSettingComponent implements OnInit {
 
   userInfo : object = {};
+  userSetting: object = {};
   userProjects : Array<object> = [];
-  userInfoUpdate : object = {};
-  passwordInfo: object = {};
-  jobTilteArr: Array<object> = [];
-  jobTitle: string = '';
-  isValidPassword: boolean = true;
+  userSettingUpdate : object = {};
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -28,26 +25,25 @@ export class UserSettingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.jobTilteArr = this.dataService.getJobList();
-    this.getUserInfo();
-    this.getJobTitle();
-    this.passwordInfo = {
-      passwordOld: '',
-      Password: '',
-      PasswordConfirm: '',
+    this.getUserSettingInfo();
+
+    this.userSetting = {
+      dailymail: true,
+      projectupdate: true,
+      newassignment: true
     }
 
   }
-  getUserInfo(){
+  getUserSettingInfo(){
     this.userInfo = this.authService.getUser();
     let data = {UserID: this.userInfo['_id']}
-    this.dataService.getUser(data).subscribe(
+    this.dataService.getUserSetting(data).subscribe(
       response => {
-        this.userInfo = response.UserInfo;
-        this.userProjects = response.UserProjects;
-        console.log(this.userInfo)
-        this.getJobTitle();
-        this.initUpdateUserInfo()
+        if(response.result.length)
+        {
+          response.result.forEach((item)=>{this.userSetting[item['DataType']] = (!!item['Data'])})
+        }
+        this.initUpdateUserSetting()
       },
       (error) => {
 
@@ -55,29 +51,25 @@ export class UserSettingComponent implements OnInit {
     );
   }
 
-  updateProfile(modal){
-    let data = {
-      Data: {
-        Name: {
-          First: this.userInfoUpdate['First'],
-          Last: this.userInfoUpdate['Last'],
-          Fullname: this.userInfoUpdate['First'] + " " + this.userInfoUpdate['Last'],
-          JobTitle: this.userInfoUpdate['JobTitle']
-        },
-        Contact: this.userInfoUpdate['Contact']
-      }
+  updateSetting(modal){
+
+    let data = [];
+    for(let i of Object.keys(this.userSettingUpdate)){
+      data.push({DataType: i, Data: this.userSettingUpdate[i]})
     }
-    this.dataService.updateUserData(data).subscribe(
+    this.dataService.updateUserSetting({ data : data}).subscribe(
       response => {
         let error_code = response.ERR_CODE;
         if(error_code == "ERR_NONE"){
-          this.userInfo = response.result;
-          this.getJobTitle();
-          this.initUpdateUserInfo()
+          if(response.result.length)
+          {
+            response.result.forEach((item)=>{this.userSetting[item['DataType']] = (!!item['Data'])})
+          }
+          this.initUpdateUserSetting()
           modal.close();
           this._notificationService.success(
-              'User Profile',
-              'Profile updated'
+              'User Setting',
+              'Setting updated'
           )
         }
       },
@@ -86,47 +78,14 @@ export class UserSettingComponent implements OnInit {
     );
   }
 
-  updatePassword(modal){
-    let data = {
-      PasswordOld: this.passwordInfo['PasswordOld'],
-      Password: this.passwordInfo['Password']
+  initUpdateUserSetting(){
+    for(let i of Object.keys(this.userSetting))
+    {
+        this.userSettingUpdate[i] = this.userSetting[i];
     }
-    this.dataService.updateUserPassword(data).subscribe(
-      response => {
-        let error_code = response.ERR_CODE;
-        if(error_code == "ERR_INVALID_CREDENTIAL")
-        {
-          this.isValidPassword = false;
-        }else if(error_code == "ERR_NONE"){
-          modal.close();
-          this._notificationService.success(
-              'User Profile',
-              'Password updated'
-          )
-        }
-      },
-      (error) => {
-        modal.close();
-        this._notificationService.success(
-            'User Profile',
-            'Sth went wrong'
-        )
-      }
-    );
-  }
-
-  getJobTitle(){
-    this.jobTitle = this.jobTilteArr.find((item)=>{ return item['value'] == this.userInfo['Name']['JobTitle']})['label'];
-  }
-  initUpdateUserInfo(){
-    this.userInfoUpdate['First'] = this.userInfo['Name']['First'];
-    this.userInfoUpdate['Last'] = this.userInfo['Name']['Last'];
-    this.userInfoUpdate['JobTitle'] = this.userInfo['Name']['JobTitle'];
-    this.userInfoUpdate['Contact'] = this.userInfo['Contact'];
   }
   openModal(modal){
-    this.isValidPassword  = true;
-    this.initUpdateUserInfo();
+    this.initUpdateUserSetting();
     modal.open();
   }
 
