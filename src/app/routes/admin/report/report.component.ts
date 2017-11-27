@@ -54,7 +54,7 @@ export class ReportComponent implements OnInit {
   metricData: Array<object> = [];
   metricDataList: Array<object> = [];
   inputMetricData: Array<object> = [];
-  activeTab = 'key_metrics';
+  activeTab = 'cover_page';
   loading: boolean;
 
   constructor(

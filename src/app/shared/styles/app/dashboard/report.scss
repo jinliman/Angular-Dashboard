@@ -262,25 +262,25 @@
           .green-arrow-div{
             flex: 0 0 50px;
             position: relative;
+            background-color: $dv-color-green-active;
             >div{
-              background-color: $dv-color-green-active;
-              display: flex;
-              align-items: center;
               text-align: center;
-              justify-content: center;
-              height: calc(100% - 40px);
+              height: 100%;
               p{
                 color: $dv-color-white;
-                writing-mode: tb-rl;
-                transform: rotate(-180deg);
-                letter-spacing: 1.5px;
+                position: absolute;
+                white-space: nowrap;
+                transform: rotate(-90deg);
+                left: -174px;
+                top: 50%;
               }
               &:after{
                 content: '';
                 display: block;
                 width: 0;
                 height: 0;
-                bottom: 0px;
+                left: -25px;
+                bottom: -23px;
                 position: absolute;
                 border-style: solid;
                 border-width: 40px 50px 0 50px;
@@ -467,7 +467,6 @@
         }
         .table-div{
           width: 100%;
-          overflow-x: auto;
           .key_metrics_table{
             width: 100%;
             thead{
