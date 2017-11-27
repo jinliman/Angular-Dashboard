@@ -34,6 +34,14 @@ export class UserSettingComponent implements OnInit {
     }
 
   }
+
+  onSwitchToggle(type,event){
+    if(!event)
+    {
+      alert("Warning - Turning off updates for current assessments and open projects could delay completion or impact your team's ability to complete the project in a timely manner")
+      this.userSettingUpdate[type] = !this.userSettingUpdate[type]
+    }
+  }
   getUserSettingInfo(){
     this.userInfo = this.authService.getUser();
     let data = {UserID: this.userInfo['_id']}

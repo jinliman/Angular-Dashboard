@@ -400,7 +400,65 @@
 
              </div>
              <div class="key_metrics_page" *ngIf="activeTab == 'key_metrics'">
-               <h2>Key Metrics</h2>
+               <div class="header-title-div">
+                 <h2>Key Metrics</h2>
+               </div>
+               <div class="table-div">
+                 <table class="key_metrics_table">
+                   <thead>
+                     <tr>
+                       <th></th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/percentage-icon.svg'"></div>
+                           <span>Overall<br> Percentage</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
+                           <span>Risk/Reward<br> Rating</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img">
+                            <img src="../assets/images/icons/dashboard/industry-average.png"/>
+                           </div>
+                           <span>Industry<br> Average</span>
+                         </div>
+                       </th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngFor="let item of metricDataList">
+                       <td class="title">{{item.label}}</td>
+                       <td class="percent">
+                         <span class="custom-tooltip" >
+                           {{item.percent}}%
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.percentDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="circle" [class.orange] = "item.rating == 1" [class.yellow] = "item.rating == 2" [class.green] = "item.rating == 3">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.ratingDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="circle" [class.orange] = "item.average == 1" [class.yellow] = "item.average == 2" [class.green] = "item.average == 3">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.averageDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
 				     </div>
              <div class="document_page dynamic_page" *ngIf="activeTab == 'document'">
                <h2 class="padding-class">Document</h2>

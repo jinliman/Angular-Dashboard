@@ -45,6 +45,10 @@ export class ReportComponent implements OnInit {
   heatmapData: Array<object> = [];
   heatmapScoreDescription: object = {};
   heatmapScoreDescriptionOrg: Array<object> = [];
+  metricList: Array<object> = [];
+  metricColorList: Array<object> = [];
+  metricData: Array<object> = [];
+  metricDataList: Array<object> = [];
   activeTab = 'cover_page';
   loading: boolean;
 
@@ -126,6 +130,8 @@ export class ReportComponent implements OnInit {
         enableCheckAll: false,
         classes:"cs-dropdown-select custom-class",
       };
+    this.metricList = this.dataService.getKeymetricList();
+    this.metricColorList = this.dataService.getMetricColorList();
     this.initReport()
   }
 
@@ -228,7 +234,8 @@ export class ReportComponent implements OnInit {
     let data = {projectID: this.projectID}
     this.dataService.getHeatmap(data).subscribe(
       response => {
-        this.heatmapData  = response.result;
+        this.heatmapData  = response.result.Heatmap;
+        this.metricData  = response.result.Metrics;
         resolve();
       },
       (error) => {
@@ -440,6 +447,26 @@ export class ReportComponent implements OnInit {
   {
     return label || 'Not Available';
   }
+  updateMetric(){
+    this.metricDataList = [];
+    for(let item of this.metricList)
+    {
+      let index = item['value'];
+      let data_item = this.metricData.find((i)=>{return i['index'] == index});
+      let metric_item = {
+        index: index,
+        label: item['label'],
+        percent: data_item && data_item['percent'] ? data_item['percent'] : 0,
+        rating: data_item && data_item['rating'] ? data_item['rating'] : '0',
+        average: data_item && data_item['average'] ? data_item['average'] : '0',
+        percentDesc: data_item && data_item['percentDesc'] ? data_item['percentDesc'] : '',
+        ratingDesc: data_item && data_item['ratingDesc'] ? data_item['ratingDesc'] : '',
+        averageDesc: data_item && data_item['averageDesc'] ? data_item['averageDesc'] : ''
+      }
+      this.metricDataList.push(metric_item)
+      console.log(this.metricDataList)
+    }
+  }
   updateHeatMap(entries, heatmap){
     let t_heatmap = [];
     let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entries[0]['uuid']});
@@ -609,7 +636,7 @@ export class ReportComponent implements OnInit {
     this.recursiveUpdate(this.assessmentList[0]['children'])
     this.updateSidebarList();
     this.getCompanyInfo();
-    console.log(this.tableData)
+    this.updateMetric();
     this.loading = false;
   }
 

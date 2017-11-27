@@ -36,17 +36,17 @@
         <div class="row assets">
           <div class="col-md-12 form-group">
             <label>Daily Mail:</label>
-            <ui-switch [checked]="userSettingUpdate['dailymail']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['dailymail'] = !userSettingUpdate['dailymail']"></ui-switch>
+            <ui-switch class="switcher-item" [checked]="userSettingUpdate['dailymail']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('dailymail',$event);"></ui-switch>
           </div>
 
           <div class="col-md-12 form-group">
             <label>Project Update:</label>
-            <ui-switch [checked]="userSettingUpdate['projectupdate']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['projectupdate'] = !userSettingUpdate['projectupdate']"></ui-switch>
+            <ui-switch class="switcher-item" [checked]="userSettingUpdate['projectupdate']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('projectupdate',$event);"></ui-switch>
           </div>
 
           <div class="col-md-12 form-group">
             <label>New Assignment:</label>
-            <ui-switch [checked]="userSettingUpdate['newassignment']" size="small" color="#60a628" switchColor="#fcfcfc" (change)="userSettingUpdate['newassignment'] = !userSettingUpdate['newassignment']"></ui-switch>
+            <ui-switch class="switcher-item" [checked]="userSettingUpdate['newassignment']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('newassignment'.$event);"></ui-switch>
           </div>
         </div>
       </modal-body>

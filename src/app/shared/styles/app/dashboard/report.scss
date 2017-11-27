@@ -449,6 +449,89 @@
       }
       .key_metrics_page{
         padding: 0px 30px;
+        .header-title-div
+        {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          h2{
+            margin: 0px;
+          }
+          .edit-icon{
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: $dv-color-green;
+          }
+        }
+        .table-div{
+          width: 100%;
+          overflow-x: auto;
+          .key_metrics_table{
+            width: 100%;
+            thead{
+              th{
+                >div{
+                  font-weight: bold;
+                  padding: 10px 0px;
+                  text-align: center;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  div{
+                    margin-right: 8px;
+                    width: 38px;
+                    &.img{
+                      fill: $dv-color-green
+                    }
+                  }
+                }
+              }
+            }
+            tbody{
+              td{
+                text-align: center;
+                span{
+                  cursor: pointer;
+                }
+                &.title{
+                  text-align: left;
+                  font-weight: bold;
+                  padding: 10px 0px;
+                }
+                &.percent{
+                  color: $dv-color-grey;
+                }
+                &.circle{
+                  >span{
+                    display: block;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    margin: auto;
+                    background-color: $dv-bg-main;
+                  }
+                  &.orange{
+                    >span{
+                      background-color: $dv-color-orange;
+                    }
+                  }
+                  &.yellow{
+                    >span{
+                      background-color: $dv-color-yellow;
+                    }
+                  }
+                  &.green{
+                    >span{
+                      background-color: $dv-color-green;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
       .about_page{
         padding: 0px 30px;

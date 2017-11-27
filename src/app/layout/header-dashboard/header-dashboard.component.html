@@ -15,9 +15,14 @@
 				<span> <i class="fa fa-folder"></i> New Project</span>
 			</a>
 		</div>
-		<div class="signoff-div">
+		<div class="submit-div">
 			<a *ngIf="isSignoff" class="svg button pull-left" routerLink="/app/summary" style="margin-left:20px;">
 				<span> <i class="fa fa-send-o"></i> Ready to Submit</span>
+			</a>
+		</div>
+		<div class="schedule-div">
+			<a target="_blank" class="svg button pull-left"  *ngIf="userProjectRole == 'PRIMARY'" href="https://calendly.com/dealvalue/readout" style="margin-left:20px;">
+				<span> <i class="fa fa-folder"></i> Schedule Readout</span>
 			</a>
 		</div>
 		<div class="dropdown header-dropdown-menu">

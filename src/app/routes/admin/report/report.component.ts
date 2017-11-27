@@ -49,7 +49,12 @@ export class ReportComponent implements OnInit {
   inputHeatmapData: Array<object> = [];
   heatmapScoreDescription: object = {};
   heatmapScoreDescriptionOrg: Array<object> = [];
-  activeTab = 'heat_map';
+  metricList: Array<object> = [];
+  metricColorList: Array<object> = [];
+  metricData: Array<object> = [];
+  metricDataList: Array<object> = [];
+  inputMetricData: Array<object> = [];
+  activeTab = 'key_metrics';
   loading: boolean;
 
   constructor(
@@ -83,8 +88,10 @@ export class ReportComponent implements OnInit {
       };
     this.dropdownData = []
     this.getSubmittedProject();
+    this.metricList = this.dataService.getKeymetricList();
     this.heatmapScoreDescription = {}
     this.heatmapScoreDescriptionOrg = [];
+    this.metricColorList = this.dataService.getMetricColorList();
   }
 
   getDes(label)
@@ -96,6 +103,30 @@ export class ReportComponent implements OnInit {
   getDes1(label)
   {
     return label || 'Not Available';
+  }
+  openMetricModal(modal)
+  {
+    modal.open('lg');
+  }
+  submitKeymetric(modal)
+  {
+    let data = {
+      id: this.currentProject['_id'],
+      data: this.inputMetricData
+    }
+    this.dataService.updateMetric(data).subscribe(
+      response => {
+          this._notificationService.success(
+              'Successfully Saved!',
+              'Key Metrics'
+          )
+          this.metricData = response.result;
+          this.updateMetric();
+          modal.close();
+      },
+      (error) => {
+      }
+    );
   }
   openHeatmap(modal){
     modal.open('lg');
@@ -283,6 +314,7 @@ export class ReportComponent implements OnInit {
   apiHandler(){
     this.address_info = [];
     let promiseArr= [];
+
     promiseArr.push(new Promise((resolve, reject) => {
       this.getAssessment(() => {resolve(); });
     }))
@@ -336,7 +368,8 @@ export class ReportComponent implements OnInit {
     let data = {projectID: this.projectID}
     this.dataService.getHeatmap(data).subscribe(
       response => {
-        this.heatmapData  = response.result;
+        this.heatmapData  = response.result.Heatmap;
+        this.metricData  = response.result.Metrics;
         resolve();
       },
       (error) => {
@@ -542,6 +575,28 @@ export class ReportComponent implements OnInit {
     return url;
   }
 
+  updateMetric(){
+    this.metricDataList = [];
+    this.inputMetricData = [];
+    for(let item of this.metricList)
+    {
+      let index = item['value'];
+      let data_item = this.metricData.find((i)=>{return i['index'] == index});
+      let metric_item = {
+        index: index,
+        label: item['label'],
+        percent: data_item && data_item['percent'] ? data_item['percent'] : 0,
+        rating: data_item && data_item['rating'] ? data_item['rating'] : '0',
+        average: data_item && data_item['average'] ? data_item['average'] : '0',
+        percentDesc: data_item && data_item['percentDesc'] ? data_item['percentDesc'] : '',
+        ratingDesc: data_item && data_item['ratingDesc'] ? data_item['ratingDesc'] : '',
+        averageDesc: data_item && data_item['averageDesc'] ? data_item['averageDesc'] : ''
+      }
+      this.metricDataList.push(metric_item)
+      this.inputMetricData.push(Object.assign({},metric_item))
+    }
+  }
+
   updateHeatMap(entries, heatmap){
     let t_heatmap = [];
     let heatmap_item = this.heatmapData.find(function(h_item){ return h_item['AssignmentID'] == entries[0]['uuid']});
@@ -550,7 +605,7 @@ export class ReportComponent implements OnInit {
     t_heatmapSum['IntegrityDesc'] = heatmap_item && heatmap_item['IntegrityDesc'] ? heatmap_item['IntegrityDesc']: null;
     t_heatmapSum['ViabilityDesc'] = heatmap_item && heatmap_item['ViabilityDesc'] ? heatmap_item['ViabilityDesc']: null;
     t_heatmapSum['FitDesc'] = heatmap_item && heatmap_item['FitDesc'] ? heatmap_item['FitDesc']: null;
-    
+
     let that = this;
     function recursive(obj){
       for(let entry of obj)
@@ -720,6 +775,7 @@ export class ReportComponent implements OnInit {
     this.updateSidebarList();
     this.getCompanyInfo();
     this.updateHeatMapInput();
+    this.updateMetric();
     this.loading = false;
   }
 }

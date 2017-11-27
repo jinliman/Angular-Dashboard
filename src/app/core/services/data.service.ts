@@ -175,6 +175,41 @@ export class DataService {
     ]
     return industry_list;
   }
+
+  getKeymetricList()
+  {
+    let keymetric_list = [
+      {'value': '1', 'label': 'IT Spending as Percentage of Revenue'},
+      {'value': '2', 'label': 'Per-User Spending'},
+      {'value': '3', 'label': 'Capital Budget (CapEx) as a % of IT spending'},
+      {'value': '4', 'label': 'IT Security and Disaster Recovery'},
+      {'value': '5', 'label': 'Business application spending as %% of IT spending'},
+      {'value': '6', 'label': 'Business application spending per user'},
+      {'value': '7', 'label': 'Personnel as percentage of IT operational spending'},
+      {'value': '8', 'label': 'Users per IT staff member'},
+      {'value': '9', 'label': 'IT staff turnover'},
+      {'value': '10', 'label': 'Annual training allocation per IT employee'},
+      {'value': '11', 'label': 'Contingency workers as percentage of IT staff'},
+      {'value': '12', 'label': 'Users per help desk staff member'},
+      {'value': '13', 'label': 'Network infrastructure as percentage of IT spending'},
+      {'value': '14', 'label': 'Network infrastructure spending per user'},
+      {'value': '15', 'label': 'IT security as percentage of IT spending'},
+      {'value': '16', 'label': 'IT security spending per user'},
+      {'value': '17', 'label': 'PCs/end-user devices as percentage of IT spending'}
+    ]
+    return keymetric_list;
+  }
+
+  getMetricColorList()
+  {
+    let list = [
+      {'value': '0', 'label': 'NA'},
+      {'value': '1', 'label': 'Orange'},
+      {'value': '2', 'label': 'Yellow'},
+      {'value': '3', 'label': 'Green'}
+    ]
+    return list;
+  }
   /*
   ---------------- Project -----------------
   */
@@ -487,6 +522,11 @@ export class DataService {
   updateHeatmap(data){
       return this.http.post(this.url + '/api/admin/project/update_heatmap', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
+  }
+
+  updateMetric(data){
+    return this.http.post(this.url + '/api/admin/project/update_metric', data, { headers: this.getHeaders() })
+    .map((response: Response) => response.json());
   }
   getAdminAllProject(){
     return this.http.post(this.url + '/api/admin/project/list', {}, { headers: this.getHeaders() })

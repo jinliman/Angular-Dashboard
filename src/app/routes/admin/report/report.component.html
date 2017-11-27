@@ -409,7 +409,66 @@
 
              </div>
              <div class="key_metrics_page" *ngIf="activeTab == 'key_metrics'">
-               <h2>Key Metrics</h2>
+               <div class="header-title-div">
+                 <h2>Key Metrics</h2>
+                 <span class="edit-icon" (click)="openMetricModal(KeymetricModal)"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+               </div>
+               <div class="table-div">
+                 <table class="key_metrics_table">
+                   <thead>
+                     <tr>
+                       <th></th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/percentage-icon.svg'"></div>
+                           <span>Overall<br> Percentage</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
+                           <span>Risk/Reward<br> Rating</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img">
+                            <img src="../assets/images/icons/dashboard/industry-average.png"/>
+                           </div>
+                           <span>Industry<br> Average</span>
+                         </div>
+                       </th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                     <tr *ngFor="let item of metricDataList">
+                       <td class="title">{{item.label}}</td>
+                       <td class="percent">
+                         <span class="custom-tooltip" >
+                           {{item.percent}}%
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.percentDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="circle" [class.orange] = "item.rating == 1" [class.yellow] = "item.rating == 2" [class.green] = "item.rating == 3">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.ratingDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                       <td class="circle" [class.orange] = "item.average == 1" [class.yellow] = "item.average == 2" [class.green] = "item.average == 3">
+                         <span class="custom-tooltip" >
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.averageDesc)}}
+                           </span>
+                         </span>
+                       </td>
+                     </tr>
+                   </tbody>
+                 </table>
+               </div>
 				     </div>
              <div class="document_page dynamic_page" *ngIf="activeTab == 'document'">
                <h2 class="padding-class">Document</h2>
@@ -553,7 +612,7 @@
   </modal>
 
   <modal #RejectModal [animation]=false>
-    <form class="form assets" (ngSubmit) = "declineReport(RejectModal)" #form="ngForm">
+    <form class="form assets" (ngSubmit) = "declineReport(RejectModal)" #form1="ngForm">
       <modal-header>
         <h4 class="modal-title">Reason for Decline</h4>
       </modal-header>
@@ -571,14 +630,14 @@
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="RejectModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
   </modal>
 
   <modal #HoldModal [animation]=false>
-    <form class="form assets" (ngSubmit) = "holdReport(HoldModal)" #form="ngForm">
+    <form class="form assets" (ngSubmit) = "holdReport(HoldModal)" #form2="ngForm">
       <modal-header>
         <h4 class="modal-title">Reason for Hold</h4>
       </modal-header>
@@ -596,14 +655,107 @@
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="HoldModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
   </modal>
 
+  <modal #KeymetricModal [animation]=false>
+    <form class="form key_metrics_modal" (ngSubmit) = "submitKeymetric(KeymetricModal)" #form3="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Dealvalue Key Metrics</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row">
+          <div class="col-md-12">
+            <table cellspacing="10" class="table1">
+              <thead>
+                <tr>
+                  <th width="15%">Color Scale</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="color orange"><span></span> </td>
+                  <td class="desc">test123 </td>
+                </tr>
+                <tr>
+                  <td class="color yellow"><span></span></td>
+                  <td class="desc">test123</td>
+                </tr>
+                <tr>
+                  <td class="color green"><span></span></td>
+                  <td class="desc">test123</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table cellspacing="10" class="table2">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th width="15%">Overall<br>Percentage</th>
+                  <th width="15%">Risk/Reward<br>Rating</th>
+                  <th width="15%">Industry<br>Average</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor = "let item of inputMetricData; let i = index">
+                  <td>{{item.label}}</td>
+                  <td>
+                    <input [popover]="add_description_div1" type="number" [(ngModel)]="item.percent" name="percent{{i}}" min="0" max="100">
+                    <popover-content #add_description_div1
+                        title="Description"
+                        placement="top"
+                        [animation]="true"
+                        [closeOnClickOutside]="true">
+                        <textarea [(ngModel)]="item.percentDesc" name="integrityDesc{{i}}" rows="3" cols="80" placeholder="Type here"></textarea>
+                    </popover-content>
+                  </td>
+                  <td>
+                    <select [popover]="add_description_div2" [(ngModel)]="item.rating" class="custom-select" name="rating{{i}}" [class.orange] ="item.rating == 1" [class.yellow] ="item.rating == 2" [class.green] ="item.rating == 3">
+                      <option *ngFor="let colorItem  of metricColorList" [attr.value]="colorItem.value">{{colorItem.label}}</option>
+                    </select>
+                    <popover-content #add_description_div2
+                        title="Description"
+                        placement="top"
+                        [animation]="true"
+                        [closeOnClickOutside]="true">
+                        <textarea [(ngModel)]="item.ratingDesc"  name="ratingDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
+                    </popover-content>
+                  </td>
+                  <td>
+                    <select [popover]="add_description_div3" [(ngModel)]="item.average"  class="custom-select" name="average{{i}}" [class.orange] ="item.average == 1" [class.yellow] ="item.average == 2" [class.green] ="item.average == 3">
+                      <option *ngFor="let colorItem  of metricColorList" [attr.value]="colorItem.value">{{colorItem.label}}</option>
+                    </select>
+                    <popover-content #add_description_div3
+                        title="Description"
+                        placement="top"
+                        [animation]="true"
+                        [closeOnClickOutside]="true">
+                        <textarea [(ngModel)]="item.averageDesc"  name="averageDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
+                    </popover-content>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form3.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="KeymetricModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
   <modal #HeatmapModal [animation]=false>
-    <form class="form heatmap_modal" (ngSubmit) = "submitHeatmap(HeatmapModal)" #form="ngForm">
+    <form class="form heatmap_modal" (ngSubmit) = "submitHeatmap(HeatmapModal)" #form4="ngForm">
       <modal-header>
         <h4 class="modal-title">DealValue Score Card</h4>
       </modal-header>
@@ -708,7 +860,7 @@
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled] = "form4.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="HeatmapModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
