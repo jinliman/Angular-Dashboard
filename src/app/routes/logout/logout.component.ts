@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,8 +14,16 @@ export class LogoutComponent implements OnInit {
   constructor( private authService: AuthService, private router: Router ) { }
 
   ngOnInit() {
+    let userInfo = this.authService.getUser()
     this.authService.logout();
-    this.router.navigate(['/']);
+    if(userInfo['Role'] == 'admin')
+    {
+      let adminUrl = environment.adminUrl
+      this.router.navigate(['/'+adminUrl]);
+    }else
+    {
+      this.router.navigate(['/']);
+    }
   }
 
 }

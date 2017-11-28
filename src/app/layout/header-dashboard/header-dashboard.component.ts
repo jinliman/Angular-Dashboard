@@ -40,6 +40,10 @@ export class HeaderDashboardComponent implements OnInit {
       this.isSidebarCollapsed = true;
   }
 
+  getAdminUrl(){
+    return this.dataService.getAdminUrl()
+  }
+
   toggleSidebar(){
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
     this.dataService.onSidebarToggled(this.isSidebarCollapsed)

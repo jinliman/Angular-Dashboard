@@ -1,0 +1,95 @@
+<div class="admin-setting">
+  <div class="loading-div" *ngIf="loading"></div>
+  <p class="title">Admin Setting</p>
+  <ng-container *ngIf="!loading">
+    <div class="row content-inner">
+      <div class="col-md-12">
+        <div class="sub-title-div clearfix">
+          <p class="sub-title pull-left">Email Notification</p>
+          <span class="edit-icon pull-right" (click)="openModal(EditModal);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Project Update :</span>
+          <span class="content success" *ngIf="adminSetting['projectupdate']">On</span>
+          <span class="content danger" *ngIf="!adminSetting['projectupdate']">Off</span>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="info-div clearfix">
+          <a class="svg button" (click)="openModal(passwordModal);">
+            <span> <i class="fa fa-setting"></i> Update Password</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <modal #EditModal [animation]=false>
+    <form class="form user-setting-modal" (ngSubmit) = "updateSetting(EditModal)" #form1="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Update Setting</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row assets">
+          <div class="col-md-12 form-group">
+            <label>Project Update:</label>
+            <ui-switch class="switcher-item" [checked]="adminSetting['projectupdate']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('projectupdate',$event);"></ui-switch>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="EditModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #passwordModal [animation]=false>
+    <form class="form " (ngSubmit) = "updatePassword(passwordModal)" #form2="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Update Password</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row assets">
+          <div class="col-md-12 form-group">
+            <p *ngIf="!isValidPassword" class="error">Current Password is incorrect</p>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': passwordOld.invalid && passwordOld.touched,
+              'has-success': passwordOld.valid && passwordOld.touched
+            }">
+            <label for="passwordOld" class="required">Current Password:</label>
+            <input type="password" placeholder="Current Password" name="passwordOld" #passwordOld = "ngModel" [(ngModel)] = "passwordInfo.PasswordOld" value="">
+            <span class="help-block" *ngIf="passwordOld.errors && passwordOld.errors.required  && passwordOld.touched">Current Password is required</span>
+            <span class="help-block" *ngIf="passwordOld.errors && passwordOld.errors.pattern && passwordOld.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': password.invalid && password.touched,
+              'has-success': password.valid && password.touched
+            }">
+            <label for="password" class="required">New Password:</label>
+            <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="New Password" name="password" #password = "ngModel" [(ngModel)] = "passwordInfo.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+            <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">New Password is required</span>
+            <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+              'has-success': passwordConfirm.valid && passwordConfirm.touched
+            }">
+            <label for="passwordConfirm" class="required">Confirm Password:</label>
+            <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "passwordInfo.PasswordConfirm" value=""  required>
+            <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Confrim Password is required</span>
+            <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="passwordModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+</div>

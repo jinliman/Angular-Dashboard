@@ -453,6 +453,19 @@ export class DataService {
 
   /**************** ADMIN *********************/
   /*
+  ---------------- Admin Generic -----------------
+  */
+  updateAdminSetting(data)
+  {
+    return this.http.post(this.url + '/api/admin/update_setting', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  updateAdminPassword(data)
+  {
+    return this.http.post(this.url + '/api/admin/update_password', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  /*
   ---------------- Admin Assessment -----------------
   */
 

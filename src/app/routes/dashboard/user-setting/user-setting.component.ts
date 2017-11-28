@@ -18,6 +18,7 @@ export class UserSettingComponent implements OnInit {
   userSetting: object = {};
   userProjects : Array<object> = [];
   userSettingUpdate : object = {};
+  loading: boolean;
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -25,6 +26,7 @@ export class UserSettingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.getUserSettingInfo();
 
     this.userSetting = {
@@ -39,8 +41,8 @@ export class UserSettingComponent implements OnInit {
     if(!event)
     {
       alert("Warning - Turning off updates for current assessments and open projects could delay completion or impact your team's ability to complete the project in a timely manner")
-      this.userSettingUpdate[type] = !this.userSettingUpdate[type]
     }
+    this.userSettingUpdate[type] = !this.userSettingUpdate[type]
   }
   getUserSettingInfo(){
     this.userInfo = this.authService.getUser();
@@ -91,6 +93,7 @@ export class UserSettingComponent implements OnInit {
     {
         this.userSettingUpdate[i] = this.userSetting[i];
     }
+    this.loading = false;
   }
   openModal(modal){
     this.initUpdateUserSetting();

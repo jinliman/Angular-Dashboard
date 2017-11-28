@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   jobTilteArr: Array<object> = [];
   jobTitle: string = '';
   isValidPassword: boolean = true;
+  loading: boolean;
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -30,6 +31,7 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.jobTilteArr = this.dataService.getJobList();
     this.getUserInfo();
     this.getJobTitle();
@@ -125,6 +127,7 @@ export class UserProfileComponent implements OnInit {
     this.userInfoUpdate['Last'] = this.userInfo['Name']['Last'];
     this.userInfoUpdate['JobTitle'] = this.userInfo['Name']['JobTitle'];
     this.userInfoUpdate['Contact'] = this.userInfo['Contact'];
+    this.loading = false;
   }
   openModal(modal){
     this.isValidPassword  = true;
