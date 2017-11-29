@@ -70,7 +70,15 @@ export class AdminComponent implements OnInit {
   ) { }
 
   download() {
-    var columns = ["#", "Project Name", "Start Date", "Deadline Date", "Complete Date", "Status", "Progress"];
+    var columns = [
+      {title: "#", dataKey: "id"},
+      {title: "Project Name", dataKey: "project_name"},
+      {title: "Start Date", dataKey: "start_date"},
+      {title: "Deadline Date", dataKey: "deadline"},
+      {title: "Complete Date", dataKey: "complete_date"},
+      {title: "Status", dataKey: "status"},
+      {title: "Progress", dataKey: "progress"}
+    ];
     var rows = [];
     for(var index in this.tableData)
     {
@@ -92,14 +100,24 @@ export class AdminComponent implements OnInit {
         case 'Hold':
           status = 'On Hold'; break;
       }
-      rows.push([parseInt(index)+1, item.Name, start_date, deadline, endDate, status, progress + '%']);
+      rows.push({
+        id: parseInt(index)+1,
+        project_name: item.Name,
+        start_date: start_date,
+        deadline: deadline,
+        complete_date: endDate,
+        status: status,
+        progress: progress + '%'
+      });
     }
-    var doc = new jsPDF('p', 'pt');
+    var doc = new jsPDF('l');
     doc.autoTable(columns, rows,
       {
-      margin: {top: 60},
+        margin: {top: 40},
+        styles: {overflow: 'linebreak', columnWidth: 'wrap'},
+        columnStyles: {project_name: {columnWidth: 'auto'}},
       addPageContent: function(data) {
-      	doc.text("Project List", 240, 40);
+      	doc.text("Project List", 130, 30);
       }}
     );
     doc.save("table.pdf");

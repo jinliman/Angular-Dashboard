@@ -42,7 +42,14 @@ export class UsersComponent implements OnInit {
   }
 
   download() {
-    var columns = ["ID", "User Type", "User Name", "User Company", "User Since", "Last Login"];
+    var columns = [
+      {title: "ID", dataKey: "id"},
+      {title: "User Type", dataKey: "user_type"},
+      {title: "User Name", dataKey: "user_name"},
+      {title: "User Company", dataKey: "user_company"},
+      {title: "User Since", dataKey: "user_since"},
+      {title: "Last Login", dataKey: "last_login"},
+    ]
     var rows = [];
     for(var index in this.tableData)
     {
@@ -52,18 +59,28 @@ export class UsersComponent implements OnInit {
       let companyname = item.userCompanyName;
       let usersince = moment(item.date).format('MMMM D, YYYY');
       let lastlogin = moment(item.lastLogin).format('MMMM D, YYYY');
-      rows.push([parseInt(index)+1, usertype, username, companyname, usersince, lastlogin]);
+      rows.push({
+        id: parseInt(index)+1,
+        user_type: usertype,
+        user_name: username,
+        user_company: companyname,
+        user_since: usersince,
+        last_login: lastlogin
+      });
+      console.log(rows)
     }
-    var doc = new jsPDF('p', 'pt');
+    var doc = new jsPDF('l');
     doc.autoTable(columns, rows,
       {
       drawHeaderCell: function (cell, data) {
         cell.styles.fontSize= 46;
         cell.styles.textColor = [96,166,40];
       },
-      margin: {top: 60},
+      margin: {top: 40},
+      styles: {overflow: 'linebreak', columnWidth: 'wrap'},
+      columnStyles: {user_company: {columnWidth: 'auto'}},
       addPageContent: function(data) {
-      	doc.text("User List", 250, 40);
+      	doc.text("User List", 140, 30);
       }}
     );
     doc.save("table.pdf");
