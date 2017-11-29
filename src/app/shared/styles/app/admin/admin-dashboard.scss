@@ -1,29 +1,38 @@
 .admin-dashboard{
+  #download-div{
+    background-color: #fff;
+  }
   .row{
     margin: 0px;
   }
-  .datepicker-div{
-    background-color: $dv-color-white;
-    padding: 0px 10px;
-    border: 2px solid $dv-color-border;
-    border-radius: 5px;
-    width: 390px;
+  .inner-header{
     display: flex;
     align-items: center;
-    margin: 20px 10px;
-    float: right;
-    &>div{
-      width: 100%;
-      cursor: pointer;
-      padding: 3px;
-      .icon-div{
-        color: $dv-color-green;
-        font-size: 25px;
+    .datepicker-div{
+      background-color: $dv-color-white;
+      padding: 0px 10px;
+      border: 2px solid $dv-color-border;
+      border-radius: 5px;
+      width: 390px;
+      display: flex;
+      align-items: center;
+      margin: 20px 10px;
+      &>div{
+        width: 100%;
+        cursor: pointer;
+        padding: 3px;
+        .icon-div{
+          color: $dv-color-green;
+          font-size: 25px;
+        }
+        .date-text{
+          padding-left: 10px;
+          font-size: 18px;
+        }
       }
-      .date-text{
-        padding-left: 10px;
-        font-size: 18px;
-      }
+    }
+    .button-div{
+        text-align: right;
     }
   }
   .first-row{

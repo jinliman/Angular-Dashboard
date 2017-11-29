@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser'
 
 import { AuthService } from '../../core/services/auth.service';
@@ -11,10 +11,14 @@ import { Question, Answer } from '../../shared/objectSchema';
 import { environment } from '../../../environments/environment';
 import * as moment from "moment";
 
+declare var jsPDF: any;
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
+  providers: [
+    { provide: 'Window',  useValue: window }
+  ]
 })
 export class AdminComponent implements OnInit {
 
@@ -62,7 +66,44 @@ export class AdminComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private authService: AuthService,
+    @Inject('Window') private window: Window
   ) { }
+
+  download() {
+    var columns = ["#", "Project Name", "Start Date", "Deadline Date", "Complete Date", "Status", "Progress"];
+    var rows = [];
+    for(var index in this.tableData)
+    {
+      let item = this.tableData[index];
+      let start_date = moment(item.createdAt).format('MMMM D, YYYY');
+      let deadline = moment(item.deadlineDate).format('MMMM D, YYYY');
+      let endDate = item.Status == 'Accept' ? moment(item.endDate).format('MMMM D, YYYY') : '';
+      let status = '';
+      let progress = item.progress;
+      switch(item.Status)
+      {
+        case 'Accept':
+          status = 'Complete'; break;
+        case 'Pending':
+        case 'Reject':
+          status = 'In Progress'; break;
+        case 'Submitted':
+          status = 'Submitted'; break;
+        case 'Hold':
+          status = 'On Hold'; break;
+      }
+      rows.push([parseInt(index)+1, item.Name, start_date, deadline, endDate, status, progress + '%']);
+    }
+    var doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows,
+      {
+      margin: {top: 60},
+      addPageContent: function(data) {
+      	doc.text("Project List", 240, 40);
+      }}
+    );
+    doc.save("table.pdf");
+  }
 
   ngOnInit() {
     this.daterange.start = null;

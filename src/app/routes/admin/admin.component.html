@@ -1,125 +1,134 @@
 <div class="admin-dashboard">
   <div class="loading-div" *ngIf="loading"></div>
   <ng-container *ngIf="!loading">
-    <div class="row">
-      <div class="col-md-12 datepicker-div clearfix">
-        <div daterangepicker [options]="options" (selected)="selectedDate($event)">
-          <span class="icon-div"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<b class="caret"></b></span>
-          <span class="date-text">{{daterange.label}}</span>
+    <div class="row inner-header">
+      <div class="col-sm-6 clearfix">
+        <div class="datepicker-div">
+          <div daterangepicker [options]="options" (selected)="selectedDate($event)">
+            <span class="icon-div"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<b class="caret"></b></span>
+            <span class="date-text">{{daterange.label}}</span>
+          </div>
         </div>
+      </div>
+      <div class="col-sm-6 button-div">
+        <a class="svg button" (click)="download()">
+          <span> <i class="fa fa-setting"></i> Export as PDF</span>
+        </a>
       </div>
     </div>
-    <div class="row first-row">
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Total Projects</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+    <div>
+      <div class="row first-row">
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Total Projects</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr['total']}} <span class="status-img" [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr['total']}} <span class="status-img" [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Total Completes</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Total Completes</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr['completed']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr['completed']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Total Holds</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Total Holds</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr['hold']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr['hold']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Total In Progress</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Total In Progress</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr['in_progress']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr['in_progress']}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Number of Initiators</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Number of Initiators</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr.num_initiators}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr.num_initiators}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Number of Owners</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/assigned-icon.svg'"></div>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Number of Owners</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/assigned-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">{{statusInfoArr.num_owners}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr.num_owners}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Number of Team<br>Members</p>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Number of Team<br>Members</p>
+          </div>
+          <p class="value pull-right">{{statusInfoArr.num_members}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">{{statusInfoArr.num_members}} <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
-        <div class="status pull-left">
-          <p class="title">Average Duration<br>to Complete</p>
-          <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+        <div class="col-md-3 col-sm-6 col-xs-6 status-block clearfix">
+          <div class="status pull-left">
+            <p class="title">Average Duration<br>to Complete</p>
+            <div [inlineSVG]="'../assets/images/icons/dashboard/assessments-icon.svg'"></div>
+          </div>
+          <p class="value pull-right">1 <span class="top">days</span> <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
         </div>
-        <p class="value pull-right">1 <span class="top">days</span> <span [inlineSVG]="'../assets/images/icons/dashboard/up-arrow-icon.svg'"></span></p>
       </div>
-    </div>
-    <div class="row">
-      <div class="project-list-div">
-        <p class="title">Projects</p>
-        <table class="project-list-table">
-          <thead>
-            <tr>
-              <td width="60px">#</td>
-              <td width="15%">Project Name</td>
-              <td width="15%">Start Date</td>
-              <td width="15%">Deadline Date</td>
-              <td width="15%">Complete Date</td>
-              <td width="15%">Status</td>
-              <td>Progress</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of tableData; let i = index" (click)="viewDetail(item)">
-              <td>{{i+1}}</td>
-              <td>{{item.Name}}</td>
-              <td>{{item.createdAt | amDateFormat:'LL'}}</td>
-              <td>{{item.deadlineDate | amDateFormat:'LL'}}</td>
-              <td><span *ngIf="item.Status == 'Accept'">{{item.endDate | amDateFormat:'LL'}}</span></td>
-              <td>
-                <div class="status-div" *ngIf="item.Status == 'Accept'">
-                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
-                  <span>Complete</span>
-                </div>
-                <div class="status-div" *ngIf="item.Status == 'Pending'">
-                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
-                  <span>In Progress</span>
-                </div>
-                <div class="status-div" *ngIf="item.Status == 'Submitted'">
-                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
-                  <span>Submitted</span>
-                </div>
-                <div class="status-div" *ngIf="item.Status == 'Reject'">
-                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
-                  <span>In Progress</span>
-                </div>
-                <div class="status-div" *ngIf="item.Status == 'Hold'">
-                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
-                  <span>On Hold</span>
-                </div>
-              </td>
-              <td>
-                <div class="custom-progress">
-                  <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="project-list-div">
+          <p class="title">Projects</p>
+          <table class="project-list-table">
+            <thead>
+              <tr>
+                <td width="60px">#</td>
+                <td width="15%">Project Name</td>
+                <td width="15%">Start Date</td>
+                <td width="15%">Deadline Date</td>
+                <td width="15%">Complete Date</td>
+                <td width="15%">Status</td>
+                <td>Progress</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of tableData; let i = index" (click)="viewDetail(item)">
+                <td>{{i+1}}</td>
+                <td>{{item.Name}}</td>
+                <td>{{item.createdAt | amDateFormat:'LL'}}</td>
+                <td>{{item.deadlineDate | amDateFormat:'LL'}}</td>
+                <td><span *ngIf="item.Status == 'Accept'">{{item.endDate | amDateFormat:'LL'}}</span></td>
+                <td>
+                  <div class="status-div" *ngIf="item.Status == 'Accept'">
+                    <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+                    <span>Complete</span>
+                  </div>
+                  <div class="status-div" *ngIf="item.Status == 'Pending'">
+                    <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                    <span>In Progress</span>
+                  </div>
+                  <div class="status-div" *ngIf="item.Status == 'Submitted'">
+                    <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                    <span>Submitted</span>
+                  </div>
+                  <div class="status-div" *ngIf="item.Status == 'Reject'">
+                    <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                    <span>In Progress</span>
+                  </div>
+                  <div class="status-div" *ngIf="item.Status == 'Hold'">
+                    <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+                    <span>On Hold</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="custom-progress">
+                    <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </ng-container>

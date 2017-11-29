@@ -1,8 +1,13 @@
 <div class="admin-user-page">
   <div class="loading-div" *ngIf="loading"></div>
   <ng-container *ngIf="!loading">
-    <div class="clearfix sub-header">
-      <p class="title">Users ({{tableData.length}})</p>
+    <div class="clearfix sub-header row">
+      <p class="title col-sm-6">Users ({{tableData.length}})</p>
+      <div class="col-sm-6 button-div">
+        <a class="svg button" (click)="download()">
+          <span> <i class="fa fa-setting"></i> Export as PDF</span>
+        </a>
+      </div>
     </div>
     <table class="table">
       <thead>

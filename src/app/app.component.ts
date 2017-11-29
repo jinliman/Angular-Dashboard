@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 declare var $: any;
-
+declare var jsPDF: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit,OnDestroy {
 	constructor(
     private router: Router
   ) {
-
+  
   }
 
   ngOnDestroy(): any {

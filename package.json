@@ -37,6 +37,8 @@
     "hammerjs": "^2.0.8",
     "i": "^0.3.5",
     "jquery": "^3.2.1",
+    "jspdf": "^1.3.5",
+    "jspdf-autotable": "^2.3.2",
     "moment": "^2.18.1",
     "ng-inline-svg": "^3.3.0",
     "ng2-bs3-modal": "^0.10.4",
