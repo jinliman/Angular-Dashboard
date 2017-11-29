@@ -134,7 +134,7 @@ export class SidebarComponent implements OnInit {
         { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
         { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
         { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
-        { route: "/" + this.dataService.getAdminUrl() + "calendar", Title: "Readout Calendar"},
+        { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
         { route: "/" + this.dataService.getAdminUrl() + "categories", Title: "Categories"},
       ]
       this.menu = this.menu.concat(this.assessment_menu)
