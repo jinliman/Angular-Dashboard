@@ -590,13 +590,12 @@ textarea{
     .c-list{
       font-weight: 400;
       .c-token{
-        display: flex !important;
-        align-items: center !important;
         background: $dv-color-green !important;
         padding: 4px 12px !important;
         color: #fff !important;
         .fa-remove{
           margin-left: 8px !important;
+          margin-top: 4px !important;
           z-index: 10 !important;
         }
       }

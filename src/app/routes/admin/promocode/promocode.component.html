@@ -1,0 +1,190 @@
+<div class="promocode-setting">
+  <div class="loading-div" *ngIf="loading"></div>
+  <div class="clearfix sub-header row">
+    <p class="title col-sm-6">Manage PromoCode</p>
+    <div class="col-sm-6 button-div">
+      <a class="svg button" (click)="openModal(AddModal);">
+        <span> <i class="fa fa-setting"></i> Add</span>
+      </a>
+    </div>
+  </div>
+  <ng-container *ngIf="!loading">
+    <div class="row content-inner">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Title</td>
+              <td>Code</td>
+              <td>Percent</td>
+              <td>Expire At</td>
+              <td>Status</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of promocodeList; let i = index">
+              <td><span>{{i+1}}</span></td>
+              <td><span>{{item.Title}}</span></td>
+              <td><span>{{item.Code}}</span></td>
+              <td><span>{{item.Percent}} %</span></td>
+              <td><span>{{item.ExpireDate | amDateFormat:'LL'}}</span></td>
+              <td><span class="status" [class.success]="item.Status == 'Active'" [class.danger]="item.Status == 'Inactive'">{{item.Status}}</span></td>
+              <td>
+                <div class="report">
+                  <a href="javascript:;"><i class="fa fa-send" aria-hidden="true" (click)="sendModal(SendModal, item)"></i></a>
+                  <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true" (click)="editPromocode(EditModal, item)"></i></a>
+                  <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true" (click)="removePromocode(item['_id'])"></i></a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <modal #AddModal [animation]=false>
+    <form class="form user-setting-modal" (ngSubmit) = "updatePromocode(AddModal, 'new')" #form1="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Add New PromoCode</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row assets">
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': title.invalid && title.touched,
+            'has-success': title.valid && title.touched
+          }">
+            <label for="title" class="required">Title:</label>
+            <input type="text" name="title" #title = "ngModel"  placeholder="Input Title"  [(ngModel)] = "newCodeInfo.title" value="" required>
+            <span class="help-block" *ngIf="title.errors && title.errors.required  && title.touched">Title is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': promocode.invalid && promocode.touched,
+            'has-success': promocode.valid && promocode.touched
+          }">
+            <label for="promocode" class="required">PromoCode:</label>
+            <input type="text" name="promocode" #promocode = "ngModel"  placeholder="Input PromoCode"  [(ngModel)] = "newCodeInfo.code" value="" required>
+            <span class="help-block" *ngIf="promocode.errors && promocode.errors.required  && promocode.touched">PromoCode is required</span>
+          </div>
+          <div class="col-md-12 clearfix">
+            <a class="svg button pull-right" (click)="generateRandomCode()">
+              <span> <i class="fa fa-setting"></i> Generate Random Code</span>
+            </a>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': percent.invalid && percent.touched,
+            'has-success': percent.valid && percent.touched
+          }">
+            <label for="percent" class="required">Discount Percent (%):</label>
+            <input type="number" name="percent" #percent = "ngModel"  placeholder="Input Discount Percent"  [(ngModel)] = "newCodeInfo.percent" min="0" max="100" step="0.1" value="" required>
+            <span class="help-block" *ngIf="percent.errors && percent.errors.required  && percent.touched">Percent is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': expiredate.invalid && expiredate.touched,
+            'has-success': expiredate.valid && expiredate.touched
+          }">
+            <label for="expiredate" class="required">Expire Date:</label>
+            <input type="text" name="expiredate" #expiredate = "ngModel" [(ngModel)] = "newCodeInfo.expiredate" value="" daterangepicker [options]="datepickerOptions" (selected)="setExpireDate($event)" />
+            <span class="help-block" *ngIf="expiredate.errors && expiredate.errors.required  && expiredate.touched">Percent is required</span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="AddModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #EditModal [animation]=false>
+    <form class="form user-setting-modal" (ngSubmit) = "updatePromocode(EditModal, 'edit')" #form1="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Edit PromoCode</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row assets">
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': title.invalid && title.touched,
+            'has-success': title.valid && title.touched
+          }">
+            <label for="title" class="required">Title:</label>
+            <input type="text" name="title" #title = "ngModel"  placeholder="Input Title"  [(ngModel)] = "newCodeInfo.title" value="" required>
+            <span class="help-block" *ngIf="title.errors && title.errors.required  && title.touched">Title is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': promocode.invalid && promocode.touched,
+            'has-success': promocode.valid && promocode.touched
+          }">
+            <label for="promocode" class="required">PromoCode:</label>
+            <input type="text" name="promocode" #promocode = "ngModel"  placeholder="Input PromoCode"  [(ngModel)] = "newCodeInfo.code" value="" required>
+            <span class="help-block" *ngIf="promocode.errors && promocode.errors.required  && promocode.touched">PromoCode is required</span>
+          </div>
+          <div class="col-md-12 clearfix">
+            <a class="svg button pull-right" (click)="generateRandomCode()">
+              <span> <i class="fa fa-setting"></i> Generate Random Code</span>
+            </a>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': percent.invalid && percent.touched,
+            'has-success': percent.valid && percent.touched
+          }">
+            <label for="percent" class="required">Discount Percent (%):</label>
+            <input type="number" name="percent" #percent = "ngModel"  placeholder="Input Discount Percent"  [(ngModel)] = "newCodeInfo.percent" min="0" max="100" step="0.1" value="" required>
+            <span class="help-block" *ngIf="percent.errors && percent.errors.required  && percent.touched">Percent is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+          [ngClass]="{
+            'has-error': expiredate.invalid && expiredate.touched,
+            'has-success': expiredate.valid && expiredate.touched
+          }">
+            <label for="expiredate" class="required">Expire Date:</label>
+            <input type="text" name="expiredate" #expiredate = "ngModel" [(ngModel)] = "newCodeInfo.expiredate" value="" daterangepicker [options]="datepickerOptions" (selected)="setExpireDate($event)" />
+            <span class="help-block" *ngIf="expiredate.errors && expiredate.errors.required  && expiredate.touched">Percent is required</span>
+          </div>
+          <div class="col-md-12 form-group">
+            <label>Daily Mail:</label>
+            <ui-switch class="switcher-item" [checked]="newCodeInfo.status == 'Active'" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle()"></ui-switch>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="EditModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+
+  <modal #SendModal [animation]=false>
+    <form class="form user-modal" (ngSubmit) = "sendPromocode(SendModal)" #form1="ngForm">
+      <modal-header>
+        <h4 class="modal-title">Issue PromoCode</h4>
+      </modal-header>
+      <modal-body>
+        <div class="row assets">
+          <div class="col-md-12">
+            <angular2-multiselect name="UserSelect" [data]="projectOwnerList.Content" [(ngModel)]="projectOwnerList.Selected" [settings]="dropdownSettings"></angular2-multiselect>
+          </div>
+          <div class="col-md-12 username-div">
+            <h4>Selected Users: </h4>
+            <span class="userName" *ngFor="let item of projectOwnerList.Selected">
+              {{item['itemName']}}
+            </span>
+          </div>
+        </div>
+      </modal-body>
+      <modal-footer>
+        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="SendModal.dismiss()">Cancel</button>
+      </modal-footer>
+    </form>
+  </modal>
+</div>

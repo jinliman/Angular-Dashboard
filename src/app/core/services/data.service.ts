@@ -465,6 +465,34 @@ export class DataService {
     return this.http.post(this.url + '/api/admin/update_password', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
+  /*
+  ---------------- PromoCode -----------------
+  */
+
+  getPromoCode()
+  {
+    return this.http.get(this.url + '/api/admin/promocode/get', { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  updatePromoCode(data)
+  {
+    return this.http.post(this.url + '/api/admin/promocode/update', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  removePromoCode(data)
+  {
+    return this.http.post(this.url + '/api/admin/promocode/delete', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  sendPromoCode(data)
+  {
+    return this.http.post(this.url + '/api/admin/promocode/send', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   /*
   ---------------- Admin Assessment -----------------
   */

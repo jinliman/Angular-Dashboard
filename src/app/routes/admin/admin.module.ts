@@ -14,6 +14,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AdminAssessmentComponent } from './admin-assessment/admin-assessment.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { SettingComponent } from './setting/setting.component';
+import { PromocodeComponent } from './promocode/promocode.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'assessment/:id', component: AdminAssessmentComponent },
       { path: 'assessment/:id/edit', component: QaBuilderComponent },
       { path: 'setting', component: SettingComponent },
+      { path: 'promocode', component: PromocodeComponent },
     ]
   }
 ];
@@ -42,7 +44,7 @@ const routes: Routes = [
     SharedModule,
   ],
   declarations: [
-    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent, ProjectDetailComponent, SettingComponent],
+    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent, ProjectDetailComponent, SettingComponent, PromocodeComponent],
   exports: [
   	RouterModule
   ]

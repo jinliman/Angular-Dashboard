@@ -1,0 +1,116 @@
+.promocode-setting{
+  .sub-header{
+    padding: 20px;
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+    }
+    .button-div{
+        text-align: right;
+    }
+    .button{
+      padding: 4px 23px;
+      font-size: 16px;
+      line-height: 24px;
+      span>i{
+        font-size: 20px;
+      }
+    }
+  }
+  .content-inner{
+    .table{
+      font-size: 17px;
+      width: 100%;
+      td{
+        vertical-align: middle !important;
+        .status{
+          font-weight: bold;
+        }
+        &>span{
+          padding:0px 5px;
+          &.success{
+            color: $dv-color-green;
+          }
+          &.danger{
+            color: $dv-color-orange;
+          }
+        }
+        .short-name{
+          width: 32px;
+          line-height: 32px;
+          text-align: center;
+          display: inline-block;
+          margin-left: 20px;
+          color:#fff;
+          background-color: $dv-color-green;
+          border-radius: 50%;
+        }
+        input{
+          background-color: $dv-color-white;
+        }
+      }
+      thead{
+        background-color: $dv-bg-dashboard;
+        td{
+          font-weight: 600;
+        }
+
+      }
+      tbody{
+        td{
+          color: $dv-color-grey;
+          &>div{
+            display: flex;
+            align-items: center;
+            &.report{
+              a{
+                padding-left: 15px;
+              }
+            }
+            .desc{
+              padding-left: 10px;
+              &.score{
+                font-weight: bold;
+                color:$dv-color-primary;
+              }
+            }
+          }
+        }
+      }
+      th,td{
+        border-top: 2px solid $dv-color-border !important;
+        border: 2px solid $dv-color-border;
+        padding: 14px 14px;
+        font-weight: 400;
+        color: $dv-color-primary;
+        &:first-of-type{
+          border-left: none;
+        }
+        &:last-of-type{
+          border-right: none;
+        }
+        &.status{
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+.admin-setting-modal{
+  label{
+    width: 180px;
+  }
+  .switcher-item{
+    position: absolute;
+    top: -6px;
+  }
+}
+.user-modal{
+  .username-div{
+    span{
+      font-size: 15px;
+      display: block;
+      padding: 3px 0px;
+    }
+  }
+}
