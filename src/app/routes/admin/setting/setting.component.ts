@@ -19,6 +19,9 @@ export class SettingComponent implements OnInit {
   adminSetting: object = {};
   passwordInfo: object = {};
   adminSettingUpdate : object = {};
+  paymentSetting: Array<object> = [];
+  paymentSettingObject: object = {};
+  paymentSettingUpdate: object = {};
   isValidPassword: boolean = true;
   loading: boolean;
 
@@ -30,12 +33,10 @@ export class SettingComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.getAdminInfo();
-
     this.adminSetting = {
       projectupdate: true
     }
-
+    this.apiHandler();
   }
 
   onSwitchToggle(type,event){
@@ -45,21 +46,49 @@ export class SettingComponent implements OnInit {
     }
     this.adminSettingUpdate[type] = !this.adminSettingUpdate[type]
   }
-  getAdminInfo(){
+  getAdminInfo(resolve){
     this.authService.adminInfo().subscribe(
       response => {
         this.adminInfo = response.UserInfo;
-        console.log(this.adminInfo)
+
         if(response.UserInfo['Data'] && response.UserInfo['Data'].length)
         {
           response.UserInfo['Data'].forEach((item)=>{this.adminSetting[item['DataType']] = (!!item['Data'])})
         }
-        this.initUpdateAdminSetting()
+        resolve();
       },
       (error) => {
 
       }
     );
+  }
+
+  getAdminSetting(resolve){
+    this.dataService.getAdminSetting().subscribe(
+      response => {
+        this.paymentSetting = response.result;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  apiHandler(){
+    let promiseArr= [];
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAdminInfo(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAdminSetting(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.initUpdateAdminSetting()
+    });
   }
 
   updateSetting(modal){
@@ -118,11 +147,38 @@ export class SettingComponent implements OnInit {
     );
   }
 
+  updatePaymentSetting(modal){
+    let data = [];
+    for(let i of Object.keys(this.paymentSettingUpdate)){
+      data.push({DataType: i, Data: this.paymentSettingUpdate[i]})
+    }
+    this.dataService.updateAdminPaymentSetting({ data : data}).subscribe(
+      response => {
+        let error_code = response.ERR_CODE;
+        if(error_code == "ERR_NONE"){
+          this.paymentSetting = response.result;
+          this.initUpdateAdminSetting()
+          modal.close();
+          this._notificationService.success(
+              'Admin Setting',
+              'Setting updated'
+          )
+        }
+      },
+      (error) => {
+      }
+    );
+  }
   initUpdateAdminSetting(){
     for(let i of Object.keys(this.adminSetting))
     {
         this.adminSettingUpdate[i] = this.adminSetting[i];
     }
+    for(let item of this.paymentSetting)
+    {
+        this.paymentSettingObject[item['DataType']] = item['Data']
+    }
+    this.paymentSettingUpdate = Object.assign({}, this.paymentSettingObject)
     this.loading = false;
   }
   openModal(modal){

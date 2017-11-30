@@ -455,6 +455,15 @@ export class DataService {
   /*
   ---------------- Admin Generic -----------------
   */
+  getAdminSetting(){
+    return this.http.get(this.url + '/api/setting/get',  { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  updateAdminPaymentSetting(data)
+  {
+    return this.http.post(this.url + '/api/admin/setting/update', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   updateAdminSetting(data)
   {
     return this.http.post(this.url + '/api/admin/update_setting', data, { headers: this.getHeaders() })

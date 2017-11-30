@@ -6,7 +6,9 @@
     margin: 0px;
   }
   .content-inner{
-    margin-top:40px;
+    >div{
+      margin-top:40px;
+    }
     .sub-title-div{
       .edit-icon{
         float: right;
@@ -19,7 +21,7 @@
       }
     }
     .info-div{
-      margin: 20px 0px;
+      margin: 10px 0px 0px;
       .info-title{
         float: left;
         display: block;
