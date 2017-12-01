@@ -484,7 +484,10 @@ export class DataService {
     return this.http.get(this.url + '/api/admin/promocode/get', { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
-
+  checkPromocode(data){
+    return this.http.post(this.url + '/api/promocode/check', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   updatePromoCode(data)
   {
     return this.http.post(this.url + '/api/admin/promocode/update', data, { headers: this.getHeaders() })

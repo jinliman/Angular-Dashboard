@@ -51,7 +51,17 @@ export class ReportComponent implements OnInit {
   metricDataList: Array<object> = [];
   activeTab = 'cover_page';
   loading: boolean;
-
+  Promocode: object = {
+    ErrorStr: '',
+    Percent: 0,
+    Code: '',
+    Has: true,
+    Passed: false
+  }
+  paymentProjectId: string = null;
+  adminSetting: object = {
+    ReportFee: 100
+  }
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -80,8 +90,44 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  openCheckout(id) {
-    let that = this;
+  validPromocode(modal){
+    let hasPromocode = this.Promocode['Has'];
+    let data = {
+      Code : this.Promocode['Code']
+    }
+    this.Promocode['Passed'] = false;
+    if(hasPromocode)
+    {
+      this.dataService.checkPromocode(data).subscribe(
+        response => {
+          let error_code = response.ERR_CODE;
+          if(error_code == "ERR_NONE")
+          {
+            this.Promocode['Percent'] = response.Percent;
+            this.Promocode['ErrorStr'] = this.Promocode['Percent'] + "% Discount applied";
+            this.Promocode['Passed'] = true;
+            this.processStripePayment(modal);
+
+          }else if(error_code == "ERR_CODE_EXPIRED"){
+            this.Promocode['ErrorStr'] = "PromoCode is Expired";
+          }else if(error_code == "ERR_INVALID_CODE"){
+            this.Promocode['ErrorStr'] = "PromoCode is Invalid";
+          }
+        },
+        (error) => {
+          this.Promocode['ErrorStr'] = "Sth went wrong";
+        }
+      );
+    }else{
+      this.Promocode['ErrorStr'] = "No Discount applied";
+      this.Promocode['Passed'] = true;
+      this.processStripePayment(modal);
+    }
+  }
+
+  processStripePayment(modal){
+    let that = this,
+        id = this.paymentProjectId;
     var handler = (<any>window).StripeCheckout.configure({
       key: environment.stripe_publick_key,
       locale: 'auto',
@@ -92,6 +138,7 @@ export class ReportComponent implements OnInit {
         }
         that.dataService.chargePayment(data).subscribe(
           response => {
+            modal.close();
             that._notificationService.success(
                 'Successfully Sent!',
                 'Payment'
@@ -111,13 +158,22 @@ export class ReportComponent implements OnInit {
         );
       }
     });
-
     handler.open({
       name: 'Payment for DV Report',
-      description: 'This is the payment from',
-      amount: 300
+      description: '',
+      amount: this.adminSetting['ReportFee'] * (100 - parseFloat(this.Promocode['Percent']))
     });
-
+  }
+  openCheckout(modal,id) {
+    this.Promocode = {
+      ErrorStr: '',
+      Percent: 0,
+      Code: '',
+      Has: true,
+      Passed: false
+    }
+    this.paymentProjectId = id;
+    modal.open();
   }
 
   ngOnInit() {
@@ -132,6 +188,7 @@ export class ReportComponent implements OnInit {
       };
     this.metricList = this.dataService.getKeymetricList();
     this.metricColorList = this.dataService.getMetricColorList();
+    this.getSetting()
     this.initReport()
   }
 
@@ -228,6 +285,20 @@ export class ReportComponent implements OnInit {
     Promise.all(promiseArr).then(() => {
       this.getTableData();
     });
+  }
+
+  getSetting(){
+    this.dataService.getAdminSetting().subscribe(
+      response => {
+        for(let item of response.result)
+        {
+            this.adminSetting[item['DataType']] = item['Data']
+        }
+      },
+      (error) => {
+
+      }
+    );
   }
 
   getHeatmap(resolve){

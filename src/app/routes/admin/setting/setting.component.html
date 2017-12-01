@@ -55,7 +55,7 @@
   </modal>
 
   <modal #EditSettingModal [animation]=false>
-    <form class="form user-setting-modal" (ngSubmit) = "updatePaymentSetting(EditSettingModal)" #form1="ngForm">
+    <form class="form user-setting-modal" (ngSubmit) = "updatePaymentSetting(EditSettingModal)" #form2="ngForm">
       <modal-header>
         <h4 class="modal-title">Update Payment Setting</h4>
       </modal-header>
@@ -73,14 +73,14 @@
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="EditSettingModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
   </modal>
 
   <modal #passwordModal [animation]=false>
-    <form class="form " (ngSubmit) = "updatePassword(passwordModal)" #form2="ngForm">
+    <form class="form " (ngSubmit) = "updatePassword(passwordModal)" #form3="ngForm">
       <modal-header>
         <h4 class="modal-title">Update Password</h4>
       </modal-header>
@@ -122,7 +122,7 @@
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled] = "form3.invalid">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="passwordModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>
