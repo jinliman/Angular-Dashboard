@@ -70,6 +70,10 @@ export class UsersComponent implements OnInit {
       },
     }
     this.job_list = this.dataService.getJobList();
+    this.initData();
+  }
+
+  initData(){
     this.tableData = [];
     this.tableData1 = [];
     this.loading = true;
@@ -78,6 +82,23 @@ export class UsersComponent implements OnInit {
 
   openModal(modal)
   {
+    this.newUserType = 1;
+    this.newUser = {
+      Name: {
+        First: '',
+        Last: '',
+        Fullname: '',
+        JobTitle: '0'
+      },
+    }
+    this.newAdmin = {
+      UserName: '',
+      Name: {
+        First: '',
+        Last: '',
+        Fullname: '',
+      },
+    }
     modal.open();
   }
   addNewUser(modal){
@@ -95,6 +116,8 @@ export class UsersComponent implements OnInit {
                 'New User'
             )
             modal.close();
+            this.loading = true;
+            this.initData();
           }else if(response.ERR_CODE == 'ERR_EMAIL_EXIST'){
             this._notificationService.warn(
                 'Email Exist!',
@@ -128,6 +151,8 @@ export class UsersComponent implements OnInit {
                 'New Admin'
             )
             modal.close();
+            this.loading = true;
+            this.initData();
           }else if(response.ERR_CODE == 'ERR_EMAIL_EXIST'){
             this._notificationService.warn(
                 'Email Exist!',
@@ -220,7 +245,7 @@ export class UsersComponent implements OnInit {
     }))
 
     Promise.all(promiseArr).then(() => {
-      this.initData()
+      this.initTable()
     });
   }
 
@@ -255,7 +280,7 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  initData(){
+  initTable(){
 
     let index = 1;
     for(let item of this.Users)
