@@ -73,7 +73,6 @@ export class HeaderDashboardComponent implements OnInit {
   getProjectList(){
     this.dataService.getUserProject().subscribe(response => {
         this.userProjects = response.result;
-        console.log(this.userProjects)
         this.projectList = this.userProjects.map(function(item){
             return {'value': String(item['Project']['_id']), 'label': item['Project']['Name']};
         })
@@ -90,9 +89,12 @@ export class HeaderDashboardComponent implements OnInit {
     this.userInfo = this.authService.getUser()
     if(this.userInfo['Role'] != 'admin')
     {
+      this.getProjectList();
+    }
+    if(this.userInfo['UserType'] != 'Super Admin')
+    {
       this.firstname = this.userInfo['Name']['First']
       this.shortname = this.userInfo['Name']['First'][0] + this.userInfo['Name']['Last'][0];
-      this.getProjectList();
     }
   }
 
@@ -100,29 +102,50 @@ export class HeaderDashboardComponent implements OnInit {
     let that = this;
     this.isSignoff = false;
     let tProject = this.authService.getUserProject();
-    let data = { projectID: tProject['Project']['_id']}
-    this.dataService.getProject(data).subscribe(response => {
-        this.currentProject = response.result;
-        this.projectID = this.currentProject['Project']['_id'] || null;
-        this.userProjectRole = this.currentProject['Role']
-        this.loadProjectList = true;
-        let projectStatus = this.currentProject && this.currentProject['Status'] ? this.currentProject['Status'] : 'Pending';
-        console.log(this.currentProject)
-        if(this.userProjectRole == 'PRIMARY' && ['Pending', 'Reject'].indexOf(projectStatus) != -1)
-        {
-          this.getAssessment();
-        }
-      },
-      (error) => {
+    if(tProject)
+    {
+      let data = { projectID: tProject['Project']['_id']}
+      this.dataService.getProject(data).subscribe(response => {
+          this.currentProject = response.result;
+          this.projectID = this.currentProject['Project']['_id'] || null;
+          this.userProjectRole = this.currentProject['Role']
+          this.loadProjectList = true;
+          let projectStatus = this.currentProject && this.currentProject['Status'] ? this.currentProject['Status'] : 'Pending';
+          if(this.userProjectRole == 'PRIMARY' && ['Pending', 'Reject'].indexOf(projectStatus) != -1)
+          {
+            this.apiHandler();
+          }
+        },
+        (error) => {
 
-      }
-    );
+        }
+      );
+    }
   }
 
-  getAssessment(){
+  public apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData()
+    });
+  }
+
+  getAssessment(resolve){
     this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
-        this.getQuestionnaire();
+        resolve()
       },
       (error) => {
 
@@ -130,25 +153,25 @@ export class HeaderDashboardComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let data = {
       Project: this.projectID
     }
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getTableData();
+        resolve();
       },
       (error) => {
       }

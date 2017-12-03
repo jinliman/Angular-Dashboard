@@ -16,8 +16,26 @@
       padding: 4px 23px;
       font-size: 16px;
       line-height: 24px;
-      span>i{
-        font-size: 20px;
+    }
+  }
+  .nav-tabs{
+    border-bottom: none !important;
+    >li{
+      >a{
+        border: none !important;
+        border-radius: 0px !important;
+        font-size: 17px;
+        padding: 10px 30px;
+        &:hover, &:active{
+          background-color: $dv-color-green !important;
+          color: #fff !important;
+        }
+      }
+      &.active{
+        >a{
+            background-color: $dv-color-green !important;
+            color: #fff !important;
+        }
       }
     }
   }
@@ -34,10 +52,11 @@
         line-height: 32px;
         text-align: center;
         display: inline-block;
-        margin-left: 20px;
+        margin-right: 20px;
         color:#fff;
         background-color: $dv-color-green;
         border-radius: 50%;
+        text-transform: uppercase;
       }
       input{
         background-color: $dv-color-white;
@@ -62,11 +81,21 @@
             }
           }
           .desc{
-            padding-left: 10px;
             &.score{
               font-weight: bold;
               color:$dv-color-primary;
             }
+          }
+        }
+        .user-project-div{
+          display: flex;
+          align-items: center;
+          .div1{
+            flex: 1 0 50%;
+            font-weight: bold;
+          }
+          .div2{
+            flex: 1 0 50%;
           }
         }
       }

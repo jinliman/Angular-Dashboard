@@ -120,7 +120,7 @@ export class AdminComponent implements OnInit {
       	doc.text("Project List", 130, 30);
       }}
     );
-    doc.save("table.pdf");
+    doc.save("dashboard.pdf");
   }
 
   ngOnInit() {

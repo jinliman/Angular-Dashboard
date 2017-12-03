@@ -25,14 +25,15 @@
     ul{
       flex: 1 0;
       list-style: none;
-      column-count: 5;
+      column-count: 2;
       line-height: 25px;
+      text-align: center;
     }
   }
   @media (max-width: 1024px) {
     section{
       ul{
-        column-count: 3;
+        column-count: 2;
       }
     }
   }

@@ -53,7 +53,9 @@ export class AuthService {
   }
 
   getUserProject(){
-    let currentUserProject = JSON.parse(localStorage.getItem('project'));
+    let currentUserProject = null;
+    if(localStorage.getItem('project') != null)
+      currentUserProject = JSON.parse(localStorage.getItem('project'));
     return currentUserProject;
   }
 

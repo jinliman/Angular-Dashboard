@@ -5,47 +5,283 @@
       <p class="title col-sm-6">Users ({{tableData.length}})</p>
       <div class="col-sm-6 button-div">
         <a class="svg button" (click)="download()">
-          <span> <i class="fa fa-setting"></i> Export as PDF</span>
+          <span> <i class="fa fa-file"></i> Export as PDF</span>
+        </a>
+        <a class="svg button" (click)="openModal(NewUserModal)">
+          <span> <i class="fa fa-plus"></i> New User</span>
         </a>
       </div>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>User Type</td>
-          <td>User Name</td>
-          <td>User Company Name</td>
-          <td>Created</td>
-          <td>Last Login</td>
-          <td></td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of tableData">
-          <td>{{item.ID}}</td>
-          <td>
-            <div class="clearfix">
-              <span *ngIf="item.userType == 1" class="img" [inlineSVG]="'/assets/images/icons/dashboard/primary-user-icon.svg'"></span>
-              <span *ngIf="item.userType == 2"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
-              <span *ngIf="item.userType == 3"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
-              <span class="desc">{{userTypeArr[item.userType]}}</span>
+    <div class="row">
+      <div class="col-md-12">
+        <tabset>
+          <tab title="Users">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>User Name</td>
+                  <td>Project</td>
+                  <td>Role</td>
+                  <td>Created</td>
+                  <td>Last Login</td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of tableData">
+                  <ng-container *ngIf="item.userProjects.length">
+                    <tr *ngFor="let project_item  of item.userProjects; let i = index">
+                      <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">{{item.ID}}</td>
+                      <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length"><span class="short-name">{{item.userShortName}}</span> {{item.userName}}</td>
+                      <td>
+                        <span class="desc">{{project_item.Project.Name}}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="project_item.Role == 'INITIATOR'" class="img" [inlineSVG]="'/assets/images/icons/dashboard/primary-user-icon.svg'"></span>
+                        <span *ngIf="project_item.Role == 'PRIMARY'"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+                        <span *ngIf="project_item.Role == 'MEMBER'"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+                        <span class="desc">{{userTypeArr[project_item.Role]}}</span>
+                      </td>
+                      <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">{{item.date | amDateFormat:'LL'}}</td>
+                      <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">{{item.lastLogin | amDateFormat:'LL'}}</td>
+                      <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">
+                        <div class="report">
+                          <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngIf="item.userProjects.length == 0">
+                    <tr>
+                      <td>{{item.ID}}</td>
+                      <td><span class="short-name">{{item.userShortName}}</span> {{item.userName}}</td>
+                      <td></td>
+                      <td></td>
+                      <td>{{item.date | amDateFormat:'LL'}}</td>
+                      <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
+                      <td>
+                        <div class="report">
+                          <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+            </table>
+          </tab>
+          <tab title="Admins" *ngIf="userInfo.UserType == 'Super Admin'">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>User Name</td>
+                  <td>Email</td>
+                  <td>Created</td>
+                  <td>Last Login</td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of tableData1">
+                  <tr>
+                    <td>{{item.ID}}</td>
+                    <td><span class="short-name">{{item.userShortName}}</span> {{item.userName}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.date | amDateFormat:'LL'}}</td>
+                    <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
+                    <td>
+                      <div class="report">
+                        <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                        <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </tab>
+      </tabset>
+      </div>
+    </div>
+    <modal #NewUserModal [animation]=false>
+      <form class="form user-setting-modal" (ngSubmit) = "addNewUser(NewUserModal)" #form1="ngForm">
+        <modal-header>
+          <h4 class="modal-title">Add New User</h4>
+        </modal-header>
+        <modal-body>
+          <div class="row assets"  *ngIf="userInfo.UserType == 'Super Admin'">
+            <div class="col-md-12 form-group radio clearfix">
+              <div class="pull-left">
+                <input type="radio" id="user" name="newUserType" [(ngModel)]="newUserType" [value]="1">
+                <label for="user">User</label>
+              </div>
+              <div class="pull-left" style="margin-left:10px">
+                <input type="radio" id="admin" name="newUserType" [(ngModel)]="newUserType" [value]="2">
+                <label for="admin">Admin</label>
+              </div>
             </div>
-          </td>
-          <td>{{item.userName}}<span class="short-name">{{item.userShortName}}</span></td>
-          <td>{{item.userCompanyName}}</td>
-
-          <td>{{item.date | amDateFormat:'LL'}}</td>
-          <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
-          <td>
-            <div class="report">
-              <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
-              <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
-              <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+          </div>
+          <ng-container *ngIf="newUserType == 1">
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': firstname.invalid && firstname.touched,
+                  'has-success': firstname.valid && firstname.touched
+                }">
+                <label for="firstname" class="required">First Name:</label>
+                <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "newUser.Name.First" value=""  required>
+                <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+              </div>
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': lasttname.invalid && lasttname.touched,
+                'has-success': lasttname.valid && lasttname.touched
+              }">
+                <label for="lasttname" class="required">Last Name:</label>
+                <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "newUser.Name.Last" value="" required>
+                <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <div class="row assets">
+              <div class="col-md-6 form-group">
+                <label for="job_title">Job Tilte:</label>
+                <ng-select class="cs-select" name="job_title" [options]="job_list" [(ngModel)] = "newUser.Name.JobTitle" placeholder="Select Job Title">
+                </ng-select>
+              </div>
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': company_email.invalid && company_email.touched,
+                'has-success': company_email.valid && company_email.touched
+              }">
+                <label for="company_email" class="required">Email Address:</label>
+                <input type="text" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
+                <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
+                <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
+              </div>
+            </div>
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': contact_number.invalid && contact_number.touched,
+                'has-success': contact_number.valid && contact_number.touched
+              }">
+                <label for="contact_number" class="required">Phone Number:</label>
+                <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Contact" value=""  placeholder="Phone Number" required>
+                <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+              </div>
+            </div>
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': password.invalid && password.touched,
+                  'has-success': password.valid && password.touched
+                }">
+                <label for="password" class="required">Create Password:</label>
+                <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="Create Password" name="password" #password = "ngModel" [(ngModel)] = "newUser.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+                <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">Password is required</span>
+                <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+              </div>
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+                  'has-success': passwordConfirm.valid && passwordConfirm.touched
+                }">
+                <label for="passwordConfirm" class="required">Confirm Password:</label>
+                <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "newUser.PasswordConfirm" value=""  required>
+                <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Password is required</span>
+                <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="newUserType == 2">
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': username.invalid && username.touched,
+                  'has-success': username.valid && username.touched
+                }">
+                <label for="username" class="required">User Name:</label>
+                <input type="text" name="username" #username = "ngModel" placeholder="User Name" [(ngModel)] = "newAdmin.UserName" value=""  required>
+                <span class="help-block" *ngIf="username.errors && username.errors.required  && username.touched">User Name is required</span>
+              </div>
+            </div>
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': firstname.invalid && firstname.touched,
+                  'has-success': firstname.valid && firstname.touched
+                }">
+                <label for="firstname" class="required">First Name:</label>
+                <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "newAdmin.Name.First" value=""  required>
+                <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+              </div>
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': lasttname.invalid && lasttname.touched,
+                'has-success': lasttname.valid && lasttname.touched
+              }">
+                <label for="lasttname" class="required">Last Name:</label>
+                <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "newAdmin.Name.Last" value="" required>
+                <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+              </div>
+            </div>
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': company_email.invalid && company_email.touched,
+                'has-success': company_email.valid && company_email.touched
+              }">
+                <label for="company_email" class="required">Email Address:</label>
+                <input type="text" name="company_email" #company_email = "ngModel" [(ngModel)] = "newAdmin.Email" value="" required placeholder="Email Address">
+                <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
+                <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
+              </div>
+              <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': contact_number.invalid && contact_number.touched,
+                'has-success': contact_number.valid && contact_number.touched
+              }">
+                <label for="contact_number" class="required">Phone Number:</label>
+                <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newAdmin.Contact" value=""  placeholder="Phone Number" required>
+                <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+              </div>
+            </div>
+            <div class="row assets">
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': password.invalid && password.touched,
+                  'has-success': password.valid && password.touched
+                }">
+                <label for="password" class="required">Create Password:</label>
+                <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="Create Password" name="password" #password = "ngModel" [(ngModel)] = "newAdmin.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+                <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">Password is required</span>
+                <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+              </div>
+              <div class="col-md-6 form-group"
+                [ngClass]="{
+                  'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+                  'has-success': passwordConfirm.valid && passwordConfirm.touched
+                }">
+                <label for="passwordConfirm" class="required">Confirm Password:</label>
+                <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "newAdmin.PasswordConfirm" value=""  required>
+                <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Password is required</span>
+                <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+              </div>
+            </div>
+          </ng-container>
+        </modal-body>
+        <modal-footer>
+          <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Create User</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="NewUserModal.dismiss()">Cancel</button>
+        </modal-footer>
+      </form>
+    </modal>
   </ng-container>
 </div>

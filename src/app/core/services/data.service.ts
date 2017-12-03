@@ -476,6 +476,30 @@ export class DataService {
   }
 
   /*
+  ---------------- Admin User -----------------
+  */
+  newAdmin(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/new_admin', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  newUser(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/new_user', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAllUsers(){
+    return this.http.get(this.url + '/api/admin/user/all_user',  { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  getAdminAllAdmins(){
+    return this.http.get(this.url + '/api/admin/user/all_admin',  { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  /*
   ---------------- PromoCode -----------------
   */
 
@@ -600,4 +624,5 @@ export class DataService {
     return this.http.post(this.url + '/api/admin/project/get', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
 }

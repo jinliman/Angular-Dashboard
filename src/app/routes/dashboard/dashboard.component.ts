@@ -84,7 +84,6 @@ export class DashboardComponent implements OnInit {
   ) {
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     this.currentProject = this.authService.getUserProject();
-    this.projectID = this.currentProject['Project']['_id'] || null;
   }
 
   public selectedDate(value: any) {
@@ -113,7 +112,11 @@ export class DashboardComponent implements OnInit {
     this.daterange.end = null;
     this.daterange.label = 'All';
     this.user = this.authService.getUser()
-    this.getAllUserProject();
+    if(this.currentProject)
+    {
+      this.projectID = this.currentProject['Project']['_id'] || null;
+      this.getAllUserProject();
+    }
   }
 
 

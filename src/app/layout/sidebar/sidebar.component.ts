@@ -29,7 +29,7 @@ const actionMapping:IActionMapping = {
 })
 export class SidebarComponent implements OnInit {
 
-  userRole: string;
+  userInfo: object;
   menu: Array<object>;
   assessment_menu: object;
   userProjectRole: string;
@@ -56,7 +56,7 @@ export class SidebarComponent implements OnInit {
     private authService: AuthService,
     private dataService: DataService)
   {
-    this.userRole = this.authService.getUser().Role;
+    this.userInfo = this.authService.getUser();
     this.dataService.categoryChanged.subscribe(data => this.onCategoryChanged(data));
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     this.dataService.sidebarToggled.subscribe(data => this.onSidebarToggled(data));
@@ -79,7 +79,7 @@ export class SidebarComponent implements OnInit {
   updateAssessment(obj){
     this.depth += 1;
     for(var i in obj) {
-      if(this.userRole != "admin")
+      if(this.userInfo['Role'] != "admin")
         obj[i].route = "/app/assessment";
       else
         obj[i].route = "/"+this.dataService.getAdminUrl()+"assessment";
@@ -101,7 +101,7 @@ export class SidebarComponent implements OnInit {
 
   initMenu(){
     this.menu = [];
-    if(this.userRole != "admin")
+    if(this.userInfo['Role'] != "admin")
     {
       if(this.userProjectRole == "INITIATOR")
       {
@@ -122,43 +122,63 @@ export class SidebarComponent implements OnInit {
           { route: "/app/team", Title: "Team"}
         ];
         this.menu = this.menu.concat( this.assessment_menu )
-      }else{
+      }else if( this.userProjectRole == "MEMBER" ){
         this.menu = [
           { route: "/app/dashboard", Title: "Dashboard - Team Member"},
           { route: "/app/progress", Title: "Progress"}
         ]
         this.menu = this.menu.concat( this.assessment_menu )
+      }else{
+        this.menu = [
+          { route: "/app/dashboard", Title: "Dashboard"},
+        ]
       }
     }else{
-      this.menu = [
-        { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
-        { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
-        { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
-        { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
-        { route: "/" + this.dataService.getAdminUrl() + "categories", Title: "Categories"},
-      ]
-      this.menu = this.menu.concat(this.assessment_menu)
+      if(this.userInfo['UserType'] == "Super Admin")
+      {
+        this.menu = [
+          { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
+          { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
+          { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
+          { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
+          { route: "/" + this.dataService.getAdminUrl() + "categories", Title: "Categories"},
+        ]
+        this.menu = this.menu.concat(this.assessment_menu)
+      }else{
+        this.menu = [
+          { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
+          { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
+          { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
+          { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
+        ]
+      }
     }
   }
 
   ngOnInit() {
     this.depth = 0;
     let projectID = null;
-    if(this.userRole != "admin")
+    if(this.userInfo['Role'] != "admin")
     {
       this.currentProject = this.authService.getUserProject();
-      projectID = this.currentProject['Project']['_id'] || null;
-      this.userProjectRole = this.currentProject['Role'];
-      this.dataService.getAssessmentList(projectID).subscribe(
-        response => {
-          this.assessment_menu = response.Categories;
-          this.assessment_menu = this.updateAssessment( this.assessment_menu );
-          this.initMenu();
-        },
-        (error) => {
+      if(this.currentProject)
+      {
+        projectID = this.currentProject['Project']['_id'] || null;
+        this.userProjectRole = this.currentProject['Role'];
+        this.dataService.getAssessmentList(projectID).subscribe(
+          response => {
+            this.assessment_menu = response.Categories;
+            this.assessment_menu = this.updateAssessment( this.assessment_menu );
+            this.initMenu();
+          },
+          (error) => {
 
-        }
-      );
+          }
+        );
+      }else{
+        this.userProjectRole = null;
+        this.initMenu();
+      }
     }else{
       this.dataService.getAdminAssessmentList().subscribe(
         response => {

@@ -72,18 +72,18 @@ export class DashboardOwnerComponent implements OnInit {
   apiHandler(){
     let promiseArr= [];
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getProjecStatus(() => { console.log('final4'); resolve(); });
+      this.getProjecStatus(() => { resolve(); });
     }))
 
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getAssessment(() => { console.log('final3'); resolve(); });
+      this.getAssessment(() => { resolve(); });
     }))
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getQuestionnaire(() => { console.log('final2'); resolve(); });
+      this.getQuestionnaire(() => { resolve(); });
     }))
 
     promiseArr.push(new Promise((resolve, reject) => {
-      this.getAnswerListAll(() => { console.log('final1'); resolve(); });
+      this.getAnswerListAll(() => { resolve(); });
     }))
 
     Promise.all(promiseArr).then(() => {

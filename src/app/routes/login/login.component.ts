@@ -66,7 +66,12 @@ export class LoginComponent implements OnInit {
             user => {
               console.log(user)
               localStorage.setItem('user', JSON.stringify(user.UserInfo));
-              localStorage.setItem('project', JSON.stringify(user.UserProjects[0]));
+              if(user.UserProjects.length)
+              {
+                localStorage.setItem('project', JSON.stringify(user.UserProjects[0]));
+              }else{
+                localStorage.setItem('project', null);
+              }
               this.navigateUser();
             }
           );

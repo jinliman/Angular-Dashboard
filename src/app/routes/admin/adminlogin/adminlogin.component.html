@@ -19,7 +19,7 @@
               'has-error': username.invalid && username.touched,
               'has-success': username.valid && username.touched
             }">
-            <input type="username" name="username" #username = "ngModel" [(ngModel)] = "userCredential.username" value="" placeholder="User name" required>
+            <input type="username" name="username" #username = "ngModel" [(ngModel)] = "userCredential.username" value="" placeholder="Username or Email" required>
             <span class="help-block" *ngIf="username.errors && username.errors.required  && username.touched">Email is required</span>
           </div>
         </div>
