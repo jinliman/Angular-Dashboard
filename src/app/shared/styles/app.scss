@@ -39,18 +39,10 @@
 @import "app/dashboard/assessment";
 @import "app/dashboard/summary";
 @import "app/dashboard/answer";
-@import "app/dashboard/it";
-@import "app/dashboard/hr";
 @import "app/dashboard/report";
 @import "app/dashboard/project-new";
 @import "app/dashboard/user-profile";
 @import "app/dashboard/user-setting";
-
-//Dashboard/IT pages
-@import "app/dashboard/it/drl";
-@import "app/dashboard/it/application";
-@import "app/dashboard/it/organization";
-@import "app/dashboard/it/infrastructure";
 
 /****************ADMIN Pages*************
 *****************************************/
@@ -64,3 +56,5 @@
 @import "app/admin/admin-assessment";
 @import "app/admin/setting";
 @import "app/admin/promocode.scss";
+@import "app/admin/user-view.scss";
+@import "app/admin/user-edit.scss";

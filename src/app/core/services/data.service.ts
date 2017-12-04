@@ -490,6 +490,23 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  editUser(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/update_user', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  removeUser(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/delete_user', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  editUserPassword(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/update_userpassword', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   getAdminAllUsers(){
     return this.http.get(this.url + '/api/admin/user/all_user',  { headers: this.getHeaders() })
       .map((response: Response) => response.json());

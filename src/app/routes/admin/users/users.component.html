@@ -47,9 +47,9 @@
                       <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">{{item.lastLogin | amDateFormat:'LL'}}</td>
                       <td *ngIf="i == 0" [attr.rowspan]="item.userProjects.length">
                         <div class="report">
-                          <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                          <a href="javascript:;" routerLink = "{{item.userID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          <a href="javascript:;" routerLink = "{{item.userID}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a href="javascript:;" (click)="removeUser(item.userID)"><i class="fa fa-remove" aria-hidden="true"></i></a>
                         </div>
                       </td>
                     </tr>
@@ -64,9 +64,9 @@
                       <td>{{item.lastLogin | amDateFormat:'LL'}}</td>
                       <td>
                         <div class="report">
-                          <a href="javascript:;"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          <a href="javascript:;"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                          <a href="javascript:;"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                          <a href="javascript:;" routerLink = "{{item.userID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          <a href="javascript:;" routerLink = "{{item.userID}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                          <a href="javascript:;" (click)="removeUser(item.userID)"><i class="fa fa-remove" aria-hidden="true"></i></a>
                         </div>
                       </td>
                     </tr>

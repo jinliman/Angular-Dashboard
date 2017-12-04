@@ -174,6 +174,41 @@ export class UsersComponent implements OnInit {
       );
     }
   }
+
+  removeUser(id)
+  {
+    if(confirm('Are you sure? All information related will be permanently deleted.'))
+    {
+      let data = {
+        id: id
+      }
+      this.dataService.removeUser(data).subscribe(
+        response => {
+          let errr_code = response.ERR_CODE;
+          if(errr_code == 'ERR_NONE')
+          {
+            this._notificationService.success(
+                'User',
+                'Successfully removed!'
+            )
+            this.loading = true;
+            this.initData();
+          }else{
+            this._notificationService.warn(
+                'User',
+                response.Message
+            )
+          }
+        },
+        (error) => {
+          this._notificationService.error(
+              'User',
+              'Sth went wrong!'
+          )
+        }
+      );
+    }
+  }
   download() {
     var columns = [
       {title: "ID", dataKey: "id"},
@@ -289,6 +324,7 @@ export class UsersComponent implements OnInit {
       let userProjects = this.ProjectUsers.filter ((elem) => {return elem.User['_id'] == userID})
       this.tableData.push({
         ID: index++,
+        userID: item['_id'],
         userName: item.Name.Fullname,
         userShortName: item.Name.First[0] + item.Name.Last[0],
         date: item.createdAt,
@@ -302,6 +338,7 @@ export class UsersComponent implements OnInit {
     {
       this.tableData1.push({
         ID: index++,
+        userID: item['_id'],
         userName: item.Name.Fullname,
         email: item.Email,
         userShortName: item.Name.First[0] + item.Name.Last[0],

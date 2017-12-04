@@ -139,7 +139,7 @@ export class SidebarComponent implements OnInit {
         this.menu = [
           { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
           { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
-          { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
+          { route: "/" + this.dataService.getAdminUrl() + "user", Title: "Users"},
           { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
           { route: "/" + this.dataService.getAdminUrl() + "categories", Title: "Categories"},
         ]
@@ -148,7 +148,7 @@ export class SidebarComponent implements OnInit {
         this.menu = [
           { route: "/" + this.dataService.getAdminUrl() + "dashboard", Title: "Dashboard - Admin"},
           { route: "/" + this.dataService.getAdminUrl() + "reports", Title: "Reports"},
-          { route: "/" + this.dataService.getAdminUrl() + "users", Title: "Users"},
+          { route: "/" + this.dataService.getAdminUrl() + "user", Title: "Users"},
           { href: "https://calendly.com/dealvalue/readout", Title: "Readout Calendar", Type: 'href'},
         ]
       }

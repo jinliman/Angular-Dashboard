@@ -1,0 +1,57 @@
+<div class="user-view-page">
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="clearfix sub-header clearfix">
+      <p class="title pull-left">Users Detail</p>
+      <span class="edit-icon pull-right" routerLink="edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+    </div>
+    <div class="content-inner">
+      <div class="row">
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">First Name :</span>
+          <span class="content">{{userInfo.Name.First}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Last Name :</span>
+          <span class="content">{{userInfo.Name.Last}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Job Title :</span>
+          <span class="content">{{jobTitle}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Contact :</span>
+          <span class="content">{{userInfo.Contact}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Email :</span>
+          <span class="content">{{userInfo.Email}}</span>
+        </div>
+        <div class="info-div col-md-12  clearfix">
+          <span class="info-title">Member Since :</span>
+          <span class="content">{{userInfo.createdAt | amDateFormat:'LL'}}</span>
+        </div>
+        <div class="info-div col-md-12  clearfix">
+          <span class="info-title">Last Login :</span>
+          <span class="content">{{userInfo.LastLogin | amDateFormat:'LL'}}</span>
+        </div>
+        <div class="sub-title-div col-md-12">
+          <p class="sub-title">User Projects</p>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Project Name :</span>
+          <span class="content">
+            <span style="display:block;" *ngFor="let item of userProjects" >{{item['Project']['Company']['Name']}}</span>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 back-div">
+          <a class="svg button" routerLink="/admin/user">
+    				<span> <i class="fa fa-setting"></i> Back</span>
+    			</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

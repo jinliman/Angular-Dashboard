@@ -34,7 +34,6 @@ export class UserProfileComponent implements OnInit {
     this.loading = true;
     this.jobTilteArr = this.dataService.getJobList();
     this.getUserInfo();
-    this.getJobTitle();
     this.passwordInfo = {
       passwordOld: '',
       Password: '',
@@ -49,7 +48,6 @@ export class UserProfileComponent implements OnInit {
       response => {
         this.userInfo = response.UserInfo;
         this.userProjects = response.UserProjects;
-        console.log(this.userInfo)
         this.getJobTitle();
         this.initUpdateUserInfo()
       },
