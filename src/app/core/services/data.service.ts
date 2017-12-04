@@ -478,11 +478,35 @@ export class DataService {
   /*
   ---------------- Admin User -----------------
   */
+
+  getAdminUser(data){
+    return this.http.post(this.url + '/api/admin/user/admin', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
   newAdmin(data)
   {
     return this.http.post(this.url + '/api/admin/user/new_admin', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
+  editAdminUser(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/update_admin', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  editAdminUserPassword(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/update_adminpassword', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  removeAdmin(data)
+  {
+    return this.http.post(this.url + '/api/admin/user/delete_admin', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
 
   newUser(data)
   {

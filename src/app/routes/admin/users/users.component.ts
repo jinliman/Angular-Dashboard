@@ -175,6 +175,41 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  removeAdmin(id)
+  {
+    if(confirm('Are you sure?'))
+    {
+      let data = {
+        id: id
+      }
+      this.dataService.removeAdmin(data).subscribe(
+        response => {
+          let errr_code = response.ERR_CODE;
+          if(errr_code == 'ERR_NONE')
+          {
+            this._notificationService.success(
+                'User',
+                'Successfully removed!'
+            )
+            this.loading = true;
+            this.initData();
+          }else{
+            this._notificationService.warn(
+                'User',
+                response.Message
+            )
+          }
+        },
+        (error) => {
+          this._notificationService.error(
+              'User',
+              'Sth went wrong!'
+          )
+        }
+      );
+    }
+  }
+
   removeUser(id)
   {
     if(confirm('Are you sure? All information related will be permanently deleted.'))

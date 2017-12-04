@@ -1,0 +1,31 @@
+.admin-edit-page{
+  .sub-header{
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+    }
+    padding: 40px 20px;
+  }
+  .content-inner{
+    padding: 0px 20px;
+    .sub-title-div{
+      margin-top: 30px;
+      .sub-title{
+        font-size: 19px;
+      }
+    }
+    .info-div{
+      margin: 10px 0px;
+      .info-title{
+        float: left;
+        display: block;
+        width: 200px;
+      }
+      .content{
+        float: left;
+        display: block;
+        width: 200px;
+      }
+    }
+  }
+}

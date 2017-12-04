@@ -1,0 +1,100 @@
+<div class="admin-edit-page">
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="clearfix sub-header row">
+      <p class="title col-sm-12">Edit Admin Detail</p>
+    </div>
+    <div class="content-inner">
+      <form class="form user-edit-modal" (ngSubmit) = "editAdminUser()" #form1="ngForm">
+        <div class="row assets">
+          <div class="col-md-6 form-group">
+            <label for="username" class="required">User Name:</label>
+            <span><b>{{editAdminInfo.Username}}</b></span>
+          </div>
+        </div>
+        <div class="row assets">
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': firstname.invalid && firstname.touched,
+              'has-success': firstname.valid && firstname.touched
+            }">
+            <label for="firstname" class="required">First Name:</label>
+            <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "editAdminInfo.Name.First" value=""  required>
+            <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': lasttname.invalid && lasttname.touched,
+            'has-success': lasttname.valid && lasttname.touched
+          }">
+            <label for="lasttname" class="required">Last Name:</label>
+            <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "editAdminInfo.Name.Last" value="" required>
+            <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+          </div>
+        </div>
+        <div class="row assets">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': company_email.invalid && company_email.touched,
+            'has-success': company_email.valid && company_email.touched
+          }">
+            <label for="company_email" class="required">Email Address:</label>
+            <input type="text" name="company_email" #company_email = "ngModel" [(ngModel)] = "editAdminInfo.Email" value="" required placeholder="Email Address">
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': contact_number.invalid && contact_number.touched,
+            'has-success': contact_number.valid && contact_number.touched
+          }">
+            <label for="contact_number" class="required">Phone Number:</label>
+            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "editAdminInfo.Contact" value=""  placeholder="Phone Number" required>
+            <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+          </div>
+        </div>
+        <div class="row assets">
+          <div class="col-md-12 form-group text-right">
+            <button type="button" class="btn btn-success" (click)="openModal(passwordModal)">Update Password</button>
+            <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <modal #passwordModal [animation]=false>
+      <form class="form " (ngSubmit) = "updatePassword(passwordModal)" #form2="ngForm">
+        <modal-header>
+          <h4 class="modal-title">Update Password</h4>
+        </modal-header>
+        <modal-body>
+          <div class="row assets">
+            <div class="col-md-12 form-group"
+              [ngClass]="{
+                'has-error': password.invalid && password.touched,
+                'has-success': password.valid && password.touched
+              }">
+              <label for="password" class="required">New Password:</label>
+              <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="New Password" name="password" #password = "ngModel" [(ngModel)] = "passwordInfo.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+              <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">New Password is required</span>
+              <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+            </div>
+            <div class="col-md-12 form-group"
+              [ngClass]="{
+                'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+                'has-success': passwordConfirm.valid && passwordConfirm.touched
+              }">
+              <label for="passwordConfirm" class="required">Confirm Password:</label>
+              <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "passwordInfo.PasswordConfirm" value=""  required>
+              <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Confrim Password is required</span>
+              <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+            </div>
+          </div>
+        </modal-body>
+        <modal-footer>
+          <button type="submit" class="btn btn-success" [disabled] = "form2.invalid">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="passwordModal.dismiss()">Cancel</button>
+        </modal-footer>
+      </form>
+    </modal>
+  </ng-container>
+</div>

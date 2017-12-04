@@ -17,6 +17,8 @@ import { SettingComponent } from './setting/setting.component';
 import { PromocodeComponent } from './promocode/promocode.component';
 import { UserViewComponent } from './user-view/user-view.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
+import { AdminEditComponent } from './admin-edit/admin-edit.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,8 @@ const routes: Routes = [
       { path: 'promocode', component: PromocodeComponent },
       { path: 'user/:id', component: UserViewComponent },
       { path: 'user/:id/edit', component: UserEditComponent },
+      { path: 'user/admin/:id', component: AdminViewComponent },
+      { path: 'user/admin/:id/edit', component: AdminEditComponent },
     ]
   }
 ];
@@ -47,7 +51,7 @@ const routes: Routes = [
     SharedModule,
   ],
   declarations: [
-    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent, ProjectDetailComponent, SettingComponent, PromocodeComponent, UserViewComponent, UserEditComponent],
+    AdminComponent, CalendarPageComponent, CalendarComponent, UsersComponent, ReportComponent, QaBuilderComponent, CategoriesComponent, AdminAssessmentComponent, ProjectDetailComponent, SettingComponent, PromocodeComponent, UserViewComponent, UserEditComponent, AdminViewComponent, AdminEditComponent],
   exports: [
   	RouterModule
   ]

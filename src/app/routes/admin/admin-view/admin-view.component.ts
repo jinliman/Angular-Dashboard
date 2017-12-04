@@ -10,16 +10,13 @@ import * as moment from "moment";
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
-  selector: 'app-user-view',
-  templateUrl: './user-view.component.html',
-  styleUrls: ['./user-view.component.scss']
+  selector: 'app-admin-view',
+  templateUrl: './admin-view.component.html',
+  styleUrls: ['./admin-view.component.scss']
 })
-export class UserViewComponent implements OnInit {
+export class AdminViewComponent implements OnInit {
 
-  userInfo : object = {};
-  userProjects : Array<object> = [];
-  jobTilteArr: Array<object> = [];
-  jobTitle: string = '';
+  adminInfo : object = {};
   userID: string = '';
   loading: boolean;
 
@@ -33,32 +30,24 @@ export class UserViewComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.jobTilteArr = this.dataService.getJobList();
     this.route
       .params
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.userID = params['id'] || '';
-        this.getUserInfo();
+        this.getAdminInfo();
       });
   }
 
-  getJobTitle(){
-    this.jobTitle = this.jobTilteArr.find((item)=>{ return item['value'] == this.userInfo['Name']['JobTitle']})['label'];
-  }
-
-  getUserInfo(){
+  getAdminInfo(){
     let data = {UserID: this.userID}
-    this.userInfo = null;
-    this.userProjects = null;
-    this.dataService.getUser(data).subscribe(
+    this.adminInfo = null;
+    this.dataService.getAdminUser(data).subscribe(
       response => {
         let error_code = response.ERR_CODE;
         if(error_code == 'ERR_NONE')
         {
-          this.userInfo = response.UserInfo;
-          this.userProjects = response.UserProjects;
-          this.getJobTitle();
+          this.adminInfo = response.result;
           this.initData();
         }else{
           this._notificationService.warn(
@@ -80,4 +69,5 @@ export class UserViewComponent implements OnInit {
   initData(){
     this.loading = false;
   }
+
 }

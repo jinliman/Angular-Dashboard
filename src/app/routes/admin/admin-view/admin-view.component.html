@@ -1,0 +1,44 @@
+<div class="admin-view-page">
+  <div class="loading-div" *ngIf="loading"></div>
+    <div class="clearfix sub-header clearfix">
+      <p class="title pull-left">Admin User detail</p>
+      <span class="edit-icon pull-right" routerLink="edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+    </div>
+  <ng-container *ngIf="!loading">
+    <div class="content-inner">
+      <div class="row">
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">User Name :</span>
+          <span class="content">{{adminInfo.Username}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">First Name :</span>
+          <span class="content">{{adminInfo.Name.First}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Last Name :</span>
+          <span class="content">{{adminInfo.Name.Last}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Contact :</span>
+          <span class="content">{{adminInfo.Contact}}</span>
+        </div>
+        <div class="info-div col-md-12 clearfix">
+          <span class="info-title">Email :</span>
+          <span class="content">{{adminInfo.Email}}</span>
+        </div>
+        <div class="info-div col-md-12  clearfix">
+          <span class="info-title">Member Since :</span>
+          <span class="content">{{adminInfo.createdAt | amDateFormat:'LL'}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 back-div">
+          <a class="svg button" routerLink="/admin/user">
+    				<span> <i class="fa fa-setting"></i> Back</span>
+    			</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
