@@ -33,13 +33,6 @@ export class UserMembershipComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.updated = params['update'];
-        if(this.updated)
-        {
-          this._notificationService.success(
-              'User Membership',
-              'Membership updated'
-          )
-        }
       });
 
     this.getUserMembership();
@@ -94,5 +87,12 @@ export class UserMembershipComponent implements OnInit {
   initData(){
     this.plan_type = this.userMembershipInfo['Type']
     this.loading = false;
+    if(this.updated)
+    {
+      this._notificationService.success(
+          'User Membership',
+          'Membership updated'
+      )
+    }
   }
 }
