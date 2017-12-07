@@ -16,16 +16,16 @@
         </div>
       </div>
       <div class="row" *ngIf="this.canInvite">
-        <div class="col-md-12 form-group button-group">
+        <div class="col-md-12 form-group button-group" style="margin-top:0px;">
           <div class="invite-button">
-              <a [routerLink]="['/team-invite/']" [queryParams]="{token: token, id:projectID}" class="get-started button pull-left">Invite Team Members</a>
+              <a [routerLink]="['/team-invite/']" [queryParams]="{id:projectID, plan_type:membershipType}" class="button pull-left">Invite Team Members</a>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12 form-group button-group">
-          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
-          <span>Back to Login</span></a>
+          <a class="back-button" routerLink="/app"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Dashboard</span></a>
         </div>
       </div>
     </div>

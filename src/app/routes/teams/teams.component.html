@@ -48,12 +48,18 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 form-group">
-          <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
-          <span>Login</span></a>
+        <div class="col-md-12 form-group clearfix">
+          <button type="submit" [disabled] = "form.invalid" class="btn button pull-right ">{{submitText}}</button>
         </div>
-        <div class="col-md-5 col-md-offset-1 form-group clearfix">
-          <button type="submit" [disabled] = "form.invalid" class="btn button">{{submitText}}</button>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <a class="back-button" routerLink="/app"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Dashboard</span></a>
+        </div>
+        <div class="col-md-6 form-group clearfix">
+          <a class="forward-button pull-right" routerLink="/membership" [queryParams]="{plan_type:plan_type}" ><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+          <span>Next</span></a>
         </div>
       </div>
     </form>

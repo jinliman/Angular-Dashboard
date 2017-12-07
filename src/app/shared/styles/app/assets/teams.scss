@@ -90,6 +90,15 @@
             color: $dv-color-green;
           }
         }
+        .forward-button{
+          img{
+            transform: scaleX(-1);
+          }
+          span{
+            padding-left: 10px;
+            color: $dv-color-green;
+          }
+        }
         .button{
           width: 100%;
           text-align: center;

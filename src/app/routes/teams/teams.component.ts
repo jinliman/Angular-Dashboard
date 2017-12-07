@@ -19,6 +19,8 @@ export class TeamsComponent implements OnInit {
   projectID: string;
   isSent: boolean;
   submitText: string;
+  plan_type: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,7 +30,6 @@ export class TeamsComponent implements OnInit {
 
   onSubmit(){
     let data = {
-      Token       : this.token,
       ProjectID   : this.projectID,
       Primary     : this.PrimaryEmail,
       TeamMember  : this.TeamEmail.map(function(obj){ return obj['value']})
@@ -63,13 +64,7 @@ export class TeamsComponent implements OnInit {
         // Defaults to 0 if no query param provided.
         this.token = params['token'] || '';
         this.projectID = params['id'] || '';
-        this.authService.validUser(this.token).subscribe(
-          response => {
-          },
-          (error) => {
-            this.router.navigate(['/login']);
-          }
-        );
+        this.plan_type = params['plan_type'] || '';
       });
   }
 }

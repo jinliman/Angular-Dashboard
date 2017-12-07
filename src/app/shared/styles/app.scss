@@ -18,6 +18,8 @@
 // Landing Pages
 @import "app/landing/home";
 @import "app/landing/policies";
+@import "app/landing/membership";
+@import "app/landing/price";
 
 //Asset page
 @import "app/assets/register";
@@ -43,6 +45,8 @@
 @import "app/dashboard/project-new";
 @import "app/dashboard/user-profile";
 @import "app/dashboard/user-setting";
+@import "app/dashboard/user-membership";
+@import "app/dashboard/checkout";
 
 /****************ADMIN Pages*************
 *****************************************/

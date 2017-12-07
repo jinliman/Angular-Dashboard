@@ -97,6 +97,7 @@ export class DataService {
     return this.http.post(this.url + '/api/user/update_password', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
   /*
   ---------------- Global Variables --------------------
   */
@@ -666,4 +667,16 @@ export class DataService {
       .map((response: Response) => response.json());
   }
 
+  /*
+  ---------------- User Payment -----------------
+  */
+
+  updateMembership(data){
+    return this.http.post(this.url + '/api/user/checkout', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  getUserMembership(){
+    return this.http.get(this.url + '/api/user/membership', { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
 }

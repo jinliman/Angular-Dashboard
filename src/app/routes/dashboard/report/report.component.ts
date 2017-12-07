@@ -36,6 +36,8 @@ export class ReportComponent implements OnInit {
   project_info: any = {};
   project_users: any = [];
   address_info: Array<any> = [];
+  userMembershipInfo: object= {}
+  hasValidMembership: boolean = false;
 
   user: object = {}
   projectID: string = null;
@@ -188,8 +190,37 @@ export class ReportComponent implements OnInit {
       };
     this.metricList = this.dataService.getKeymetricList();
     this.metricColorList = this.dataService.getMetricColorList();
-    this.getSetting()
-    this.initReport()
+    this.getSetting();
+    this.getUserMembership();
+  }
+
+  getUserMembership(){
+    this.loading = true;
+    this.dataService.getUserMembership().subscribe(
+      response => {
+        let error_code = response.ERR_CODE;
+        if(error_code == "ERR_NONE")
+        {
+          this.userMembershipInfo = response.result.Membership;
+          if(this.userMembershipInfo['Type'] != 'Free' && this.userMembershipInfo['Paid'])
+          {
+            let expireTime = new Date(this.userMembershipInfo['PaidDate']),
+              currentTime = new Date();
+            if(this.userMembershipInfo['Plan'] == 'Monthly')
+              expireTime.setDate(expireTime.getMonth()+1);
+            if(this.userMembershipInfo['Plan'] == 'Yearly')
+              expireTime.setDate(expireTime.getFullYear()+1);
+            this.hasValidMembership = expireTime > currentTime;
+          }
+          this.initReport()
+        }else {
+
+        }
+      },
+      (error) => {
+
+      }
+    );
   }
 
   initReport(){
@@ -210,7 +241,8 @@ export class ReportComponent implements OnInit {
   getSubmittedProject(){
     this.dataService.getUserSubmittedProject().subscribe(response => {
         this.ProjectList = response.result;
-        let validProjectList = this.ProjectList.filter(function(item){ return item['Paid'] == true})
+        let that = this;
+        let validProjectList = this.ProjectList.filter(function(item){ return (item['Paid'] == true) || that.hasValidMembership})
         this.ProjectListTab = this.eachSlice(this.ProjectList, 4);
         if(validProjectList.length == 0 )
         {
@@ -535,7 +567,6 @@ export class ReportComponent implements OnInit {
         averageDesc: data_item && data_item['averageDesc'] ? data_item['averageDesc'] : ''
       }
       this.metricDataList.push(metric_item)
-      console.log(this.metricDataList)
     }
   }
   updateHeatMap(entries, heatmap){

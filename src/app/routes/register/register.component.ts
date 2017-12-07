@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
   code: string;
   title: string;
   isConfirmed: boolean;
+  plan_type: string;
   validArr;
 
   constructor(
@@ -103,6 +104,8 @@ export class RegisterComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         this.code = params['code'] || null;
+        this.plan_type = params['plan_type'] || 'Free';
+
         if(params['UserName'])
           quickStartInfo = params
       });
@@ -240,7 +243,8 @@ export class RegisterComponent implements OnInit {
       Reason3: this.newUser.Reason3,
       Reason4: this.newUser.Reason4,
       Contact: this.newUser.Contact,
-      Code: this.code
+      Code: this.code,
+      Plan_Type: this.plan_type
 		};
 
     this.authService.register(data).subscribe(
@@ -280,7 +284,7 @@ export class RegisterComponent implements OnInit {
 
   navigateUser() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/app']);
+      this.router.navigate(['/membership']);
     } else {
       this.router.navigate(['/login']);
     }

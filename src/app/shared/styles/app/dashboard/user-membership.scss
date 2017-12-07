@@ -1,0 +1,107 @@
+.user-membership-page{
+  .wrapper{
+    width: 100%;
+    padding: 45px;
+  }
+  .content{
+    margin: auto;
+    h2{
+      font-weight: 700;
+      margin: 0px 0px 40px 0px;
+      font-size: 35px;
+      text-align: center;
+    }
+    table{
+      width: 100%;
+      td{
+        position: relative;
+        border: 1px solid #d9d9d9;
+        padding: 25px 9px;
+        &.no-border{
+          border: none;
+          height: 48px;
+        }
+        &.td-select{
+          background-color: #e7f5e7;
+        }
+      }
+      thead{
+        td{
+          font-weight: bold;
+          font-size: 20px;
+          .star-icon{
+            position: absolute;
+            top: -26px;
+            right: 29px;
+          }
+          &.td-plan{
+            text-align: center;
+            width: 16%;
+          }
+          .sp-type{
+            display: block;
+            color: $dv-color-green;
+            margin-bottom: 6px;
+            font-size: 22px;
+          }
+          .sp-price{
+            font-size: 28px;
+            i{
+              font-size: 22px;
+              font-style: normal;
+            }
+            .sp_float{
+              font-size: 20px;
+            }
+          }
+        }
+      }
+      tbody{
+        td{
+          color: $dv-color-grey;
+          font-weight: 300;
+          font-size: 18px;
+          &.td-plan{
+            text-align: center;
+            span{
+              width: 10px;
+              height: 10px;
+              background-color: $dv-color-green;
+              display: block;
+              border-radius: 50%;
+              margin: auto;
+              &.disable{
+                background-color: $dv-color-light-grey;
+              }
+            }
+          }
+        }
+      }
+      tfoot{
+        td{
+          text-align: center;
+          a.update_button{
+            padding: 5px 0px;
+            font-size: 19px;
+            border: 2px solid #60a628;
+            color: $dv-color-green;
+            background: $dv-bg-sub;
+            display: block;
+            width: 100px;
+            margin: auto;
+            &:hover{
+              color: $dv-bg-sub;
+              background: $dv-color-green;
+            }
+          }
+          &.td-select{
+            a.update_button{
+              background: $dv-color-green;
+              color: $dv-bg-sub;
+            }
+          }
+        }
+      }
+    }
+  }
+}

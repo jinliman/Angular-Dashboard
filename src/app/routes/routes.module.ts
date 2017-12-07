@@ -20,6 +20,9 @@ import { AssetLayoutComponent } from '../asset-layout/asset-layout.component';
 import { HomeComponent } from './landing/home/home.component';
 import { FaqComponent } from './landing/faq/faq.component';
 import { PoliciesComponent } from './landing/policies/policies.component';
+import { MembershipComponent } from './landing/membership/membership.component'
+import { PriceOptionComponent } from './landing/price-option/price-option.component'
+
 
 // Asset Pages
 import { LoginComponent } from './login/login.component';
@@ -32,6 +35,9 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ComfirmInvitationComponent } from './comfirm-invitation/comfirm-invitation.component';
 import { OnedriveAuthComponent } from './onedrive-auth/onedrive-auth.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
+//Checkout
+import { CheckoutComponent } from './dashboard/checkout/checkout.component'
 
 export const routes = [
 
@@ -68,9 +74,27 @@ export const routes = [
       {  path: '', component: HomeComponent},
       {  path: 'faq', component: FaqComponent},
       {  path: 'terms-policies', component: PoliciesComponent},
+      {  path: 'price-option', component: PriceOptionComponent},
       // {  path: 'testimonial', component: './landing/landing.module#HomeComponent'},
       // {  path: 'news', component: './landing/landing.module#HomeComponent'},
       // {  path: 'contact', component: './landing/landing.module#HomeComponent'},
+    ]
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {  path: 'membership', component: MembershipComponent},
+      {  path: 'checkout', component: CheckoutComponent},
+    ]
+  },
+  {
+    path: '',
+    component: AssetLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {  path: 'team-invite', component: TeamsComponent },
     ]
   },
   {
@@ -84,9 +108,8 @@ export const routes = [
       {  path: 'reset-password', component: ResetPasswordComponent},
       {  path: 'email-sent', component: EmailSentComponent},
       {  path: 'confirm-email', component: ConfirmEmailComponent},
-      {  path: 'team-invite', component: TeamsComponent },
       {  path: 'confirm-invitation', component: ComfirmInvitationComponent },
-      {  path: 'onedriveAuth', component: OnedriveAuthComponent }
+      {  path: 'onedriveAuth', component: OnedriveAuthComponent },
     ]
   },
 
@@ -106,6 +129,8 @@ export const routes = [
     HomeComponent,
     FaqComponent,
     PoliciesComponent,
+    MembershipComponent,
+    PriceOptionComponent,
     RegisterComponent,
     LoginComponent,
     ForgotPasswordComponent,
@@ -116,7 +141,8 @@ export const routes = [
     ConfirmEmailComponent,
     ComfirmInvitationComponent,
     OnedriveAuthComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    CheckoutComponent
     ],
   exports: [
   	RouterModule,

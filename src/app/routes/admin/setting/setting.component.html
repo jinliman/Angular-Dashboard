@@ -23,6 +23,19 @@
           <span class="info-title">Fee per Report :</span>
           <span class="content">${{paymentSettingObject.ReportFee}}</span>
         </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Premium Membership :</span>
+          <span class="content">${{paymentSettingObject.PremiumFee}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Professional Membership :</span>
+          <span class="content">${{paymentSettingObject.ProfessionalFee}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Enterprise Membership :</span>
+          <span class="content">${{paymentSettingObject.EnterpriseFee}}</span>
+        </div>
+
       </div>
       <div class="col-md-12">
         <div class="info-div clearfix">
@@ -67,8 +80,35 @@
               'has-success': ReportFee.valid && ReportFee.touched
             }">
             <label for="ReportFee" class="required">Fee per Report</label>
-            <input type="number" placeholder="Current Password" name="ReportFee" #ReportFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.ReportFee" min="0" value="">
+            <input type="number" placeholder="Fee per Report" name="ReportFee" #ReportFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.ReportFee" min="0" value="">
             <span class="help-block" *ngIf="ReportFee.errors && ReportFee.errors.required  && ReportFee.touched">Fee is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': PremiumFee.invalid && PremiumFee.touched,
+              'has-success': PremiumFee.valid && PremiumFee.touched
+            }">
+            <label for="PremiumFee" class="required">Fee per Report</label>
+            <input type="number" placeholder="PremiumFee" name="PremiumFee" #PremiumFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.PremiumFee" min="0" value="">
+            <span class="help-block" *ngIf="PremiumFee.errors && PremiumFee.errors.required  && PremiumFee.touched">Fee is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': ProfessionalFee.invalid && ProfessionalFee.touched,
+              'has-success': ProfessionalFee.valid && ProfessionalFee.touched
+            }">
+            <label for="ProfessionalFee" class="required">Fee per Report</label>
+            <input type="number" placeholder="ProfessionalFee" name="ProfessionalFee" #ProfessionalFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.ProfessionalFee" min="0" value="">
+            <span class="help-block" *ngIf="ProfessionalFee.errors && ProfessionalFee.errors.required  && ProfessionalFee.touched">Fee is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': EnterpriseFee.invalid && EnterpriseFee.touched,
+              'has-success': EnterpriseFee.valid && EnterpriseFee.touched
+            }">
+            <label for="EnterpriseFee" class="required">Fee per Report</label>
+            <input type="number" placeholder="EnterpriseFee" name="EnterpriseFee" #EnterpriseFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.EnterpriseFee" min="0" value="">
+            <span class="help-block" *ngIf="EnterpriseFee.errors && EnterpriseFee.errors.required  && EnterpriseFee.touched">Fee is required</span>
           </div>
         </div>
       </modal-body>

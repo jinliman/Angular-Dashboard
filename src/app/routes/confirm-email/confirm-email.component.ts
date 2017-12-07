@@ -16,6 +16,8 @@ export class ConfirmEmailComponent implements OnInit {
   projectID: string;
   isConfirmed: boolean;
   canInvite: boolean;
+  membershipType: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -32,12 +34,31 @@ export class ConfirmEmailComponent implements OnInit {
         // Defaults to 0 if no query param provided.
         this.token = params['token'] || '';
         this.projectID = params['id'] || '';
+        this.membershipType = params['type'] || 'Professional';
+
         let data = { token: this.token, projectID: this.projectID}
         this.authService.confirmEmail(data).subscribe(
           response => {
-            if(response)
+            if(response.isAble)
               this.canInvite = true;
             this.isConfirmed = true;
+            if (response && response.userID) {
+              // store user details and jwt token in local storage to keep user logged in between page refreshes
+              localStorage.setItem('token', JSON.stringify(this.token));
+              localStorage.setItem('user', JSON.stringify({ _id: response.userID}));
+              this.authService.userInfo().subscribe(
+                user => {
+                  console.log(user)
+                  localStorage.setItem('user', JSON.stringify(user.UserInfo));
+                  if(user.UserProjects.length)
+                  {
+                    localStorage.setItem('project', JSON.stringify(user.UserProjects[0]));
+                  }else{
+                    localStorage.setItem('project', null);
+                  }
+                }
+              );
+            }
           },
           (error) => {
             this.isConfirmed = false;
