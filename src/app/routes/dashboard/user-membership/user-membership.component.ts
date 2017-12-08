@@ -17,6 +17,7 @@ import { NotificationsService } from 'angular2-notifications';
 export class UserMembershipComponent implements OnInit {
 
   userMembershipInfo : object = {};
+  adminSetting: object = {};
   plan_type: string = null;
   loading: boolean;
   updated: string;
@@ -33,8 +34,15 @@ export class UserMembershipComponent implements OnInit {
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.updated = params['update'];
+        if(this.updated)
+        {
+          this._notificationService.success(
+              'User Membership',
+              'Membership updated'
+          )
+        }
       });
-
+    this.getSetting();
     this.getUserMembership();
   }
 
@@ -56,7 +64,19 @@ export class UserMembershipComponent implements OnInit {
       }
     );
   }
+  getSetting(){
+    this.dataService.getAdminSetting().subscribe(
+      response => {
+        for(let item of response.result)
+        {
+            this.adminSetting[item['DataType']] = item['Data'].toString().replace(/(.)(?=(.{3})+$)/g,"$1,")
+        }
+      },
+      (error) => {
 
+      }
+    );
+  }
   freeMembership(){
     let data = {
       member_type: 'Free'
@@ -87,12 +107,5 @@ export class UserMembershipComponent implements OnInit {
   initData(){
     this.plan_type = this.userMembershipInfo['Type']
     this.loading = false;
-    if(this.updated)
-    {
-      this._notificationService.success(
-          'User Membership',
-          'Membership updated'
-      )
-    }
   }
 }

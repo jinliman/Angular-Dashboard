@@ -30,24 +30,34 @@
     }
   }
   .wrapper{
+    padding-top: 45px;
+    padding-bottom: 45px;
     width: 100%;
-    padding: 45px;
+    background-color: $dv-bg-sub;
   }
-  .content{
-    width: 1300px;
+  .content1{
     margin: auto;
+    padding-bottom: 50px;
     h2{
       font-weight: 700;
       margin: 0px 0px 40px 0px;
       font-size: 40px;
       text-align: center;
     }
+    .title1{
+      text-align: center;
+      font-size: 27px;
+      color: $dv-color-green;
+      font-style: italic;
+      font-weight: bold;
+      margin-bottom: 60px;
+    }
     table{
       width: 100%;
       td{
         position: relative;
         border: 1px solid #d9d9d9;
-        padding: 25px;
+        padding: 22px 13px;
         &.no-border{
           border: none;
           height: 48px;
@@ -56,11 +66,14 @@
       thead{
         td{
           font-weight: bold;
-          font-size: 27px;
+          font-size: 30px;
           .star-icon{
             position: absolute;
             top: -26px;
             right: 29px;
+          }
+          &.desc-title{
+            font-size: 25px;
           }
           &.td-plan{
             text-align: center;
@@ -72,14 +85,23 @@
             margin-bottom: 6px;
           }
           .sp-price{
-            font-size: 40px;
+            font-size: 37px;
+            letter-spacing: -1px;
             i{
-              font-size: 34px;
+              font-size: 28px;
               font-style: normal;
             }
-            .sp_float{
-              font-size: 28px;
+            .sp_duration{
+              letter-spacing: -1px;
+              font-weight: 300;
+              font-size: 24px;
             }
+          }
+          .sp-desc{
+            font-size: 16px;
+            display: block;
+            color: $dv-color-grey;
+            font-weight: 300;
           }
         }
       }
@@ -108,19 +130,84 @@
         td{
           text-align: center;
           a.signup{
-            padding: 10px 35px;
-            font-size: 19px;
+            padding: 10px 0px;
+            font-size: 22px;
             border: 2px solid $dv-color-green;
             color: $dv-color-green;
             background: $dv-bg-sub;
             display: block;
-            width: 140px;
             margin: auto;
             &:hover{
               color: $dv-bg-sub;
               background: $dv-color-green;
             }
           }
+        }
+      }
+    }
+  }
+  .content2{
+    border-top: 2px solid #eaeaea;
+    background-color: $dv-bg-main;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    h2{
+      font-weight: 700;
+      margin: 0px 0px 40px 0px;
+      font-size: 40px;
+      text-align: center;
+    }
+    table{
+      width: 100%;
+      td{
+        position: relative;
+        border: 1px solid #d9d9d9;
+        padding: 14px 13px;
+        text-align: center;
+        &.green{
+          color: $dv-color-green;
+        }
+        &.orange{
+          color: $dv-color-orange;
+        }
+        &.red{
+          color: $dv-color-red-light;
+        }
+        &:first-of-type{
+          text-align: left;
+          font-size: 18px;
+          color: $dv-color-grey;
+          font-weight: 300;
+        }
+        &.no-border{
+          border: none;
+          height: 48px;
+        }
+        .sp-price{
+          font-size: 37px;
+          letter-spacing: -1px;
+          font-weight: bold;
+          i{
+            font-size: 28px;
+            font-style: normal;
+          }
+          .sp_duration{
+            letter-spacing: -1px;
+            font-weight: 300;
+            font-size: 24px;
+          }
+        }
+        .sp-desc{
+          font-size: 17px;
+          display: block;
+          font-weight: bold;
+        }
+      }
+      thead{
+        td{
+          font-size: 29px;
+          font-weight: bold;
         }
       }
     }

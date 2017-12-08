@@ -36,6 +36,11 @@
           <span class="content">${{paymentSettingObject.EnterpriseFee}}</span>
         </div>
 
+        <div class="info-div clearfix">
+          <span class="info-title">One &amp; Done Membership :</span>
+          <span class="content">${{paymentSettingObject.OnedoneFee}}</span>
+        </div>
+
       </div>
       <div class="col-md-12">
         <div class="info-div clearfix">
@@ -88,7 +93,7 @@
               'has-error': PremiumFee.invalid && PremiumFee.touched,
               'has-success': PremiumFee.valid && PremiumFee.touched
             }">
-            <label for="PremiumFee" class="required">Fee per Report</label>
+            <label for="PremiumFee" class="required">Premium</label>
             <input type="number" placeholder="PremiumFee" name="PremiumFee" #PremiumFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.PremiumFee" min="0" value="">
             <span class="help-block" *ngIf="PremiumFee.errors && PremiumFee.errors.required  && PremiumFee.touched">Fee is required</span>
           </div>
@@ -97,7 +102,7 @@
               'has-error': ProfessionalFee.invalid && ProfessionalFee.touched,
               'has-success': ProfessionalFee.valid && ProfessionalFee.touched
             }">
-            <label for="ProfessionalFee" class="required">Fee per Report</label>
+            <label for="ProfessionalFee" class="required">Professional</label>
             <input type="number" placeholder="ProfessionalFee" name="ProfessionalFee" #ProfessionalFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.ProfessionalFee" min="0" value="">
             <span class="help-block" *ngIf="ProfessionalFee.errors && ProfessionalFee.errors.required  && ProfessionalFee.touched">Fee is required</span>
           </div>
@@ -106,9 +111,18 @@
               'has-error': EnterpriseFee.invalid && EnterpriseFee.touched,
               'has-success': EnterpriseFee.valid && EnterpriseFee.touched
             }">
-            <label for="EnterpriseFee" class="required">Fee per Report</label>
+            <label for="EnterpriseFee" class="required">Enterprise</label>
             <input type="number" placeholder="EnterpriseFee" name="EnterpriseFee" #EnterpriseFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.EnterpriseFee" min="0" value="">
             <span class="help-block" *ngIf="EnterpriseFee.errors && EnterpriseFee.errors.required  && EnterpriseFee.touched">Fee is required</span>
+          </div>
+          <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': OnedoneFee.invalid && OnedoneFee.touched,
+              'has-success': OnedoneFee.valid && OnedoneFee.touched
+            }">
+            <label for="OnedoneFee" class="required">One &amp; Done</label>
+            <input type="number" placeholder="OnedoneFee" name="OnedoneFee" #OnedoneFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.OnedoneFee" min="0" value="">
+            <span class="help-block" *ngIf="OnedoneFee.errors && OnedoneFee.errors.required  && OnedoneFee.touched">Fee is required</span>
           </div>
         </div>
       </modal-body>

@@ -4,170 +4,198 @@
     <section>
       <div class="wrapper clearfix">
         <div class="content">
-          <h2>Membership Plan</h2>
+          <h2>Pricing &amp; Plans</h2>
           <div class="row">
             <div class="col-md-12">
               <table>
                 <thead>
                   <tr>
                     <td width="40%" class="no-border"></td>
-                    <td rowspan="2" class="td-free td-plan"  [class.td-select]="plan_type == 'Free'">
-                      <span class="star-icon" *ngIf="plan_type == 'Free'"> <img src="/assets/images/icons/membership/star.png" alt=""> </span>
-                      <span class="sp-type">Free</span>
-                      <span class="sp-price"><i>$</i>0<span class="sp_float">.00</span></span>
-                    </td>
-                    <td rowspan="2" class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'">
+                    <td rowspan="2" class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'" >
                       <span class="star-icon" *ngIf="plan_type == 'Premium'"> <img src="/assets/images/icons/membership/star.png" alt=""> </span>
                       <span class="sp-type">Premium</span>
-                      <span class="sp-price"><i>$</i>9,995<span class="sp_float">.00</span></span>
+                      <span class="sp-price"><i>$</i>{{this.adminSetting.PremiumFee}}<span class="sp_duration">/month</span></span>
+                      <span class="sp-desc">billed annually</span>
                     </td>
                     <td rowspan="2" class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'">
                       <span class="star-icon" *ngIf="plan_type == 'Professional'"> <img src="/assets/images/icons/membership/star.png" alt=""> </span>
                       <span class="sp-type">Professional</span>
-                      <span class="sp-price"><i>$</i>19,995<span class="sp_float">.00</span></span>
+                      <span class="sp-price"><i>$</i>{{this.adminSetting.ProfessionalFee}}<span class="sp_duration">/month</span></span>
+                      <span class="sp-desc">billed annually</span>
                     </td>
                     <td rowspan="2" class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'">
                       <span class="star-icon" *ngIf="plan_type == 'Enterprise'"> <img src="/assets/images/icons/membership/star.png" alt=""> </span>
                       <span class="sp-type">Enterprise</span>
-                      <span class="sp-price"><i>$</i>29,995<span class="sp_float">.00</span></span>
+                      <span class="sp-price"><i>$</i>{{this.adminSetting.EnterpriseFee}}<span class="sp_duration">/month</span></span>
+                      <span class="sp-desc">billed annually</span>
+                    </td>
+                    <td rowspan="2" class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'">
+                      <span class="star-icon" *ngIf="plan_type == 'Onedone'"> <img src="/assets/images/icons/membership/star.png" alt=""> </span>
+                      <span class="sp-type">One &amp; Done</span>
+                      <span class="sp-price"><i>$</i>{{this.adminSetting.OnedoneFee}}<span class="sp_duration">/month</span></span>
+                      <span class="sp-desc">one-time payment</span>
                     </td>
                   </tr>
                   <tr>
-                    <td>IT Risk & Opportunities Due Diligence</td>
+                    <td class="desc-title">IT Risk & Opportunities Due Diligence</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Application (Back-office, Operational, Industry, Desktop && Custom)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Infrastructure (Network, Servers &amp; Workstations)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>IT Organization (People, Processes & Policies)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>IT Projects (Current &amp; Future)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>IT Budget (CapEx &amp; OpEx)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Heat Map (Risks &amp; Opportunities)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Secure Online Due Diligence Report With Heat Map</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Daily Updates With Progress Reports</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
-                    <td>Video Conference Interviews With Key IT &amp; Business Stakeholders</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td>Up to 3 Users</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span></span> </td>
+                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
+                    <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span class="disable"></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span class="disable"></span> </td>
+                  </tr>
+                  <tr>
+                    <td>Unlimited Users</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
+                  </tr>
+                  <tr>
+                    <td>Unlimited Data Storage</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
+                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
+                    <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Report Readout via Conference</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>IT Due Diligence Support(9AM - 5PM CST)</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
-                    <td>Onsite Interviews With Key IT & Business Stakeholders</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
-                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
+                    <td>Confidential PDF of IT Report</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
+                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
-                    <td>IT Initiatives & Recommendations</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td>Interviews With Key IT & Business Stakeholders</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
-                    <td>Transition Cost &amp; Planinig</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td>IT Roadmap & Recommendations</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
+                  </tr>
+                  <tr>
+                    <td>IT Metrics & Best Practices</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
+                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
+                    <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
+                  </tr>
+                  <tr>
+                    <td>IT Transition Cost &amp; Planinig</td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
+                    <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
+                    <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Transition Service Agreement Review &amp; Recommendations</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                   <tr>
                     <td>Dedicated IT Due Diligence Advisor</td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'"> <span></span> </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'"> <span class="disable"></span> </td>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" > <span class="disable"></span> </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'"> <span class="disable"></span> </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'"> <span></span> </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'"> <span></span> </td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td class="no-border"></td>
-                    <td class="td-free td-plan"  [class.td-select]="plan_type == 'Free'">
-                      <a *ngIf="plan_type == 'Free'" href="javascript:;" class="update_button button">Selected</a>
-                      <a *ngIf="plan_type != 'Free'" (click)="freeMembership()" class="update_button button">Upgrade</a>
-                    </td>
-                    <td class="td-premium td-plan" [class.td-select]="plan_type == 'Premium'">
-                      <a *ngIf="plan_type == 'Premium'" href="javascript:;" class="update_button button">Selected</a>
-                      <a *ngIf="plan_type != 'Premium'" routerLink="/checkout" [queryParams]="{member_type:'Premium'}" class="update_button button">Upgrade</a>
+                    <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" >
+                      <a routerLink="/checkout" [queryParams]="{member_type:'Premium'}" class="signup button">Select</a>
                     </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'">
-                      <a *ngIf="plan_type == 'Professional'" href="javascript:;" class="update_button button">Selected</a>
-                      <a *ngIf="plan_type != 'Professional'" routerLink="/checkout" [queryParams]="{member_type:'Professional'}" class="update_button button">Upgrade</a>
+                      <a routerLink="/checkout" [queryParams]="{member_type:'Professional'}" class="signup button">Select</a>
                     </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'">
-                      <a *ngIf="plan_type == 'Enterprise'" href="javascript:;" class="update_button button">Selected</a>
-                      <a *ngIf="plan_type != 'Enterprise'" routerLink="/checkout" [queryParams]="{member_type:'Enterprise'}" class="update_button button">Upgrade</a>
+                      <a routerLink="/checkout" [queryParams]="{member_type:'Enterprise'}" class="signup button">Select</a>
+                    </td>
+                    <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'">
+                      <a routerLink="/checkout" [queryParams]="{member_type:'Onedone'}" class="signup button">Select</a>
                     </td>
                   </tr>
                 </tfoot>

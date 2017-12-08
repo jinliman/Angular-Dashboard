@@ -28,11 +28,14 @@
       thead{
         td{
           font-weight: bold;
-          font-size: 20px;
+          font-size: 30px;
           .star-icon{
             position: absolute;
             top: -26px;
             right: 29px;
+          }
+          &.desc-title{
+            font-size: 25px;
           }
           &.td-plan{
             text-align: center;
@@ -42,17 +45,25 @@
             display: block;
             color: $dv-color-green;
             margin-bottom: 6px;
-            font-size: 22px;
           }
           .sp-price{
-            font-size: 28px;
+            font-size: 37px;
+            letter-spacing: -1px;
             i{
-              font-size: 22px;
+              font-size: 28px;
               font-style: normal;
             }
-            .sp_float{
-              font-size: 20px;
+            .sp_duration{
+              letter-spacing: -1px;
+              font-weight: 300;
+              font-size: 24px;
             }
+          }
+          .sp-desc{
+            font-size: 16px;
+            display: block;
+            color: $dv-color-grey;
+            font-weight: 300;
           }
         }
       }

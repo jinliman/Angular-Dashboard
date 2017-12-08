@@ -53,15 +53,15 @@ export class CheckoutComponent implements OnInit {
   initData(){
     switch(this.member_type)
     {
-      case 'Premium':
-        this.fee = this.adminSetting['PremiumFee']; break;
       case 'Professional':
         this.fee = this.adminSetting['ProfessionalFee']; break;
       case 'Enterprise':
         this.fee = this.adminSetting['EnterpriseFee']; break;
-      case 'Free':
+      case 'Onedone':
+        this.fee = this.adminSetting['OnedoneFee']; break;
+      case 'Premium':
       default:
-        this.fee = "0"; break;
+        this.fee = this.adminSetting['PremiumFee']; break;
     }
   }
 
