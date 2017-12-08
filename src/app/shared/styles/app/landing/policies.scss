@@ -9,13 +9,17 @@
     align-items: center;
     ul{
       list-style: none;
-      column-count: 5;
       margin: 0px;
+      padding: 0px;
       li{
-        display: flex;
+        display: inline-flex;
+        margin-right: 100px;
         span:last-of-type{
           line-height: 30px;
           padding-left: 10px;
+        }
+        &:last-of-type{
+          margin-right: 0px;
         }
       }
     }

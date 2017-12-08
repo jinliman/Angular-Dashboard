@@ -22,7 +22,7 @@ import { FaqComponent } from './landing/faq/faq.component';
 import { PoliciesComponent } from './landing/policies/policies.component';
 import { MembershipComponent } from './landing/membership/membership.component'
 import { PriceOptionComponent } from './landing/price-option/price-option.component'
-
+import { ContactusComponent } from './landing/contactus/contactus.component';
 
 // Asset Pages
 import { LoginComponent } from './login/login.component';
@@ -75,9 +75,7 @@ export const routes = [
       {  path: 'faq', component: FaqComponent},
       {  path: 'terms-policies', component: PoliciesComponent},
       {  path: 'price-option', component: PriceOptionComponent},
-      // {  path: 'testimonial', component: './landing/landing.module#HomeComponent'},
-      // {  path: 'news', component: './landing/landing.module#HomeComponent'},
-      // {  path: 'contact', component: './landing/landing.module#HomeComponent'},
+      {  path: 'contact', component: ContactusComponent},
     ]
   },
   {
@@ -142,7 +140,8 @@ export const routes = [
     ComfirmInvitationComponent,
     OnedriveAuthComponent,
     ResetPasswordComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ContactusComponent
     ],
   exports: [
   	RouterModule,

@@ -662,9 +662,36 @@ select-dropdown
   color: $dv-alert-danger;
 }
 
+label.required{
+  position: relative;
+  &::before{
+    content: '*';
+    font-size: 20px;
+    display: block;
+    position: absolute;
+    left: -7px;
+    color: #a73729;
+  }
+  &.success{
+    color: $dv-color-green;
+    &::before{
+      color: $dv-color-green;
+    }
+  }
+}
+.has-success
+{
+  label.required{
+    &::before{
+      color: $dv-color-green;
+    }
+    color: $dv-color-green;
+  }
+}
+
 @media (max-width: 1300px) {
   .content-wrapper{
-      padding-top: 90px;
+      padding-top: 100px;
   }
 }
 @media (max-width: 900px) {

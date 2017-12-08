@@ -1,0 +1,120 @@
+<div class="contactus-page">
+  <div class="sub-header">
+    <section>
+      <ul>
+        <li> <span [inlineSVG]="'/assets/images/icons/homepage/icon1.svg'"></span> <span>Completely Free</span></li>
+        <li> <span [inlineSVG]="'/assets/images/icons/homepage/icon2.svg'"></span> <span>Buyer appetite</span></li>
+        <li> <span [inlineSVG]="'/assets/images/icons/homepage/icon3.svg'"></span> <span>No Obligation</span></li>
+        <li> <span [inlineSVG]="'/assets/images/icons/homepage/icon4.svg'"></span> <span>Fast and Efficient</span></li>
+        <li> <span [inlineSVG]="'/assets/images/icons/homepage/icon5.svg'"></span>  <span>Confidential Inquiry</span></li>
+      </ul>
+    </section>
+  </div>
+  <div class="wrapper clearfix">
+    <section>
+      <div class="content">
+        <div class="sub-title-div">
+          <h2>Contact Us <span>~ get in touch</span> </h2>
+        </div>
+        <div class="inner-content clearfix">
+          <div class="info-div">
+            <div class="clearfix">
+              <div class="icon-div pull-left">
+                <img class="" src="./assets/images/icons/contact/location.png" alt="tablet">
+              </div>
+              <div class="pull-left detail-div">
+                <span class="sp1">Address</span>
+                <span>1920 McKinney Avenue, Suite 700 <br/> Dallas, Tx 75201</span>
+              </div>
+            </div>
+            <div class="clearfix" style="margin-top:45px;">
+              <div class="icon-div pull-left">
+                <img class="" src="./assets/images/icons/contact/email.png" alt="tablet">
+              </div>
+              <div class="pull-left detail-div">
+                <span class="sp1">E-mail</span>
+                <a href="#">success@dealvalue.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-div assets">
+            <p class="alert alert-success" *ngIf="success == 1"> Inquiry has been successfully submitted! </p>
+            <p class="alert alert-danger" *ngIf="success == 2"> Something went wrong! </p>
+            <form class="form form1" (ngSubmit) = "send()" #form="ngForm">
+              <div class="row">
+                <div class="col-md-6 form-group"
+                  [ngClass]="{
+                    'has-error': firstname.invalid && firstname.touched,
+                    'has-success': firstname.valid && firstname.touched
+                  }">
+                  <label for="firstname" class="required">First Name:</label>
+                  <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "userInfo.firstname" value=""  required>
+                  <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+                </div>
+                <div class="col-md-6 form-group"
+                  [ngClass]="{
+                    'has-error': lastname.invalid && lastname.touched,
+                    'has-success': lastname.valid && lastname.touched
+                  }">
+                  <label for="lastname" class="required">Last Name:</label>
+                  <input type="text" name="lastname" #lastname = "ngModel" placeholder="Last Name" [(ngModel)] = "userInfo.lastname" value=""  required>
+                  <span class="help-block" *ngIf="lastname.errors && lastname.errors.required  && lastname.touched">Last Name is required</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group"
+                  [ngClass]="{
+                    'has-error': email.invalid && email.touched,
+                    'has-success': email.valid && email.touched
+                  }">
+                  <label for="email" class="required">Business Email:</label>
+                  <input type="text" name="email" #email = "ngModel" placeholder="Business Email" [(ngModel)] = "userInfo.email" value=""  required>
+                  <span class="help-block" *ngIf="email.errors && email.errors.required  && email.touched">Email is required</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group"
+                  [ngClass]="{
+                    'has-error': contact.invalid && contact.touched,
+                    'has-success': contact.valid && contact.touched
+                  }">
+                  <label for="contact" class="required">Primary Contact Number:</label>
+                  <input type="text" name="contact" #contact = "ngModel" placeholder="Contact Number" [(ngModel)] = "userInfo.contact" value=""  required>
+                  <span class="help-block" *ngIf="contact.errors && contact.errors.required  && contact.touched">Contact is required</span>
+                </div>
+                <div class="col-md-6 form-group"
+                  [ngClass]="{
+                    'has-error': zipcode.invalid && zipcode.touched,
+                    'has-success': zipcode.valid && zipcode.touched
+                  }">
+                  <label for="zipcode" class="required">Zip Code:</label>
+                  <input type="text" name="zipcode" #zipcode = "ngModel" placeholder="Zip Code" [(ngModel)] = "userInfo.zipcode" value=""  required>
+                  <span class="help-block" *ngIf="zipcode.errors && zipcode.errors.required  && zipcode.touched">Zip Code is required</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group"
+                  [ngClass]="{
+                    'has-error': inquiry.invalid && inquiry.touched,
+                    'has-success': inquiry.valid && inquiry.touched
+                  }">
+                  <label for="inquiry" class="required">Inquiry:</label>
+                  <textarea name="inquiry" #inquiry = "ngModel" placeholder="Type Details Here" [(ngModel)] = "userInfo.inquiry" value=""  required rows="8" cols="80"></textarea>
+                  <span class="help-block" *ngIf="inquiry.errors && inquiry.errors.required  && inquiry.touched">Inquiry is required</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label class="required">required fields</label>
+                </div>
+                <div class="col-md-6 form-group">
+                  <button type="submit" [disabled] = "form.invalid" class="btn button pull-right">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

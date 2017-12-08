@@ -679,4 +679,12 @@ export class DataService {
     return this.http.get(this.url + '/api/user/membership', { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
+  /*
+  ---------------- Setting ----------------------
+  */
+  contactUs(data){
+    return this.http.post(this.url + '/api/contact', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
 }

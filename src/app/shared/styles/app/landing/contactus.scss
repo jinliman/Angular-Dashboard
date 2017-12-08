@@ -1,0 +1,89 @@
+.contactus-page{
+  .sub-header{
+    width: 100%;
+    height: 80px;
+    border-top: 1px solid $dv-color-border;
+    border-bottom: 1px solid $dv-color-border;
+    background: url('assets/images/homepage/icons-back.png') repeat-x;
+    display: flex;
+    align-items: center;
+    ul{
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+      li{
+        display: inline-flex;
+        margin-right: 100px;
+        span:last-of-type{
+          line-height: 30px;
+          padding-left: 10px;
+        }
+        &:last-of-type{
+          margin-right: 0px;
+        }
+      }
+    }
+    .subheader-svg-icon{
+      width: 30px;
+      height: 30px;
+      fill: $dv-color-green;
+    }
+  }
+  .wrapper{
+    width: 100%;
+    background-color: $dv-bg-sub;
+  }
+  .content{
+    margin: auto;
+    padding: 50px 30px;
+    h2{
+      font-weight: 700;
+      margin: 0px 0px 40px 0px;
+      font-size: 36px;
+      text-align: left;
+      span{
+        font-size: 17px;
+        font-style: italic;
+        padding-left: 30px;
+        color: $dv-color-green;
+      }
+    }
+    .inner-content{
+      display: flex;
+      .info-div{
+        flex: 0 0 400px;
+        .icon-div{
+          width: 50px;
+          text-align: center;
+        }
+        .detail-div{
+          padding-left: 25px;
+          a{
+            color: $dv-color-grey;
+            text-decoration: underline !important;
+          }
+          span{
+            display: block;
+            color: $dv-color-grey;
+            line-height: 30px;
+            &.sp1{
+              color: $dv-color-primary;
+              font-weight: bold;
+              line-height: 40px;
+            }
+          }
+        }
+      }
+      .contact-div{
+        flex: 1 0;
+        input, textarea{
+          background-color: #fff;
+        }
+        input{
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+}
