@@ -30,7 +30,7 @@ export class CheckoutComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
-        this.member_type = params['member_type'] || 'Free';
+        this.member_type = params['member_type'] || 'Premium';
       });
       this.getSetting();
   }

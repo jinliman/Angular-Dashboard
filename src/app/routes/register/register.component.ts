@@ -104,7 +104,7 @@ export class RegisterComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         this.code = params['code'] || null;
-        this.plan_type = params['plan_type'] || 'Free';
+        this.plan_type = params['plan_type'] || null;
 
         if(params['UserName'])
           quickStartInfo = params
