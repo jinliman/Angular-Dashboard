@@ -107,7 +107,7 @@ export class CheckoutComponent implements OnInit {
 
   formatString(str){
     if(str)
-      return str.toString().replace(/(.)(?=(.{3})+$)/g,"$1,");
+      return str.toFixed(2).toString();
   }
   validPromocode(){
     let data = {
