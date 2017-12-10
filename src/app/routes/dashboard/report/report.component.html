@@ -442,16 +442,16 @@
                        </th>
                        <th>
                          <div class="">
-                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
-                           <span>Risk/Reward<br> Rating</span>
-                         </div>
-                       </th>
-                       <th>
-                         <div class="">
                            <div class="img">
                             <img src="../assets/images/icons/dashboard/industry-average.png"/>
                            </div>
                            <span>Industry<br> Average</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
+                           <span>Risk/Reward<br> Rating</span>
                          </div>
                        </th>
                      </tr>
@@ -467,17 +467,18 @@
                            </span>
                          </span>
                        </td>
+                       <td class="percent">
+                         <span class="custom-tooltip" >
+                           {{item.average}}%
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.averageDesc)}}
+                           </span>
+                         </span>
+                       </td>
                        <td class="circle" [class.orange] = "item.rating == 1" [class.yellow] = "item.rating == 2" [class.green] = "item.rating == 3">
                          <span class="custom-tooltip" >
                            <span class="custom-tooltiptext tooltip-top">
                              {{getDes1(item.ratingDesc)}}
-                           </span>
-                         </span>
-                       </td>
-                       <td class="circle" [class.orange] = "item.average == 1" [class.yellow] = "item.average == 2" [class.green] = "item.average == 3">
-                         <span class="custom-tooltip" >
-                           <span class="custom-tooltiptext tooltip-top">
-                             {{getDes1(item.averageDesc)}}
                            </span>
                          </span>
                        </td>

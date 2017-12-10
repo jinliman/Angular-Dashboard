@@ -426,16 +426,16 @@
                        </th>
                        <th>
                          <div class="">
-                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
-                           <span>Risk/Reward<br> Rating</span>
-                         </div>
-                       </th>
-                       <th>
-                         <div class="">
                            <div class="img">
                             <img src="../assets/images/icons/dashboard/industry-average.png"/>
                            </div>
                            <span>Industry<br> Average</span>
+                         </div>
+                       </th>
+                       <th>
+                         <div class="">
+                           <div class="img" [inlineSVG]="'../assets/images/icons/dashboard/rewards-icon.svg'"></div>
+                           <span>Risk/Reward<br> Rating</span>
                          </div>
                        </th>
                      </tr>
@@ -451,17 +451,18 @@
                            </span>
                          </span>
                        </td>
+                       <td class="percent">
+                         <span class="custom-tooltip" >
+                           {{item.average}}%
+                           <span class="custom-tooltiptext tooltip-top">
+                             {{getDes1(item.averageDesc)}}
+                           </span>
+                         </span>
+                       </td>
                        <td class="circle" [class.orange] = "item.rating == 1" [class.yellow] = "item.rating == 2" [class.green] = "item.rating == 3">
                          <span class="custom-tooltip" >
                            <span class="custom-tooltiptext tooltip-top">
                              {{getDes1(item.ratingDesc)}}
-                           </span>
-                         </span>
-                       </td>
-                       <td class="circle" [class.orange] = "item.average == 1" [class.yellow] = "item.average == 2" [class.green] = "item.average == 3">
-                         <span class="custom-tooltip" >
-                           <span class="custom-tooltiptext tooltip-top">
-                             {{getDes1(item.averageDesc)}}
                            </span>
                          </span>
                        </td>
@@ -700,8 +701,8 @@
                 <tr>
                   <th>Title</th>
                   <th width="15%">Overall<br>Percentage</th>
-                  <th width="15%">Risk/Reward<br>Rating</th>
                   <th width="15%">Industry<br>Average</th>
+                  <th width="15%">Risk/Reward<br>Rating</th>
                 </tr>
               </thead>
               <tbody>
@@ -718,19 +719,17 @@
                     </popover-content>
                   </td>
                   <td>
-                    <select [popover]="add_description_div2" [(ngModel)]="item.rating" class="custom-select" name="rating{{i}}" [class.orange] ="item.rating == 1" [class.yellow] ="item.rating == 2" [class.green] ="item.rating == 3">
-                      <option *ngFor="let colorItem  of metricColorList" [attr.value]="colorItem.value">{{colorItem.label}}</option>
-                    </select>
+                    <input [popover]="add_description_div2" type="number" [(ngModel)]="item.average" name="percent_average_{{i}}" min="0" max="100">
                     <popover-content #add_description_div2
                         title="Description"
                         placement="top"
                         [animation]="true"
                         [closeOnClickOutside]="true">
-                        <textarea [(ngModel)]="item.ratingDesc"  name="ratingDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
+                        <textarea [(ngModel)]="item.averageDesc"  name="averageDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
                     </popover-content>
                   </td>
                   <td>
-                    <select [popover]="add_description_div3" [(ngModel)]="item.average"  class="custom-select" name="average{{i}}" [class.orange] ="item.average == 1" [class.yellow] ="item.average == 2" [class.green] ="item.average == 3">
+                    <select [popover]="add_description_div3" [(ngModel)]="item.rating" class="custom-select" name="rating{{i}}" [class.orange] ="item.rating == 1" [class.yellow] ="item.rating == 2" [class.green] ="item.rating == 3">
                       <option *ngFor="let colorItem  of metricColorList" [attr.value]="colorItem.value">{{colorItem.label}}</option>
                     </select>
                     <popover-content #add_description_div3
@@ -738,7 +737,7 @@
                         placement="top"
                         [animation]="true"
                         [closeOnClickOutside]="true">
-                        <textarea [(ngModel)]="item.averageDesc"  name="averageDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
+                        <textarea [(ngModel)]="item.ratingDesc"  name="ratingDesc{{i}}" rows="3" cols="80"  placeholder="Type here"></textarea>
                     </popover-content>
                   </td>
                 </tr>
