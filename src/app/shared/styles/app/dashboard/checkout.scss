@@ -129,4 +129,17 @@
       }
     }
   }
+  .promo-div{
+    width: 480px;
+    margin: auto;
+    .submit-button{
+      width: 140px;
+      margin: 20px auto;
+      button{
+        width: 100%;
+        padding: 5px;
+        font-size: 18px;
+      }
+    }
+  }
 }

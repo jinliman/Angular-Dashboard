@@ -20,10 +20,6 @@
           <span class="edit-icon pull-right" (click)="openModal(EditSettingModal);"><i class="fa fa-pencil" aria-hidden="true"></i></span>
         </div>
         <div class="info-div clearfix">
-          <span class="info-title">Fee per Report :</span>
-          <span class="content">${{paymentSettingObject.ReportFee}}</span>
-        </div>
-        <div class="info-div clearfix">
           <span class="info-title">Premium Membership :</span>
           <span class="content">${{paymentSettingObject.PremiumFee}}</span>
         </div>
@@ -79,15 +75,6 @@
       </modal-header>
       <modal-body>
         <div class="row assets">
-          <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': ReportFee.invalid && ReportFee.touched,
-              'has-success': ReportFee.valid && ReportFee.touched
-            }">
-            <label for="ReportFee" class="required">Fee per Report</label>
-            <input type="number" placeholder="Fee per Report" name="ReportFee" #ReportFee = "ngModel" required [(ngModel)] = "paymentSettingUpdate.ReportFee" min="0" value="">
-            <span class="help-block" *ngIf="ReportFee.errors && ReportFee.errors.required  && ReportFee.touched">Fee is required</span>
-          </div>
           <div class="col-md-12 form-group"
             [ngClass]="{
               'has-error': PremiumFee.invalid && PremiumFee.touched,

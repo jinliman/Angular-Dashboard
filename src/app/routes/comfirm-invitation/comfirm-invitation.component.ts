@@ -35,7 +35,7 @@ export class ComfirmInvitationComponent implements OnInit {
             this.isValid = true;
           },
           (error) => {
-            this.router.navigate(['/register']);
+            this.router.navigate(['/signup']);
           }
         );
       });

@@ -1,86 +1,122 @@
 <div class="assets checkout">
-  <div class="wrapper">
-    <div class="inner-wrapper">
-      <div class="row">
-        <div class="col-md-12 sub-header">
-          <h2>Select Payment Method</h2>
-          <div class="logo">
-            <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
-          </div>
-        </div>
-      </div>
-      <div class="row inner-content">
-        <div class="col-md-12" *ngIf="notification_text != ''">
-          <p class="alert alert-danger">{{notification_text}}</p>
-        </div>
-        <div class="col-md-12 dess-div">
-          <p class="alert alert-success">Please deposit funds. Deposit ${{fee}} USD to upgrade your membership!</p>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group radio pm_group_div">
-            <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Stripe'" (click)="paymentMethodRadio = 'Stripe'">
-              <div class="">
-                <input type="radio" name="radio1" id="radio1" [(ngModel)]="paymentMethodRadio" value="Stripe">
-                <label for="radio1">Stripe</label>
-              </div>
-              <span class="payment-icon stripe-logo" [class.is_active] ="paymentMethodRadio == 'Stripe'">Stripe</span>
-            </div>
-            <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Credit Card'" (click)="paymentMethodRadio = 'Credit Card'">
-              <div class="">
-                <input type="radio" name="radio2" id="radio2" [(ngModel)]="paymentMethodRadio" value="Credit Card">
-                <label for="radio2">Credit Card</label>
-              </div>
-              <span class="payment-icon cc-logo" [class.is_active] ="paymentMethodRadio == 'Credit Card'">All Major CC are acceptable</span>
-            </div>
-            <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Paypal'" (click)="paymentMethodRadio = 'Paypal'">
-              <div class="">
-                <input type="radio" name="radio3" id="radio3" [(ngModel)]="paymentMethodRadio" value="Paypal">
-                <label for="radio3">Paypal</label>
-              </div>
-              <span class="payment-icon paypal-logo" [class.is_active] ="paymentMethodRadio == 'Paypal'"></span>
-            </div>
-            <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Bank'" (click)="paymentMethodRadio = 'Bank'">
-              <div class="">
-                <input type="radio" name="radio4" id="radio4" [(ngModel)]="paymentMethodRadio" value="Bank">
-                <label for="radio4">Bank Deposit</label>
-              </div>
-              <span class="payment-icon bank-logo" [class.is_active] ="paymentMethodRadio == 'Bank'"></span>
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="wrapper">
+      <div class="inner-wrapper">
+        <div class="row">
+          <div class="col-md-12 sub-header">
+            <h2>Select Payment Method</h2>
+            <div class="logo">
+              <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
             </div>
           </div>
         </div>
-        <div class="col-md-6 form-group payment-summary">
-          <h3>Payment Summary</h3>
-          <table>
-            <thead>
-              <tr>
-                  <td></td>
-                  <td>Amount</td>
-                  <td>Currency</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Deposit Amount</td>
-                <td class="payment-summary-currency">{{fee}}</td>
-                <td class="payment-summary-currency-type">USD</td>
-              </tr>
-              <tr>
-                <td>Processing Fee</td>
-                <td class="payment-summary-currency">0.0</td>
-                <td class="payment-summary-currency-type">USD</td>
-              </tr>
-              <tr class="total-tr">
-                <td><b>Total</b></td>
-                <td class="payment-summary-currency">{{fee}}</td>
-                <td class="payment-summary-currency-type">USD</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="payment-summary-confirm-div">
-            <a class="button" (click)="confirmPayment()">Confirm</a>
+        <div class=" inner-content">
+          <div class="row">
+            <form class="form promocode-modal" (ngSubmit) = "validPromocode()" #form1="ngForm">
+              <div class="promo-div form-group clearfix"
+                [ngClass]="{
+                  'has-error': promocode.invalid && promocode.touched,
+                  'has-success': promocode.valid && promocode.touched
+                }">
+                <label for="promocode">Promo Code:</label>
+                <input type="text" placeholder="Input Valid Promo Code" name="promocode" #promocode = "ngModel" required [(ngModel)] = "Promocode.Code" value="">
+                <span class="help-block" *ngIf="promocode.errors && promocode.errors.required  && promocode.touched">Promocode is required</span>
+                <div class="submit-button">
+                  <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Apply</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <p class="alert" [class.alert-success] = "Promocode.Passed" [class.alert-danger] = "!Promocode.Passed" *ngIf="Promocode.ErrorStr.length" >{{Promocode.ErrorStr}}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12" *ngIf="notification_text != ''">
+              <p class="alert alert-danger">{{notification_text}}</p>
+            </div>
+            <div class="col-md-12 dess-div">
+              <p class="alert alert-success">
+                Please deposit funds. Deposit ${{formatString(displayFee)}} USD to upgrade your membership!
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group radio pm_group_div">
+                <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Stripe'" (click)="paymentMethodRadio = 'Stripe'">
+                  <div class="">
+                    <input type="radio" name="radio1" id="radio1" [(ngModel)]="paymentMethodRadio" value="Stripe">
+                    <label for="radio1">Stripe</label>
+                  </div>
+                  <span class="payment-icon stripe-logo" [class.is_active] ="paymentMethodRadio == 'Stripe'">Stripe</span>
+                </div>
+                <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Credit Card'" (click)="paymentMethodRadio = 'Credit Card'">
+                  <div class="">
+                    <input type="radio" name="radio2" id="radio2" [(ngModel)]="paymentMethodRadio" value="Credit Card">
+                    <label for="radio2">Credit Card</label>
+                  </div>
+                  <span class="payment-icon cc-logo" [class.is_active] ="paymentMethodRadio == 'Credit Card'">All Major CC are acceptable</span>
+                </div>
+                <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Paypal'" (click)="paymentMethodRadio = 'Paypal'">
+                  <div class="">
+                    <input type="radio" name="radio3" id="radio3" [(ngModel)]="paymentMethodRadio" value="Paypal">
+                    <label for="radio3">Paypal</label>
+                  </div>
+                  <span class="payment-icon paypal-logo" [class.is_active] ="paymentMethodRadio == 'Paypal'"></span>
+                </div>
+                <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Bank'" (click)="paymentMethodRadio = 'Bank'">
+                  <div class="">
+                    <input type="radio" name="radio4" id="radio4" [(ngModel)]="paymentMethodRadio" value="Bank">
+                    <label for="radio4">Bank Deposit</label>
+                  </div>
+                  <span class="payment-icon bank-logo" [class.is_active] ="paymentMethodRadio == 'Bank'"></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group payment-summary">
+              <h3>Payment Summary</h3>
+              <table>
+                <thead>
+                  <tr>
+                      <td></td>
+                      <td>Amount</td>
+                      <td>Currency</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deposit Amount</td>
+                    <td class="payment-summary-currency">{{formatString(displayFee)}}</td>
+                    <td class="payment-summary-currency-type">USD</td>
+                  </tr>
+                  <tr *ngIf="Promocode['Passed']" class="alert-danger">
+                    <td>Discount</td>
+                    <td class="payment-summary-currency">-{{formatString(discount)}}</td>
+                    <td class="payment-summary-currency-type">USD</td>
+                  </tr>
+                  <tr>
+                    <td>Processing Fee</td>
+                    <td class="payment-summary-currency">0.0</td>
+                    <td class="payment-summary-currency-type">USD</td>
+                  </tr>
+                  <tr class="total-tr">
+                    <td><b>Total</b></td>
+                    <td class="payment-summary-currency">{{formatString(displayFee)}}</td>
+                    <td class="payment-summary-currency-type">USD</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="payment-summary-confirm-div">
+                <a class="button" (click)="processStripePayment()">Confirm</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>

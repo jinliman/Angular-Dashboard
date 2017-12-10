@@ -15,14 +15,11 @@ export class TeamsComponent implements OnInit {
 
   PrimaryEmail: string;
   TeamEmail: Array<object>;
-  token: string;
   projectID: string;
   isSent: boolean;
   submitText: string;
-  plan_type: string;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private http: Http,
     private authService: AuthService
@@ -58,13 +55,9 @@ export class TeamsComponent implements OnInit {
     this.TeamEmail = []
     this.isSent = false;
     this.submitText = "Send";
-    this.route
-      .queryParams
-      .subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        this.token = params['token'] || '';
-        this.projectID = params['id'] || '';
-        this.plan_type = params['plan_type'] || '';
-      });
+    this.projectID = localStorage.getItem('projectID');
+    console.log(this.projectID)
+    if(this.projectID == '' || this.projectID == undefined)
+      this.router.navigate(['/app/team']);
   }
 }

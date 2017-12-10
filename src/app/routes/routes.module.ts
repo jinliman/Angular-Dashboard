@@ -35,9 +35,12 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ComfirmInvitationComponent } from './comfirm-invitation/comfirm-invitation.component';
 import { OnedriveAuthComponent } from './onedrive-auth/onedrive-auth.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SignupComponent } from './signup/signup.component'
 
 //Checkout
-import { CheckoutComponent } from './dashboard/checkout/checkout.component'
+import { CheckoutComponent } from './dashboard/checkout/checkout.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+
 
 export const routes = [
 
@@ -83,7 +86,6 @@ export const routes = [
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {  path: 'membership', component: MembershipComponent},
       {  path: 'checkout', component: CheckoutComponent},
     ]
   },
@@ -93,6 +95,8 @@ export const routes = [
     canActivate: [AuthGuard],
     children: [
       {  path: 'team-invite', component: TeamsComponent },
+      {  path: 'membership', component: MembershipComponent},
+      {  path: 'complete-profile', component: CompleteProfileComponent},
     ]
   },
   {
@@ -101,6 +105,7 @@ export const routes = [
     children: [
       {  path: 'login', component: LoginComponent},
       {  path: 'register', component: RegisterComponent},
+      {  path: 'signup', component: SignupComponent},
       {  path: 'logout', component: LogoutComponent},
       {  path: 'forgot-password', component: ForgotPasswordComponent},
       {  path: 'reset-password', component: ResetPasswordComponent},
@@ -141,7 +146,9 @@ export const routes = [
     OnedriveAuthComponent,
     ResetPasswordComponent,
     CheckoutComponent,
-    ContactusComponent
+    ContactusComponent,
+    SignupComponent,
+    CompleteProfileComponent
     ],
   exports: [
   	RouterModule,

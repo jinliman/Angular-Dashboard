@@ -1,4 +1,10 @@
 .invite-modal{
+  .alert-div{
+    padding: 20px;
+    p{
+      text-align: center;
+    }
+  }
   .form-group{
     .user-icon{
       background-color: $dv-color-green;

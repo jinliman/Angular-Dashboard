@@ -15,7 +15,6 @@ export class ConfirmEmailComponent implements OnInit {
   token: string;
   projectID: string;
   isConfirmed: boolean;
-  canInvite: boolean;
   membershipType: string;
 
   constructor(
@@ -27,20 +26,16 @@ export class ConfirmEmailComponent implements OnInit {
 
   ngOnInit() {
     this.isConfirmed = true;
-    this.canInvite = false;
     this.route
       .queryParams
       .subscribe(params => {
         // Defaults to 0 if no query param provided.
         this.token = params['token'] || '';
-        this.projectID = params['id'] || '';
         this.membershipType = params['type'] || 'Professional';
 
         let data = { token: this.token, projectID: this.projectID}
         this.authService.confirmEmail(data).subscribe(
           response => {
-            if(response.isAble)
-              this.canInvite = true;
             this.isConfirmed = true;
             if (response && response.userID) {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -50,7 +45,7 @@ export class ConfirmEmailComponent implements OnInit {
                 user => {
                   console.log(user)
                   localStorage.setItem('user', JSON.stringify(user.UserInfo));
-                  if(user.UserProjects.length)
+                  if(user.UserProjects && user.UserProjects.length)
                   {
                     localStorage.setItem('project', JSON.stringify(user.UserProjects[0]));
                   }else{

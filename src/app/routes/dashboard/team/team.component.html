@@ -28,6 +28,9 @@
         <h4 class="modal-title">Invite New Team Members</h4>
       </modal-header>
       <modal-body>
+        <div class="row alert-div" *ngIf="!canAdd">
+          <p class="alert alert-success">Thank you for using DealValue! <br/>Looks like you need to add a new Team Member. Your current plan (Premium) has a 3 User limit, which includes the Project Initiator. Please use the link below to upgrade to the <b>Professional Plan</b> to get unlimited number of users.</p>
+        </div>
         <div class="row" *ngIf="!hasPrimary">
           <div class="col-md-12 form-group"
             [ngClass]="{
@@ -66,7 +69,7 @@
       </modal-body>
       <modal-footer>
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="newTeamMemberModal.dismiss()">Cancel</button>
-          <button type="submit" class="btn btn-success" [disabled] = "form.invalid">Send Invitation</button>
+          <button type="submit" class="btn btn-success" [disabled] = "form.invalid || (canAdd == false)">Send Invitation</button>
       </modal-footer>
     </form>
   </modal>

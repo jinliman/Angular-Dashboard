@@ -21,8 +21,12 @@ export class TeamComponent implements OnInit {
   statusList: Array<object> = [];
   PrimaryEmail: string = "";
   TeamEmail: Array<object> = [];
+  projectID: string = '';
+  userMembershipInfo : object = {};
+  canAdd: boolean = true;
   hasPrimary: boolean = false;
   userRole: string = "";
+  maxTeamCount: number = 2;
 
   loading: boolean;
   constructor(
@@ -30,6 +34,38 @@ export class TeamComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect());
+  }
+
+  onProjectSelect(){
+      this.ngOnInit();
+  }
+
+  getUserMembership(resolve){
+    this.loading = true;
+    this.dataService.getUserMembership().subscribe(
+      response => {
+        let error_code = response.ERR_CODE;
+        if(error_code == "ERR_NONE")
+        {
+          this.userMembershipInfo = response.result.Membership;
+          let teamMemberCount = this.team.length;
+          console.log(teamMemberCount)
+          if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount >= this.maxTeamCount)
+          {
+            this.canAdd = false;
+          }else{
+            this.canAdd = true;
+          }
+        }else {
+
+        }
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
   }
 
   updateTableData(){
@@ -74,24 +110,38 @@ export class TeamComponent implements OnInit {
     return data;
   }
 
-  getAssessment(projectID){
-    this.dataService.getAssessmentListFlat(projectID).subscribe(
+  getTeam(resolve){
+    let data = {id: this.projectID}
+    this.dataService.getTeam(data).subscribe(
       response => {
-        this.assessmentArr = response.Categories;
-        this.getAssignment();
+        this.team = response.result;
+        resolve();
       },
       (error) => {
 
       }
     );
   }
-  getAssignment(){
-    let projectID = this.currentProject['Project']['_id'] || null;
+
+  getAssessment(resolve){
+    let projectID = this.projectID;
+    this.dataService.getAssessmentListFlat(projectID).subscribe(
+      response => {
+        this.assessmentArr = response.Categories;
+        resolve();
+      },
+      (error) => {
+
+      }
+    );
+  }
+  getAssignment(resolve){
+    let projectID = this.projectID;
     let parma = { projectID: projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.assignment = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
@@ -114,10 +164,23 @@ export class TeamComponent implements OnInit {
   addNewTeamMembr(){
     let newIndex = this.TeamEmail.length + 1;
     this.TeamEmail.push({"name": "teammember" + newIndex, "value": ""});
+    this.updateCanAdd();
   }
 
   removeTeamMemeber(index){
     this.TeamEmail.splice(index, 1);
+    this.updateCanAdd();
+  }
+
+  updateCanAdd(){
+    let teamMemberCount = this.team.length + this.TeamEmail.length;
+    console.log(this.team.length,this.TeamEmail.length)
+    if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount > this.maxTeamCount)
+    {
+      this.canAdd = false;
+    }else{
+      this.canAdd = true;
+    }
   }
 
   inviteTeamMembers(modal){
@@ -129,7 +192,6 @@ export class TeamComponent implements OnInit {
       Primary     : this.PrimaryEmail,
       TeamMember  : this.TeamEmail.map(function(obj){ return obj['value']})
     }
-
     this.authService.inviteUser(data).subscribe(
       response => {
         if(response.ERR_CODE == 'ERR_NONE')
@@ -155,18 +217,15 @@ export class TeamComponent implements OnInit {
     );
   }
 
-  getAnswerList(){
-    let projectID = this.currentProject['Project']['_id'] || null;
+  getAnswerList(resolve){
+    let projectID = this.projectID;
     let data = {
       Project: projectID
     }
     this.dataService.getAnswerList(data).subscribe(
       response => {
           this.answerList = response.result;
-          this.statusList = this.updateAnswerList();
-          this.tableData = this.updateTableData();
-          console.log(this.statusList)
-          this.loading = false;
+          resolve();
       },
       (error) => {
 
@@ -175,7 +234,6 @@ export class TeamComponent implements OnInit {
   }
   getGroupStatus(arr)
   {
-    console.log(arr)
     let status = 1;
     if(arr.length)
     {
@@ -189,7 +247,6 @@ export class TeamComponent implements OnInit {
 
   updateAnswerList(){
     let result = [];
-    console.log(this.answerList)
     for(let item of this.answerList)
     {
       let status_item = { AssessmentID: item['Questionnaire']['category_id'], User: item['User'], Status: 0, Completed_at: ''};
@@ -211,22 +268,45 @@ export class TeamComponent implements OnInit {
     }
     return result;
   }
+
+  apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getTeam(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getUserMembership(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.initData();
+    });
+  }
+  initData(){
+    this.statusList = this.updateAnswerList();
+    this.tableData = this.updateTableData();
+    this.loading = false;
+  }
   ngOnInit() {
     this.loading = true;
     this.TeamEmail = [{"name": "teammember1", "value": ""}];
     this.currentProject = this.authService.getUserProject();
     this.userRole = this.currentProject['Role'];
-    let projectID = this.currentProject['Project']['_id'];
-    let data = {id: projectID}
-    this.dataService.getTeam(data).subscribe(
-      response => {
-        this.team = response.result;
-        this.getAssessment(projectID)
-      },
-      (error) => {
-
-      }
-    );
+    this.projectID = this.currentProject['Project']['_id'] || null;;
+    this.apiHandler();
 
     this.statusArr = {
       0: "NA",

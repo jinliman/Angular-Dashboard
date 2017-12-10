@@ -1,0 +1,74 @@
+.signup{
+  .wrapper{
+    max-width: 720px;
+    margin: 0px auto;
+    padding: 80px 0px;
+    .logo{
+      text-align: center;
+    }
+    .inner-wrapper{
+      background-color: $dv-bg-sub;
+      border: 2px solid $dv-color-border;
+      margin-top: 45px;
+      .form{
+        padding: 0px 30px 30px 30px;
+        label.required{
+          position: relative;
+          &::before{
+            content: '*';
+            font-size: 20px;
+            display: block;
+            position: absolute;
+            left: -7px;
+            color: #a73729;
+          }
+          &.success{
+            color: $dv-color-green;
+            &::before{
+              color: $dv-color-green;
+            }
+          }
+        }
+
+        .has-success
+        {
+          label.required{
+            &::before{
+              color: $dv-color-green;
+            }
+            color: $dv-color-green;
+          }
+        }
+        .cs-alert-danger{
+          color: $dv-alert-danger;
+          text-align: center;
+        }
+        h2{
+          font-size: 22px;
+          letter-spacing: 0.6px;
+          font-style: italic;
+          line-height: 33px;
+          margin: 50px 0px 30px;
+          font-weight: 500;
+          text-align: center;
+          color: $dv-color-green;
+        }
+        .form-group{
+          .back-button{
+            span{
+              padding-left: 10px;
+              color: $dv-color-green;
+            }
+          }
+          .button{
+            padding:7px 40px;
+          }
+        }
+      }
+    }
+  }
+  .captcha-div{
+    margin: 25px auto;
+    width: 302px;
+  }
+}

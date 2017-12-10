@@ -671,8 +671,12 @@ export class DataService {
   ---------------- User Payment -----------------
   */
 
-  updateMembership(data){
+  checkoutMembership(data){
     return this.http.post(this.url + '/api/user/checkout', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+  updateUserMembership(data){
+    return this.http.post(this.url + '/api/user/update_membership', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
   getUserMembership(){

@@ -61,9 +61,7 @@ export class ReportComponent implements OnInit {
     Passed: false
   }
   paymentProjectId: string = null;
-  adminSetting: object = {
-    ReportFee: 100
-  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -92,80 +90,6 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  validPromocode(modal){
-    let hasPromocode = this.Promocode['Has'];
-    let data = {
-      Code : this.Promocode['Code']
-    }
-    this.Promocode['Passed'] = false;
-    if(hasPromocode)
-    {
-      this.dataService.checkPromocode(data).subscribe(
-        response => {
-          let error_code = response.ERR_CODE;
-          if(error_code == "ERR_NONE")
-          {
-            this.Promocode['Percent'] = response.Percent;
-            this.Promocode['ErrorStr'] = this.Promocode['Percent'] + "% Discount applied";
-            this.Promocode['Passed'] = true;
-            this.processStripePayment(modal);
-
-          }else if(error_code == "ERR_CODE_EXPIRED"){
-            this.Promocode['ErrorStr'] = "PromoCode is Expired";
-          }else if(error_code == "ERR_INVALID_CODE"){
-            this.Promocode['ErrorStr'] = "PromoCode is Invalid";
-          }
-        },
-        (error) => {
-          this.Promocode['ErrorStr'] = "Sth went wrong";
-        }
-      );
-    }else{
-      this.Promocode['ErrorStr'] = "No Discount applied";
-      this.Promocode['Passed'] = true;
-      this.processStripePayment(modal);
-    }
-  }
-
-  processStripePayment(modal){
-    let that = this,
-        id = this.paymentProjectId;
-    var handler = (<any>window).StripeCheckout.configure({
-      key: environment.stripe_publick_key,
-      locale: 'auto',
-      token: function (token: any) {
-        let data = {
-          projectID: id,
-          stripe_token: token
-        }
-        that.dataService.chargePayment(data).subscribe(
-          response => {
-            modal.close();
-            that._notificationService.success(
-                'Successfully Sent!',
-                'Payment'
-            )
-            let projectItem = that.ProjectList.find(function(item){ return item['Project']['_id'] == id;})
-            projectItem.Paid = true;
-            that.loading = true;
-            that.projectID = id;
-            that.getSubmittedProject();
-          },
-          (error) => {
-            that._notificationService.error(
-                'Sth went wrong',
-                'Payment'
-            )
-          }
-        );
-      }
-    });
-    handler.open({
-      name: 'Payment for DV Report',
-      description: '',
-      amount: this.adminSetting['ReportFee'] * (100 - parseFloat(this.Promocode['Percent']))
-    });
-  }
   openCheckout(modal,id) {
     this.Promocode = {
       ErrorStr: '',
@@ -190,7 +114,6 @@ export class ReportComponent implements OnInit {
       };
     this.metricList = this.dataService.getKeymetricList();
     this.metricColorList = this.dataService.getMetricColorList();
-    this.getSetting();
     this.getUserMembership();
   }
 
@@ -202,16 +125,8 @@ export class ReportComponent implements OnInit {
         if(error_code == "ERR_NONE")
         {
           this.userMembershipInfo = response.result.Membership;
-          if(this.userMembershipInfo['Type'] != 'Free' && this.userMembershipInfo['Paid'])
-          {
-            let expireTime = new Date(this.userMembershipInfo['PaidDate']),
-              currentTime = new Date();
-            if(this.userMembershipInfo['Plan'] == 'Monthly')
-              expireTime.setDate(expireTime.getMonth()+1);
-            if(this.userMembershipInfo['Plan'] == 'Yearly')
-              expireTime.setDate(expireTime.getFullYear()+1);
-            this.hasValidMembership = expireTime > currentTime;
-          }
+          let currentTime = new Date();
+          this.hasValidMembership = new Date(this.userMembershipInfo['EndDate']) > currentTime
           this.initReport()
         }else {
 
@@ -317,20 +232,6 @@ export class ReportComponent implements OnInit {
     Promise.all(promiseArr).then(() => {
       this.getTableData();
     });
-  }
-
-  getSetting(){
-    this.dataService.getAdminSetting().subscribe(
-      response => {
-        for(let item of response.result)
-        {
-            this.adminSetting[item['DataType']] = item['Data']
-        }
-      },
-      (error) => {
-
-      }
-    );
   }
 
   getHeatmap(resolve){

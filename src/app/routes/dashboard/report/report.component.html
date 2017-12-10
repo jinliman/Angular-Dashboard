@@ -18,38 +18,25 @@
   </div>
 
   <modal #PromocodeModal [animation]=false>
-    <form class="form promocode-modal" (ngSubmit) = "validPromocode(PromocodeModal)" #form1="ngForm">
+    <form class="form promocode-modal" (ngSubmit) = "null" #form1="ngForm">
       <modal-header>
-        <h4 class="modal-title">Input Valid PromoCode</h4>
+        <h4 class="modal-title">Unlock the Report</h4>
       </modal-header>
       <modal-body>
-        <div class="row assets">
-          <div class="col-md-12 form-group">
-            <p class="notice" [class.success] = "Promocode.Has && Promocode.Passed" [class.alert] = "!Promocode.Passed || !Promocode.Has" *ngIf="Promocode.ErrorStr.length" >{{Promocode.ErrorStr}}</p>
+        <div class="row payment-mode-div">
+          <div class="col-md-12">
+            <a class="svg button" routerLink="/app/user/membership">
+      				<span> Upgrade Membership</span>
+      			</a>
           </div>
-          <div class="col-md-12 form-group radio clearfix" >
-            <div class="pull-left">
-              <input type="radio" id="yes" name="promoCheckBox" [(ngModel)]="Promocode.Has" [value]="true">
-              <label for="yes">Yes</label>
-            </div>
-            <div class="pull-left" style="margin-left:10px">
-              <input type="radio" id="no" name="promoCheckBox" [(ngModel)]="Promocode.Has" [value]="false">
-              <label for="no">No</label>
-            </div>
-          </div>
-          <div class="col-md-12 form-group" *ngIf="Promocode.Has"
-            [ngClass]="{
-              'has-error': promocode.invalid && promocode.touched,
-              'has-success': promocode.valid && promocode.touched
-            }">
-            <label for="promocode" class="required">Promo Code:</label>
-            <input type="text" placeholder="Input Valid Promo Code" name="promocode" #promocode = "ngModel" required [(ngModel)] = "Promocode.Code" value="">
-            <span class="help-block" *ngIf="promocode.errors && promocode.errors.required  && promocode.touched">Promocode is required</span>
+          <div class="col-md-12">
+            <a class="svg button" routerLink="/checkout" [queryParams]="{projectId: this.paymentProjectId}">
+      				<span> One Time Payment</span>
+      			</a>
           </div>
         </div>
       </modal-body>
       <modal-footer>
-        <button type="submit" class="btn btn-success" [disabled] = "form1.invalid">Next</button>
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="PromocodeModal.dismiss()">Cancel</button>
       </modal-footer>
     </form>

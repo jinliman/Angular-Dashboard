@@ -186,16 +186,16 @@
                   <tr>
                     <td class="no-border"></td>
                     <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" >
-                      <a routerLink="/checkout" [queryParams]="{member_type:'Premium'}" class="signup button">Select</a>
+                      <a (click)="updateMembership('Premium')" class="signup button">Select</a>
                     </td>
                     <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'">
-                      <a routerLink="/checkout" [queryParams]="{member_type:'Professional'}" class="signup button">Select</a>
+                      <a (click)="updateMembership('Professional')" class="signup button">Select</a>
                     </td>
                     <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'">
-                      <a routerLink="/checkout" [queryParams]="{member_type:'Enterprise'}" class="signup button">Select</a>
+                      <a (click)="updateMembership('Enterprise')" class="signup button">Select</a>
                     </td>
                     <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'">
-                      <a routerLink="/checkout" [queryParams]="{member_type:'Onedone'}" class="signup button">Select</a>
+                      <a (click)="updateMembership('Onedone')" class="signup button">Select</a>
                     </td>
                   </tr>
                 </tfoot>

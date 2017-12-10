@@ -1,0 +1,104 @@
+<div class="assets signup">
+  <div class="wrapper">
+    <div class="logo">
+        <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
+    </div>
+    <div class="inner-wrapper">
+      <form class="form form1" (ngSubmit) = "singup()" #form="ngForm">
+        <h2 [innerHTML]="title"></h2>
+        <div class="row">
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': firstname.invalid && firstname.touched,
+              'has-success': firstname.valid && firstname.touched
+            }">
+            <label for="firstname" class="required">First Name:</label>
+            <input type="text" name="firstname" #firstname = "ngModel" placeholder="First Name" [(ngModel)] = "newUser.First" value=""  required>
+            <span class="help-block" *ngIf="firstname.errors && firstname.errors.required  && firstname.touched">First Name is required</span>
+          </div>
+
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': lasttname.invalid && lasttname.touched,
+            'has-success': lasttname.valid && lasttname.touched
+          }">
+            <label for="lasttname" class="required">Last Name:</label>
+            <input type="text" name="lasttname" #lasttname = "ngModel"  placeholder="Last Name"  [(ngModel)] = "newUser.Last" value="" required>
+            <span class="help-block" *ngIf="lasttname.errors && lasttname.errors.required  && lasttname.touched">Last Name is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': company_email.invalid && company_email.touched,
+            'has-success': company_email.valid && company_email.touched
+          }">
+            <!-- <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address"> -->
+            <label for="company_email" class="required">Email Address:</label>
+            <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
+            <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': contact_number.invalid && contact_number.touched,
+            'has-success': contact_number.valid && contact_number.touched
+          }">
+            <label for="contact_number" class="required">Phone Number:</label>
+            <input type="text" name="contact_number" #contact_number = "ngModel" [(ngModel)] = "newUser.Contact" value="" required placeholder="Phone Number">
+            <span class="help-block" *ngIf="contact_number.errors && contact_number.errors.required  && contact_number.touched">Phone Number is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="job_title">Job Tilte:</label>
+            <ng-select class="cs-select" name="job_title" [options]="job_list" [(ngModel)] = "newUser.JobTitle" placeholder="Select Job Title">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': password.invalid && password.touched,
+              'has-success': password.valid && password.touched
+            }">
+            <label for="password" class="required">Create Password:</label>
+            <input type="password" validateEqual="passwordConfirm" reverse="true" placeholder="Create Password" name="password" #password = "ngModel" [(ngModel)] = "newUser.Password" value=""  required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+            <span class="help-block" *ngIf="password.errors && password.errors.required  && password.touched">Password is required</span>
+            <span class="help-block" *ngIf="password.errors && password.errors.pattern && password.touched">Password should have at least one UpperCase, LowerCase, Number or SpecialChar and min 8 Chars</span>
+          </div>
+          <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': passwordConfirm.invalid && passwordConfirm.touched,
+              'has-success': passwordConfirm.valid && passwordConfirm.touched
+            }">
+            <label for="passwordConfirm" class="required">Confirm Password:</label>
+            <input type="password"  validateEqual="password" placeholder="Confirm Password" name="passwordConfirm" #passwordConfirm = "ngModel" [(ngModel)] = "newUser.PasswordConfirm" value=""  required>
+            <span class="help-block" *ngIf="passwordConfirm.errors && passwordConfirm.errors.required  && passwordConfirm.touched">Password is required</span>
+            <span class="help-block" *ngIf="passwordConfirm.errors && !passwordConfirm.pristine  && passwordConfirm.touched">Password mismatch</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group" style="margin-top:15px">
+            <span class="checkbox">
+            <input type="checkbox" id="agree_term" #agree_term = "ngModel" [(ngModel)] = "newUser.AgreeTerm"  name="agree_term" value="" required>
+            <label for="agree_term">I agree with the <a href="javascript:;">Terms of Services</a> and the <a href="javascript:;">Privacy Policy</a></label>
+            </span>
+          </div>
+        </div>
+        <div class="captcha-div">
+           <re-captcha site_key="6LdzqTQUAAAAAHtzKLOjqrxA7ooZYDQykpn7E434" (captchaResponse)="handleCorrectCaptcha($event)"></re-captcha>
+        </div>
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-6 form-group">
+            <a class="back-button" routerLink="/login"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group">
+            <button type="submit" [disabled] = "(form.invalid && !form.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

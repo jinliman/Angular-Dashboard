@@ -7,18 +7,18 @@
       <div class="row">
         <div *ngIf="isConfirmed" class="col-md-12 form-group">
           <h2>Congratulations!</h2>
-          <p>You have successfully registered  as the Project Owner and initiated your due diligence.</p>
-          <p>Please click below to invite the Primary User or Due Diligence Lead along with any Team Members.</p>
+          <p>You have successfully registered  as the Project Owner</p>
+          <p>Please follow below to  initiate your due diligence.</p>
         </div>
         <div *ngIf="!isConfirmed" class="col-md-12 form-group">
           <h2>Opps!</h2>
           <p>Sth Went Wrong.</p>
         </div>
       </div>
-      <div class="row" *ngIf="this.canInvite">
+      <div class="row">
         <div class="col-md-12 form-group button-group" style="margin-top:0px;">
           <div class="invite-button">
-              <a [routerLink]="['/team-invite/']" [queryParams]="{id:projectID, plan_type:membershipType}" class="button pull-left">Invite Team Members</a>
+              <a [routerLink]="['/membership/']" [queryParams]="{plan_type:membershipType}" class="button pull-left">Continue</a>
           </div>
         </div>
       </div>

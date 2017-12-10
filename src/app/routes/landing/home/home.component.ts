@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
         else if(this.userType == 'invite')
           alert('Confirmation Email has already been sent!')
         else
-          this.router.navigate(['/register'],{ queryParams: this.userInfo });
+          this.router.navigate(['/signup'],{ queryParams: this.userInfo });
       },
       (error) => {
       }

@@ -802,4 +802,14 @@
       color: $dv-color-red;
     }
   }
+  .payment-mode-div
+  {
+    >div{
+      text-align: center;
+    }
+    .button{
+      width: 240px;
+      margin-top: 20px;
+    }
+  }
 }

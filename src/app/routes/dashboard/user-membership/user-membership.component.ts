@@ -23,6 +23,7 @@ export class UserMembershipComponent implements OnInit {
   updated: string;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private dataService: DataService,
     private _notificationService: NotificationsService
@@ -77,31 +78,37 @@ export class UserMembershipComponent implements OnInit {
       }
     );
   }
-  freeMembership(){
-    let data = {
-      member_type: 'Free'
-    }
-    this.dataService.updateMembership(data).subscribe(
-      response => {
-        let error_code = response.ERR_CODE;
-        if(error_code == 'ERR_NONE')
-        {
-          this._notificationService.success(
-              'User Membership',
-              'Membership updated'
-          )
-          this.getUserMembership();
-        }else{
-          this._notificationService.success(
-              'User Membership',
-              'Membership updated'
-          )
-        }
-      },
-      (error) => {
-
+  updateMembership(member_type){
+    if(member_type == 'Onedone')
+    {
+      let data = {
+        member_type: 'Onedone'
       }
-    );
+      this.dataService.updateUserMembership(data).subscribe(
+        response => {
+          let error_code = response.ERR_CODE;
+          if(error_code == 'ERR_NONE')
+          {
+            this._notificationService.success(
+                'User Membership',
+                'Membership updated'
+            )
+            this.getUserMembership();
+          }else{
+            this._notificationService.success(
+                'User Membership',
+                'Membership updated'
+            )
+          }
+        },
+        (error) => {
+
+        }
+      );
+    }else{
+      localStorage.setItem('member_type', member_type);
+      this.router.navigate(['/checkout']);
+    }
   }
 
   initData(){

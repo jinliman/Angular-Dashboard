@@ -25,7 +25,8 @@ export class MembershipComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        this.plan_type = params['plan_type'] || 'Free';
+        let t_plan_type = localStorage.getItem('member_type');
+        this.plan_type = params['plan_type'] || t_plan_type || 'Onedone';
       });
     this.getSetting();
   }
@@ -43,13 +44,23 @@ export class MembershipComponent implements OnInit {
     );
   }
 
-  freeMembership(){
+  continue(member_type)
+  {
     let data = {
-      member_type: 'Free'
+      member_type: member_type
     }
-    this.dataService.updateMembership(data).subscribe(
+    this.dataService.updateUserMembership(data).subscribe(
       response => {
-        this.router.navigate(['/app/user/membership'], { queryParams: { update: true }} );
+        let error_code = response.ERR_CODE;
+        if(error_code == 'ERR_NONE')
+        {
+          localStorage.setItem('member_type', member_type);
+          let isInvite = localStorage.getItem('isInvite');
+          if(isInvite == 'true')
+            this.router.navigate(['/app']);
+          else
+            this.router.navigate(['/complete-profile']);
+        }
       },
       (error) => {
 
