@@ -53,8 +53,9 @@ export class CheckoutComponent implements OnInit {
     this.route
       .queryParams
       .subscribe(params => {
-        this.paymentType = "Onetime";
         this.projectID = params['projectId'];
+        if(this.projectID != null && this.projectID != '')
+          this.paymentType = "Onetime";
       });
 
     this.member_type = localStorage.getItem('member_type');
