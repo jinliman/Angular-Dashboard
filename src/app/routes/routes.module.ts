@@ -104,7 +104,6 @@ export const routes = [
     component: AssetLayoutComponent,
     children: [
       {  path: 'login', component: LoginComponent},
-      {  path: 'register', component: RegisterComponent},
       {  path: 'signup', component: SignupComponent},
       {  path: 'logout', component: LogoutComponent},
       {  path: 'forgot-password', component: ForgotPasswordComponent},
