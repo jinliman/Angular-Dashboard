@@ -184,7 +184,7 @@ export class DataService {
       {'value': '2', 'label': 'Per-User Spending'},
       {'value': '3', 'label': 'Capital Budget (CapEx) as a % of IT spending'},
       {'value': '4', 'label': 'IT Security and Disaster Recovery'},
-      {'value': '5', 'label': 'Business application spending as %% of IT spending'},
+      {'value': '5', 'label': 'Business application spending as % of IT spending'},
       {'value': '6', 'label': 'Business application spending per user'},
       {'value': '7', 'label': 'Personnel as percentage of IT operational spending'},
       {'value': '8', 'label': 'Users per IT staff member'},

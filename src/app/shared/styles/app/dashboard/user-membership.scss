@@ -91,7 +91,7 @@
       tfoot{
         td{
           text-align: center;
-          a.update_button{
+          a.buynow{
             padding: 5px 0px;
             font-size: 19px;
             border: 2px solid #60a628;
@@ -106,7 +106,7 @@
             }
           }
           &.td-select{
-            a.update_button{
+            a.buynow{
               background: $dv-color-green;
               color: $dv-bg-sub;
             }

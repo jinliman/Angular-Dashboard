@@ -42,12 +42,15 @@
     </form>
   </modal>
 
-  <ng-container *ngIf="!is_report_available">
+  <ng-container *ngIf="is_report_available == 'NotReport'">
     <h2 class="no_report">No reports available</h2>
+  </ng-container>
+  <ng-container *ngIf="is_report_available == 'NotAvailabe'">
+    <h2 class="no_report">Click on lock next to project name <br/> to confirm your subscription plan and payment.</h2>
   </ng-container>
   <div class="">
     <div class="loading-div" *ngIf="loading"></div>
-    <ng-container *ngIf="is_report_available && !loading">
+    <ng-container *ngIf="is_report_available == 'Available' && !loading">
       <div class="row content-div">
         <div class="report-inner-sidebar">
           <ul>

@@ -56,7 +56,7 @@
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
-            <label for="job_title">Job Tilte:</label>
+            <label for="job_title" class="required" [ngClass]="{'success': newUser.JobTitle}">Job Tilte:</label>
             <ng-select class="cs-select" name="job_title" [options]="job_list" [(ngModel)] = "newUser.JobTitle" placeholder="Select Job Title">
             </ng-select>
           </div>
@@ -100,7 +100,7 @@
             <span>Back</span></a>
           </div>
           <div class="col-md-6 form-group">
-            <button type="submit" [disabled] = "(form.invalid && !form.agree_terms) || !captcha_response" class="btn button pull-right">Get Started</button>
+            <button type="submit" [disabled] = "(form.invalid && !form.agree_terms) || !newUser.JobTitle || !captcha_response" class="btn button pull-right">Get Started</button>
           </div>
         </div>
       </form>

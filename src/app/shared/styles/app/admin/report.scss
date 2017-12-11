@@ -1,4 +1,8 @@
 .admin-report-page{
+  .ql-editor{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
   .row{
     margin: 0px;
     &.first-row{
@@ -298,6 +302,22 @@
         }
       }
       .executive_page{
+        .header-title-div
+        {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 25px;
+          h2{
+            margin: 0px;
+          }
+          .edit-icon{
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: $dv-color-green;
+          }
+        }
         p{
           color:$dv-color-grey;
         }

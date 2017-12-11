@@ -1,7 +1,7 @@
 <div class="membership-page">
-  <section>
-    <div class="wrapper clearfix">
-      <div class="content">
+  <div class="wrapper clearfix">
+    <div class="content1">
+      <section>
         <h2>Pricing &amp; Plans</h2>
         <div class="row">
           <div class="col-md-12">
@@ -184,23 +184,129 @@
                 <tr>
                   <td class="no-border"></td>
                   <td class="td-premium td-plan"  [class.td-select]="plan_type == 'Premium'" >
-                    <a (click)="continue('Premium')" class="signup button">Select</a>
+                    <a (click)="continue('Premium')" class="signup button">Free Trial</a>
                   </td>
                   <td class="td-professional td-plan" [class.td-select]="plan_type == 'Professional'">
-                    <a (click)="continue('Professional')" class="signup button">Select</a>
+                    <a (click)="continue('Professional')" class="signup button">Free Trial</a>
                   </td>
                   <td class="td-enterprise td-plan" [class.td-select]="plan_type == 'Enterprise'">
-                    <a (click)="continue('Enterprise')" class="signup button">Select</a>
+                    <a (click)="continue('Enterprise')" class="signup button">Free Trial</a>
                   </td>
                   <td class="td-onedone td-plan" [class.td-select]="plan_type == 'Onedone'">
-                    <a (click)="continue('Onedone')" class="signup button">Select</a>
+                    <a (click)="continue('Onedone')" class="signup button">Free Trial</a>
                   </td>
                 </tr>
               </tfoot>
             </table>
           </div>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
+    <div class="content2">
+      <section>
+        <h2>IT Due Diligence Comparision</h2>
+        <table>
+          <thead>
+            <tr>
+              <td class="no-border"></td>
+              <td>
+                <a routerLink="/"><img src="assets/images/logo/logo.png" width="226" height="34" alt=""></a>
+              </td>
+              <td class="orange"> Boutique Advisors</td>
+              <td class="red"> Big 4 Advisors </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Average IT Dule Diligence Cost</td>
+              <td class="green">
+                <span class="sp-price"><i>$</i>{{this.adminSetting.PremiumFee}}<span class="sp_duration">/month</span></span>
+                <span class="sp-desc">(Unlimited Reports)</span>
+              </td>
+              <td class="orange">
+                <span class="sp-price"><i>$</i>40,000<span class="sp_duration">/report</span></span>
+                <span class="sp-desc">(For 1 Report)</span>
+              </td>
+              <td class="red">
+                <span class="sp-price"><i>$</i>80,000<span class="sp_duration">/report</span></span>
+                <span class="sp-desc">(For 1 Report)</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Average Deal Speed</td>
+              <td class="green">
+                <span class="sp-desc">2 days</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">20 days</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">30 days</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Average Consistency</td>
+              <td class="green">
+                <span class="sp-desc">95%</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">50%</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">80%</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Average Automation</td>
+              <td class="green">
+                <span class="sp-desc">95%</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">10%</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">10%</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Unlimted Data Storage</td>
+              <td class="green">
+                <span class="sp-desc">Yes</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">No</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">No</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Unlimited Projects</td>
+              <td class="green">
+                <span class="sp-desc">Yes</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">No</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">No</span>
+              </td>
+            </tr>
+            <tr>
+              <td>24/7 Access & Support</td>
+              <td class="green">
+                <span class="sp-desc">Yes</span>
+              </td>
+              <td class="orange">
+                <span class="sp-desc">No</span>
+              </td>
+              <td class="red">
+                <span class="sp-desc">No</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
 </div>

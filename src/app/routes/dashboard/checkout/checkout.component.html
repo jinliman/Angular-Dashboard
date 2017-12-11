@@ -3,14 +3,6 @@
   <ng-container *ngIf="!loading">
     <div class="wrapper">
       <div class="inner-wrapper">
-        <div class="row">
-          <div class="col-md-12 sub-header">
-            <h2>Select Payment Method</h2>
-            <div class="logo">
-              <a routerLink="/"><img src="assets/images/logo/logo-register.png" width="226" height="34" alt=""></a>
-            </div>
-          </div>
-        </div>
         <div class=" inner-content">
           <div class="row">
             <form class="form promocode-modal" (ngSubmit) = "validPromocode()" #form1="ngForm">
@@ -40,7 +32,7 @@
             </div>
             <div class="col-md-12 dess-div">
               <p class="alert alert-success">
-                Please deposit funds. Deposit ${{formatString(displayFee)}} USD to upgrade your membership!
+                Please select your funding method to process your annual payment of ${{formatString(displayFee)}} USD to unlock your reports!
               </p>
             </div>
           </div>

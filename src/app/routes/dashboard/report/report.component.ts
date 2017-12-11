@@ -29,7 +29,7 @@ export class ReportComponent implements OnInit {
   userAssignment: object = {};
   feedbackList: Array<any> = [];
   decline_reason: string;
-  is_report_available: boolean;
+  is_report_available: string;
   currentProject:object;
   menu: Array<any> = [];
   attachment: Array<any> = [];
@@ -140,7 +140,7 @@ export class ReportComponent implements OnInit {
 
   initReport(){
     this.loading = true;
-    this.is_report_available = true;
+    this.is_report_available = 'Available';
     this.dropdownData = []
     this.getSubmittedProject();
   }
@@ -162,9 +162,15 @@ export class ReportComponent implements OnInit {
         if(validProjectList.length == 0 )
         {
           this.loading = false;
-          this.is_report_available = false;
+          if(this.ProjectList.length)
+          {
+            this.is_report_available = 'NotAvailabe';
+          }
+          else{
+            this.is_report_available = 'NotReport';
+          }
         }else{
-          this.is_report_available = true;
+          this.is_report_available = 'Available';
           let that = this;
           this.currentProject = validProjectList.find(function(item){
             return item.Project['_id'] == that.projectID;

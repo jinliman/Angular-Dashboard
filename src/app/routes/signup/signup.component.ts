@@ -75,7 +75,7 @@ export class SignupComponent implements OnInit {
       localStorage.setItem('isInvite', 'true');
     }else{
       this.newUser['UserType'] = 'INITIATOR';
-      this.title = "Complete the below form to Get Started";
+      this.title = "Complete the form below to Get Started";
       localStorage.setItem('isInvite', 'false');
     }
 

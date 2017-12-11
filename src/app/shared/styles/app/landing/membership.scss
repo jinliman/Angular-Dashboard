@@ -1,11 +1,15 @@
 .membership-page{
+  background-color: $dv-bg-sub;
   .wrapper{
     width: 100%;
-    padding: 45px;
+    padding: 45px 0px;
   }
-  .content{
-    width: 1300px;
+  section{
+    max-width: 1300px;
     margin: auto;
+  }
+  .content1{
+    padding-bottom: 80px;
     h2{
       font-weight: 700;
       margin: 0px 0px 40px 0px;
@@ -106,6 +110,71 @@
               background: $dv-color-green;
             }
           }
+        }
+      }
+    }
+  }
+  .content2{
+    border-top: 2px solid #eaeaea;
+    background-color: $dv-bg-main;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    h2{
+      font-weight: 700;
+      margin: 0px 0px 40px 0px;
+      font-size: 40px;
+      text-align: center;
+    }
+    table{
+      width: 100%;
+      td{
+        position: relative;
+        border: 1px solid #d9d9d9;
+        padding: 14px 13px;
+        text-align: center;
+        &.green{
+          color: $dv-color-green;
+        }
+        &.orange{
+          color: $dv-color-orange;
+        }
+        &.red{
+          color: $dv-color-red-light;
+        }
+        &:first-of-type{
+          text-align: left;
+          font-size: 18px;
+          color: $dv-color-grey;
+          font-weight: 300;
+        }
+        &.no-border{
+          border: none;
+          height: 48px;
+        }
+        .sp-price{
+          font-size: 37px;
+          letter-spacing: -1px;
+          font-weight: bold;
+          i{
+            font-size: 28px;
+            font-style: normal;
+          }
+          .sp_duration{
+            letter-spacing: -1px;
+            font-weight: 300;
+            font-size: 24px;
+          }
+        }
+        .sp-desc{
+          font-size: 17px;
+          display: block;
+          font-weight: bold;
+        }
+      }
+      thead{
+        td{
+          font-size: 29px;
+          font-weight: bold;
         }
       }
     }
