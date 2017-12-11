@@ -25,6 +25,7 @@ export class SignupComponent implements OnInit {
   job_list : Array<object> = [];
   title: string = '';
   isConfirmed: boolean;
+  success: boolean = true;
   constructor(
     private authService: AuthService,
     private dataService: DataService,
@@ -45,6 +46,7 @@ export class SignupComponent implements OnInit {
       JobTitle: '0',
       PlanType: null
     };
+    this.success = true;
     this.job_list = this.dataService.getJobList();
     let quickStartInfo = null;
     this.route
@@ -127,6 +129,7 @@ export class SignupComponent implements OnInit {
       response => {
         if(response.ERR_CODE == "ERR_NONE")
         {
+          this.success = true;
           if(response.NewUser)
             this.router.navigate(['/email-sent'],{ queryParams: { code: response.ID } });
           else
@@ -154,16 +157,24 @@ export class SignupComponent implements OnInit {
         }else{
           this.captcha.reset();
           this.captcha_response = null;
+          this.success = false;
         }
       },
       (error) => {
         console.log(error);
+        this.success = false;
       }
     );
   }
   navigateUser() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/membership']);
+      if(this.code)
+      {
+        this.router.navigate(['/membership']);
+      }else{
+        this.router.navigate(['/app']);
+      }
+
     } else {
       this.router.navigate(['/login']);
     }

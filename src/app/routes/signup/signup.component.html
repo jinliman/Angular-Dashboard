@@ -7,6 +7,11 @@
       <form class="form form1" (ngSubmit) = "singup()" #form="ngForm">
         <h2 [innerHTML]="title"></h2>
         <div class="row">
+          <div class="col-md-12" *ngIf="!success">
+            <p class="alert alert-danger">Email already exists</p>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 form-group"
             [ngClass]="{
               'has-error': firstname.invalid && firstname.touched,
