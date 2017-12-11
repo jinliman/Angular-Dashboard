@@ -736,6 +736,7 @@ export class ReportComponent implements OnInit {
     this.project_info =  Object.assign({}, this.currentProject['Project']['Company']);
     this.project_info['Project_Name'] = this.currentProject['Project']['Name'];
     this.project_info['Company_Name'] = this.currentProject['Project']['Company']['Name'];
+    this.project_info['Website'] = this.currentProject['Project']['Company']['Website'];
 
     this.project_info['Country'] = this.address_info['Country'] ? this.address_info['Country']['label'] : '';
     this.project_info['State'] = this.address_info['State'] ? this.address_info['State']['label'] : '';
