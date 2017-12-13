@@ -221,6 +221,9 @@ export class ProjectEditComponent implements OnInit {
     let diligenceArr = this.currentProject.Company.Diligence.split(",");
     let tmpArr = this.diligency_type.filter((item1)=>{return diligenceArr.includes(item1['value'])})
     tmpArr.forEach((item) => { this.current_diligence_arr.push(item['value'])});
+
+    this.currentProject.Reason1.tAcqDate = moment(new Date(this.currentProject.Reason1.tAcqDate)).format("MMMM DD YYYY")
+    this.currentProject.Reason2.tSellDate =  moment(new Date(this.currentProject.Reason2.tSellDate)).format("MMMM DD YYYY")
   }
   reasonCheck($event){
     let valid:boolean = false
