@@ -1,0 +1,157 @@
+<div class="project-view">
+  <div class="loading-div" *ngIf="loading"></div>
+  <div class="title-div clearfix">
+    <p class="title pull-left">Project Detail</p>
+    <span class="edit-icon pull-right" routerLink="edit"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+  </div>
+  <ng-container *ngIf="!loading">
+    <div class="row content-inner">
+      <div class="col-md-6">
+        <p class="sub-title">Project Information</p>
+        <div class="info-div clearfix">
+          <span class="info-title">Name:</span>
+          <span class="content">{{Project.Project.Name}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Due Diligence:</span>
+          <span class="content">
+            <span class="diligence" *ngFor="let item of Project.diligencyArr">
+              {{item}}
+            </span>
+          </span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">Reason:</span>
+          <span class="content">{{Project.Reason}}</span>
+        </div>
+
+        <div class="additional-info-div" *ngIf="Project.Reason != 'Other'">
+          <p class="extra-border-title" *ngIf="Project['Additiona_Info_Title'] != ''">{{Project['Additiona_Info_Title']}}</p>
+          <ng-container *ngIf="Project.Project.Reason == '1'">
+            <div class="info-div clearfix">
+              <span class="info-title">Target Company Name:</span>
+              <span class="content">{{Project.Project.Reason1.tCompanyName}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Target Company Industry:</span>
+              <span class="content">{{Project.Project.Reason1.tIndustry}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Estimated # of Employees:</span>
+              <span class="content">{{Project.Project.Reason1.tEmpNo}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Annual Revenue:</span>
+              <span class="content">{{Project.Project.Reason1.tAnnualRev}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Target Acquisition Date:</span>
+              <span class="content">{{Project.Project.Reason1.tAcqDate | amDateFormat:'LL'}}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="Project.Project.Reason == '2'">
+            <div class="info-div clearfix">
+              <span class="info-title">Estimated # of Employees:</span>
+              <span class="content">{{Project.Project.Reason2.tEmpNo}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Annual Revenue:</span>
+              <span class="content">{{Project.Project.Reason2.tAnnualRev}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Net Income:</span>
+              <span class="content">{{Project.Project.Reason2.tNetIncome}}</span>
+            </div>
+
+            <div class="info-div clearfix">
+              <span class="info-title">Target Sell Date:</span>
+              <span class="content">{{Project.Project.Reason2.tSellDate | amDateFormat:'LL'}}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="Project.Project.Reason == '3'">
+            <div class="info-div clearfix">
+              <span class="info-title1">Business Process Improvement</span>
+              <span class="content"><span *ngIf="Project.Project.Reason3.tBizImp" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Performance Measurement</span>
+              <span class="content"><span *ngIf="Project.Project.Reason3.tPerformanceDate" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Cost Savings</span>
+              <span class="content"><span *ngIf="Project.Project.Reason3.tCostSaving" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Resource Optimization</span>
+              <span class="content"><span *ngIf="Project.Project.Reason3.tResOpt" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="Project.Project.Reason == '4'">
+            <div class="info-div clearfix">
+              <span>{{Project.Project.Reason4.tReason}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <p class="sub-title">Company Information</p>
+        <div class="info-div clearfix">
+          <span class="info-title">Name:</span>
+          <span class="content">{{Project.Project.Company.Name}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">Website:</span>
+          <span class="content">{{Project.Project.Company.Website}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">Country:</span>
+          <span class="content">{{Project.Country}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">State:</span>
+          <span class="content">{{Project.State}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">City:</span>
+          <span class="content">{{Project.City}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">Address1:</span>
+          <span class="content">{{Project.Project.Company.Address1}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Address2:</span>
+          <span class="content">{{Project.Project.Company.Address2}}</span>
+        </div>
+        <div class="info-div clearfix">
+          <span class="info-title">Zip Code:</span>
+          <span class="content">{{Project.Project.Company.ZipCode}}</span>
+        </div>
+
+        <div class="info-div clearfix">
+          <span class="info-title">How did you hear about us?</span>
+          <span class="content">{{Project.About_Us}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row content-inner">
+      <div class="col-md-12 clearfix">
+        <a class="svg button" routerLink="/app/projects">
+  				<span> Back</span>
+  			</a>
+      </div>
+    </div>
+  </ng-container>
+</div>

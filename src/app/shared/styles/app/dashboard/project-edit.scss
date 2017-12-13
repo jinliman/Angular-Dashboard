@@ -1,0 +1,157 @@
+.project-edit{
+  .inner-wrapper{
+    background-color: $dv-bg-sub;
+    margin-top: 45px;
+    margin: auto;
+    max-width: 800px;
+    .wizard-progress{
+      margin:50px 40px 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      .line{
+        position: absolute;
+        left: 20%;
+        z-index: 1;
+        top: calc( 50% + 20px );
+        border-bottom: 2px dotted #666;
+        width: 60%;
+        &.passed{
+          border-bottom: 2px solid $dv-color-green;
+        }
+      }
+      .step-div{
+        display: block;
+        align-items: center;
+        text-align: center;
+        z-index: 2;
+        width: calc( 25% - 3px);
+        &:first-of-type{
+          margin-left: 0px;
+        }
+        label{
+          font-size: 17px;
+          margin-bottom: 18px;
+          display: block;
+        }
+        &.active{
+          color: $dv-color-green;
+          div{
+            color: $dv-color-green;
+            border: 2px solid $dv-color-green;
+          }
+        }
+        .step{
+          z-index: 1;
+          border: 2px solid $dv-color-grey;
+          background-color: $dv-bg-main;
+          color: $dv-color-primary;
+          border-radius: 50%;
+          width: 45px;
+          height: 45px;
+          display: flex;
+          margin: auto;
+          align-items: center;
+          text-align: center;
+          cursor: pointer;
+          span{
+            display: block;
+            margin: auto;
+          }
+          b{
+            margin: auto;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    .form{
+      padding: 0px 30px 30px 30px;
+      label.required{
+        color: #a73729;
+        position: relative;
+        &::before{
+          content: '*';
+          font-size: 20px;
+          display: block;
+          position: absolute;
+          left: -7px;
+          color: #a73729;
+        }
+        &.success{
+          color: $dv-color-green;
+          &::before{
+            color: $dv-color-green;
+          }
+        }
+      }
+
+      .has-success
+      {
+        label.required{
+          &::before{
+            color: $dv-color-green;
+          }
+          color: $dv-color-green;
+        }
+      }
+      &.form2{
+        margin-left: auto;
+        margin-right: auto;
+      }
+      &.form3{
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .cs-alert-danger{
+        color: $dv-alert-danger;
+        text-align: center;
+      }
+      h2{
+        font-size: 22px;
+        letter-spacing: 0.6px;
+        font-style: italic;
+        line-height: 33px;
+        margin: 34px 0px;
+        font-weight: 500;
+        text-align: center;
+        color: $dv-color-green;
+      }
+      .form-group{
+        .back-button{
+          span{
+            padding-left: 10px;
+            color: $dv-color-green;
+          }
+        }
+        .button{
+          padding:7px 40px;
+        }
+      }
+      .extra-info-div{
+        position: relative;
+        margin-top: 45px;
+        padding-top: 30px;
+        border-top: 2px solid $dv-color-border;
+        .extra-border-title{
+          font-size: 16px;
+          background-color: #fff;
+          position: absolute;
+          top: -10px;
+          left: 50%;
+          margin-left: -82px;
+          padding: 0px 30px;
+          font-weight: 400;
+        }
+      }
+    }
+    .bottom-div{
+      text-align: center;
+      margin-top: 25px;
+      a{
+        font-size: 16px;
+        line-height: 40px;
+      }
+    }
+  }
+}

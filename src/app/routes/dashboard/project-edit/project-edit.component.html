@@ -1,0 +1,292 @@
+<div class="project-edit">
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="inner-wrapper">
+      <div class="wizard-progress clearfix">
+        <div class="step-div" (click)="wizardStep = 1"  [ngClass]="{'active': wizardStep == 1 }" >
+          <label for="">Step1</label>
+          <div class="step"><span>1</span></div>
+        </div>
+        <div class="step-div" (click)="wizardStep = 2" [ngClass]="{'active': wizardStep == 2 }" >
+          <label for="">Step2</label>
+          <div class="step"><span>2</span></div>
+        </div>
+        <span class="line"></span>
+      </div>
+
+      <form class="form form1" (ngSubmit) = "onContinue()" #form="ngForm" [hidden] = "wizardStep != 1">
+        <h2> Update Your Project</h2>
+
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': company_name.invalid && company_name.touched,
+            'has-success': company_name.valid && company_name.touched
+          }">
+            <label for="company_name" class="required" [ngClass]="{'success': currentProject.Company.Name}">Company Name:</label>
+            <input type="text" name="company_name" #company_name = "ngModel" [(ngModel)] = "currentProject.Company.Name" value="" required>
+            <span class="help-block" *ngIf="company_name.errors && company_name.errors.required  && company_name.touched">Company Name is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="industry" class="required" [ngClass]="{'success': currentProject.Company.Industry}">Industry:</label>
+            <ng-select class="cs-select" [options]="industry_list" [(ngModel)]="currentProject.Company.Industry" name="industry"  placeholder="Please select industry">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': website.invalid && website.touched,
+            'has-success': website.valid && website.touched
+          }">
+            <label for="website">Website:</label>
+            <input type="text" name="website" #website = "ngModel" [(ngModel)] = "currentProject.Company.Website" value="">
+            <span class="help-block" *ngIf="website.errors && website.errors.required  && website.touched">Website is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="country" class="required" [ngClass]="{'success': currentProject.Company.Country}">Country:</label>
+            <ng-select class="cs-select" (selected)="onSelectCountry($event)" [options]="country_list" [(ngModel)]="currentProject.Company.Country" name="country" placeholder="Please select country">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': address1.invalid && address1.touched,
+            'has-success': address1.valid && address1.touched
+          }">
+            <label for="address1">Company Address 1:</label>
+            <input type="text" name="address1" #address1 = "ngModel" [(ngModel)] = "currentProject.Company.Address1" value="">
+            <span class="help-block" *ngIf="address1.errors && address1.errors.required  && address1.touched">Address is required</span>
+          </div>
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': address2.invalid && address2.touched,
+            'has-success': address2.valid && address2.touched
+          }">
+            <label for="address2">Company Address 2:</label>
+            <input type="text" name="address2" #address2 = "ngModel" [(ngModel)] = "currentProject.Company.Address2" value="">
+            <span class="help-block" *ngIf="address2.errors && address2.errors.required  && address2.touched">Address is required</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="state">State:</label>
+            <ng-select class="cs-select" (selected)="onSelectState($event)" [options]="state_list" [(ngModel)]="currentProject.Company.State" name="state" placeholder="Please select state">
+            </ng-select>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="city">City:</label>
+            <ng-select class="cs-select" [options]="city_list" [(ngModel)]="currentProject.Company.City" name="city" placeholder="Please select city">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': zipcode.invalid && zipcode.touched,
+            'has-success': zipcode.valid && zipcode.touched
+          }">
+            <label for="zipcode">Zip Code:</label>
+            <input type="text" name="zipcode" #zipcode = "ngModel" [(ngModel)] = "currentProject.Company.ZipCode" value="">
+            <span class="help-block" *ngIf="zipcode.errors && zipcode.errors.required  && zipcode.touched">Zip Code is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="aboutus">How did you hear about us?:</label>
+            <ng-select class="cs-select" [options]="about_us_list" [(ngModel)]="currentProject.Company.AboutUs" name="aboutus" placeholder="Please select one of the list below">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:30px">
+          <div class="col-md-6 form-group">
+            <a class="back-button" routerLink="/app/projects"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group">
+            <button type="submit" [disabled] = "form.invalid || !currentProject.Company.Industry || !currentProject.Company.Country " class="btn button pull-right">Continue</button>
+          </div>
+        </div>
+      </form>
+
+      <form class="form form2" (ngSubmit) = "onUpdateProject()" #form1="ngForm" [hidden] = "wizardStep != 2">
+        <h2> Update Your Project</h2>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="diligence" class="required" [ngClass]="{'success': current_diligence_arr.length}">Select Your Due Diligence Type:</label>
+            <ng-select class="cs-select" [multiple]="true" [options]="diligency_type" [(ngModel)]="current_diligence_arr" name="diligence" placeholder="Please select diligence type">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group"
+          [ngClass]="{
+            'has-error': project_name.invalid && project_name.touched,
+            'has-success': project_name.valid && project_name.touched
+          }">
+            <label for="project_name" class="required" [ngClass]="{'success': currentProject.Name}">Project Name:</label>
+            <input type="text" name="project_name" #project_name = "ngModel" [(ngModel)] = "currentProject.Name" value="" required placeholder="e.g Project Tango, Project Healthcare, ">
+            <span class="help-block" *ngIf="project_name.errors && project_name.errors.required  && project_name.touched">Project Name is required</span>
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="ITreason" class="required" [ngClass]="{'success': currentProject.Reason}">Reason for Due Diligence</label>
+            <ng-select class="cs-select" [options]="reason_type" [(ngModel)]="currentProject.Reason" name="ITreason" placeholder="Please select reason">
+            </ng-select>
+          </div>
+        </div>
+
+        <div *ngIf="currentProject.Reason == 1" class="buy-a-company extra-info-div">
+          <p class="extra-border-title">Company Info(Buy)</p>
+          <div class="row">
+            <div class="col-md-6 form-group"
+              [ngClass]="{
+                'has-error': t_company_name.invalid && t_company_name.touched,
+                'has-success': t_company_name.valid && t_company_name.touched
+              }">
+              <label for="t_company_name" class="required" [ngClass]="{'success': currentProject.Reason1.tCompanyName}">Target Company Name:</label>
+              <input type="text" name="t_company_name" #t_company_name = "ngModel" [(ngModel)] = "currentProject.Reason1.tCompanyName" value="" required>
+              <span class="help-block" *ngIf="t_company_name.errors && t_company_name.errors.required  && t_company_name.touched">Company Name is required</span>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="tIndustry" class="required" [ngClass]="{'success': currentProject.Reason1.tIndustry}">Target Company Industry:</label>
+              <ng-select class="cs-select" name="tIndustry" [options]="industry_list" [(ngModel)] = "currentProject.Reason1.tIndustry"  placeholder="Please select industry">
+              </ng-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_no_employee.invalid && t_no_employee.touched,
+              'has-success': t_no_employee.valid && t_no_employee.touched
+            }">
+              <label for="t_no_employee" class="required" [ngClass]="{'success': currentProject.Reason1.tEmpNo}">Estimated # of Employees:</label>
+              <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "currentProject.Reason1.tEmpNo" placeholder="e.g. 100" value="" required>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_annual.invalid && t_annual.touched,
+              'has-success': t_annual.valid && t_annual.touched
+            }">
+              <label for="t_annual" class="required" [ngClass]="{'success': currentProject.Reason1.tAnnualRev}">Annual Revenue</label>
+              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': t_ac_date.invalid && t_ac_date.touched,
+              'has-success': t_ac_date.valid && t_ac_date.touched
+            }">
+              <label for="t_ac_date">Target Acquisition Date:</label>
+              <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "currentProject.Reason1.tAcqDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(1,$event)" required />
+              <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Acquisition Date is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentProject.Reason == 2" class="sell-a-company extra-info-div">
+          <p class="extra-border-title">Company Info(Sell)</p>
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_no_employee.invalid && t_no_employee.touched,
+              'has-success': t_no_employee.valid && t_no_employee.touched
+            }">
+              <label for="t_no_employee" class="required" [ngClass]="{'success': currentProject.Reason2.tEmpNo}">Estimated # of Employees:</label>
+              <input type="number" min="0" name="t_no_employee" #t_no_employee = "ngModel" [(ngModel)] = "currentProject.Reason2.tEmpNo" value="" required>
+              <span class="help-block" *ngIf="t_no_employee.errors && t_no_employee.errors.required  && t_no_employee.touched">Only number allowed</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_annual.invalid && t_annual.touched,
+              'has-success': t_annual.valid && t_annual.touched
+            }">
+              <label for="t_annual" class="required" [ngClass]="{'success': currentProject.Reason2.tAnnualRev}">Annual Revenue</label>
+              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason2.tAnnualRev" value="" required>
+              <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_net_income.invalid && t_net_income.touched,
+              'has-success': t_net_income.valid && t_net_income.touched
+            }">
+              <label for="t_net_income" class="required" [ngClass]="{'success': currentProject.Reason2.tNetIncome}">Net Income:</label>
+              <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "currentProject.Reason2.tNetIncome" value="" required>
+              <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Only number allowed</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': t_ac_date.invalid && t_ac_date.touched,
+              'has-success': t_ac_date.valid && t_ac_date.touched
+            }">
+              <label for="t_ac_date">Target Sell Date:</label>
+              <input type="text" name="t_ac_date" #t_ac_date = "ngModel" [(ngModel)] = "currentProject.Reason2.tSellDate" value="" daterangepicker [options]="datepickerOptions" (selected)="selectedDate(2,$event)" required />
+              <span class="help-block" *ngIf="t_ac_date.errors && t_ac_date.errors.required  && t_ac_date.touched">Date is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentProject.Reason == 3" class="it-assessment extra-info-div">
+          <p class="extra-border-title">Reason for IT Assessment</p>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <p>Check all that apply:</p>
+              <div class="alert alert-danger" *ngIf="!validArr.ReasonCheckbox">
+                You should apply at least one reason!
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_bp_improvment" name="is_bp_improvment" [(ngModel)] = "currentProject.Reason3.tBizImp" (change)="reasonCheck($event)" value="">
+              <label for="is_bp_improvment">Business Process Improvement</label>
+            </div>
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_cost_saving" name="is_cost_saving" [(ngModel)] = "currentProject.Reason3.tCostSaving" (change)="reasonCheck($event)" value="">
+              <label for="is_cost_saving">Cost Savings</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_measurement" name="is_measurement" [(ngModel)] = "currentProject.Reason3.tPerformanceDate" (change)="reasonCheck($event)" value="">
+              <label for="is_measurement">Performance Measurement</label>
+            </div>
+            <div class="col-md-6 form-group checkbox" style="margin-top:15px">
+              <input type="checkbox" id="is_optimization" name="is_optimization" [(ngModel)] = "currentProject.Reason3.tResOpt" (change)="reasonCheck($event)" value="">
+              <label for="is_optimization">Resource Optimization</label>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentProject.Reason == 4" class="other-assessment extra-info-div">
+          <p class="extra-border-title">Info</p>
+          <div class="row">
+            <div class="col-md-12 form-group"
+            [ngClass]="{
+              'has-error': t_other.invalid && t_other.touched,
+              'has-success': t_other.valid && t_other.touched
+            }">
+              <label for="t_other" class="required" [ngClass]="{'success': currentProject.Reason4.tReason}">Reason:</label>
+              <textarea name="t_other" #t_other = "ngModel" [(ngModel)] = "currentProject.Reason4.tReason" value="" required rows="8" cols="80"></textarea>
+              <span class="help-block" *ngIf="t_other.errors && t_other.errors.required  && t_other.touched">Date is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <a class="back-button" href="javascript:;" (click)="wizardStep=1"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
+            <span>Back</span></a>
+          </div>
+          <div class="col-md-6 form-group clearfix">
+            <button type="submit" [disabled] = "form.invalid || !currentProject.Company.Industry || !currentProject.Company.Country || form1.invalid || !currentProject.Reason || ( currentProject.Reason == 3 && !validArr.ReasonCheckbox )" class="btn button pull-right">Submit Project</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</div>

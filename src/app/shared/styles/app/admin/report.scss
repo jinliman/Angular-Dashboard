@@ -1,4 +1,4 @@
-.admin-report-page{
+address_info_span.admin-report-page{
   .ql-editor{
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -180,8 +180,6 @@
                 font-size: 17px;
                 line-height: 30px;
                 &.address_info_span{
-                  display: flex;
-                  align-items: center;
                   span{
                     margin-right: 5px;
                   }

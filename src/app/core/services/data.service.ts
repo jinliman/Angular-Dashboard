@@ -16,6 +16,7 @@ export class DataService {
   public categoryChanged: EventEmitter<Object>;
   public progressChanged: EventEmitter<Object>;
   public projectListUpdated: EventEmitter<Object>;
+  public projectUpdated: EventEmitter<Object>;
   public projectSubmitted: EventEmitter<Object>;
   public sidebarToggled: EventEmitter<Object>;
   public profileUpdated: EventEmitter<Object>;
@@ -23,6 +24,7 @@ export class DataService {
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.projectChanged = new EventEmitter();
     this.projectListUpdated = new EventEmitter();
+    this.projectUpdated = new EventEmitter();
     this.categoryChanged = new EventEmitter();
     this.progressChanged = new EventEmitter();
     this.projectSubmitted = new EventEmitter();
@@ -48,6 +50,10 @@ export class DataService {
   onProjectListUpdated(data){
     localStorage.setItem('project', JSON.stringify(data));
     this.projectListUpdated.emit(data);
+  }
+
+  onProjectUpdated(){
+    this.projectUpdated.emit();
   }
 
   onProjectChanged(data){
@@ -222,6 +228,16 @@ export class DataService {
 
   postProject(data){
     return this.http.post(this.url + '/api/user/project/new', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  updateProject(data){
+    return this.http.post(this.url + '/api/user/project/update', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  removeProject(data){
+    return this.http.post(this.url + '/api/user/project/delete', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
 

@@ -20,6 +20,9 @@ import { ProjectNewComponent } from './project-new/project-new.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserSettingComponent } from './user-setting/user-setting.component';
 import { UserMembershipComponent } from './user-membership/user-membership.component';
+import { ProjectComponent } from './project/project.component';
+import { ProjectViewComponent } from './project-view/project-view.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
 
 const routes: Routes = [
   {
@@ -35,8 +38,11 @@ const routes: Routes = [
       { path: 'summary', component: SummaryComponent },
       { path: 'assessment/:id', component: AssessmentComponent},
       { path: 'assessment/:id/answer', component: AnswerComponent},
+      { path: 'projects', component: ProjectComponent},
       { path: 'project/new', component: ProjectNewComponent},
-      { path: 'project/:id', component: DashboardDetailComponent},
+      { path: 'project/:id', component: ProjectViewComponent},
+      { path: 'project/:id/edit', component: ProjectEditComponent},
+      { path: 'dashboard/:id', component: DashboardDetailComponent},
       { path: 'user/profile', component: UserProfileComponent},
       { path: 'user/setting', component: UserSettingComponent},
       { path: 'user/membership', component: UserMembershipComponent},
@@ -51,7 +57,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
-  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent, DashboardOwnerComponent, DashboardMemberComponent, DashboardDetailComponent, ProjectNewComponent, UserProfileComponent, UserSettingComponent, UserMembershipComponent],
+  declarations: [DashboardComponent, ProgressComponent, FilesComponent, HeatmapComponent, ReportComponent, ScoreComponent, TeamComponent, AssessmentComponent, AnswerComponent, SummaryComponent, DashboardOwnerComponent, DashboardMemberComponent, DashboardDetailComponent, ProjectNewComponent, UserProfileComponent, UserSettingComponent, UserMembershipComponent, ProjectComponent, ProjectViewComponent, ProjectEditComponent],
   exports: [
   	RouterModule
   ]

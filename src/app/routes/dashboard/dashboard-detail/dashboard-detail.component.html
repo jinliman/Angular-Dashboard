@@ -59,11 +59,11 @@
       <div class="project-status-div">
         <ng-container *ngIf = "selectedProject.Status == 'Hold'">
           <p class="title"> Project on Hold </p>
-          <p class="reason">{{selectedProject['Reason']}}</p>
+          <p class="reason">{{selectedProject['Admin_Reason']}}</p>
         </ng-container>
         <ng-container *ngIf = "selectedProject.Status == 'Reject'">
           <p class="title"> Project is declined by admin. </p>
-          <p class="reason">{{selectedProject['Reason']}}</p>
+          <p class="reason">{{selectedProject['Admin_Reason']}}</p>
         </ng-container>
       </div>
       <div class="progress-div">

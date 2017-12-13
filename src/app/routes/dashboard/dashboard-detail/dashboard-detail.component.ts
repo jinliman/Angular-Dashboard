@@ -60,29 +60,72 @@ export class DashboardDetailComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect());
+  }
+
+  onProjectSelect(){
+      this.initData();
   }
 
   ngOnInit() {
-    this.loading = true;
-
     this.user = this.authService.getUser()
     this.route
     .params
     .subscribe(params => {
       // Defaults to 0 if no query param provided.
       this.projectID = params['id'] || '';
-      this.getProject();
+      this.initData()
     });
   }
 
-  getProject(){
+  initData(){
+    this.loading = true;
+    this.apiHandler();
+  }
+  apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getProject(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAttachment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getTeam(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getTimeLapse(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
+    });
+  }
+
+  getProject(resolve){
     let data = { projectID: this.projectID}
     this.dataService.getProject(data).subscribe(response => {
         this.selectedProject = response.result;
-        this.getAssessment();
-        this.getAttachment();
-        this.getTeam();
-        this.getTimeLapse();
+        resolve();
       },
       (error) => {
 
@@ -90,10 +133,10 @@ export class DashboardDetailComponent implements OnInit {
     );
   }
 
-  getAssessment(){
+  getAssessment(resolve){
     this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
-        this.getQuestionnaire();
+        resolve();
       },
       (error) => {
 
@@ -101,36 +144,36 @@ export class DashboardDetailComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let data = {Project: this.projectID}
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getAssignment();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAssignment(){
+  getAssignment(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.allAssignment = response.result;
         this.userAssignment = this.getUserAssignment(this.allAssignment);
-        this.getTableData();
+        resolve();
       },
       (error) => {
       }
@@ -151,7 +194,7 @@ export class DashboardDetailComponent implements OnInit {
     return result;
   }
 
-  getTimeLapse(){
+  getTimeLapse(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getTimeLapse(parma).subscribe(
       response => {
@@ -166,6 +209,7 @@ export class DashboardDetailComponent implements OnInit {
         this.statusInfoArr.timeLapse.day = Math.floor(diffMs / 86400000); // days
         this.statusInfoArr.timeLapse.hour = Math.floor((diffMs % 86400000) / 3600000); // hours
         this.statusInfoArr.timeLapse.min = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+        resolve();
       },
       (error) => {
       }
@@ -232,11 +276,12 @@ export class DashboardDetailComponent implements OnInit {
     });
   }
 
-  getAttachment(){
+  getAttachment(resolve){
     let data = {ProjectID : this.projectID}
     this.dataService.getAttachment(data).subscribe(
         response => {
           this.statusInfoArr.files = response.result.length
+          resolve();
         },
         (error) => {
 
@@ -244,13 +289,14 @@ export class DashboardDetailComponent implements OnInit {
       );
   }
 
-  getTeam(){
+  getTeam(resolve){
     let data = {id: this.projectID}
 
     this.dataService.getTeamMembers(data).subscribe(
       response => {
         this.team = response.result;
         this.statusInfoArr.team = this.team.length;
+        resolve();
       },
       (error) => {
       }
@@ -291,7 +337,6 @@ export class DashboardDetailComponent implements OnInit {
     this.statusInfoArr.assigned = this.uniqEs6((this.userAssignment['Assessments']).concat(this.userAssignment['QAssessments'])).length;
     this.statusInfoArr.assessment = this.tableData.length;
     this.loading = false;
-    console.log(this.selectedProject)
   }
 
 }

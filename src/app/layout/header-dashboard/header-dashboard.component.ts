@@ -35,6 +35,7 @@ export class HeaderDashboardComponent implements OnInit {
   ) {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
     this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
+    this.dataService.projectUpdated.subscribe(data => this.onprojectUpdated());
     this.dataService.projectSubmitted.subscribe(data => this.onProjectSubmitted());
     if(window.innerWidth <= 1024)
       this.isSidebarCollapsed = true;
@@ -58,7 +59,9 @@ export class HeaderDashboardComponent implements OnInit {
     this.dataService.onProjectChanged(data);
     this.getProjectList();
   }
-
+  onprojectUpdated(){
+    this.getProjectList();
+  }
   onProgressChanged(data){
     this.updateSignOff();
   }

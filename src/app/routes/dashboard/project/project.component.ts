@@ -11,11 +11,11 @@ import { Question, Answer } from '../../../shared/objectSchema';
 import * as moment from "moment";
 
 @Component({
-  selector: 'app-dashboard-owner',
-  templateUrl: './dashboard-owner.component.html',
-  styleUrls: ['./dashboard-owner.component.scss']
+  selector: 'app-project',
+  templateUrl: './project.component.html',
+  styleUrls: ['./project.component.scss']
 })
-export class DashboardOwnerComponent implements OnInit {
+export class ProjectComponent implements OnInit {
 
   tableData: Array<any> = [];
   userProjectList: Array<any> =[];
@@ -59,14 +59,36 @@ export class DashboardOwnerComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
+    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  onProjectSelect(data){
+    this.getAllUserProject();
   }
 
   ngOnInit() {
-    this.loading = true;
     this.projectID = this.pID || null;
     this.currentProject = this.authService.getUserProject();
     this.user = this.authService.getUser()
     this.getAllUserProject();
+  }
+
+  removeProject(id){
+    if(confirm('Are you sure you remove this project?'))
+    {
+      let data = {
+        id : id
+      }
+      this.dataService.removeProject(data).subscribe(response => {
+          let project = response.result;
+          this.dataService.onProjectListUpdated(project);
+          this.getAllUserProject()
+        },
+        (error) => {
+
+        }
+      );
+    }
   }
 
   apiHandler(){
@@ -91,9 +113,11 @@ export class DashboardOwnerComponent implements OnInit {
     });
   }
   getAllUserProject(){
+    this.loading = true;
     this.dataService.getUserProject().subscribe(response => {
         this.userProjectList = response.result;
-        this.userOwnProjectList = this.userProjectList.filter(function(item){ return item.Role != 'MEMBER'})
+        // this.userOwnProjectList = this.userProjectList.filter(function(item){ return item.Role != 'MEMBER'})
+        this.userOwnProjectList = this.userProjectList;
         this.apiHandler();
       },
       (error) => {
@@ -234,7 +258,7 @@ export class DashboardOwnerComponent implements OnInit {
 
   viewDetail(item){
       let selProjectID = item['Project']['_id']
-      this.router.navigate(['app/dashboard/'+selProjectID]);
+      this.router.navigate(['app/project/'+selProjectID]);
   }
   getTableData(){
     this.tableData = [];
@@ -243,19 +267,22 @@ export class DashboardOwnerComponent implements OnInit {
       let userProjectID = entry['Project']['_id'];
       let assessment = this.assessmentList.find(function(item){ return item['projectID'] == userProjectID})
       let statusArr = [];
-      for(let entry of assessment.categories)
+      if(assessment && assessment.categories)
       {
-        let questionArr = this.findQuestionObject(entry);
-        for(let question of questionArr)
+        for(let entry of assessment.categories)
         {
-          if( question && question['questions'].length )
+          let questionArr = this.findQuestionObject(entry);
+          for(let question of questionArr)
           {
-            for( let question_entry of question['questions'])
+            if( question && question['questions'].length )
             {
-              let answer_item = this.findAnswerObject(userProjectID, question_entry['uuid']);
-              let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
+              for( let question_entry of question['questions'])
+              {
+                let answer_item = this.findAnswerObject(userProjectID, question_entry['uuid']);
+                let status = answer_item && typeof answer_item['Status'] != 'undefined' ? answer_item['Status'] : 1;
 
-              statusArr.push(status)
+                statusArr.push(status)
+              }
             }
           }
         }
@@ -272,5 +299,6 @@ export class DashboardOwnerComponent implements OnInit {
       this.tableData.push(entry);
     }
     this.loading = false;
+    console.log(this.tableData)
   }
 }

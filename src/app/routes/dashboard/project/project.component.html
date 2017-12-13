@@ -1,0 +1,72 @@
+<div class="project-page">
+  <div class="loading-div" *ngIf="loading"></div>
+  <ng-container *ngIf="!loading">
+    <div class="row">
+      <div class="project-list-div">
+        <p class="title">My Projects</p>
+        <table class="project-list-table">
+          <thead>
+            <tr>
+              <td width="60px">#</td>
+              <td width="15%">Project Name</td>
+              <td width="15%">Company Name</td>
+              <td width="15%">User Role</td>
+              <td width="15%">Status</td>
+              <td>Progress</td>
+              <td width="150px"></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of tableData; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{item.Project.Name}}</td>
+              <td>{{item.Project.Company.Name}}</td>
+              <td>
+                <div class="user-project-role-div">
+                  <span *ngIf="item.Role == 'INITIATOR'" class="img" [inlineSVG]="'/assets/images/icons/dashboard/primary-user-icon.svg'"></span>
+                  <span *ngIf="item.Role == 'PRIMARY'"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+                  <span *ngIf="item.Role == 'MEMBER'"  class="img" [inlineSVG]="'/assets/images/icons/dashboard/team-members-icon.svg'"></span>
+                  {{item.Role}}
+                </div>
+              </td>
+              <td>
+                <div class="status-div" *ngIf="item.Status == 'Accept'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/complete-icon.svg'"></div>
+                  <span>Complete</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Pending'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                  <span>In Progress</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Submitted'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                  <span>Submitted</span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Reject'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/not-started-icon.svg'"></div>
+                  <span>In Progress </span>
+                </div>
+                <div class="status-div" *ngIf="item.Status == 'Hold'">
+                  <div class="svg" [inlineSVG]="'../assets/images/icons/dashboard/pending-icon.svg'"></div>
+                  <span>On Hold</span>
+                </div>
+              </td>
+              <td>
+                <div class="custom-progress">
+                  <progress-bar [value] = "item.progress" [max] = "100" title = "{{item.progress}}%"></progress-bar>
+                </div>
+              </td>
+              <td>
+                <div class="action-div">
+                  <a href="javascript:;" routerLink = "/app/project/{{item.Project._id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                  <a href="javascript:;" routerLink = "/app/project/{{item.Project._id}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                  <a href="javascript:;" (click)="removeProject(item.Project._id)"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</div>

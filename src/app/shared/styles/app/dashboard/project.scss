@@ -1,0 +1,88 @@
+.project-page{
+  .row{
+    margin: 0px;
+    &.first-row{
+      border-top: 2px solid $dv-color-border;
+    }
+  }
+  .project-list-div{
+    margin: 30px 0px;
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+      margin: 10px 20px 30px;
+    }
+    .custom-progress{
+      position: relative;
+      .progress{
+        margin-bottom: 0px;
+        height: 20px;
+        .progress-bar-title {
+            line-height: 17px;
+            font-size: 15px;
+        }
+      }
+    }
+    .status-div{
+      display: flex;
+      align-items: center;
+      .svg{
+        display: flex;
+        align-items: center;
+      }
+      span{
+        padding-left: 10px;
+      }
+    }
+    table.project-list-table{
+      width: 100%;
+
+      border-bottom: 1px solid $dv-color-border !important;
+      td{
+        vertical-align: middle !important;
+        .user-project-role-div{
+          display: flex;
+          align-items: center;
+          span{
+            padding-right: 20px;
+          }
+        }
+        .action-div{
+          a{
+            padding-left: 15px;
+          }
+        }
+      }
+      thead{
+        background-color: $dv-bg-dashboard;
+        td{
+          font-weight: 600;
+          color: $dv-color-primary;
+        }
+      }
+      th,td{
+        border-top: 2px solid $dv-color-border !important;
+        border: 2px solid $dv-color-border;
+        padding: 14px 14px;
+        color: $dv-color-grey;
+        &:first-of-type{
+          border-left: none;
+        }
+        &:last-of-type{
+          border-right: none;
+        }
+      }
+      tbody{
+        tr{
+          cursor: pointer;
+          &:hover{
+            background-color: $dv-bg-dashboard;
+            td{
+              color: $dv-color-green-active;
+            }
+          }
+        }
+      }
+    }
+  }
+}

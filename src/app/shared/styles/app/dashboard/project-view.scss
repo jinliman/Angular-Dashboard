@@ -1,0 +1,65 @@
+.project-view{
+  padding: 40px 40px;
+  .title-div{
+    .edit-icon{
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+      color: $dv-color-green;
+    }
+    .title{
+      font-size: 21px;
+      font-weight: bold;
+      margin: 0px;
+    }
+  }
+  .content-inner{
+    margin-top:40px;
+    .sub-title{
+      font-size: 19px;
+    }
+    .additional-info-div{
+      .extra-border-title{
+        font-size: 16px;
+        background-color: $dv-bg-sub;
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        margin-left: -82px;
+        padding: 0px 30px;
+        font-weight: 400;
+      }
+      margin-top: 40px;
+      padding-top: 20px;
+      position: relative;
+      border-top: 2px solid #eaeaea;
+    }
+    .info-div{
+      margin: 20px 0px;
+      .info-title{
+        float: left;
+        display: block;
+        width: 240px;
+      }
+      .info-title1{
+        float: left;
+        display: block;
+        width: 300px;
+      }
+      .diligence{
+        display: block;
+      }
+      .content{
+        float: left;
+        display: block;
+        font-weight: bold;
+        &.success{
+          color: $dv-color-green;
+        }
+        &.danger{
+          color: $dv-color-orange;
+        }
+      }
+    }
+  }
+}
