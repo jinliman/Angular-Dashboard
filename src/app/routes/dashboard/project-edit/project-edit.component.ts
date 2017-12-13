@@ -161,6 +161,10 @@ export class ProjectEditComponent implements OnInit {
   getProject(resolve){
     let data = { projectID: this.projectID}
     this.dataService.getProject(data).subscribe(response => {
+        if(response.result.Role == 'MEMBER')
+        {
+          this.router.navigate(['/app/project/'+this.projectID]);
+        }
         if(response.result && response.result.Project)
           this.currentProject  = response.result.Project
         resolve();

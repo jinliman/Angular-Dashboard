@@ -59,8 +59,10 @@
               <td>
                 <div class="action-div">
                   <a href="javascript:;" routerLink = "/app/project/{{item.Project._id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                  <a href="javascript:;" routerLink = "/app/project/{{item.Project._id}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                  <a href="javascript:;" (click)="removeProject(item.Project._id)"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                  <ng-container *ngIf="item.Role != 'MEMBER'">
+                    <a href="javascript:;" routerLink = "/app/project/{{item.Project._id}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                    <a href="javascript:;" (click)="removeProject(item.Project._id)"><i class="fa fa-remove" aria-hidden="true"></i></a>
+                  </ng-container>
                 </div>
               </td>
             </tr>
