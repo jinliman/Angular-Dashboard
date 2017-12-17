@@ -18,7 +18,9 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import { TabsModule } from "ng2-tabs";
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { PopoverModule } from "ngx-popover";
-import { UiSwitchModule } from 'angular2-ui-switch'
+import { UiSwitchModule } from 'angular2-ui-switch';
+import {CardModule} from 'ngx-card/ngx-card';
+
 
 //import { MaterialModule } from '@angular/material';
 
@@ -52,7 +54,8 @@ import { EqualValidator } from './directives/equal-validator.directive';
     TabsModule,
     QuillEditorModule,
     PopoverModule,
-    UiSwitchModule
+    UiSwitchModule,
+    CardModule
   ]
 })
 export class SharedModule {

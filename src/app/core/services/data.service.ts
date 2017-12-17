@@ -221,11 +221,6 @@ export class DataService {
   ---------------- Project -----------------
   */
 
-  chargePayment(data){
-    return this.http.post(this.url + '/api/user/charge_payment', data, { headers: this.getHeaders() })
-      .map((response: Response) => response.json());
-  }
-
   postProject(data){
     return this.http.post(this.url + '/api/user/project/new', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
@@ -691,6 +686,22 @@ export class DataService {
     return this.http.post(this.url + '/api/user/checkout', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());
   }
+
+  checkoutMembershipBank(data){
+    return this.http.post(this.url + '/api/user/checkout_bank', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  chargePayment(data){
+    return this.http.post(this.url + '/api/user/charge_payment', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
+  chargePaymentBank(data){
+    return this.http.post(this.url + '/api/user/charge_payment_bank', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   updateUserMembership(data){
     return this.http.post(this.url + '/api/user/update_membership', data, { headers: this.getHeaders() })
       .map((response: Response) => response.json());

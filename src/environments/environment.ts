@@ -17,5 +17,8 @@ export const environment = {
   gd_clientId: '677439360312-i40qtil81ls0fkfcrdhe60qm7n80bksq.apps.googleusercontent.com',
   //One drive
   od_appkey: '284457bc-4dab-4de9-ace8-f32888ae2764',
-  stripe_publick_key: 'pk_test_LGUc6Wm6OYJHrh5Ts6yOM6iC'
+  stripe_publick_key: 'pk_test_LGUc6Wm6OYJHrh5Ts6yOM6iC',
+
+  PLAID_PUBLIC_KEY: '0b3439206f6799b6e829ede815974c' ,
+  PLAID_ENV: 'sandbox'
 };

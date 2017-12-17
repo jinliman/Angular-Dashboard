@@ -48,6 +48,7 @@
     "ng2-progress-bar": "0.0.8",
     "ng2-smart-table": "^1.2.1",
     "ng2-tabs": "0.0.11",
+    "ngx-card": "^0.2.4",
     "ngx-popover": "0.0.16",
     "ngx-quill-editor": "^2.2.2",
     "node-sass": "^4.5.3",

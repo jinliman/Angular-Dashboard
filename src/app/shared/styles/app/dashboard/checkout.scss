@@ -143,3 +143,42 @@
     }
   }
 }
+.card-wrapper{
+  width: 350px;
+  margin: auto;
+  .card-container{
+    .jp-card-container{
+      transform: scale(1) !important;
+    }
+    .jp-card .jp-card-front, .jp-card .jp-card-back
+    {
+      background-color: #ad6f6f;
+    }
+  }
+  .card-form-container{
+    width: 350px;
+    margin: 50px auto 20px;
+    input{
+      border-radius: 0px;
+      &.invalide{
+        border-color: #ad6f6f;
+      }
+    }
+    .slds-form-element__row{
+      width: 100%;
+      margin: 5px 0px;
+      display: flex;
+      align-items: center;
+    }
+    input[card-number]{
+      width: 100%;
+    }
+    a.button{
+      margin-top: 20px;
+      width: 100%; text-align: center;
+    }
+    input[card-name] , input[card-expiry], input[card-cvc]{
+      width: 50%;
+    }
+  }
+}

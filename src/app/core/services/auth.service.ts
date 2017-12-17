@@ -170,6 +170,8 @@ export class AuthService {
       .map((response: Response) => response.json());
   }
 
+
+
   /*
 	 *  Sample
 
