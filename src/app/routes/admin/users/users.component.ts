@@ -356,7 +356,8 @@ export class UsersComponent implements OnInit {
     for(let item of this.Users)
     {
       let userID = item['_id'];
-      let userProjects = this.ProjectUsers.filter ((elem) => {return elem.User['_id'] == userID})
+      console.log(this.ProjectUsers)
+      let userProjects = this.ProjectUsers.filter ((elem) => {return elem.User && elem.User['_id'] == userID})
       this.tableData.push({
         ID: index++,
         userID: item['_id'],

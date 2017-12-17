@@ -107,67 +107,80 @@
                </div>
                <h2>IT Due Diligience Report</h2>
                <div class="row page-content">
-                 <div class="col-md-3 content-item-div">
-                   <p class="title">Prepared By:</p>
-                   <p class="detail"><span>Deal Value, Inc</span></p>
-                 </div>
-                 <div class="col-md-3 content-item-div">
-                   <p class="title">Project Detail:</p>
+                 <div class="col-md-4 content-item-div">
+                   <p class="title">Project Name:</p>
+                   <p class="detail"><span>{{project_info['Project_Name']}}</span></p>
+
+                   <p class="title">Company Name:</p>
+                   <p class="detail"><span>{{project_info['Company_Name']}}</span></p>
+
+                   <p class="title">Company Address:</p>
                    <p class="detail">
-                     <span>{{project_info['Company_Name']}}</span>
-                     <span>{{project_info['Project_Name']}}</span>
                      <span>{{project_info['Address1']}}</span>
                      <span>{{project_info['Address2']}}</span>
-                     <span class="address_info_span">
-                       <span *ngIf="project_info['City'] != ''">{{project_info['City']}}, </span>
-                       <span *ngIf="project_info['State'] != ''">{{project_info['State']}}, </span>
-                       <span *ngIf="project_info['Country'] != ''">{{project_info['Country']}}</span>
-                     </span>
-                     <span>{{project_info['ZipCode']}}</span>
-                   </p>
-                 </div>
-                 <div class="col-md-3 content-item-div">
-                   <p class="title">Primary Contact:</p>
-                   <p class="detail">
-                     <span>{{project_info['Primary_User']}}</span>
                    </p>
                    <p class="title">Industry:</p>
                    <p class="detail">
                      <span *ngFor="let item of project_info['Industry']">{{item}}</span>
                    </p>
+                 </div>
+                 <div class="col-md-4 content-item-div">
                    <p class="title">Website:</p>
                    <p class="detail">
                      <a href="{{project_info['Website']}}" target="_blank"><b><u>{{project_info['Website']}}</u></b></a>
                    </p>
-                 </div>
-                 <div class="col-md-3 content-item-div">
-                   <p class="title">Annual Revenue:</p>
+
+                   <p class="title">Primary Contact Name:</p>
                    <p class="detail">
-                     <span>{{project_info['Annual_Revvenue']}}</span>
+                     <span>{{project_info['Primary_User']}}</span>
                    </p>
+
+                   <p class="title">Primary Contact Email:</p>
+                   <p class="detail">
+                     <span>{{project_info['Primary_User_Email']}}</span>
+                   </p>
+
+                   <p class="title">Primary Contact Phone Number:</p>
+                   <p class="detail">
+                     <span>{{project_info['Primary_User_Phone']}}</span>
+                   </p>
+                 </div>
+                 <div class="col-md-4 content-item-div">
                    <p class="title">Number of Employees:</p>
                    <p class="detail">
                      <span>{{project_info['Number_Employee']}}</span>
                    </p>
+
                    <p class="title">Years in Business:</p>
                    <p class="detail">
                      <span>{{project_info['Years_Business']}}</span>
                    </p>
-                 </div>
 
-                 <div class="col-md-3 content-item-div">
+                   <p class="title">Annual Revenue:</p>
+                   <p class="detail">
+                     <span>{{project_info['Annual_Revenue']}}</span>
+                   </p>
+
+                   <p class="title">Annual Budget:</p>
+                   <p class="detail">
+                     <span>{{project_info['Annual_Budget']}}</span>
+                   </p>
+                 </div>
+               </div>
+               <div class="row page-content date-div">
+                 <div class="col-md-4 content-item-div">
                    <p class="title">Start Date:</p>
                    <p class="detail">
                      <span>{{project_info['Start_Date'] | amDateFormat:'LL'}}</span>
                    </p>
                  </div>
-                 <div class="col-md-3 content-item-div">
+                 <div class="col-md-4 content-item-div">
                    <p class="title">End Date:</p>
                    <p class="detail">
                      <span>{{project_info['End_Date'] | amDateFormat:'LL'}}</span>
                    </p>
                  </div>
-                 <div class="col-md-3 content-item-div">
+                 <div class="col-md-4 content-item-div">
                    <p class="title">DealValue Review Date:</p>
                    <p class="detail">
                      <span>{{project_info['Review_Date'] | amDateFormat:'LL'}}</span>

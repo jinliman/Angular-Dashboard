@@ -743,9 +743,12 @@ export class ReportComponent implements OnInit {
     this.project_info['City'] = this.address_info['City'] ? this.address_info['City']['label'] : '';
 
     this.project_info['Industry'] = this.menu.map(function(item){ return item['Title']});
-    this.project_info['Annual_Revvenue'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tAnnualRev'] ? this.currentProject['Reason2']['tAnnualRev'] : 'NA';
-    this.project_info['Number_Employee'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tEmpNo'] ? this.currentProject['Reason2']['tEmpNo'] : 'NA';
+
+    this.project_info['Annual_Revenue'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tAnnualRev'] ? this.currentProject['Project']['Reason1']['tAnnualRev'] : 'NA';
+    this.project_info['Annual_Budget'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tAnnualRev'] ? this.currentProject['Project']['Reason1']['tAnnualRev'] : 'NA';
+    this.project_info['Number_Employee'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tEmpNo'] ? this.currentProject['Project']['Reason1']['tEmpNo'] : 'NA';
     this.project_info['Years_Business'] = 'NA';
+
     this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
     this.project_info['End_Date'] = this.currentProject['submitDate'];
     this.project_info['Review_Date'] = this.currentProject['updateDate'];

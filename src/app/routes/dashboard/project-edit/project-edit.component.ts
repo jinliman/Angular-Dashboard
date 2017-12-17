@@ -6,6 +6,7 @@ import { Http, Headers, Response, RequestOptions  } from '@angular/http';
 import { Observable  } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from "moment";
+import { NotificationsService } from 'angular2-notifications';
 
 import {Project, Company, Reason1, Reason2, Reason3, Reason4} from '../../../shared/objectSchema';
 
@@ -45,7 +46,8 @@ export class ProjectEditComponent implements OnInit {
     private authService: AuthService,
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _notificationService: NotificationsService
   ) {
       this.about_us_list = this.dataService.getAboutUsList();
       this.reason_type = this.dataService.getReasonType();
@@ -166,7 +168,9 @@ export class ProjectEditComponent implements OnInit {
           this.router.navigate(['/app/project/'+this.projectID]);
         }
         if(response.result && response.result.Project)
-          this.currentProject  = response.result.Project
+        {
+          this.currentProject  = JSON.parse(JSON.stringify(response.result.Project));
+        }
         resolve();
       },
       (error) => {
@@ -176,14 +180,61 @@ export class ProjectEditComponent implements OnInit {
   }
 
   initProject(){
-    this.setReasonDefault();
+    let promiseArr= [];
 
-    this.validArr = {
-      Register: true,
-      ReasonCheckbox: true
-    }
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.initState(() => {resolve(); });
+    }))
 
-    this.loading = false;
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.initCity(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      if(!this.currentProject.Reason1)
+        this.currentProject.Reason1 = new Reason1;
+      if(!this.currentProject.Reason2)
+        this.currentProject.Reason2 = new Reason2;
+      if(!this.currentProject.Reason3)
+        this.currentProject.Reason3 = new Reason3;
+      if(!this.currentProject.Reason4)
+        this.currentProject.Reason4 = new Reason4;
+      console.log(this.currentProject)
+      this.setReasonDefault();
+
+      this.validArr = {
+        Register: true,
+        ReasonCheckbox: true
+      }
+
+      this.loading = false;
+    });
+  }
+
+  initState(resolve)
+  {
+    let data = { 'id': this.currentProject.Company.Country };
+    this.dataService.getStateList(data).subscribe(
+      response => {
+        this.state_list = response.result;
+        resolve();
+      },
+      (error) => {
+      }
+    );
+  }
+
+  initCity(resolve)
+  {
+    let data = { 'id': this.currentProject.Company.State };
+    this.dataService.getCityList(data).subscribe(
+      response => {
+        this.city_list = response.result;
+        resolve();
+      },
+      (error) => {
+      }
+    );
   }
 
   onContinue(){
@@ -198,12 +249,26 @@ export class ProjectEditComponent implements OnInit {
     }
     this.dataService.updateProject(data).subscribe(
       response => {
-        let project = response.result;
-        this.dataService.onProjectUpdated();
-        this.router.navigate(['/app/project/'+this.projectID]);
+        let error_code = response.ERR_CODE;
+        if(error_code == "ERR_NONE"){
+          this._notificationService.success(
+              'Project',
+              'project updated'
+          )
+          this.dataService.onProjectUpdated();
+          this.router.navigate(['/app/project/'+this.projectID]);
+        }else{
+          this._notificationService.warn(
+              'Project',
+              response.Message
+          )
+        }
       },
       (error) => {
-        console.log(error);
+        this._notificationService.error(
+            'Project',
+            'Sth went wrong'
+        )
       }
     );
   }
@@ -222,8 +287,10 @@ export class ProjectEditComponent implements OnInit {
     let tmpArr = this.diligency_type.filter((item1)=>{return diligenceArr.includes(item1['value'])})
     tmpArr.forEach((item) => { this.current_diligence_arr.push(item['value'])});
 
-    this.currentProject.Reason1.tAcqDate = moment(new Date(this.currentProject.Reason1.tAcqDate)).format("MMMM DD YYYY")
-    this.currentProject.Reason2.tSellDate =  moment(new Date(this.currentProject.Reason2.tSellDate)).format("MMMM DD YYYY")
+    if(this.currentProject.Reason1 && this.currentProject.Reason1.tAcqDate)
+      this.currentProject.Reason1.tAcqDate = moment(new Date(this.currentProject.Reason1.tAcqDate)).format("MMMM DD YYYY")
+    if(this.currentProject.Reason2 && this.currentProject.Reason2.tSellDate)
+      this.currentProject.Reason2.tSellDate =  moment(new Date(this.currentProject.Reason2.tSellDate)).format("MMMM DD YYYY")
   }
   reasonCheck($event){
     let valid:boolean = false

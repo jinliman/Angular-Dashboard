@@ -610,7 +610,6 @@ export class ReportComponent implements OnInit {
 
   getCompanyInfo(){
     let that = this;
-    console.log(this.currentProject)
     this.project_info =  Object.assign({}, this.currentProject['Project']['Company']);
     this.project_info['Project_Name'] = this.currentProject['Project']['Name'];
     this.project_info['Company_Name'] = this.currentProject['Project']['Company']['Name'];
@@ -621,15 +620,21 @@ export class ReportComponent implements OnInit {
     this.project_info['City'] = this.address_info['City'] ? this.address_info['City']['label'] : '';
 
     this.project_info['Industry'] = this.menu.map(function(item){ return item['Title']});
-    this.project_info['Annual_Revvenue'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tAnnualRev'] ? this.currentProject['Reason2']['tAnnualRev'] : 'NA';
-    this.project_info['Number_Employee'] = this.currentProject['Reason2'] && this.currentProject['Reason2']['tEmpNo'] ? this.currentProject['Reason2']['tEmpNo'] : 'NA';
+
+    this.project_info['Annual_Revenue'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tAnnualRev'] ? this.currentProject['Project']['Reason1']['tAnnualRev'] : 'NA';
+    this.project_info['Annual_Budget'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tAnnualRev'] ? this.currentProject['Project']['Reason1']['tAnnualRev'] : 'NA';
+    this.project_info['Number_Employee'] = this.currentProject['Project']['Reason1'] && this.currentProject['Project']['Reason1']['tEmpNo'] ? this.currentProject['Project']['Reason1']['tEmpNo'] : 'NA';
     this.project_info['Years_Business'] = 'NA';
+
     this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
     this.project_info['End_Date'] = this.currentProject['submitDate'];
     this.project_info['Review_Date'] = this.currentProject['updateDate'];
 
     let PrimaryUser = this.project_users.find(function(item){ return item['Role'] == 'PRIMARY'});
     this.project_info['Primary_User'] = PrimaryUser ? PrimaryUser['User']['Name']['Fullname'] : 'NA';
+    this.project_info['Primary_User_Email'] = PrimaryUser ? PrimaryUser['User']['Email'] : 'NA';
+    this.project_info['Primary_User_Phone'] = PrimaryUser ? '' : 'NA';
+
     let TeamUsers = this.project_users.filter(function(item){ return item['Role'] == 'MEMBER'});
     if(TeamUsers)
     {

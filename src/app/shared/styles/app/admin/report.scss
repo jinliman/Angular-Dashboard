@@ -1,4 +1,4 @@
-address_info_span.admin-report-page{
+.admin-report-page{
   .ql-editor{
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -160,6 +160,11 @@ address_info_span.admin-report-page{
         h3{
           margin-top: 30px;
           margin-bottom: 20px;
+        }
+        .date-div{
+          border-top: 2px dashed $dv-color-green;
+          padding-top: 40px;
+          margin-top: 40px;
         }
         .page-content{
           .content-item-div{
