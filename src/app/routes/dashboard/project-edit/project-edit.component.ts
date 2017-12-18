@@ -32,6 +32,7 @@ export class ProjectEditComponent implements OnInit {
   reason_type : Array<object> = [];
   job_list : Array<object> = [];
   industry_list : Array<object> = [];
+  userProjectRole: string;
 
   loading: boolean;
 
@@ -163,6 +164,7 @@ export class ProjectEditComponent implements OnInit {
   getProject(resolve){
     let data = { projectID: this.projectID}
     this.dataService.getProject(data).subscribe(response => {
+        this.userProjectRole  = response.result.Role;
         if(response.result.Role == 'MEMBER')
         {
           this.router.navigate(['/app/project/'+this.projectID]);
@@ -170,6 +172,7 @@ export class ProjectEditComponent implements OnInit {
         if(response.result && response.result.Project)
         {
           this.currentProject  = JSON.parse(JSON.stringify(response.result.Project));
+
         }
         resolve();
       },

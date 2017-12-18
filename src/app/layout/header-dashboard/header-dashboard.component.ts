@@ -7,6 +7,8 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../shared/objectSchema';
 
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'app-header-dashboard',
   templateUrl: './header-dashboard.component.html',
@@ -31,7 +33,9 @@ export class HeaderDashboardComponent implements OnInit {
   shortname: string = 'DV';
   constructor(
     private authService: AuthService,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router,
+    private _notificationService: NotificationsService
   ) {
     this.dataService.progressChanged.subscribe(data => this.onProgressChanged(data));
     this.dataService.projectListUpdated.subscribe(data => this.onProjectListUpdated(data));
@@ -98,6 +102,21 @@ export class HeaderDashboardComponent implements OnInit {
     {
       this.firstname = this.userInfo['Name']['First']
       this.shortname = this.userInfo['Name']['First'][0] + this.userInfo['Name']['Last'][0];
+    }
+  }
+  signOff(){
+    let companyInfo = this.currentProject['Project']['Company'];
+    let projectID = this.currentProject['Project']['_id'];
+    console.log(companyInfo)
+    if(companyInfo['NumEmployee'] == null  || companyInfo['YearBusiness'] == null || companyInfo['AnnualRevenue'] == null || companyInfo['AnnualBudget'] == null)
+    {
+      this._notificationService.warn(
+          'Project',
+          'Additional Information Required'
+      )
+      this.router.navigate(['/app/project/'+projectID+'/edit']);
+    }else{
+      this.router.navigate(['/app/summary']);
     }
   }
 

@@ -16,7 +16,7 @@
 			</a>
 		</div>
 		<div class="submit-div">
-			<a *ngIf="isSignoff" class="svg button pull-left" routerLink="/app/summary" style="margin-left:20px;">
+			<a *ngIf="isSignoff" class="svg button pull-left" (click)="signOff()" style="margin-left:20px;">
 				<span> <i class="fa fa-send-o"></i> Ready to Submit</span>
 			</a>
 		</div>

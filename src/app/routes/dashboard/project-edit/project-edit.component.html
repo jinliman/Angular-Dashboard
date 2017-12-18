@@ -1,4 +1,4 @@
-<div class="project-edit">
+<div class="project-edit assets">
   <div class="loading-div" *ngIf="loading"></div>
   <ng-container *ngIf="!loading">
     <div class="inner-wrapper">
@@ -97,7 +97,49 @@
             </ng-select>
           </div>
         </div>
+        <ng-container *ngIf = "userProjectRole == 'PRIMARY'">
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': numEmployee.invalid && numEmployee.touched,
+              'has-success': numEmployee.valid && numEmployee.touched
+            }">
+              <label for="numEmployee" class="required" [ngClass]="{'success': currentProject.Company.NumEmployee}">Number of Employees:</label>
+              <input type="number" min="0" name="numEmployee" #numEmployee = "ngModel" [(ngModel)] = "currentProject.Company.NumEmployee" value="" required>
+              <span class="help-block" *ngIf="numEmployee.errors && numEmployee.errors.required  && numEmployee.touched">Number of Employees is required</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': yearBusiness.invalid && yearBusiness.touched,
+              'has-success': yearBusiness.valid && yearBusiness.touched
+            }">
+              <label for="yearBusiness" class="required" [ngClass]="{'success': currentProject.Company.YearBusiness}">Years in Business:</label>
+              <input type="number" min="0" name="yearBusiness" #yearBusiness = "ngModel" [(ngModel)] = "currentProject.Company.YearBusiness" value=""  required>
+              <span class="help-block" *ngIf="yearBusiness.errors && yearBusiness.errors.required  && yearBusiness.touched">Years in Business is required</span>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': annualRevenue.invalid && annualRevenue.touched,
+              'has-success': annualRevenue.valid && annualRevenue.touched
+            }">
+              <label for="annualRevenue" class="required" [ngClass]="{'success': currentProject.Company.AnnualRevenue}">Annual Revenue:</label>
+              <input type="number" min="0" name="annualRevenue" #annualRevenue = "ngModel" [(ngModel)] = "currentProject.Company.AnnualRevenue" value=""  required>
+              <span class="help-block" *ngIf="annualRevenue.errors && annualRevenue.errors.required  && annualRevenue.touched">Annual Revenue is required</span>
+            </div>
+            <div class="col-md-6 form-group"
+            [ngClass]="{
+              'has-error': annualBudget.invalid && annualBudget.touched,
+              'has-success': annualBudget.valid && annualBudget.touched
+            }">
+              <label for="annualBudget" class="required" [ngClass]="{'success': currentProject.Company.AnnualBudget}">Annual Budget:</label>
+              <input type="number" min="0" name="annualBudget" #annualBudget = "ngModel" [(ngModel)] = "currentProject.Company.AnnualBudget" value=""  required>
+              <span class="help-block" *ngIf="annualBudget.errors && annualBudget.errors.required  && annualBudget.touched">Annual Budget is required</span>
+            </div>
+          </div>
+        </ng-container>
         <div class="row" style="margin-top:30px">
           <div class="col-md-6 form-group">
             <a class="back-button" routerLink="/app/projects"><img src="assets/images/icons/assets/back-icon.svg" width="20" height="22" alt="">
