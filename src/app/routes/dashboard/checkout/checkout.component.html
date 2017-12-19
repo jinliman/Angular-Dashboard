@@ -44,7 +44,7 @@
                     <input type="radio" name="radio1" id="radio1" [(ngModel)]="paymentMethodRadio" value="Credit Card">
                     <label for="radio1">Credit Card</label>
                   </div>
-                  <span class="payment-icon cc-logo" [class.is_active] ="paymentMethodRadio == 'Credit Card'">All Major CC are acceptable</span>
+                  <span class="payment-icon cc-logo" [class.is_active] ="paymentMethodRadio == 'Credit Card'">All Major cards are accepted</span>
                 </div>
                 <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Paypal'" (click)="paymentMethodRadio = 'Paypal'">
                   <div class="">
@@ -74,7 +74,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Deposit Amount</td>
+                    <td>Amount Due Today</td>
                     <td class="payment-summary-currency">{{formatString(fee)}}</td>
                     <td class="payment-summary-currency-type">USD</td>
                   </tr>

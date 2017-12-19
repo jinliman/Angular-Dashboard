@@ -56,6 +56,13 @@ export class ProjectEditComponent implements OnInit {
       this.industry_list = this.dataService.getIndustryList();
   }
 
+  formatCurrency(value)
+  {
+    value = parseFloat(value);
+    value = '$' + value;
+    console.log(value)
+  }
+
   selectedDate(index, value: any)
   {
     this.currentProject.Reason1.tAcqDate = moment(new Date(value.start)).format("MMMM DD YYYY");

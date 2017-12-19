@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
 
   plaidHander: any = null;
 
-  fee: string;
+  fee: any;
   adminSetting: object = {};
   notification_text : string = '';
   Promocode: object;
@@ -106,6 +106,7 @@ export class CheckoutComponent implements OnInit {
     }else{
       this.fee = this.adminSetting['OnedoneFee'];
     }
+    this.fee = this.fee * 12;
     this.displayFee = parseFloat(this.fee);
     this.discount = 0;
     this.loading = false;
