@@ -107,7 +107,6 @@ export class HeaderDashboardComponent implements OnInit {
   signOff(){
     let companyInfo = this.currentProject['Project']['Company'];
     let projectID = this.currentProject['Project']['_id'];
-    console.log(companyInfo)
     if(companyInfo['NumEmployee'] == null  || companyInfo['YearBusiness'] == null || companyInfo['AnnualRevenue'] == null || companyInfo['AnnualBudget'] == null)
     {
       this._notificationService.warn(

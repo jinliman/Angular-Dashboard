@@ -19,8 +19,8 @@ import { TabsModule } from "ng2-tabs";
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { PopoverModule } from "ngx-popover";
 import { UiSwitchModule } from 'angular2-ui-switch';
-import {CardModule} from 'ngx-card/ngx-card';
-
+import { CardModule } from 'ngx-card/ngx-card';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 //import { MaterialModule } from '@angular/material';
 
@@ -55,7 +55,8 @@ import { EqualValidator } from './directives/equal-validator.directive';
     QuillEditorModule,
     PopoverModule,
     UiSwitchModule,
-    CardModule
+    CardModule,
+    CurrencyMaskModule
   ]
 })
 export class SharedModule {

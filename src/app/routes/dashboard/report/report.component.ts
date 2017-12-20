@@ -621,10 +621,10 @@ export class ReportComponent implements OnInit {
 
     this.project_info['Industry'] = this.menu.map(function(item){ return item['Title']});
 
-    this.project_info['Annual_Revenue'] = this.currentProject['Project']['Company']['AnnualRevenue'] ? this.currentProject['Project']['Company']['AnnualRevenue'] : 'NA';
-    this.project_info['Annual_Budget'] = this.currentProject['Project']['Company']['AnnualBudget'] ? this.currentProject['Project']['Company']['AnnualBudget'] : 'NA';
-    this.project_info['Number_Employee'] = this.currentProject['Project']['Company']['NumEmployee'] ? this.currentProject['Project']['Company']['NumEmployee'] : 'NA';
-    this.project_info['Years_Business'] = this.currentProject['Project']['Company']['YearBusiness'] ? this.currentProject['Project']['Company']['YearBusiness'] : 'NA';
+    this.project_info['Annual_Revenue'] = this.currentProject['Project']['Company']['AnnualRevenue'] ? this.currentProject['Project']['Company']['AnnualRevenue'] : null;
+    this.project_info['Annual_Budget'] = this.currentProject['Project']['Company']['AnnualBudget'] ? this.currentProject['Project']['Company']['AnnualBudget'] : null;
+    this.project_info['Number_Employee'] = this.currentProject['Project']['Company']['NumEmployee'] ? this.currentProject['Project']['Company']['NumEmployee'] : null;
+    this.project_info['Years_Business'] = this.currentProject['Project']['Company']['YearBusiness'] ? this.currentProject['Project']['Company']['YearBusiness'] : null;
 
     this.project_info['Start_Date'] = this.currentProject['Project']['createdAt'];
     this.project_info['End_Date'] = this.currentProject['submitDate'];

@@ -158,12 +158,12 @@
 
                    <p class="title">Annual Revenue:</p>
                    <p class="detail">
-                     <span>${{project_info['Annual_Revenue']}}</span>
+                     <span>{{project_info['Annual_Revenue'] | currency:'USD':true:'1.0-2'}}</span>
                    </p>
 
                    <p class="title">Annual Budget:</p>
                    <p class="detail">
-                     <span>${{project_info['Annual_Budget']}}</span>
+                     <span>{{project_info['Annual_Budget'] | currency:'USD':true:'1.0-2'}}</span>
                    </p>
                  </div>
                </div>

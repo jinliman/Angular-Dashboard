@@ -42,6 +42,7 @@
     "moment": "^2.18.1",
     "ng-inline-svg": "^3.3.0",
     "ng2-bs3-modal": "^0.10.4",
+    "ng2-currency-mask": "^4.4.1",
     "ng2-daterangepicker": "^2.0.7",
     "ng2-dragula": "^1.5.0",
     "ng2-notify": "^1.4.0",

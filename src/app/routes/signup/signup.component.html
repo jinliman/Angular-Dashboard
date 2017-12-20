@@ -38,9 +38,8 @@
             'has-error': company_email.invalid && company_email.touched,
             'has-success': company_email.valid && company_email.touched
           }">
-            <!-- <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address"> -->
             <label for="company_email" class="required">Email Address:</label>
-            <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required placeholder="Email Address">
+            <input type="text" [disabled]="newUser.UserType != 'INITIATOR'" name="company_email" #company_email = "ngModel" [(ngModel)] = "newUser.Email" value="" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(?!hotmail|gmail|yahoo|msn|me|icloud|aol|outlook|mail)(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" placeholder="Email Address">
             <span class="help-block" *ngIf="company_email.errors && company_email.errors.required  && company_email.touched">Company Email is required</span>
             <span class="help-block" *ngIf="company_email.errors && company_email.errors.pattern && company_email.touched">Company Email is invalid</span>
           </div>

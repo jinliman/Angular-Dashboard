@@ -103,10 +103,10 @@ export class CheckoutComponent implements OnInit {
         default:
           this.fee = this.adminSetting['PremiumFee']; break;
       }
+      this.fee = this.fee * 12;
     }else{
       this.fee = this.adminSetting['OnedoneFee'];
     }
-    this.fee = this.fee * 12;
     this.displayFee = parseFloat(this.fee);
     this.discount = 0;
     this.loading = false;

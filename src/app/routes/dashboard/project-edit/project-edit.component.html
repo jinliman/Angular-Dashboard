@@ -125,8 +125,8 @@
               'has-error': annualRevenue.invalid && annualRevenue.touched,
               'has-success': annualRevenue.valid && annualRevenue.touched
             }">
-              <label for="annualRevenue" class="required" [ngClass]="{'success': currentProject.Company.AnnualRevenue}">Annual Revenue($):</label>
-              <input type="text" (focusout)="formatCurrency(currentProject.Company.AnnualRevenue)" name="annualRevenue" #annualRevenue = "ngModel" [(ngModel)] = "currentProject.Company.AnnualRevenue" value=""  required>
+              <label for="annualRevenue" class="required" [ngClass]="{'success': currentProject.Company.AnnualRevenue}">Annual Revenue:</label>
+              <input currencyMask [options]="{align:'left', prefix: '$ ', allowNegative: false, precision: 0, thousands: ',', decimal: '.' }" type="text" name="annualRevenue" #annualRevenue = "ngModel" [(ngModel)] = "currentProject.Company.AnnualRevenue" value=""  required>
               <span class="help-block" *ngIf="annualRevenue.errors && annualRevenue.errors.required  && annualRevenue.touched">Annual Revenue is required</span>
             </div>
             <div class="col-md-6 form-group"
@@ -134,8 +134,8 @@
               'has-error': annualBudget.invalid && annualBudget.touched,
               'has-success': annualBudget.valid && annualBudget.touched
             }">
-              <label for="annualBudget" class="required" [ngClass]="{'success': currentProject.Company.AnnualBudget}">Annual Budget($):</label>
-              <input type="number" min="0" name="annualBudget" #annualBudget = "ngModel" [(ngModel)] = "currentProject.Company.AnnualBudget" value=""  required>
+              <label for="annualBudget" class="required" [ngClass]="{'success': currentProject.Company.AnnualBudget}">Annual Budget:</label>
+              <input currencyMask [options]="{align:'left', prefix: '$ ', allowNegative: false, precision: 0, thousands: ',', decimal: '.' }" type="text" min="0" name="annualBudget" #annualBudget = "ngModel" [(ngModel)] = "currentProject.Company.AnnualBudget" value=""  required>
               <span class="help-block" *ngIf="annualBudget.errors && annualBudget.errors.required  && annualBudget.touched">Annual Budget is required</span>
             </div>
           </div>
