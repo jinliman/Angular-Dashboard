@@ -46,7 +46,7 @@
 
           <div class="col-md-12 form-group">
             <label>New Assignment:</label>
-            <ui-switch class="switcher-item" [checked]="userSetting['newassignment']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('newassignment'.$event);"></ui-switch>
+            <ui-switch class="switcher-item" [checked]="userSetting['newassignment']" size="medium" color="#60a628" switchColor="#fcfcfc" (change)="onSwitchToggle('newassignment',$event);"></ui-switch>
           </div>
         </div>
       </modal-body>
