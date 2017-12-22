@@ -51,11 +51,9 @@
         </tr>
         <tr>
           <td class="category clearfix">
-            <div>Click on attachment icons (<span [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon1.svg'"></span>) below to upload the requested documents<br>or check the "Not Available" box if the document cannot be produced:</div>
+            <div></div>
           </td>
-          <td class="status">Status <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-          <td width="15%">Assigned to <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
-          <td width="15%">Not Available <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
+          <td width="15%">Question Type <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span></td>
         </tr>
       </thead>
       <tbody *ngFor="let question_group of tableData; let group_index = index">
@@ -65,13 +63,10 @@
               <div class="desc-div">
                 <span [hidden]="question_group.hasDetail != true" href="javascript:;" class="collapse-icon" [class.opened]="!question_group.open" [class.closed]="question_group.open"></span>
                 <span class="desc" [class.no-files]="!question_group.hasDetail">{{question_group.title}}</span>
-                <span *ngIf="question_group.hasDetail" [class.assessment-completed]="question_group.completed" class="count" >( {{question_group.subDetails.length}} )</span>
-                <span *ngIf="question_group.completed" [class.assessment-completed]="question_group.completed" class="check-icon" ><span [inlineSVG]="'../../../assets/images/icons/dashboard/check-icon.svg'"></span></span>
+                <span class="count" >( {{question_group.subDetails.length}} )</span>
               </div>
             </div>
           </td>
-          <td></td>
-          <td></td>
           <td></td>
         </tr>
         <tr class="sublist" [hidden]="question_group.hasDetail != true || question_group.open != true" *ngFor="let question_item of question_group.subDetails">
@@ -79,42 +74,12 @@
             <div>
               <div class="desc-div">
                 <div class="pull-left" [inlineSVG]="'../../../assets/images/icons/dashboard/document-list-icon.svg'"></div>
-                <span class="desc pull-left">{{question_item.desc}} ( {{question_item.type}} )</span>
+                <span class="desc pull-left">{{question_item.desc}}</span>
               </div>
-              <div class="comment pull-right">
-                  <input type="text" name="" value="" placeholder="Add Comment">
-                  <a href="javascript:;" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
-              </div>
-            </div>
-          </td>
-          <td class="status" [class.pending]="question_item.status == 2">
-            {{statusArr[question_item.status]}}
-          </td>
-          <td width="15%">
-            <div class="dropdown user-div">
-              <a href="#" class="svg dropdown-toggle" data-toggle="dropdown">
-                <span class="short-name">{{question_item.uploaderShortName}}</span>
-                <span class="user-name">{{question_item.uploaderName}}</span>
-                <span [inlineSVG]="'../../../assets/images/icons/dashboard/down-icon.svg'"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                    <a href="javascript:;">test</a>
-                </li>
-              </ul>
             </div>
           </td>
           <td width="15%">
-            <div class="form-group checkbox">
-              <div *ngIf="question_item.status == 0">
-                <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="" checked>
-                <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
-              </div>
-              <div *ngIf="question_item.status != 0">
-                <input type="checkbox" id="{{group_index}}_remember_me_{{question_item.uploaderID}}" name="{{group_index}}_remember_me_{{question_item.uploaderID}}" value="">
-                <label for="{{group_index}}_remember_me_{{question_item.uploaderID}}">NA</label>
-              </div>
-            </div>
+            <span class="desc" [class.no-files]="!question_group.hasDetail">{{question_item.type}}</span>
           </td>
         </tr>
       </tbody>

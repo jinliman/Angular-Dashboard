@@ -211,7 +211,7 @@
               'has-success': t_annual.valid && t_annual.touched
             }">
               <label for="t_annual" class="required" [ngClass]="{'success': currentProject.Reason1.tAnnualRev}">Annual Revenue</label>
-              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
+              <input currencyMask [options]="{align:'left', prefix: '$ ', allowNegative: false, precision: 0, thousands: ',', decimal: '.' }" type="text" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason1.tAnnualRev" value="" placeholder="e.g. 100,000" required>
               <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
             </div>
           </div>
@@ -246,7 +246,7 @@
               'has-success': t_annual.valid && t_annual.touched
             }">
               <label for="t_annual" class="required" [ngClass]="{'success': currentProject.Reason2.tAnnualRev}">Annual Revenue</label>
-              <input type="number" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason2.tAnnualRev" value="" required>
+              <input currencyMask [options]="{align:'left', prefix: '$ ', allowNegative: false, precision: 0, thousands: ',', decimal: '.' }" type="text" min="0" name="t_annual" #t_annual = "ngModel" [(ngModel)] = "currentProject.Reason2.tAnnualRev" value="" required>
               <span class="help-block" *ngIf="t_annual.errors && t_annual.errors.required  && t_annual.touched">Only number allowed</span>
             </div>
           </div>
@@ -257,7 +257,7 @@
               'has-success': t_net_income.valid && t_net_income.touched
             }">
               <label for="t_net_income" class="required" [ngClass]="{'success': currentProject.Reason2.tNetIncome}">Net Income:</label>
-              <input type="number" min="0" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "currentProject.Reason2.tNetIncome" value="" required>
+              <input currencyMask [options]="{align:'left', prefix: '$ ', allowNegative: false, precision: 0, thousands: ',', decimal: '.' }" type="text" name="t_net_income" #t_net_income = "ngModel" [(ngModel)] = "currentProject.Reason2.tNetIncome" value="" required>
               <span class="help-block" *ngIf="t_net_income.errors && t_net_income.errors.required  && t_net_income.touched">Only number allowed</span>
             </div>
             <div class="col-md-6 form-group"
