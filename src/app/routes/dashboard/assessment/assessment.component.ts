@@ -42,7 +42,7 @@ export class AssessmentComponent implements OnInit {
   allowAssign: boolean = false;
   userRole: string = "";
   user: object = {}
-  loading: boolean;
+  loading: boolean = true;
   dropdownSettings = {};
   isInit: boolean = false;
   sortFilter: any = {
@@ -89,6 +89,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   initPage(isInit = false){
+    this.loading = true;
     this.isInit = isInit;
     this.assessment = {};
     this.tableData = [];
@@ -120,26 +121,68 @@ export class AssessmentComponent implements OnInit {
             classes:"cs-user-select custom-class",
             disabled: !this.allowAssign
           };
-
-        this.loading = true;
-
-        let data = {id: this.assessment_id, projectID: projectID};
-        this.dataService.getAssessmentFlat(data).subscribe(
-          response => {
-            if(response.result == null)
-              this.router.navigate(['app/dashboard']);
-            this.assessment = response.result;
-            this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
-            this.getQuestionnaire();
-            this.getUserAttachment();
-          },
-          (error) => {
-            this.router.navigate(['app/dashboard']);
-          }
-        );
+        this.apiHandler();
       },
       (error) => {
+        this.router.navigate(['app/dashboard']);
+      }
+    );
+  }
+  apiHandler(){
+    let promiseArr= [];
 
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessmentList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getTeam(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getUserAttachment(() => {resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.prepareData();
+    });
+  }
+
+  prepareData()
+  {
+    this.updateTeam();
+    this.assignment = this.updateAssignment(this.allAssignment);
+    this.getTableData();
+    let projectStatus = this.currentProject['Status'] || null;
+    if(this.userRole != "INITIATOR" && ['Accept','Submitted','Hold'].indexOf(projectStatus) == -1)
+      this.setAllowAnswer();
+  }
+
+  getAssessmentList(resolve){
+    let projectID = this.currentProject['Project']['_id'] || null;
+    let data = {id: this.assessment_id, projectID: projectID};
+    this.dataService.getAssessmentFlat(data).subscribe(
+      response => {
+        if(response.result == null)
+          this.router.navigate(['app/dashboard']);
+        this.assessment = response.result;
+        this.editAssessmentUrl = "/app/assessment/"+this.assessment_id;
+        resolve();
+      },
+      (error) => {
+        this.router.navigate(['app/dashboard']);
       }
     );
   }
@@ -234,14 +277,14 @@ export class AssessmentComponent implements OnInit {
     );
   }
 
-  getAssignment(){
+  getAssignment(resolve){
     let projectID = this.currentProject['Project']['_id'] || null;
     let parma = { projectID: projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.allAssignment = response.result;
         this.userAssignment = this.getUserAssignment(this.allAssignment);
-        this.getTeam();
+        resolve();
       },
       (error) => {
       }
@@ -308,43 +351,38 @@ export class AssessmentComponent implements OnInit {
     }
     return result;
   }
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {Project: projectID}
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getAssignment();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getTeam(){
+  getTeam(resolve){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {id: projectID}
 
     this.dataService.getTeamMembers(data).subscribe(
       response => {
         this.team = response.result;
-        this.updateTeam();
-        this.assignment = this.updateAssignment(this.allAssignment);
-        this.getTableData();
-        let projectStatus = this.currentProject['Status'] || null;
-        if(this.userRole != "INITIATOR" && ['Accept','Submitted','Hold'].indexOf(projectStatus) == -1)
-          this.setAllowAnswer();
+        resolve();
       },
       (error) => {
       }
@@ -360,12 +398,13 @@ export class AssessmentComponent implements OnInit {
   ---------------- Attachment --------------------
   */
 
-  getUserAttachment(){
+  getUserAttachment(resolve){
     let projectID = this.currentProject['Project']['_id'] || null;
     let data = {ProjectID : projectID}
     this.dataService.getUserAttachment(data).subscribe(
         response => {
           this.updateUserAttachmetn(response.result)
+          resolve();
         },
         (error) => {
 
@@ -440,7 +479,6 @@ export class AssessmentComponent implements OnInit {
     this.completePercent = '0';
     this.totalComplete = 0;
     this.totalIncomplete = 0;
-
     for(let entry of [this.assessment].concat(this.assessment['children']))
     {
       let questionArr = [];
@@ -503,7 +541,6 @@ export class AssessmentComponent implements OnInit {
       this.completePercent = (this.totalComplete / (this.totalComplete + this.totalIncomplete) * 100).toFixed(0);
     if(!this.isInit)
       this.dataService.onProgressChanged({percent: this.completePercent});
-    console.log(this.tableData)
     this.sortTableData();
   }
 
@@ -575,7 +612,6 @@ export class AssessmentComponent implements OnInit {
         }
       }
     }
-    console.log(this.tableData)
     this.loading = false;
   }
 }
