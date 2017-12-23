@@ -210,8 +210,13 @@ export class ReportComponent implements OnInit {
             'Project Released!',
             'Report'
         )
+        this.router.navigate([environment.adminUrl + 'dashboard/']);
       },
       (error) => {
+        this._notificationService.success(
+            'Sth went wrong ',
+            'Report'
+        )
       }
     );
   }

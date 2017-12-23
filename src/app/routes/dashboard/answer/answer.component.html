@@ -1,126 +1,126 @@
 <div class="answer-page">
   <div class="loading-div" *ngIf="loading"></div>
-  <div class="title">
-    <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
-    <div class="button-div">
-      <a (click)="saveAnswer()" class="button pull-right">
-        <span><i class="fa fa-save"></i></span> Save
-      </a>
+  <form class="form assets" (ngSubmit) = "saveAnswer()" #answer_form="ngForm">
+    <div class="title">
+      <p>{{assessment.Title}} <span *ngIf="assessment.Desc != ''">({{assessment.Desc}})</span></p>
+      <div class="button-div">
+        <button type="submit" [disabled] = "answer_form.invalid" class="btn button pull-right">Save</button>
+      </div>
     </div>
-  </div>
-  <div class="inner-content-div">
-    <table class="question-table">
-      <ng-container *ngFor="let question_item of questions; let question_index = index">
-        <tbody *ngIf="userRole == 'PRIMARY' || userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
-          <tr>
-            <td style="width:40px">
-              <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
-            </td>
-            <td>
-              <div class="questions-div" [class.na]="question_item.Status == 0">
-                <span>{{question_item['Label']}}</span>
-              </div>
-            </td>
-          </tr>
-          <ng-container *ngIf = "question_item.Type == 'Dropdown'">
-            <tr class="answer_tr">
-              <td style="width:40px">
-              </td>
-              <td>
-                <angular2-multiselect [data]="dropdownData[question_item['uuid']].Content" [(ngModel)]="dropdownData[question_item['uuid']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
-              </td>
-            </tr>
-          </ng-container>
-          <ng-container *ngIf = "question_item.Type == 'Date'">
-            <tr class="answer_tr">
-              <td style="width:40px">
-              </td>
-              <td>
-                <input type="text" [(ngModel)] = "question_item.value" value="" daterangepicker [options]="datepickerOptions"  (selected)="setDateQuestion(question_index,$event)"/>
-              </td>
-            </tr>
-          </ng-container>
-          <ng-container *ngIf = "question_item.Type == 'Grid'">
+    <div class="inner-content-div">
+      <table class="question-table">
+        <ng-container *ngFor="let question_item of questions; let question_index = index">
+          <tbody *ngIf="userRole == 'PRIMARY' || userAssignment['Questions'].indexOf(question_item['uuid']) != -1 || userAssignment['Assessments'].indexOf(assessment['uuid']) != -1">
             <tr>
               <td style="width:40px">
+                <span class="img" [inlineSVG]="'/assets/images/icons/dashboard/question-mark-icon.svg'"></span>
               </td>
               <td>
-                <div class="form-group radio radio-button-div">
-                  <div class="">
-                    <input type="radio" id="{{question_item['uuid']}}-yes-raido" name="{{question_item['uuid']}}" value="1"  [(ngModel)]="question_item['value']" (click)="selectGridYes(question_item)">
-                    <label for="{{question_item['uuid']}}-yes-raido">Yes</label>
-                  </div>
-                  <div class="">
-                    <input type="radio" id="{{question_item['uuid']}}-no-raido" name="{{question_item['uuid']}}" value="0"   [(ngModel)]="question_item['value']">
-                    <label for="{{question_item['uuid']}}-no-raido">No</label>
-                  </div>
+                <div class="questions-div" [class.na]="question_item.Status == 0">
+                  <span>{{question_item['Label']}}</span>
                 </div>
               </td>
             </tr>
-            <ng-container *ngIf="question_item['value'] == 1">
-              <ng-container *ngFor="let gridItemGroup of gridData[question_item['uuid']]; let i = index">
-                <tr class="grid_answer_tr">
-                  <td style="width:40px">
-                    <span class="app-no-span">{{i+1}}</span>
-                  </td>
-                  <td>
-                    <div class="row grid_answer_div">
-                      <div class="col-md-4" *ngFor="let item of gridItemGroup.Items; let i1 = index">
-                          <input type="text" name="" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}">
-                      </div>
-                      <div class="col-md-12 action-div">
-                        <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'" (click)="remove_grid_answer(question_item['uuid'],i)"></span>
-                        <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_down(question_item['uuid'],i)"></span>
-                        <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_up(question_item['uuid'],i)"></span>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </ng-container>
+            <ng-container *ngIf = "question_item.Type == 'Dropdown'">
+              <tr class="answer_tr">
+                <td style="width:40px">
+                </td>
+                <td>
+                  <angular2-multiselect name="dropdown{{question_index}}" [data]="dropdownData[question_item['uuid']].Content" [(ngModel)]="dropdownData[question_item['uuid']].Selected" [settings]="dropdownSettings"></angular2-multiselect>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf = "question_item.Type == 'Date'">
+              <tr class="answer_tr">
+                <td style="width:40px">
+                </td>
+                <td>
+                  <input type="text" name="date{{question_index}}" [(ngModel)] = "question_item.value" value="" daterangepicker [options]="datepickerOptions"  (selected)="setDateQuestion(question_index,$event)"/>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf = "question_item.Type == 'Grid'">
               <tr>
                 <td style="width:40px">
                 </td>
                 <td>
-                  <div class="clearfix add-new-div">
-                    <a class="add-button" (click)="new_grid_answer(question_item)">Add Another</a>
+                  <div class="form-group radio radio-button-div">
+                    <div class="">
+                      <input type="radio" id="{{question_item['uuid']}}-yes-raido" name="{{question_item['uuid']}}" value="1"  [(ngModel)]="question_item['value']" (click)="selectGridYes(question_item)">
+                      <label for="{{question_item['uuid']}}-yes-raido">Yes</label>
+                    </div>
+                    <div class="">
+                      <input type="radio" id="{{question_item['uuid']}}-no-raido" name="{{question_item['uuid']}}" value="0"   [(ngModel)]="question_item['value']">
+                      <label for="{{question_item['uuid']}}-no-raido">No</label>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <ng-container *ngIf="question_item['value'] == 1">
+                <ng-container *ngFor="let gridItemGroup of gridData[question_item['uuid']]; let i = index">
+                  <tr class="grid_answer_tr">
+                    <td style="width:40px">
+                      <span class="app-no-span">{{i+1}}</span>
+                    </td>
+                    <td>
+                      <div class="row grid_answer_div">
+                        <div class="col-md-4" *ngFor="let item of gridItemGroup.Items; let i1 = index">
+                            <input type="text" name="gridData_{{i1}}" value="" [(ngModel)]="item['value']" required placeholder="{{item['Text']}}">
+                        </div>
+                        <div class="col-md-12 action-div">
+                          <span class="img remove-icon" aria-label="Remove Item" [inlineSVG]="'/assets/images/icons/dashboard/remove-icon.svg'" (click)="remove_grid_answer(question_item['uuid'],i)"></span>
+                          <span class="img move-icon-down" aria-label="Move Down" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_down(question_item['uuid'],i)"></span>
+                          <span class="img move-icon-up" aria-label="Move Up" [inlineSVG]="'/assets/images/icons/dashboard/move-arrow.svg'" (click)="move_answer_up(question_item['uuid'],i)"></span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <td style="width:40px">
+                  </td>
+                  <td>
+                    <div class="clearfix add-new-div">
+                      <a class="add-button" (click)="new_grid_answer(question_item)">Add Another</a>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf = "question_item.Type == 'Text' || question_item.Type == 'Radio' || question_item.Type == 'Checkbox'">
+              <tr *ngFor="let item of question_item.Items; let i1 = index" class="answer_tr">
+                <td style="width:40px">
+                </td>
+                <td>
+                  <div class="" *ngIf="question_item['Type'] == 'Text'">
+                    <textarea rows="3" cols="80" type="text" name="text{{question_index}}_{{i1}}" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}"></textarea>
+                  </div>
+                  <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
+                    <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
+                    <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                  </div>
+                  <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
+                    <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
+                    <label for="{{item['uuid']}}">{{item['Text']}}</label>
                   </div>
                 </td>
               </tr>
             </ng-container>
-          </ng-container>
-          <ng-container *ngIf = "question_item.Type == 'Text' || question_item.Type == 'Radio' || question_item.Type == 'Checkbox'">
-            <tr *ngFor="let item of question_item.Items; let i1 = index" class="answer_tr">
+            <tr *ngIf = "question_item.HasDocument">
               <td style="width:40px">
               </td>
               <td>
-                <div class="" *ngIf="question_item['Type'] == 'Text'">
-                  <textarea rows="3" cols="80" type="text" name="" value="" [(ngModel)]="item['value']" placeholder="{{item['Text']}}"></textarea>
-                </div>
-                <div class="form-group radio" *ngIf="question_item['Type'] == 'Radio'">
-                  <input type="radio" id="{{item['uuid']}}" [(ngModel)]="question_item['value']" name="{{question_item['uuid']}}" [value]="item['uuid']">
-                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
-                </div>
-                <div class="form-group checkbox" *ngIf="question_item['Type'] == 'Checkbox'" style="margin-top:15px">
-                  <input type="checkbox" id="{{item['uuid']}}" [(ngModel)]="item['value']" name="{{question_item['uuid']}}" value="">
-                  <label for="{{item['uuid']}}">{{item['Text']}}</label>
+                <div class="comment-div">
+                  <a href="javascript:;" (click)="OpenUploadFileModal(newAttachmentModal, question_item['uuid'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
+                  <input class="comment" type="text" name="document{{question_index}}" [(ngModel)]="question_item['comment']" placeholder="Comment">
                 </div>
               </td>
             </tr>
-          </ng-container>
-          <tr *ngIf = "question_item.HasDocument">
-            <td style="width:40px">
-            </td>
-            <td>
-              <div class="comment-div">
-                <a href="javascript:;" (click)="OpenUploadFileModal(newAttachmentModal, question_item['uuid'])" class="pull-right" [inlineSVG]="'../../../assets/images/icons/dashboard/attachment-icon.svg'"></a>
-                <input class="comment" type="text" name="" [(ngModel)]="question_item['comment']" placeholder="Comment">
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </ng-container>
-    </table>
-  </div>
+          </tbody>
+        </ng-container>
+      </table>
+    </div>
+  </form>
 </div>
 
 <modal #newAttachmentModal [animation]=false class="newAttachmentModal">
@@ -173,7 +173,7 @@
       }">
         <div class="col-md-12 form-group">
           <label for="newComment" class="required">Comment:</label>
-          <input type="text" name="newComment" #newComment ="ngModel" [(ngModel)] = "newAttachmentObj.Comment" value="" required>
+          <input type="text" name="newComment" #newComment ="ngModel" [(ngModel)] = "newAttachmentObj.Comment" value="">
           <span class="help-block" *ngIf="newComment.errors && newComment.errors.required  && newComment.touched">Comment is required</span>
         </div>
       </div>

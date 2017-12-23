@@ -26,7 +26,7 @@ export class TeamComponent implements OnInit {
   canAdd: boolean = true;
   hasPrimary: boolean = false;
   userRole: string = "";
-  maxTeamCount: number = 2;
+  maxTeamCount: object = {}
 
   loading: boolean;
   constructor(
@@ -35,6 +35,10 @@ export class TeamComponent implements OnInit {
     private _notificationService: NotificationsService
   ) {
     this.dataService.projectChanged.subscribe(data => this.onProjectSelect());
+    this.maxTeamCount = {
+      'Premium': 1,
+      'Professional': 3
+    }
   }
 
   onProjectSelect(){
@@ -49,14 +53,6 @@ export class TeamComponent implements OnInit {
         if(error_code == "ERR_NONE")
         {
           this.userMembershipInfo = response.result.Membership;
-          let teamMemberCount = this.team.length;
-          console.log(teamMemberCount)
-          if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount >= this.maxTeamCount)
-          {
-            this.canAdd = false;
-          }else{
-            this.canAdd = true;
-          }
         }else {
 
         }
@@ -174,8 +170,11 @@ export class TeamComponent implements OnInit {
 
   updateCanAdd(){
     let teamMemberCount = this.team.length + this.TeamEmail.length;
-    console.log(this.team.length,this.TeamEmail.length)
-    if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount > this.maxTeamCount)
+    console.log(this.userMembershipInfo['Type'],this.team.length,this.TeamEmail.length)
+    if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount > this.maxTeamCount['Premium'])
+    {
+      this.canAdd = false;
+    }else if(this.userMembershipInfo['Type'] == 'Professional' && teamMemberCount > this.maxTeamCount['Professional'])
     {
       this.canAdd = false;
     }else{
@@ -296,6 +295,7 @@ export class TeamComponent implements OnInit {
     });
   }
   initData(){
+    this.updateCanAdd();
     this.statusList = this.updateAnswerList();
     this.tableData = this.updateTableData();
     this.loading = false;

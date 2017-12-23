@@ -14,6 +14,8 @@ import { Observable  } from 'rxjs/Observable';
 export class ForgotPasswordComponent implements OnInit {
 
   Email: string;
+  isSent: boolean = false;
+  buttonTitle: string = "Submit";
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,6 +30,8 @@ export class ForgotPasswordComponent implements OnInit {
     this.authService.forgotPasswordRequest(data).subscribe(
       response => {
         console.log(response)
+        this.isSent = true;
+        this.buttonTitle = "Resend";
       },
       (error) => {
 

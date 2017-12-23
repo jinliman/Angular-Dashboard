@@ -121,6 +121,11 @@ export class AuthService {
       .map((response: Response) => response.json());
   }
 
+  checkEmail(data){
+    return this.http.post(this.url + '/api/email_exists', data, { headers: this.getHeaders() })
+      .map((response: Response) => response.json());
+  }
+
   resendConfirmation(code){
     let data = { code: code };
     return this.http.post(this.url + '/api/resendconfirm', data, { headers: this.getHeaders() })

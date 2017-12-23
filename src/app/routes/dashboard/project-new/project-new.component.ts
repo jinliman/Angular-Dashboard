@@ -186,7 +186,7 @@ export class ProjectNewComponent implements OnInit {
       tResOpt: false
     };
     this.newProject.Reason4 = {
-      tReason: ''
+      tReason: 'business'
     };
   }
   reasonCheck($event){

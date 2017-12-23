@@ -94,7 +94,20 @@
           </ng-container>
           <ng-container *ngIf="Project.Project.Reason == '4'">
             <div class="info-div clearfix">
-              <span>{{Project.Project.Reason4.tReason}}</span>
+              <span class="info-title1">Business Process Improvement</span>
+              <span class="content"><span *ngIf="Project.Project.Reason4.tReason == 'business'" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Cost Savings</span>
+              <span class="content"><span *ngIf="Project.Project.Reason4.tReason == 'cost'" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Performance Measurement</span>
+              <span class="content"><span *ngIf="Project.Project.Reason4.tReason == 'performance'" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
+            </div>
+            <div class="info-div clearfix">
+              <span class="info-title1">Resource Optimization</span>
+              <span class="content"><span *ngIf="Project.Project.Reason4.tReason == 'resource'" class="check-icon" ><span [inlineSVG]="'/assets/images/icons/dashboard/check-icon.svg'"></span></span></span>
             </div>
           </ng-container>
         </div>

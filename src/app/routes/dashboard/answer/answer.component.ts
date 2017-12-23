@@ -26,6 +26,7 @@ declare var OneDrive: any;
 })
 export class AnswerComponent implements OnInit {
 
+  company_name: Array<object> = [];
   statusArr: object;
   assessment: object = {};
   questionnaire: object = [];
@@ -561,6 +562,8 @@ export class AnswerComponent implements OnInit {
 
   prepareGridData(question_item){
     let result : Array<QuestionItem> = [];
+    if(question_item.value != 1)
+      question_item.value = 0;
     if(question_item.value == '1')
     {
       let uuid = question_item.uuid;

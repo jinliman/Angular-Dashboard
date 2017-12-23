@@ -228,7 +228,7 @@ export class CompleteProfileComponent implements OnInit {
       tResOpt: false
     };
     this.newUser.Reason4 = {
-      tReason: ''
+      tReason: 'business'
     };
   }
   reasonCheck($event){

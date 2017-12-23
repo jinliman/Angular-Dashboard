@@ -267,14 +267,23 @@
         <div *ngIf="newUser.Reason == 4" class="other-assessment extra-info-div">
           <p class="extra-border-title">Info</p>
           <div class="row">
-            <div class="col-md-12 form-group"
-            [ngClass]="{
-              'has-error': t_other.invalid && t_other.touched,
-              'has-success': t_other.valid && t_other.touched
-            }">
-              <label for="t_other">Reason:</label>
-              <textarea name="t_other" #t_other = "ngModel" [(ngModel)] = "newUser.Reason4.tReason" value="" required rows="8" cols="80"></textarea>
-              <span class="help-block" *ngIf="t_other.errors && t_other.errors.required  && t_other.touched">Date is required</span>
+            <div class="col-md-6 form-group radio radio-button-div" style="margin-top:15px">
+              <input type="radio" id="reason4_bp" name="reason4_bp" [(ngModel)] = "newUser.Reason4.tReason" value="business">
+              <label for="reason4_bp">Business Process Improvement</label>
+            </div>
+            <div class="col-md-6 form-group radio radio-button-div" style="margin-top:15px">
+              <input type="radio" id="reason4_cs" name="reason4_cs" [(ngModel)] = "newUser.Reason4.tReason" value="cost">
+              <label for="reason4_cs">Cost Savings</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group radio radio-button-div" style="margin-top:15px">
+              <input type="radio" id="reason4_pm" name="reason4_pm" [(ngModel)] = "newUser.Reason4.tReason" value="performance">
+              <label for="reason4_pm">Performance Measurement</label>
+            </div>
+            <div class="col-md-6 form-group radio radio-button-div" style="margin-top:15px">
+              <input type="radio" id="reason4_ro" name="reason4_ro" [(ngModel)] = "newUser.Reason4.tReason" value="resource">
+              <label for="reason4_ro">Resource Optimization</label>
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ export class SignupComponent implements OnInit {
   job_list : Array<object> = [];
   title: string = '';
   isConfirmed: boolean;
+  email_exists: boolean = false;
   success: boolean = true;
   constructor(
     private authService: AuthService,
@@ -79,6 +80,20 @@ export class SignupComponent implements OnInit {
       localStorage.setItem('isInvite', 'false');
     }
 
+  }
+
+  onEmailChange(email){
+    let data = {
+      email: email
+    }
+    this.authService.checkEmail(data).subscribe(
+      response => {
+        this.email_exists = response.result;
+      },
+      (error) => {
+        this.email_exists = false;
+      }
+    );
   }
 
   initInvitor(){
