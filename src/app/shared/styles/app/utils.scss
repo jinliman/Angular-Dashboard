@@ -1,6 +1,10 @@
 *, *:focus{
   outline-style: none;
   letter-spacing: 0.3px;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+      user-select: none;
 }
 #olark-wrapper .olark-launch-button.olark-chat-tab {
   margin-left: -40px;
@@ -622,24 +626,23 @@ select-dropdown
 .tooltip-top {
     bottom: 125%;
     left: 50%;
-    margin-left: -150px;
+    transform: translate(-50%);
 }
 
 /* Tooltip text */
 .custom-tooltip .custom-tooltiptext {
   visibility: hidden;
   position: absolute;
-  width: 300px;
-  background-color: #fff !important;
-  color: #333;
+  min-width: 200px;
+  background-color: rgba(96, 166, 40, 0.85) !important;
+  color: #fff;
   text-align: center;
   padding: 10px 14px;
   z-index: 1;
   opacity: 1;
   transition: opacity .6s;
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.15);
+  border: 1px solid #60a628;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 300;
   &:after{
@@ -650,7 +653,8 @@ select-dropdown
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #fff transparent transparent transparent;
+    border-color: rgba(96, 166, 40, 0.85) transparent transparent transparent;
+    z-index: 11;
   }
 }
 
@@ -692,6 +696,11 @@ label.required{
 @media (max-width: 1300px) {
   .content-wrapper{
       padding-top: 100px;
+  }
+}
+@media (max-width: 1024px) {
+  .content-wrapper{
+      padding-top: 142px;
   }
 }
 @media (max-width: 900px) {

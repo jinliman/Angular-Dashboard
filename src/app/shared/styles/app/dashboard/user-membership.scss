@@ -64,6 +64,20 @@
             display: block;
             color: $dv-color-grey;
             font-weight: 300;
+            i{
+              font-size: 20px;
+              line-height: 25px;
+              width: 25px;
+              background-color: #5fa629;
+              color: #fff;
+              border-radius: 50%;
+              display: inline-block;
+              cursor: pointer;
+              font-weight: bold;
+              .custom-tooltiptext {
+                width: auto;
+              }
+            }
           }
         }
       }
@@ -74,7 +88,7 @@
           font-size: 18px;
           &.td-plan{
             text-align: center;
-            span{
+            span:not(.orange, .green){
               width: 10px;
               height: 10px;
               background-color: $dv-color-green;
@@ -84,6 +98,14 @@
               &.disable{
                 background-color: $dv-color-light-grey;
               }
+            }
+            span.orange{
+              color:#f27a0a;
+              font-weight: bold;
+            }
+            span.green{
+              color:#60a628;
+              font-weight: bold;
             }
           }
         }

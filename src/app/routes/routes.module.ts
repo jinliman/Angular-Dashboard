@@ -23,6 +23,7 @@ import { PoliciesComponent } from './landing/policies/policies.component';
 import { MembershipComponent } from './landing/membership/membership.component'
 import { PriceOptionComponent } from './landing/price-option/price-option.component'
 import { ContactusComponent } from './landing/contactus/contactus.component';
+import { ItddComponent } from './landing/itdd/itdd.component';
 
 // Asset Pages
 import { LoginComponent } from './login/login.component';
@@ -79,6 +80,7 @@ export const routes = [
       {  path: 'terms-policies', component: PoliciesComponent},
       {  path: 'price-option', component: PriceOptionComponent},
       {  path: 'contact', component: ContactusComponent},
+      {  path: 'itdd', component: ItddComponent},
     ]
   },
   {
@@ -146,6 +148,7 @@ export const routes = [
     ResetPasswordComponent,
     CheckoutComponent,
     ContactusComponent,
+    ItddComponent,
     SignupComponent,
     CompleteProfileComponent
     ],

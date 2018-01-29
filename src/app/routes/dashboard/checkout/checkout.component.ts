@@ -266,7 +266,7 @@ export class CheckoutComponent implements OnInit {
           env: environment.PLAID_ENV,
           clientName: 'Stripe/Plaid Test',
           key: environment.PLAID_PUBLIC_KEY,
-          product: ['auth'],
+          product: ['auth','transactions'],
           selectAccount: true,
           onSuccess: (public_token, metadata) => {
             this.processBankPayment(public_token, metadata)

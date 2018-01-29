@@ -109,7 +109,7 @@ export class SidebarComponent implements OnInit {
           { route: "/app/dashboard", Title: "Dashboard - Project Owner"},
           { route: "/app/projects", Title: "My Projects"},
           { route: "/app/progress", Title: "Progress"},
-          { route: "/app/files", Title: "Files"},
+          { route: "/app/files", Title: "Data Room"},
           { route: "/app/team", Title: "Team"},
           { route: "/app/heatmap", Title: "Heat Map"},
           { route: "/app/reports",  Title: "Reports"},
@@ -120,7 +120,7 @@ export class SidebarComponent implements OnInit {
           { route: "/app/dashboard", Title: "Dashboard - Primary User"},
           { route: "/app/projects", Title: "My Projects"},
           { route: "/app/progress", Title: "Progress"},
-          { route: "/app/files", Title: "Files"},
+          { route: "/app/files", Title: "Data Room"},
           { route: "/app/team", Title: "Team"}
         ];
         this.menu = this.menu.concat( this.assessment_menu )
