@@ -44,6 +44,7 @@
           .sp-type{
             display: block;
             color: $dv-color-green;
+            white-space: nowrap;
             margin-bottom: 6px;
           }
           .sp-price{
@@ -76,6 +77,10 @@
               font-weight: bold;
               .custom-tooltiptext {
                 width: auto;
+                transform: translate(-90%) !important;
+                &:after{
+                  left: 90%;
+                }
               }
             }
           }
