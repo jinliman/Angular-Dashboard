@@ -61,22 +61,22 @@
   <div class="wrapper3">
     <section>
       <h2>Contact Us</h2>
-      <div class="inner-content clearfix">
+      <div class="inner-content">
         <div class="info-div">
-          <div class="clearfix">
-            <div class="icon-div pull-left">
+          <div class="info-div_elem1">
+            <div class="icon-div">
               <img class="" src="./assets/images/icons/contact/location.png" alt="tablet">
             </div>
-            <div class="pull-left detail-div">
+            <div class="detail-div">
               <span class="sp1">Address</span>
               <span>1920 McKinney Avenue, Suite 700 <br/> Dallas, Tx 75201</span>
             </div>
           </div>
-          <div class="clearfix" style="margin-top:45px;">
-            <div class="icon-div pull-left">
+          <div class="info-div_elem1">
+            <div class="icon-div">
               <img class="" src="./assets/images/icons/contact/email.png" alt="tablet">
             </div>
-            <div class="pull-left detail-div">
+            <div class="detail-div">
               <span class="sp1">E-mail</span>
               <a href="#">success@dealvalue.com</a>
             </div>
@@ -150,11 +150,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 form-group clearfix">
-                <button type="submit" [disabled] = "form.invalid" class="btn button pull-left">Submit</button>
+              <div class="col-xs-6 form-group">
+                <label class="required">required fields</label>
               </div>
-              <div class="col-md-6 form-group clearfix">
-                <label class="required pull-right">required fields</label>
+              <div class="col-xs-6 form-group">
+                <button type="submit" [disabled] = "form.invalid" class="btn button pull-right">Submit</button>
               </div>
             </div>
           </form>

@@ -163,9 +163,18 @@
       display: flex;
       .info-div{
         flex: 0 0 400px;
+        .info-div_elem1{
+          display: flex;
+          margin-top: 45px;
+          &:first-of-type{
+            margin-top: 0px;
+          }
+        }
         .icon-div{
           width: 50px;
+          margin-top: 10px;
           text-align: center;
+          flex: 0 0 auto;
         }
         .detail-div{
           padding-left: 25px;
@@ -183,6 +192,22 @@
               line-height: 40px;
             }
           }
+        }
+      }
+      @media (max-width: 414px) {
+        .info-div_elem1{
+          flex-direction: column;
+          .icon-div{
+            margin: auto;
+          }
+          .detail-div{
+            padding-left: 0px;
+            text-align: center;
+          }
+        }
+        .info-div{
+          padding-left: 0px;
+          margin-left: 0px;
         }
       }
       .contact-div{
