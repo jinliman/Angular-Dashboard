@@ -4,7 +4,7 @@
       <h1>Automated IT Due Diligence &amp; Real Time Reporting</h1>
       <div class="flex">
         <div class="img-div">
-          <img src="/assets/images/homepage/mac-img.png" alt="" width="100%">
+          <img src="/assets/images/homepage/pc-icon.png" alt="" width="100%">
         </div>
         <div class="content">
           <ul>
@@ -33,25 +33,25 @@
       <div class="icon-div">
         <div class="icon-div-row row1">
           <div class="">
-            <span [inlineSVG]="'/assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <img src="/assets/images/icons/homepage/diligence-icon.png" alt="Diligence">
             <span class="desc">Diligence</span>
           </div>
           <div class="">
-            <span [inlineSVG]="'/assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <span class="icon-div-row_svg" [inlineSVG]="'/assets/images/icons/homepage/subscription-icon.svg'"></span>
             <span class="desc">Subscription Based</span>
           </div>
           <div class="">
-            <span [inlineSVG]="'/assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <span class="icon-div-row_svg" [inlineSVG]="'/assets/images/icons/homepage/decreased-icon.svg'"></span>
             <span class="desc">Descreased Transaction Cost</span>
           </div>
         </div>
         <div class="icon-div-row row2">
           <div class="">
-            <span [inlineSVG]="'/assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <span class="icon-div-row_svg" [inlineSVG]="'/assets/images/icons/homepage/automated-icon.svg'"></span>
             <span class="desc">Secure &amp; Automated</span>
           </div>
           <div class="">
-            <span [inlineSVG]="'/assets/images/icons/homepage/workflow-icon.svg'"></span>
+            <span class="icon-div-row_svg" [inlineSVG]="'/assets/images/icons/homepage/deal-value-icon.svg'"></span>
             <span class="desc">Deal Value</span>
           </div>
         </div>
@@ -150,11 +150,11 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 form-group">
-                <label class="required">required fields</label>
+              <div class="col-md-6 form-group clearfix">
+                <button type="submit" [disabled] = "form.invalid" class="btn button pull-left">Submit</button>
               </div>
-              <div class="col-md-6 form-group">
-                <button type="submit" [disabled] = "form.invalid" class="btn button pull-right">Submit</button>
+              <div class="col-md-6 form-group clearfix">
+                <label class="required pull-right">required fields</label>
               </div>
             </div>
           </form>
