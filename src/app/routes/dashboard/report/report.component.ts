@@ -11,13 +11,24 @@ import { Question, Answer } from '../../../shared/objectSchema';
 
 import { environment } from '../../../../environments/environment';
 import { NotificationsService } from 'angular2-notifications';
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class ReportComponent implements OnInit {
+
+  public subscribers: any = {}
 
   tableData: Array<any> = [];
   ProjectList: Array<any> =[];
@@ -69,9 +80,12 @@ export class ReportComponent implements OnInit {
     private authService: AuthService,
     private _notificationService: NotificationsService
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     let selectedProject = this.authService.getUserProject();
     this.projectID = selectedProject['Project']['_id'] || null;
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){

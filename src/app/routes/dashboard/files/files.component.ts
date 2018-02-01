@@ -3,13 +3,24 @@ import { AuthService } from '../../../core/services/auth.service';
 import { DataService } from '../../../core/services/data.service';
 
 import { environment } from '../../../../environments/environment';
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class FilesComponent implements OnInit {
+
+  public subscribers: any = {}
 
   tableData: Array<any> = [];
   assessmentArr: Array<object> = [];
@@ -18,6 +29,7 @@ export class FilesComponent implements OnInit {
   currentProject: object;
   userRole: string = "";
   loading: boolean;
+  projectID: string = null;
   constructor(
     private authService: AuthService,
     private dataService: DataService
@@ -25,7 +37,50 @@ export class FilesComponent implements OnInit {
 
   }
 
-  updateTableData(){
+  ngOnInit() {
+    this.initData();
+  }
+
+  initData(){
+    this.loading = true;
+    this.tableData = [];
+    this.currentProject = this.authService.getUserProject();
+    this.userRole = this.currentProject['Role'];
+    this.projectID = this.currentProject['Project']['_id'];
+    this.apiHandler();
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  onProjectSelect(data){
+    this.initData();
+  }
+
+  apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => { resolve(); });
+    }))
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAttachment(() => { resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
+    });
+  }
+
+  getTableData(){
     for( let item of this.assessmentArr)
     {
       let assessment_item = { title: item['Title'], hasQuestions: false, questions: [], open: false}
@@ -56,26 +111,23 @@ export class FilesComponent implements OnInit {
     this.loading = false;
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        console.log(this.questionnaires)
-        this.getAttachment()
+        resolve();
       },
       (error) => {
       }
     );
   }
-  getAttachment(){
-    let projectID = this.currentProject['Project']['_id'] || null;
+  getAttachment(resolve){
+    let projectID = this.projectID || null;
     let data = {ProjectID : projectID}
     this.dataService.getAttachment(data).subscribe(
         response => {
           this.attachmentArr = response.result;
-          console.log(this.attachmentArr)
-          this.updateTableData();
-          console.log(this.tableData)
+          resolve();
         },
         (error) => {
 
@@ -83,25 +135,16 @@ export class FilesComponent implements OnInit {
       );
   }
 
-  getAssessment(projectID){
+  getAssessment(resolve){
+    let projectID = this.projectID || null;
     this.dataService.getAssessmentListFlat(projectID).subscribe(
       response => {
         this.assessmentArr = response.Categories;
-        this.getQuestionnaire()
-        console.log(this.assessmentArr)
+        resolve();
       },
       (error) => {
 
       }
     );
-  }
-
-  ngOnInit() {
-    this.loading = true;
-    this.tableData = [];
-    this.currentProject = this.authService.getUserProject();
-    this.userRole = this.currentProject['Role'];
-    let projectID = this.currentProject['Project']['_id'];
-    this.getAssessment(projectID);
   }
 }

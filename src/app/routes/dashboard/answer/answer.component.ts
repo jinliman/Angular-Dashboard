@@ -12,6 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { Question, Answer, QuestionItem, AnswerItem } from '../../../shared/objectSchema';
 import { environment } from '../../../../environments/environment';
 import * as moment from "moment";
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 declare var Dropbox: any;
 declare var BoxSelect: any;
@@ -24,7 +25,17 @@ declare var OneDrive: any;
   templateUrl: './answer.component.html',
   styleUrls: ['./answer.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class AnswerComponent implements OnInit {
+
+  public subscribers: any = {}
 
   company_name: Array<object> = [];
   statusArr: object;
@@ -100,11 +111,14 @@ export class AnswerComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){
-    this.ngOnInit();
+    this.router.navigate(['/app']);
   }
   ngOnInit() {
     this.user = this.authService.getUser();

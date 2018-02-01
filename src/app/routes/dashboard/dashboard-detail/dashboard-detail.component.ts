@@ -9,14 +9,24 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 import * as moment from "moment";
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-dashboard-detail',
   templateUrl: './dashboard-detail.component.html',
   styleUrls: ['./dashboard-detail.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class DashboardDetailComponent implements OnInit {
 
+  public subscribers: any = {}
   tableData: Array<any> = [];
   assessmentList: Array<any> = [];
   questionnaires: Array<object>= [];
@@ -60,11 +70,15 @@ export class DashboardDetailComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect());
   }
 
-  onProjectSelect(){
-      this.initData();
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  onProjectSelect(data){
+    this.projectID = data.Project['_id'] || '';
+    this.initData();
   }
 
   ngOnInit() {
@@ -80,13 +94,10 @@ export class DashboardDetailComponent implements OnInit {
 
   initData(){
     this.loading = true;
-    this.apiHandler();
+    this.getProject();
   }
   apiHandler(){
     let promiseArr= [];
-    promiseArr.push(new Promise((resolve, reject) => {
-      this.getProject(() => {resolve(); });
-    }))
 
     promiseArr.push(new Promise((resolve, reject) => {
       this.getAssessment(() => {resolve(); });
@@ -121,11 +132,11 @@ export class DashboardDetailComponent implements OnInit {
     });
   }
 
-  getProject(resolve){
+  getProject(){
     let data = { projectID: this.projectID}
     this.dataService.getProject(data).subscribe(response => {
         this.selectedProject = response.result;
-        resolve();
+        this.apiHandler();
       },
       (error) => {
 

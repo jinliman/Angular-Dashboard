@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser'
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -15,7 +15,7 @@ import * as moment from "moment";
   templateUrl: './dashboard-owner.component.html',
   styleUrls: ['./dashboard-owner.component.scss']
 })
-export class DashboardOwnerComponent implements OnInit {
+export class DashboardOwnerComponent implements OnInit, OnChanges {
 
   tableData: Array<any> = [];
   userProjectList: Array<any> =[];
@@ -62,11 +62,24 @@ export class DashboardOwnerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.projectID = this.pID || null;
+    this.initData();
+  }
+
+  initData(){
+    this.loading = true;
     this.currentProject = this.authService.getUserProject();
     this.user = this.authService.getUser()
     this.getAllUserProject();
+  }
+
+  ngOnChanges(changes) {
+    // pID is changed from parent
+    if(changes.pID != undefined && !changes.pID.firstChange && changes.pID.currentValue != changes.pID.previousValue)
+    {
+      this.projectID = this.pID || null;
+      this.initData()
+    }
   }
 
   apiHandler(){

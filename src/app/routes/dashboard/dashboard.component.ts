@@ -9,12 +9,21 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../shared/objectSchema';
 import * as moment from "moment";
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class DashboardComponent implements OnInit {
 
   public daterange: any = {};
@@ -35,6 +44,8 @@ export class DashboardComponent implements OnInit {
       'This Year': [moment().startOf('year'), moment()]
     }
   };
+
+  public subscribers: any = {}
 
   tableData: Array<any> = [];
   userProjectList: Array<any> =[];
@@ -82,8 +93,11 @@ export class DashboardComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     this.currentProject = this.authService.getUserProject();
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   public selectedDate(value: any) {
@@ -96,29 +110,33 @@ export class DashboardComponent implements OnInit {
   onProjectSelect(data){
     this.currentProject = this.authService.getUserProject();
     this.projectID = this.currentProject['Project']['_id'] || null;
-    this.ngOnInit();
+    console.log(this.projectID);
+    this.initData();
   }
 
   changeProject(project){
     if(this.projectID != project.Project['_id'])
     {
       this.projectID = project.Project['_id'];
-      this.ngOnInit();
+      this.initData();
     }
   }
 
   ngOnInit() {
+    this.initData();
     this.daterange.start = null;
     this.daterange.end = null;
     this.daterange.label = 'All';
     this.user = this.authService.getUser()
+  }
+
+  initData(){
     if(this.currentProject)
     {
       this.projectID = this.currentProject['Project']['_id'] || null;
       this.getAllUserProject();
     }
   }
-
 
   getAllUserProject(){
     this.dataService.getUserProject().subscribe(response => {

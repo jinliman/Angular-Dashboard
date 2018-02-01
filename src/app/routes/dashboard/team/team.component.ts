@@ -3,13 +3,24 @@ import { AuthService } from '../../../core/services/auth.service';
 import { DataService } from '../../../core/services/data.service';
 
 import { NotificationsService } from 'angular2-notifications';
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class TeamComponent implements OnInit {
+
+  public subscribers: any = {}
 
   tableData: Array<any>;
   statusArr: object;
@@ -34,15 +45,43 @@ export class TeamComponent implements OnInit {
     private dataService: DataService,
     private _notificationService: NotificationsService
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect());
     this.maxTeamCount = {
       'Premium': 1,
       'Professional': 3
     }
   }
 
-  onProjectSelect(){
-      this.ngOnInit();
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  onProjectSelect(data){
+    console.log(1)
+    this.initData();
+  }
+
+  ngOnInit() {
+    this.statusArr = {
+      0: "NA",
+      1: "Pending",
+      2: "Completed",
+    }
+    this.initData();
+
+  }
+  initData(){
+    this.loading = true;
+    this.TeamEmail = [{"name": "teammember1", "value": ""}];
+    this.currentProject = this.authService.getUserProject();
+    this.userRole = this.currentProject['Role'];
+    this.projectID = this.currentProject['Project']['_id'] || null;;
+    this.apiHandler();
+  }
+  getTable(){
+    this.updateCanAdd();
+    this.statusList = this.updateAnswerList();
+    this.tableData = this.updateTableData();
+    this.loading = false;
   }
 
   getUserMembership(resolve){
@@ -170,7 +209,6 @@ export class TeamComponent implements OnInit {
 
   updateCanAdd(){
     let teamMemberCount = this.team.length + this.TeamEmail.length;
-    console.log(this.userMembershipInfo['Type'],this.team.length,this.TeamEmail.length)
     if(this.userMembershipInfo['Type'] == 'Premium' && teamMemberCount > this.maxTeamCount['Premium'])
     {
       this.canAdd = false;
@@ -291,28 +329,8 @@ export class TeamComponent implements OnInit {
     }))
 
     Promise.all(promiseArr).then(() => {
-      this.initData();
+      this.getTable();
     });
-  }
-  initData(){
-    this.updateCanAdd();
-    this.statusList = this.updateAnswerList();
-    this.tableData = this.updateTableData();
-    this.loading = false;
-  }
-  ngOnInit() {
-    this.loading = true;
-    this.TeamEmail = [{"name": "teammember1", "value": ""}];
-    this.currentProject = this.authService.getUserProject();
-    this.userRole = this.currentProject['Role'];
-    this.projectID = this.currentProject['Project']['_id'] || null;;
-    this.apiHandler();
-
-    this.statusArr = {
-      0: "NA",
-      1: "Pending",
-      2: "Completed",
-    }
   }
 
 }

@@ -11,14 +11,25 @@ import { NotificationsService } from 'angular2-notifications';
 
 import { Question, Answer } from '../../../shared/objectSchema';
 import { environment } from '../../../../environments/environment';
-
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
   styleUrls: ['./assessment.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
+
 export class AssessmentComponent implements OnInit {
+
+  public subscribers: any = {}
 
   tableData: Array<any> = [];
   statusArr: object;
@@ -64,11 +75,14 @@ export class AssessmentComponent implements OnInit {
     private _notificationService: NotificationsService
   ) {
     this.user = this.authService.getUser()
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){
-    this.initPage(true);
+    this.router.navigate(['/app']);
   }
 
   ngOnInit() {

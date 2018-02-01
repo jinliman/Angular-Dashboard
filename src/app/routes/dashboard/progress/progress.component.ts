@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser'
+import { BrowserModule } from '@angular/platform-browser'
 
 import { AuthService } from '../../../core/services/auth.service';
 import { DataService } from '../../../core/services/data.service';
@@ -9,11 +9,21 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 
+import { DestroySubscribers } from "ng2-destroy-subscribers";
+
 @Component({
   selector: 'app-progress',
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class ProgressComponent implements OnInit {
 
   tableData: Array<any> = [];
@@ -30,6 +40,8 @@ export class ProgressComponent implements OnInit {
   user: object = {}
   projectID: string;
   loading: boolean;
+
+  public subscribers: any = {}
 
   iconArr: Array<string> = [
     'applications-icon.svg',
@@ -48,31 +60,65 @@ export class ProgressComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     this.currentProject = this.authService.getUserProject();
     this.projectID = this.currentProject['Project']['_id'] || null;
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){
     this.currentProject = this.authService.getUserProject();
     this.projectID = this.currentProject['Project']['_id'] || null;
-    this.ngOnInit();
+    this.initData();
   }
 
   changeProject(project){
     if(this.projectID != project.Project['_id'])
     {
       this.projectID = project.Project['_id'];
-      this.ngOnInit();
+      this.initData();
     }
   }
 
   ngOnInit() {
-    this.loading = true;
     this.user = this.authService.getUser()
-    this.getAllUserProject();
+    this.initData();
   }
 
+  initData(){
+    this.loading = true;
+    this.apiHandler();
+  }
+
+  apiHandler(){
+    let promiseArr= [];
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAllUserProject(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => { resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => { resolve(); });
+    }))
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
+    });
+  }
   eachSlice(obj, size){
     let arr = []
     for (var i = 0, l = obj.length; i < l; i += size){
@@ -81,13 +127,13 @@ export class ProgressComponent implements OnInit {
     return arr
   };
 
-  getAllUserProject(){
+  getAllUserProject(resolve){
     this.dataService.getUserProject().subscribe(response => {
         this.userProjectList = response.result;
         let that = this;
         this.userProjectRole = this.userProjectList.find(function(item){ return item.Project['_id'] == that.projectID})['Role']
         this.userProjectListTab = this.eachSlice(this.userProjectList, 4);
-        this.getAssessment();
+        resolve();
       },
       (error) => {
 
@@ -95,10 +141,10 @@ export class ProgressComponent implements OnInit {
     );
   }
 
-  getAssessment(){
+  getAssessment(resolve){
     this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
-        this.getQuestionnaire();
+        resolve();
       },
       (error) => {
 
@@ -106,36 +152,36 @@ export class ProgressComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let data = {Project: this.projectID}
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getAssignment();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAssignment(){
+  getAssignment(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.allAssignment = response.result;
         this.userAssignment = this.getUserAssignment(this.allAssignment);
-        this.getTableData();
+        resolve();
       },
       (error) => {
       }

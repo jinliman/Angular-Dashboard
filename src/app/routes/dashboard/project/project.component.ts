@@ -9,13 +9,24 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 import * as moment from "moment";
+import { DestroySubscribers } from "ng2-destroy-subscribers";
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class ProjectComponent implements OnInit {
+
+  public subscribers: any = {}
 
   tableData: Array<any> = [];
   userProjectList: Array<any> =[];
@@ -25,7 +36,6 @@ export class ProjectComponent implements OnInit {
   answers: Array<Answer> = [];
   allAssignment: Array<object> = [];
   userAssignment: object = {};
-  currentProject: object = {};
 
   userProjectRole: string = "";
   user: object = {}
@@ -51,15 +61,16 @@ export class ProjectComponent implements OnInit {
     reject: 0
   }
 
-  @Input() pID: string;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){
@@ -67,8 +78,6 @@ export class ProjectComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectID = this.pID || null;
-    this.currentProject = this.authService.getUserProject();
     this.user = this.authService.getUser()
     this.getAllUserProject();
   }

@@ -10,12 +10,24 @@ import { Subscription } from 'rxjs';
 import { Question, Answer } from '../../../shared/objectSchema';
 
 import { environment } from '../../../../environments/environment';
+import { DestroySubscribers } from "ng2-destroy-subscribers";
+
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
   styleUrls: ['./heatmap.component.scss']
 })
+
+@DestroySubscribers({
+  addSubscribersFunc: 'addSubscribers',
+  removeSubscribersFunc: 'removeSubscribers',
+  initFunc: 'ngOnInit',
+  destroyFunc: 'ngOnDestroy',
+})
+
 export class HeatmapComponent implements OnInit {
+
+  public subscribers: any = {}
 
   currentProject:object;
   projectID: string = null;
@@ -31,9 +43,12 @@ export class HeatmapComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
   ) {
-    this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
     let selectedProject = this.authService.getUserProject();
     this.projectID = selectedProject['Project']['_id'] || null;
+  }
+
+  addSubscribers(){
+    this.subscribers.projectChanged = this.dataService.projectChanged.subscribe(data => this.onProjectSelect(data));
   }
 
   onProjectSelect(data){

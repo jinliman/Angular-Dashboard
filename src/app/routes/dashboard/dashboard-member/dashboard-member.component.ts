@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser'
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -15,7 +15,7 @@ import * as moment from "moment";
   templateUrl: './dashboard-member.component.html',
   styleUrls: ['./dashboard-member.component.scss']
 })
-export class DashboardMemberComponent implements OnInit {
+export class DashboardMemberComponent implements OnInit, OnChanges {
 
   tableData: Array<any> = [];
   assessmentList: Array<any> = [];
@@ -64,18 +64,62 @@ export class DashboardMemberComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.projectID = this.pID || null;
-    this.user = this.authService.getUser()
-    this.getAssessment();
-    this.getUserAttachment();
-    this.getTimeLapse();
+    this.initData();
   }
 
-  getAssessment(){
+  ngOnChanges(changes) {
+    // pID is changed from parent
+    if(changes.pID != undefined && !changes.pID.firstChange && changes.pID.currentValue != changes.pID.previousValue)
+    {
+      this.projectID = this.pID || null;
+      this.initData()
+    }
+  }
+
+
+  initData(){
+    this.loading = true;
+    this.user = this.authService.getUser()
+    this.apiHandler();
+  }
+
+  apiHandler(){
+    let promiseArr= [];
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssessment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getQuestionnaire(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAnswerList(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getAssignment(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getTimeLapse(() => {resolve(); });
+    }))
+
+    promiseArr.push(new Promise((resolve, reject) => {
+      this.getUserAttachment(() => {resolve(); });
+    }))
+
+
+    Promise.all(promiseArr).then(() => {
+      this.getTableData();
+    });
+
+  }
+  getAssessment(resolve){
     this.dataService.getAssessmentListFlat(this.projectID).subscribe(response => {
         this.assessmentList = response.Categories;
-        this.getQuestionnaire();
+        resolve();
       },
       (error) => {
 
@@ -83,36 +127,36 @@ export class DashboardMemberComponent implements OnInit {
     );
   }
 
-  getQuestionnaire(){
+  getQuestionnaire(resolve){
     this.dataService.getQAList().subscribe(
       response => {
         this.questionnaires = response.result;
-        this.getAnswerList();
+        resolve()
       },
       (error) => {
       }
     );
   }
 
-  getAnswerList(){
+  getAnswerList(resolve){
     let data = {Project: this.projectID}
     this.dataService.getAnswerList(data).subscribe(
       response => {
         this.answers = response.result;
-        this.getAssignment();
+        resolve();
       },
       (error) => {
       }
     );
   }
 
-  getAssignment(){
+  getAssignment(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getAssignment(parma).subscribe(
       response => {
         this.allAssignment = response.result;
+        resolve();
         this.userAssignment = this.getUserAssignment(this.allAssignment);
-        this.getTableData();
       },
       (error) => {
       }
@@ -136,12 +180,11 @@ export class DashboardMemberComponent implements OnInit {
     return result;
   }
 
-  getTimeLapse(){
+  getTimeLapse(resolve){
     let parma = { projectID: this.projectID}
     this.dataService.getTimeLapse(parma).subscribe(
       response => {
         let data = response.result;
-        console.log(data)
         if(data.startDate == null)
         {
           let currentProject = this.authService.getUserProject();
@@ -153,6 +196,7 @@ export class DashboardMemberComponent implements OnInit {
         this.statusInfoArr.timeLapse.day = Math.floor(diffMs / 86400000); // days
         this.statusInfoArr.timeLapse.hour = Math.floor((diffMs % 86400000) / 3600000); // hours
         this.statusInfoArr.timeLapse.min = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+        resolve();
       },
       (error) => {
       }
@@ -219,11 +263,12 @@ export class DashboardMemberComponent implements OnInit {
     });
   }
 
-  getUserAttachment(){
+  getUserAttachment(resolve){
     let data = {ProjectID : this.projectID}
     this.dataService.getUserAttachment(data).subscribe(
         response => {
           this.statusInfoArr.files = response.result.length
+          resolve();
         },
         (error) => {
 
