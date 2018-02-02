@@ -31,16 +31,19 @@
   }
   .side-menu-landing{
     width: 30%;
-    .title{
-      font-weight: 600;
-      text-transform: uppercase;
-    }
     ul{
       list-style: none;
       padding: 0px;
       li{
         color: $dv-color-green;
         line-height: 60px;
+        text-transform: uppercase;
+        &.selected{
+          font-weight: 600;
+          a{
+            color: $dv-color-dark-grey;
+          }
+        }
       }
     }
   }
@@ -82,6 +85,51 @@
           }
         }
       }
+    }
+  }
+}
+
+.service_page{
+  padding: 50px 150px;
+  font-weight: 300;
+  .back_btn{
+    font-size: 20px;
+    padding: 5px 25px;
+    border-radius: 0px;
+    border-color: #fff;
+    background-color: $dv-color-dark-grey;
+    color: #fff;
+    &:hover{
+      opacity: 0.9;
+    }
+  }
+  h1{
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  h2{
+    font-size: 22px;
+    margin-top: 40px;
+    font-weight: bold;
+    font-style: italic;
+  }
+  h3{
+    font-size: 18px;
+    font-style: italic;
+  }
+  p{
+    line-height: 28px;
+    font-size: 17px;
+  }
+  a.link{
+    font-weight: bold;
+  }
+  ul{
+    padding-left: 1em;
+    li{
+      font-size: 17px;
+      line-height: 28px;
     }
   }
 }

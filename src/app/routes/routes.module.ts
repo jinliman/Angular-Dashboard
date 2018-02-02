@@ -20,6 +20,10 @@ import { AssetLayoutComponent } from '../asset-layout/asset-layout.component';
 import { HomeComponent } from './landing/home/home.component';
 import { FaqComponent } from './landing/faq/faq.component';
 import { PoliciesComponent } from './landing/policies/policies.component';
+import { TermOfServiceComponent } from './landing/term-of-service/term-of-service.component';
+import { PrivacyPolicyComponent } from './landing/privacy-policy/privacy-policy.component';
+import { AcceptableUseComponent } from './landing/acceptable-use/acceptable-use.component';
+import { ApiTermComponent } from './landing/api-term/api-term.component';
 import { MembershipComponent } from './landing/membership/membership.component'
 import { PriceOptionComponent } from './landing/price-option/price-option.component'
 import { ContactusComponent } from './landing/contactus/contactus.component';
@@ -78,6 +82,10 @@ export const routes = [
       {  path: '', component: HomeComponent},
       {  path: 'faq', component: FaqComponent},
       {  path: 'terms-policies', component: PoliciesComponent},
+      {  path: 'terms-of-service', component: TermOfServiceComponent},
+      {  path: 'privacy-policy', component: PrivacyPolicyComponent},
+      {  path: 'acceptable-use', component: AcceptableUseComponent},
+      {  path: 'api-terms-of-service', component: ApiTermComponent},
       {  path: 'price-option', component: PriceOptionComponent},
       {  path: 'contact', component: ContactusComponent},
       {  path: 'itdd', component: ItddComponent},
@@ -133,6 +141,10 @@ export const routes = [
     HomeComponent,
     FaqComponent,
     PoliciesComponent,
+    TermOfServiceComponent,
+    AcceptableUseComponent,
+    PrivacyPolicyComponent,
+    ApiTermComponent,
     MembershipComponent,
     PriceOptionComponent,
     RegisterComponent,
