@@ -87,7 +87,7 @@
           <div class="col-md-12 form-group" style="margin-top:15px">
             <span class="checkbox">
             <input type="checkbox" id="agree_term" #agree_term = "ngModel" [(ngModel)] = "newUser.AgreeTerm"  name="agree_term" value="" required>
-            <label for="agree_term">Yes, I understand and agree to the <a href="#">Deal Value Terms of Services</a>, including the <a href="#">User Agreement</a> and <a href="#">Privacy Policy</a>.</label>
+            <label for="agree_term">Yes, I understand and agree to the <a routerLink="/terms-of-service">Deal Value Terms of Services</a>, including the <a routerLink="/acceptable-use">User Agreement</a> and <a routerLink="/privacy-policy">Privacy Policy</a>.</label>
             </span>
           </div>
         </div>
