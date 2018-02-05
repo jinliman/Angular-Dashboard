@@ -11,8 +11,16 @@ import { Router } from '@angular/router';
 
 export class LayoutComponent implements OnInit {
 
-  hasHeader = false
-  pageName = null
+  hasHeader = false;
+  pageName = null;
+  public options = {
+    position: ["top", "right"],
+    timeOut: 2000,
+    showProgressBar: false,
+    pauseOnHover: false,
+    clickToClose: true,
+    maxLength: 30,
+  };
   constructor(private authService: AuthService,private _router:Router) {
 
   }

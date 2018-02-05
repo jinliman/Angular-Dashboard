@@ -191,17 +191,29 @@ export class CheckoutComponent implements OnInit {
         apiHandler = obj.dataService.chargePayment(data);
         redirectUrl = "/app/reports";
       }
+      this.loading = true;
       apiHandler.subscribe(
         response => {
           let error_code = response.ERR_CODE;
           if(error_code == 'ERR_NONE')
           {
+            this.loading = false;
             location.href= redirectUrl;
           }else{
+            this.loading = false;
+            this._notificationService.warn(
+              'Payment',
+              'Invalid Information.'
+            )
             obj.ccInfoInvalid[0] = true;
           }
         },
         (error) => {
+          this.loading = false;
+          this._notificationService.warn(
+            'Payment',
+            'Invalid Information.'
+          )
           obj.ccInfoInvalid[0] = true;
         }
       );
@@ -244,16 +256,28 @@ export class CheckoutComponent implements OnInit {
       apiHandler = this.dataService.chargePaymentBank(data);
       redirectUrl = "/app/reports";
     }
+    this.loading = true;
     apiHandler.subscribe(
       response => {
         let error_code = response.ERR_CODE;
         if(error_code == 'ERR_NONE')
         {
+          this.loading = false;
           location.href = redirectUrl;
         }else{
+          this.loading = false;
+          this._notificationService.warn(
+            'Payment',
+            'Something went wrong.'
+          )
         }
       },
       (error) => {
+        this.loading = false;
+        this._notificationService.warn(
+          'Payment',
+          'Something went wrong.'
+        )
       }
     );
   }

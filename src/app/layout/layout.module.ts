@@ -8,8 +8,10 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderDashboardComponent } from './header-dashboard/header-dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterDashboardComponent } from './footer-dashboard/footer-dashboard.component';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 @NgModule({
   imports: [
+    SimpleNotificationsModule.forRoot(),
     SharedModule
   ],
   declarations: [LayoutComponent, HeaderComponent, FooterComponent, HeaderDashboardComponent, SidebarComponent, FooterDashboardComponent],

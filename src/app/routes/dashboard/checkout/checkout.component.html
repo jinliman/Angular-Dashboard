@@ -46,13 +46,13 @@
                   </div>
                   <span class="payment-icon cc-logo" [class.is_active] ="paymentMethodRadio == 'Credit Card'">All Major cards are accepted</span>
                 </div>
-                <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Paypal'" (click)="paymentMethodRadio = 'Paypal'">
+                <!-- <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Paypal'" (click)="paymentMethodRadio = 'Paypal'">
                   <div class="">
                     <input type="radio" name="radio2" id="radio2" [(ngModel)]="paymentMethodRadio" value="Paypal">
                     <label for="radio2">Paypal</label>
                   </div>
                   <span class="payment-icon paypal-logo" [class.is_active] ="paymentMethodRadio == 'Paypal'"></span>
-                </div>
+                </div> -->
                 <div class="pm_div" [class.selected] ="paymentMethodRadio == 'Bank'" (click)="paymentMethodRadio = 'Bank'">
                   <div class="">
                     <input type="radio" name="radio3" id="radio3" [(ngModel)]="paymentMethodRadio" value="Bank">
