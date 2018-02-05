@@ -15,5 +15,5 @@ export const environment = {
   stripe_publick_key: 'pk_live_CEUPrEC5SJEHfx5YXcbWUwbZ',
 
   PLAID_PUBLIC_KEY: '0b3439206f6799b6e829ede815974c' ,
-  PLAID_ENV: 'sandbox'
+  PLAID_ENV: 'development'
 };
