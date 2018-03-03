@@ -1,4 +1,4 @@
-  # DealValue UI Application
+  #NG QA Dasbhoard Application
 
   ng build --env=prod
   
